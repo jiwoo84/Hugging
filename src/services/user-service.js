@@ -2,18 +2,18 @@ import { userModel } from "../db";
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
+import { User } from "../db/schemas/user-schema";
 class UserService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor(userModel) {
-    this.userModel = userModel;
+    // this.userModel = userModel;
+    this.user = User;
   }
 
   // 회원가입
   async addUser(userInfo) {
     // 객체 destructuring
     const { email, fullName, password } = userInfo;
-
     // 이메일 중복 확인
     const user = await this.userModel.findByEmail(email);
     if (user) {
@@ -28,7 +28,6 @@ class UserService {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUserInfo = { fullName, email, password: hashedPassword };
-
     // db에 저장
     const createdNewUser = await this.userModel.create(newUserInfo);
 
@@ -119,7 +118,7 @@ class UserService {
     }
 
     // 업데이트 진행
-    user = await this.userModel.update({
+    user = await this.userMo({
       userId,
       update: toUpdate,
     });

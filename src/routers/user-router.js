@@ -3,8 +3,37 @@ import is from "@sindresorhus/is";
 // 폴더에서 import하면, 자동으로 폴더의 index.js에서 가져옴
 import { loginRequired } from "../middlewares";
 import { userService } from "../services";
+import { itemService } from "../services/item-service";
 
 const userRouter = Router();
+
+userRouter
+  .route("/items")
+  .get(async (req, res, next) => {
+    try {
+      const items = await itemService.findItems();
+      console.log(items);
+      return res.status(200).json({
+        status: 200,
+        msg: "잘 만들어짐",
+        data: items,
+      });
+    } catch (err) {
+      next(err);
+    }
+  })
+  .post(async (req, res, next) => {
+    const data = req.body;
+    try {
+      await itemService.addItem(data);
+      return res.status(201).json({
+        status: 201,
+        msg: "잘 만들어짐",
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
 
 // 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
 userRouter.post("/register", async (req, res, next) => {
@@ -66,10 +95,12 @@ userRouter.post("/login", async function (req, res, next) {
 userRouter.get("/userlist", loginRequired, async function (req, res, next) {
   try {
     // 전체 사용자 목록을 얻음
-    const users = await userService.getUsers();
-
+    const users = await userService.getUsers(); // =>let returns =  [{name}{name}{name}{}{}{}{}]
     // 사용자 목록(배열)을 JSON 형태로 프론트에 보냄
-    res.status(200).json(users);
+    res.status(200).json({
+      stauts: 200,
+      data: returns,
+    });
   } catch (error) {
     next(error);
   }
@@ -118,7 +149,7 @@ userRouter.patch(
         ...(address && { address }),
         ...(phoneNumber && { phoneNumber }),
         ...(role && { role }),
-      };
+      }; //
 
       // 사용자 정보를 업데이트함.
       const updatedUserInfo = await userService.setUser(

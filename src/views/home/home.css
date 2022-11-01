@@ -18,6 +18,16 @@
   margin-left: 3rem;
 }
 
+.carousel-inner{
+  height:600px; 
+}
+.carousel-item{
+  height:100%;
+}
+.d-block {
+  height: 100%;
+}
+
 .container {
 	display: flex;
   justify-content: center;

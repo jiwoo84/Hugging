@@ -1,5 +1,5 @@
 import express from "express";
-import { orderService } from "../services/order-service";
+import { orderService } from "../services";
 const orderRouter = express();
 
 orderRouter.post("/", async (req, res, next) => {

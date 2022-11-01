@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <title>관리자 페이지</title>
+  </head>
+  <script>
+    const clickedItem = () => {
+      alert("아이템 추가/수정/삭제");
+
+      $.ajax({
+        type: "GET",
+        url: "/api/items/admin",
+        headers: { authorization: `Bearer ${sessionStorage.getItem("token")}` },
+        success: (res) => {
+          console.log(res.data);
+          addItem.innerHTML = " ";
+
+          for (let i = 0; i < res.data.length; i++) {
+            const addItem = document.getElementById("addItem");
+            const div = document.createElement("div");
+            div.id = res.data[i]._id;
+            div.innerHTML = `
+            <p>상품이름 : ${res.data[i].name}</p>
+            <p>카테고리 : ${res.data[i].category}</p>
+            <img src="${res.data[i].imageUrl}"/>
+            <p>가격 : ${res.data[i].price}원</p>
+            `;
+            addItem.appendChild(div);
+          }
+
+          alert(res.msg);
+        },
+      });
+    };
+    const clickedOrder = () => {
+      alert("주문목록 추가/수정/삭제");
+
+      $.ajax({
+        type: "GET",
+        url: "/api/orders/",
+        headers: { authorization: `Bearer ${sessionStorage.getItem("token")}` },
+        success: (res) => {
+          console.log(res.data);
+          addItem.innerHTML = " ";
+          for (let i = 0; i < res.data.length; i++) {
+            console.log("첫번째 포문");
+            const addItem = document.getElementById("addItem");
+            const div = document.createElement("div");
+            div.id = res.data[i].주문번호;
+            const ul = document.createElement("ul");
+            for (let a = 0; a < res.data[i].상품목록.length; a++) {
+              console.log("두번째 포문");
+              const li = document.createElement("li");
+              li.innerText = `${res.data[i].상품목록[a].상품} ${res.data[i].상품목록[a].개수}개`;
+              ul.appendChild(li);
+            }
+            div.innerHTML = `
+                <p>주문날짜 : ${res.data[i].주문시간}</p>
+                <p>주문번호 : ${res.data[i].주문번호}</p>
+                <p>배송상태 : ${res.data[i].배송상태}</p>
+                <p>배송상태 : ${res.data[i].구매자이름}</p>
+                <p>배송상태 : ${res.data[i].구매자이메일}</p>
+                <p>배송상태 : ${res.data[i].주소}</p>
+                `;
+            div.appendChild(ul);
+            addItem.appendChild(div);
+          }
+          alert(res.msg);
+        },
+      });
+    };
+  </script>
+  <body>
+    <a onclick="clickedItem()">상품 CRUD</a>
+    <a onclick="clickedOrder()">주문 CRUD</a>
+    <section id="addItem">이곳에 나타납니다</section>
+  </body>
+</html>

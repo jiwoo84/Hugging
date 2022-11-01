@@ -14,6 +14,7 @@ class OrderService {
       const orders = await Order.find({}) // 현재까지 주문한 모든 목록
         .populate("items.id")
         .populate("buyer");
+      console.log(orders);
       let result = [];
       for (let i = 0; i < orders.length; i++) {
         let obj = {}; // json형태로 반환하려고 만든것
@@ -26,6 +27,8 @@ class OrderService {
             개수: orders[i].items[r].count,
           });
         }
+        console.log("여기가문제?");
+        console.log(itemsArr);
         obj = {
           상품목록: itemsArr,
           주문번호: orders[i]._id,
@@ -37,6 +40,7 @@ class OrderService {
           전화번호: orders[i].buyer.phoneNumber,
           주소: orders[i].buyer.address,
         };
+        console.log("여기가문제?");
         result.push(obj);
       }
       return result;

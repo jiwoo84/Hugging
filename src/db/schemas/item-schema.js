@@ -9,8 +9,9 @@ const itemSchema = new Schema({
   price: Number,
   // 이미지
   imageUrl: String,
-  //상품 옵션
-  options: [],
+  // 판매량 
+  sales : Number,
+  createdAt:{type:Date,default:Date.now}
 });
 
 export { itemSchema };

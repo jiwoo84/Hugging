@@ -49,11 +49,20 @@ userRouter.post("/login", async function (req, res, next) {
     if (is.emptyObject(req.body)) {
       throw new Error(
         "headers의 Content-Type을 application/json으로 설정해주세요"
-      );
-    }
-
-    // req (request) 에서 데이터 가져오기
+        );
+      }
     const { email, password } = req.body;
+      console.log(req.body)
+    // 어드민 로그인
+    if(email==="admin@hugging.com"&&password==="123123123"){
+      const adminToken = await userService.adminLogin({email,password})
+      return res.status(200).json({
+        status:200,
+        msg:"관리자 계정 로그인",
+        accessToken:adminToken
+      })
+    }
+    // req (request) 에서 데이터 가져오기
 
     // 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
     const userToken = await userService.getUserToken({ email, password });

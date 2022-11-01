@@ -21,8 +21,9 @@ class ItemService {
     return items;
   }
   async itemList() {
-    const items = await Item.find({});
-    return items;
+    const bestItems = await Item.find({}).sort({sales:-1});
+    const newItems = await Item.find({}).sort({createdAt:-1}).limit(3);
+    return {newItems,bestItems};
   }
 }
 

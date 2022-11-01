@@ -9,6 +9,7 @@ import {
 } from "./routers";
 import { errorHandler } from "./middlewares";
 import mongoose from "mongoose";
+import { Item } from "./db";
 const app = express();
 
 // 어드민브로 필요시 주석해제

@@ -19,4 +19,17 @@ itemRouter.post("/", async (req, res, next) => {
   }
 });
 
+itemRouter.get("/", async (req, res, next) => {
+  try {
+    const items = await itemService.itemList();
+    return res.status(200).json({
+      status: 200,
+      msg: "보여줌",
+      data: items,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export { itemRouter };

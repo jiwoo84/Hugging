@@ -20,6 +20,10 @@ class ItemService {
     const items = await Item.find({});
     return items;
   }
+  async itemList() {
+    const items = await Item.find({});
+    return items;
+  }
 }
 
 const itemService = new ItemService();

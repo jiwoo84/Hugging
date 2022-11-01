@@ -21,11 +21,11 @@ function loginRequired(req, res, next) {
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
     const jwtDecoded = jwt.verify(userToken, secretKey);
     console.log(jwtDecoded);
-    const userId = jwtDecoded.userId;
+    const { userId, role } = jwtDecoded;
 
     // 라우터에서 req.currentUserId를 통해 유저의 id에 접근 가능하게 됨
     req.currentUserId = userId;
-    console.log(req.currentUserId);
+    req.currentRole = role;
     next();
   } catch (error) {
     // jwt.verify 함수가 에러를 발생시키는 경우는 토큰이 정상적으로 decode 안되었을 경우임.

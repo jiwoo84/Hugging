@@ -6,7 +6,7 @@ async function get(endpoint, params = "") {
   const res = await fetch(apiUrl, {
     // JWT 토큰을 헤더에 담아 백엔드 서버에 보냄.
     headers: {
-      Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      authorization: `Bearer ${sessionStorage.getItem("token")}`,
     },
   });
 
@@ -27,7 +27,7 @@ async function get(endpoint, params = "") {
 // endpoint : api/user/login
 async function post(endpoint, data) {
   const apiUrl = endpoint;
-  
+
   // JSON.stringify 함수: Javascript 객체를 JSON 형태로 변환함.
   // 예시: {name: "Kim"} => {"name": "Kim"}
 

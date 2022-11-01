@@ -1,12 +1,19 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../db";
+const admins = [
+  "손형석_admin",
+  "이진희_admin",
+  "허혜실_admin",
+  "곽지우_admin",
+  "박지혜_admin",
+];
 
 class UserService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor() {}
 
-  // 회원가입
+  // 회원가입 (admin 가입시 이름끝에 _admin 붙이기)
   async addUser(userInfo) {
     // 객체 destructuring
     const { email, name, password, address, phoneNumber } = userInfo;
@@ -31,8 +38,23 @@ class UserService {
       phoneNumber,
     };
     // db에 저장
-    const createdNewUser = await User.create(newUserInfo);
 
+    // 가입자가 관리자일 경우
+    if (name.includes("_admin")) {
+      const newUserInfo = {
+        name,
+        email,
+        password: hashedPassword,
+        address,
+        phoneNumber,
+        role: "admin",
+      };
+      const createdNewUser = await User.create(newUserInfo);
+      return createdNewUser;
+    }
+
+    // 일반적인 가입
+    const createdNewUser = await User.create(newUserInfo);
     return createdNewUser;
   }
 
@@ -72,7 +94,7 @@ class UserService {
     // 2개 프로퍼티를 jwt 토큰에 담음
     const token = jwt.sign({ userId: user._id, role: user.role }, secretKey);
 
-    return { token };
+    return token;
   }
 
   // 사용자 목록을 받음.

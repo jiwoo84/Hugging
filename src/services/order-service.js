@@ -4,14 +4,48 @@ import { Order } from "../db";
 class OrderService {
   // 본 파일의 맨 아래에서, new orderService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor() {}
-  async test(data) {
+  async newOrder(data) {
     await Order.create(data);
     return;
   }
 
-  async testView() {
-    const orders = await Order.find({}).populate("item"); // = > {wegwegweg, item: _id name, price}
-    return orders;
+  async getOrderList(data) {
+    if (data === "admin") {
+      const orders = await Order.find({}) // 현재까지 주문한 모든 목록
+        .populate("items.id")
+        .populate("buyer");
+      let result = [];
+      for (let i = 0; i < orders.length; i++) {
+        let obj = {}; // json형태로 반환하려고 만든것
+        let itemsArr = []; // 상품목록을 깔끔하게 넣으려고
+        //
+        for (let r = 0; r < orders[i].items.length; r++) {
+          // i번째 주문의 items의 길이.
+          itemsArr.push({
+            상품: orders[i].items[r].id.name,
+            개수: orders[i].items[r].count,
+          });
+        }
+        obj = {
+          상품목록: itemsArr,
+          주문번호: orders[i]._id,
+          주문날짜: orders[i].createdAt,
+          주문시간: orders[i].createdAt,
+          배송상태: orders[i].deliveryStatus,
+          구매자이름: orders[i].buyer.name,
+          구매자이메일: orders[i].buyer.email,
+          전화번호: orders[i].buyer.phoneNumber,
+          주소: orders[i].buyer.address,
+        };
+        result.push(obj);
+      }
+      return result;
+    } else {
+      const orders = await Order.find({ _id: data })
+        .populate("item")
+        .populate("buyer");
+      return orders;
+    }
   }
 }
 

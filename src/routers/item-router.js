@@ -1,10 +1,35 @@
-import { Router } from "express";
+import express from "express";
 import is from "@sindresorhus/is";
-// 폴더에서 import하면, 자동으로 폴더의 index.js에서 가져옴
 import { loginRequired } from "../middlewares";
-import { userService } from "../services";
-import { itemService } from "../services/item-service";
+import { itemService } from "../services/";
 
-const itemRouter = Router();
+const itemRouter = express();
+
+itemRouter.post("/", async (req, res, next) => {
+  const data = req.body;
+  try {
+    const newItem = await itemService.addItem(data);
+    return res.status(201).json({
+      status: 201,
+      msg: "아이템 생성 완료",
+      data: newItem,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+itemRouter.get("/", async (req, res, next) => {
+  try {
+    const items = await itemService.itemList();
+    return res.status(200).json({
+      status: 200,
+      msg: "보여줌",
+      data: items,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
 export { itemRouter };

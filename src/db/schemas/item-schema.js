@@ -9,9 +9,8 @@ const itemSchema = new Schema({
   price: Number,
   // 이미지
   imageUrl: String,
-  //상품 스펙
+  //상품 옵션
   options: [],
-  spec: String,
 });
 
 export { itemSchema };

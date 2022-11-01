@@ -19,7 +19,7 @@ async function get(endpoint, params = "") {
   }
 
   const result = await res.json();
-
+  console.log(result);
   return result;
 }
 

@@ -1,0 +1,10 @@
+.footer{
+    /* border:1px black solid; */
+    padding:30px 24px;
+    position: absolute;  
+    width:100%;
+}
+.footerContainer{
+    display:flex;
+    justify-content: space-evenly;
+}

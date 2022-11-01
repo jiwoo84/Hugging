@@ -30,13 +30,15 @@
 
     <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="../public/header/header.css" />
+    <link rel="stylesheet" href="../public/footer/footer.css"/>
     <script src="home.js" type="module" defer></script>
-
+    
     <script src="../public/loadHTML.js" type="text/javascript"></script>
   </head>
 
   <body>
-    <script>loadHTML("../public/navbar.html");</script>;
+    <script>loadHTML("../public/header/header.html");</script>;
 
     <main>
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
@@ -67,17 +69,19 @@
       </div>
 
       <div class="container">
-        <div class="item">A</div>
-        <div class="item">B</div>
+        <div class="item">
+          
+        </div>
+        <!-- <div class="item">B</div>
         <div class="item">C</div>
         <div class="item">D</div>
         <div class="item">E</div>
         <div class="item">F</div>
         <div class="item">G</div>
         <div class="item">H</div>
-        <div class="item">I</div>
+        <div class="item">I</div> -->
       </div>
-  </main>
-
+    </main>
+    <script>loadHTML("../public/footer/footer.html");</script>;
   </body>
 </html>

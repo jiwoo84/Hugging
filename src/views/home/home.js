@@ -6,11 +6,16 @@ import * as Api from "/api.js";
 import { randomId } from "/useful-functions.js";
 
 // 요소(element), input 혹은 상수
+const item = document.querySelector(".item");
+
 const landingDiv = document.querySelector("#landingDiv");
 const greetingDiv = document.querySelector("#greetingDiv");
 
+getDataFromApi();
+
 addAllElements();
 addAllEvents();
+
 
 // html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 async function addAllElements() {
@@ -52,9 +57,25 @@ function alertGreetingText() {
 
 async function getDataFromApi() {
   // 예시 URI입니다. 현재 주어진 프로젝트 코드에는 없는 URI입니다.
-  const data = await Api.get("/api/user/data");
-  const random = randomId();
+  const data = await Api.get("/api/items");
 
-  console.log({ data });
-  console.log({ random });
+  
+  let card = document.createElement ('card')
+  let name = document.createElement ('p')
+  let img = document.createElement ('img')
+  let price = document.createElement ('p')
+  let category = document.createElement ('p')
+
+  name.innerHTML = data[0].name;
+  img.setAttribute('src', data[0].imageUrl);
+  price.innerHTML = data[0].price;
+  category.innerHTML = data[0].category;
+
+
+  card.appendChild(name);
+  card.appendChild(img);
+  card.appendChild(price);
+  card.appendChild(category);
+
+  item.appendChild(card);
 }

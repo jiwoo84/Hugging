@@ -1,0 +1,17 @@
+.header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#navbar{
+    display:flex;
+    flex-direction: row;
+
+}
+
+.title-text{
+    font-size:100px;
+}
+
+

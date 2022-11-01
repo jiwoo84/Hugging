@@ -33,12 +33,11 @@ async function handleSubmit(e) {
       "비밀번호가 4글자 이상인지, 이메일 형태가 맞는지 확인해 주세요."
     );
   }
-
+ 
   // 로그인 api 요청
   try {
     const data = { email, password };
-
-    const result = await Api.post("/api/login", data);
+    const result = await Api.post("/api/users/login", data);
     const token = result.token;
 
     // 로그인 성공, 토큰을 세션 스토리지에 저장

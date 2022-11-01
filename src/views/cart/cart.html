@@ -1,0 +1,82 @@
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hugging</title>
+    <!-- 아이콘 -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/elice-rabbit-favicon.png"
+    />
+    <!-- bulma css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <!-- 폰트 어썸: 아이콘 -->
+    <script
+      defer
+      src="https://kit.fontawesome.com/9daa42bcef.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- 커스텀 css, js -->
+    <link rel="stylesheet" href="cart.css" />
+    <script src="cart.js" type="module" defer></script>
+  </head>
+  <body>
+    <!-- 헤더 -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="container mt-3">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">
+            <img src="/elice-rabbit.png" width="30" height="30" />
+            <span class="has-text-link">Hugging</span>
+          </a>
+
+          <a
+            role="button"
+            class="navbar-burger"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbarBasicExample"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div class="navbar-end breadcrumb my-auto" aria-label="breadcrumbs">
+          <ul id="navbar">
+            <li>검색</li>
+            <li><a href="/login">로그인</a></li>
+            <li><a href="/register">회원가입</a></li>
+            <li>
+              <a href="/cart" aria-current="page">
+                <span class="icon">
+                  <i class="fas fa-cart-shopping"></i>
+                </span>
+                <span>장바구니</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header>장바구니</header>
+
+    <main>
+        <h1>장바구니가 비어 있습니다.</h1>
+        <button><a href="/home">상품구경하러 가기</a></button>
+
+    </main>
+
+    <footer>
+
+    </footer>
+  </body>
+</html>

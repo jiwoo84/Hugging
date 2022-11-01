@@ -24,10 +24,13 @@ async function get(endpoint, params = "") {
 }
 
 // api 로 POST 요청 (/endpoint 로, JSON 데이터 형태로 요청함)
+// endpoint : api/user/login
 async function post(endpoint, data) {
   const apiUrl = endpoint;
+  
   // JSON.stringify 함수: Javascript 객체를 JSON 형태로 변환함.
   // 예시: {name: "Kim"} => {"name": "Kim"}
+
   const bodyData = JSON.stringify(data);
   console.log(`%cPOST 요청: ${apiUrl}`, "color: #296aba;");
   console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");

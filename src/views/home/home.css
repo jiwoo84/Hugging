@@ -17,3 +17,17 @@
   padding: 10px;
   margin-left: 3rem;
 }
+
+.container {
+	display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.item{
+  border:1px solid black;
+  margin: 20px;
+  width:400px;
+  height:430px;
+}

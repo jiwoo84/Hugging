@@ -1,6 +1,6 @@
 import * as Api from "/api.js";
 
-const addItemBox = document.querySelector("#list-box");
+const bigDiv = document.querySelector("#list-box");
 const orderBtn = document.querySelector("#orderBtn");
 const itemBtn = document.querySelector("#itemBtn");
 const categoryBtn = document.querySelector("#categoryBtn");
@@ -12,12 +12,13 @@ categoryBtn.addEventListener("click", clickedCategory);
 async function clickedOrder() {
   alert("주문목록 추가/수정/삭제");
   const data = await Api.get("/api/orders/");
-  console.log(data);
-  addItemBox.innerHTML = "";
+  bigDiv.innerHTML = "";
 
-  // bigDiv: 한 사람의 주문정보 넣기 (first + second + thrid)
+  // divComponent: 한 사람의 주문정보 넣기 (first + second + thrid)
   for (let i = 0; i < data.data.length; i++) {
-    const bigDiv = document.createElement("div");
+    console.log(data.data[i]);
+    //
+    const divComponent = document.createElement("div");
     console.log("첫번째 for문");
 
     // firstDiv: 상품배송정보
@@ -25,11 +26,14 @@ async function clickedOrder() {
 
     // firstDiv-orderInfoDiv:주문날짜, 주문시간, 주문번호
     const orderInfoDiv = document.createElement("div");
-    orderInfoDiv.id = data.data[i].주문번호;
 
+    orderInfoDiv.id = data.data[i].주문번호;
+    const orderDate = data.data[i].주문날짜;
+
+    // orderDate=Date.now() => 날짜랑 시간 분리해서 출력
     orderInfoDiv.innerHTML = `
-        <p>${data.data[i].주문날짜}</p>
-        <p>${data.data[i].주문시간}</p>
+        <p>${orderDate.slice(0, 10)}</p>
+        <p>${orderDate.slice(11, 19)}</p>
         <p>${data.data[i].주문번호}</p>
     `;
 
@@ -63,22 +67,25 @@ async function clickedOrder() {
     <p>${data.data[i].주소}</p>
     `;
 
-    // thirdDiv: 주문삭제,발송완료 버튼
-    const thirdDiv = document.createElement("div");
-    thirdDiv.innerHTML = `
-    <button id="${data.data[i].주문번호}" class="delBtn">주문삭제</button>
-    <label for="changeShippingState">배송상태변경</label>
-    <select id="changeShippingState">
-        <option>배송준비중</option>
-        <option>배송중</option>
-        <option>배송완료</option>
-    </select>
-    `;
+    divComponent.appendChild(firstDiv);
+    divComponent.appendChild(secondDiv);
 
-    bigDiv.appendChild(firstDiv);
-    bigDiv.appendChild(secondDiv);
-    bigDiv.appendChild(thirdDiv);
-    addItemBox.appendChild(bigDiv);
+    // thirdDiv: 주문삭제,발송완료 버튼 (구매취소,판매자취소시 수정불가)
+    if (data.data[i].수정 === "수정가능") {
+      const thirdDiv = document.createElement("div");
+      thirdDiv.innerHTML = `
+        <button id="${data.data[i].주문번호}" class="delBtn">주문삭제</button>
+        <label for="changeShippingState">배송상태변경</label>
+        <select id="changeShippingState">
+            <option>배송준비중</option>
+            <option>배송중</option>
+            <option>배송완료</option>
+        </select>
+        `;
+      divComponent.appendChild(thirdDiv);
+    }
+
+    bigDiv.appendChild(divComponent);
   }
 
   console.log("정렬완료");
@@ -86,6 +93,7 @@ async function clickedOrder() {
   // 주문삭제 버튼
   const delBtns = document.querySelectorAll(".delBtn");
 
+  // 버튼마다 이벤트동작 추가
   delBtns.forEach((delBtn) => {
     delBtn.addEventListener("click", async () => {
       const id = delBtn.id;

@@ -11,7 +11,7 @@ class OrderService {
 
   async getOrderList(data) {
     if (data === "admin") {
-      const orders = await Order.find({}) // 현재까지 주문한 모든 목록
+      const orders = await Order.find({ orderStatus: { $ne: "수정가능" } }) // 현재까지 주문한 모든 목록
         .populate("items.id")
         .populate("buyer");
       console.log(orders);
@@ -50,6 +50,33 @@ class OrderService {
         .populate("buyer");
       return orders;
     }
+  }
+
+  async orderCancel(data) {
+    const { id, currentRole } = data;
+    if (currentRole === "admin") {
+      await Order.updateOne(
+        { _id: id },
+        { deliveryStatus: "관리자에 의한 주문 취소" },
+        { orderStatus: "수정불가" }
+      );
+      return;
+    } else {
+      await Order.updateOne(
+        { _id: id },
+        { deliveryStatus: "주문 취소" },
+        { orderStatus: "수정불가" }
+      );
+      return;
+    }
+  }
+  async orderSend(_id) {
+    await Order.updateOne(
+      { _id },
+      { deliveryStatus: "발송" },
+      { orderStatus: "수정불가" }
+    );
+    return;
   }
 }
 

@@ -3,6 +3,7 @@ import { Schema } from "mongoose";
 const orderSchema = new Schema({
   // 배송상태 // 추후 관리자가 수정가능하게
   deliveryStatus: { type: String, required: true, default: "배송준비중" },
+  orderStatus: { type: String, default: "수정가능" },
   // 상품들의 이름과 개수가 들어있는 배열 ex) [{id:상품명,count:개수}]
   items: [
     {

@@ -65,11 +65,5 @@ itemRouter.get("/:id", async (req, res, next) => {
     next(err);
   }
 });
-//
-//
-//
-//
-//
-//
 
 export { itemRouter };

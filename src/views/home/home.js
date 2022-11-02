@@ -3,86 +3,39 @@
 // 코드 예시를 남겨 두었습니다.
 
 import * as Api from "/api.js";
-import { randomId } from "/useful-functions.js";
+// import { randomId } from "/useful-functions.js";
 
 // 요소(element), input 혹은 상수
 const bestContainer= document.querySelector(".bestContainer");
 const newContainer = document.querySelector(".newContainer");
 
-const landingDiv = document.querySelector("#landingDiv");
-const greetingDiv = document.querySelector("#greetingDiv");
-
 getDataFromApi();
-
-addAllElements();
-addAllEvents();
-
-
-// html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-async function addAllElements() {
-  insertTextToLanding();
-  insertTextToGreeting();
-}
-
-// 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-function addAllEvents() {
-  landingDiv.addEventListener("click", alertLandingText);
-  greetingDiv.addEventListener("click", alertGreetingText);
-}
-
-function insertTextToLanding() {
-  landingDiv.insertAdjacentHTML(
-    "beforeend",
-    `
-      <h2>n팀 쇼핑몰의 랜딩 페이지입니다. 자바스크립트 파일에서 삽입되었습니다.</h2>
-    `
-  );
-}
-
-function insertTextToGreeting() {
-  greetingDiv.insertAdjacentHTML(
-    "beforeend",
-    `
-      <h1>반갑습니다! 자바스크립트 파일에서 삽입되었습니다.</h1>
-    `
-  );
-}
-
-function alertLandingText() {
-  alert("n팀 쇼핑몰입니다. 안녕하세요.");
-}
-
-function alertGreetingText() {
-  alert("n팀 쇼핑몰에 오신 것을 환영합니다");
-}
+createDB();
 
 async function getDataFromApi() {
   // 예시 URI입니다. 현재 주어진 프로젝트 코드에는 없는 URI입니다.
+
   const data = await Api.get("/api/items");
   // data = [ [{...},{...}...{...}:8개] , [{...}{}{}:3개] ]
   const {bestItems, newItems} = data;
 
+  //bestitem
   for(let i =0; i<6;i++){
-    let card = document.createElement ('card')
-    let name = document.createElement ('p')
-    let img = document.createElement ('img')
-    let price = document.createElement ('p')
-    let category = document.createElement ('p')
-    
-    name.innerHTML = bestItems[i].name;
-    img.setAttribute('src', bestItems[i].imageUrl);
-    price.innerHTML = bestItems[i].price;
-    category.innerHTML = bestItems[i].category;
-    
-    card.appendChild(img);
-    card.appendChild(name);
-    card.appendChild(price);
-    card.appendChild(category);
+    let card = document.createElement ('div')
+    card.innerHTML =`
+    <div id="${bestItems[i]._id}" onclick="move(this.id)">
+      <p>${bestItems[i].name}</p>
+      <img src="${bestItems[i].imageUrl}">
+      <p>${bestItems[i].price}</p>
+      <p>${bestItems[i].category}</p>
+    </div>
+    `;
     bestContainer.appendChild(card);
   }
-  //addeventlistener
+
+  //newItem
   for(let i =0; i<newItems.length;i++){
-    let card = document.createElement ('card')
+    let card = document.createElement ('div')
     let name = document.createElement ('p')
     let img = document.createElement ('img')
     let price = document.createElement ('p')
@@ -98,6 +51,20 @@ async function getDataFromApi() {
     card.appendChild(price);
     card.appendChild(category);
     newContainer.appendChild(card);
-  
+  }
+}
+
+function createDB(){
+  if (window.indexedDB) {
+    const databaseName = "cart";
+    const version = 1;
+
+    const request = indexedDB.open(databaseName, version);
+
+    request.onupgradeneeded = function () {
+      request.result.createObjectStore("items", { autoIncrement: true });
+    };
+    request.onsuccess = function () {};
+    request.onerror = function (event) { alert(event.target.errorCode);}
   }
 }

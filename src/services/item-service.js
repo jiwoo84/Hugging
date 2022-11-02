@@ -16,14 +16,16 @@ class ItemService {
     await Category.updateOne({}, { $push: { items: newItem._id } });
     return newItem;
   }
-  async findItems() {
+  // 관리자페이지에서 items CRUD 에 필요한 함수
+  async adminFindItems() {
     const items = await Item.find({});
     return items;
   }
-  async itemList() {
-    const bestItems = await Item.find({}).sort({sales:-1});
-    const newItems = await Item.find({}).sort({createdAt:-1}).limit(3);
-    return {newItems,bestItems};
+  // newItems와 bestItems 를 리턴하는 함수
+  async homeFindItems() {
+    const bestItems = await Item.find({}).sort({ sales: -1 }).limit(8);
+    const newItems = await Item.find({}).sort({ createdAt: -1 }).limit(3);
+    return { newItems, bestItems };
   }
 }
 

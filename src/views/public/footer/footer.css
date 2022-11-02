@@ -1,10 +1,40 @@
-.footer{
-    /* border:1px black solid; */
-    padding:30px 24px;
-    position: absolute;  
-    width:100%;
+.footer {
+  /* border:1px black solid; */
+  padding: 30px 24px;
+  position: absolute;
+  width: 100%;
 }
-.footerContainer{
-    display:flex;
-    justify-content: space-evenly;
+.footerContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.footer__company-box__title {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.footer__company-box__copyright {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.footer__title {
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.footer__office-box__content {
+  font-size: 13px;
+  margin: 5px 0 5px 0;
+}
+
+.footer__cs-center-box__phone-num {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.footer__cs-center-box__breaktime {
+  font-size: 13px;
+  margin-top: 5px;
 }

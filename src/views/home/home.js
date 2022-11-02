@@ -6,7 +6,8 @@ import * as Api from "/api.js";
 import { randomId } from "/useful-functions.js";
 
 // 요소(element), input 혹은 상수
-const item = document.querySelector(".item");
+const bestContainer= document.querySelector(".bestContainer");
+const newContainer = document.querySelector(".newContainer");
 
 const landingDiv = document.querySelector("#landingDiv");
 const greetingDiv = document.querySelector("#greetingDiv");
@@ -58,24 +59,45 @@ function alertGreetingText() {
 async function getDataFromApi() {
   // 예시 URI입니다. 현재 주어진 프로젝트 코드에는 없는 URI입니다.
   const data = await Api.get("/api/items");
+  // data = [ [{...},{...}...{...}:8개] , [{...}{}{}:3개] ]
+  const {bestItems, newItems} = data;
 
+  for(let i =0; i<6;i++){
+    let card = document.createElement ('card')
+    let name = document.createElement ('p')
+    let img = document.createElement ('img')
+    let price = document.createElement ('p')
+    let category = document.createElement ('p')
+    
+    name.innerHTML = bestItems[i].name;
+    img.setAttribute('src', bestItems[i].imageUrl);
+    price.innerHTML = bestItems[i].price;
+    category.innerHTML = bestItems[i].category;
+    
+    card.appendChild(img);
+    card.appendChild(name);
+    card.appendChild(price);
+    card.appendChild(category);
+    bestContainer.appendChild(card);
+  }
+  //addeventlistener
+  for(let i =0; i<newItems.length;i++){
+    let card = document.createElement ('card')
+    let name = document.createElement ('p')
+    let img = document.createElement ('img')
+    let price = document.createElement ('p')
+    let category = document.createElement ('p')
+    
+    name.innerHTML = newItems[i].name;
+    img.setAttribute('src', newItems[i].imageUrl);
+    price.innerHTML = newItems[i].price;
+    category.innerHTML = newItems[i].category;
+    
+    card.appendChild(img);
+    card.appendChild(name);
+    card.appendChild(price);
+    card.appendChild(category);
+    newContainer.appendChild(card);
   
-  let card = document.createElement ('card')
-  let name = document.createElement ('p')
-  let img = document.createElement ('img')
-  let price = document.createElement ('p')
-  let category = document.createElement ('p')
-
-  name.innerHTML = data[0].name;
-  img.setAttribute('src', data[0].imageUrl);
-  price.innerHTML = data[0].price;
-  category.innerHTML = data[0].category;
-
-
-  card.appendChild(name);
-  card.appendChild(img);
-  card.appendChild(price);
-  card.appendChild(category);
-
-  item.appendChild(card);
+  }
 }

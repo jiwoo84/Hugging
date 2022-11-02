@@ -51,22 +51,36 @@ orderRouter.patch("/", loginRequired, async (req, res, next) => {
   // 권한이 관리자일때
   if (currentRole === "admin") {
     if (reson === "orderCancel") {
+      console.log("관리자 캔슬");
       try {
+        console.log("관리자 캔슬 트라이");
         await orderService.orderCancel({ id, currentRole });
-        return res.status(204);
+        console.log("관리자 캔슬 리턴 전");
+        return res.status(204).json({
+          status: 204,
+          msg: "변경완료",
+        });
       } catch (err) {
         next(err);
       }
     } else if (reson === "orderSend") {
+      console.log("관리자 발송");
       await orderService.orderSend(id);
-      return res.status(204); // 204 이므로 성공했지만 리턴할게 없음.
+      return res.status(204).json({
+        status: 204,
+        msg: "변경완료",
+      });
     }
   }
   //권한이 평번함 유저일때는 주문취소기능밖에 없음
   else if (currentRole === "user") {
     try {
+      console.log("고객 취소");
       await orderService.orderCancel({ id, currentRole });
-      return res.status(204);
+      return res.status(204).json({
+        status: 204,
+        msg: "변경완료",
+      });
     } catch (err) {
       next(err);
     }

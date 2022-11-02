@@ -25,7 +25,6 @@ db.on("connected", async () => {
       role: "admin",
     },
   ]);
-  console.log(admin[0]._id);
   const fakeItems = await Item.insertMany([
     {
       name: "모던 체어",

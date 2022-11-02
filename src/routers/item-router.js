@@ -53,7 +53,6 @@ itemRouter.get("/admin", loginRequired, async (req, res, next) => {
 //상품 상세 페이지 라우팅
 itemRouter.get("/:id", async (req, res, next) => {
   const findId = req.params.id;
-  console.log(findId);
   try {
     const detailItem = await itemService.detailViewItem(findId);
     return res.status(200).json({

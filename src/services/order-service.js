@@ -11,7 +11,7 @@ class OrderService {
 
   async getOrderList(data) {
     if (data === "admin") {
-      const orders = await Order.find({ orderStatus: { $ne: "수정가능" } }) // 현재까지 주문한 모든 목록
+      const orders = await Order.find({}) // 현재까지 주문한 모든 목록
         .populate("items.id")
         .populate("buyer");
       console.log(orders);
@@ -39,6 +39,7 @@ class OrderService {
           구매자이메일: orders[i].buyer.email,
           전화번호: orders[i].buyer.phoneNumber,
           주소: orders[i].buyer.address,
+          수정: orders[i].orderStatus,
         };
         console.log("여기가문제?");
         result.push(obj);
@@ -73,7 +74,7 @@ class OrderService {
   async orderSend(_id) {
     await Order.updateOne(
       { _id },
-      { deliveryStatus: "발송" },
+      { deliveryStatus: "발송완료" },
       { orderStatus: "수정불가" }
     );
     return;

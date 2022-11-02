@@ -19,7 +19,7 @@ async function getDataFromApi(){
     itemname.innerHTML = name;
     itemcategory.innerHTML = category;
     itemprice.innerHTML = price;
-    itemimg.innerHTML = imageUrl;
+    itemimg.src = imageUrl;
     // itemsales.innerHTML = sales;
 }
 
@@ -31,15 +31,13 @@ btn.addEventListener("click", function () {
         const request = indexedDB.open(databaseName, version);
 
         const data = {
-            name: itemname,
-            category:category,
-            price:Number(price),
-            img:img,
-            sales:Number(sales)
+            name:itemname.innerHTML,
+            category:itemcategory.innerHTML,
+            price:Number(itemprice.innerHTML),
+            img:itemimg.src,
+            // sales:Number(sales)
         };
-        console.log(data)
 
-        
         request.onupgradeneeded = function () {
             // Object Store 생성
             // 데이터베이스 아래 객체 스토어라는 이름으로 또다시 객체를 만들 수 있습니다.
@@ -56,4 +54,5 @@ btn.addEventListener("click", function () {
         };
         request.onerror = function (event) { alert(event.target.errorCode);}
     }
+    window.location.href = "/cart";
 });

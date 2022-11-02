@@ -27,6 +27,20 @@ class ItemService {
     const newItems = await Item.find({}).sort({ createdAt: -1 }).limit(3);
     return { newItems, bestItems };
   }
+
+  // 상품상세페이지를 위한 데이터 리턴
+  async detailViewItem(findId) {
+    //id값을 받아 해당 id의 아이템 정보 리턴
+    const findItem = await Item.findOne({ id: findId });
+    console.log(findItem);
+    const detailItem = {
+      id: findItem.id,
+      name: findItem.name,
+      category: findItem.category,
+      price: findItem.price,
+    };
+    return detailItem;
+  }
 }
 
 const itemService = new ItemService();

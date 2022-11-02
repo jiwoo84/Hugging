@@ -11,17 +11,16 @@
   <script>
     const clickedItem = () => {
       alert("아이템 추가/수정/삭제");
-
       $.ajax({
         type: "GET",
         url: "/api/items/admin",
         headers: { authorization: `Bearer ${sessionStorage.getItem("token")}` },
         success: (res) => {
+          const addItem = document.getElementById("addItem");
+          addItem.innerHTML = "";
           console.log(res.data);
-          addItem.innerHTML = " ";
-
           for (let i = 0; i < res.data.length; i++) {
-            const addItem = document.getElementById("addItem");
+            console.log("포문");
             const div = document.createElement("div");
             div.id = res.data[i]._id;
             div.innerHTML = `
@@ -32,21 +31,19 @@
             `;
             addItem.appendChild(div);
           }
-
-          alert(res.msg);
         },
       });
     };
     const clickedOrder = () => {
       alert("주문목록 추가/수정/삭제");
-
       $.ajax({
         type: "GET",
         url: "/api/orders/",
         headers: { authorization: `Bearer ${sessionStorage.getItem("token")}` },
         success: (res) => {
+          const addItem = document.getElementById("addItem");
           console.log(res.data);
-          addItem.innerHTML = " ";
+          addItem.innerHTML = "";
           for (let i = 0; i < res.data.length; i++) {
             console.log("첫번째 포문");
             const addItem = document.getElementById("addItem");

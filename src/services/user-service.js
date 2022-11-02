@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../db";
 
-
 class UserService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor() {}
@@ -92,24 +91,27 @@ class UserService {
   }
 
   // 관리자 로그인
-  async adminLogin(loginInfo){
-    const {email,password} = loginInfo;
-    const secretKey = process.env.JWT_SECRET_KEY
-    const admin  = await User.findOne({email})
-    if(!admin){
+  async adminLogin(loginInfo) {
+    const { email, password } = loginInfo;
+    const secretKey = process.env.JWT_SECRET_KEY;
+    const admin = await User.findOne({ email });
+    if (!admin) {
       const newAdmin = await User.create({
         email,
         name: "관리자",
-        password:"erboinerboiber",
-        address : "엘리스 랩실",
+        password: "erboinerboiber",
+        address: "엘리스 랩실",
         phoneNumber: "010-0000-0000",
-        role: "admin"
-      })
-      const token =  jwt.sign({userId:newAdmin._id, role:"admin"},secretKey)
-      return token
+        role: "admin",
+      });
+      const token = jwt.sign(
+        { userId: newAdmin._id, role: "admin" },
+        secretKey
+      );
+      return token;
     }
-    const token =  jwt.sign({userId:admin._id, role:"admin"},secretKey)
-    return token
+    const token = jwt.sign({ userId: admin._id, role: "admin" }, secretKey);
+    return token;
   }
 
   // 사용자 목록을 받음.
@@ -117,7 +119,12 @@ class UserService {
     const users = await User.find({});
     return users;
   }
-
+  // 마이페이지
+  async mypage(id) {
+    const user = await User.findById(id);
+    const name = user.name;
+    return { name };
+  }
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
   async setUser(userInfoRequired, toUpdate) {
     // 객체 destructuring

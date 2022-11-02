@@ -66,7 +66,7 @@ async function clickedOrder() {
     // thirdDiv: 주문삭제,발송완료 버튼
     const thirdDiv = document.createElement("div");
     thirdDiv.innerHTML = `
-    <button id="${data.data[i]._id}" class="delBtn">주문삭제</button>
+    <button id="${data.data[i].주문번호}" class="delBtn">주문삭제</button>
     <label for="changeShippingState">배송상태변경</label>
     <select id="changeShippingState">
         <option>배송준비중</option>
@@ -82,15 +82,22 @@ async function clickedOrder() {
   }
 
   console.log("정렬완료");
-}
 
-// 주문삭제 함수
-const delBtn = document.querySelector(".delBtn");
-delBtn.addEventListener("click", async (e) => {
-  console.log(e.target);
-  await Api.patch(`/api/items?id=${id}`);
-  alert("삭제되었습니다!");
-});
+  // 주문삭제 버튼
+  const delBtns = document.querySelectorAll(".delBtn");
+
+  delBtns.forEach((delBtn) => {
+    delBtn.addEventListener("click", async () => {
+      const id = delBtn.id;
+      console.log(id);
+      await Api.patch(`/api/orders`, "", {
+        id: id,
+        reson: "orderCancel",
+      });
+      alert("삭제되었습니다!");
+    });
+  });
+}
 
 // 배송상태변경 함수
 const changeSelect = document.querySelector("#changeShippingState");

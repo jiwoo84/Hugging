@@ -2,6 +2,13 @@ import { Category, Item } from "../db";
 class CategoryService {
   // 본 파일의 맨 아래에서, new ItemService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor() {}
+  // 카테고리 전부 조회
+  async getAll() {
+    const categories = await Category.find();
+    return categories;
+  }
+
+  //카테고리 만들기
   async newCategory(data) {
     const { index, name } = data; // name = 홈 -> 홈 item
     // 8~15 입력 카테고리이름으로 이미 만들어졌었던 item들을 arr 배열에 담음
@@ -69,6 +76,7 @@ class CategoryService {
     return resultArr;
   }
 
+  //해당 카테고리 삭제하고 카테고리에 속해있던 아이템의 카테고리속성 ""로 만듬
   async deleteCategory(data) {
     const { index, name } = data;
 

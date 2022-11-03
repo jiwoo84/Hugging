@@ -22,6 +22,26 @@ categoryRouter.post("/", async (req, res, next) => {
   }
 });
 
+categoryRouter.post("/", async (req, res, next) => {
+  const { name, index } = req.body;
+  if (!name || name === "") {
+    return res.status(400).json({
+      status: 400,
+      msg: "이름이 없습니다.",
+    });
+  }
+  try {
+    const category = await categoryService.newCategory({ name, index });
+    return res.status(201).json({
+      status: 201,
+      msg: "카테고리 생성 완료",
+      data: category,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 categoryRouter.get("/", async (req, res, next) => {
   const { name, index } = req.query;
   if (!name || !index) {

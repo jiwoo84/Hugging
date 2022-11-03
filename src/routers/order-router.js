@@ -48,13 +48,16 @@ orderRouter.get("/", loginRequired, async (req, res, next) => {
 orderRouter.patch("/", loginRequired, async (req, res, next) => {
   const { currentRole } = req; // jwt에 의한  권한을 요기담음
   const { id, reson } = req.body || req.query;
+  console.log(req.body);
+  console.log(req.query);
   // 권한이 관리자일때
   if (currentRole === "admin") {
     if (reson === "orderCancel") {
       try {
+        console.log("리즌");
         await orderService.orderCancel({ id, currentRole });
-        return res.status(204).json({
-          status: 204,
+        return res.status(200).json({
+          status: 200,
           msg: "관리자취소",
         });
       } catch (err) {
@@ -62,8 +65,8 @@ orderRouter.patch("/", loginRequired, async (req, res, next) => {
       }
     } else if (reson === "orderSend") {
       await orderService.orderSend(id);
-      return res.status(204).json({
-        status: 204,
+      return res.status(200).json({
+        status: 200,
         msg: "발송",
       });
     }
@@ -73,8 +76,8 @@ orderRouter.patch("/", loginRequired, async (req, res, next) => {
     try {
       console.log("고객 취소");
       await orderService.orderCancel({ id, currentRole });
-      return res.status(204).json({
-        status: 204,
+      return res.status(200).json({
+        status: 200,
         msg: "고객취소",
       });
     } catch (err) {

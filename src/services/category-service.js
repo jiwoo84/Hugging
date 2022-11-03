@@ -25,6 +25,11 @@ class CategoryService {
     });
     return newCategory;
   }
+  async updateCategory(data) {
+    const { name, index } = data;
+    const fixedCategory = await Category.updateOne({ name }, {});
+  }
+
   async categoriesItems(data) {
     const { name, index } = data;
     const result = await Category.findOne({

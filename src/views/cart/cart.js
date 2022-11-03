@@ -7,12 +7,11 @@ const clearSelectBtn = document.querySelector(".clear-select");
 
 
 getIdxedDBValues();
-// addevent();
 
 function createPost(item,key) {
     const priceSum = item.price*item.sales;
     return `
-    <div style="border 1px black">
+    <div id="${key}">
         <input type="checkbox" value="${key}" class="checkbox">
         <p >${item.name}</p>
         <p>${item.category}</p>
@@ -57,7 +56,7 @@ function getIdxedDBValues() {
                                 // let box = document.createElement ('div');
                                 main.insertAdjacentHTML("beforeend",createPost(value.result,cursor.key));
                                 // main.appendChild(box);
-                                attachBtn(value.result);
+                                attachBtn(value.result.id);
                             }
                             cursor.continue();                              // 4. cursor로 순회
                             
@@ -106,28 +105,30 @@ clearSelectBtn.addEventListener("click",function(){
 // const minusbtn = document.querySelectorAll('.minus');
 // console.log("global",plusbtns,minusbtn)
 
-function attachBtn(data){
-    const plusbtns = document.querySelectorAll('.plus');
-    const minusbtns = document.querySelectorAll('.minus');
-    console.log(plusbtns,minusbtns)
+function attachBtn(key){
+    
+    const container = document.getElementById(`${key}`);
+    const plusbtn = container.childNodes[15];
+    const minusbtn = container.childNodes[11];
 
-    plusbtns.forEach(plusbtn =>{
-        plusbtn.addEventListener("click" ,()=>{
-            updateData(data,"plus");
-            getIdxedDBValues();
-        });
+
+    console.log(plusbtn,minusbtn)
+
+    plusbtn.addEventListener("click" ,()=>{
+        updateData(key,"plus");
+        getIdxedDBValues();
     });
-    minusbtns.forEach(minusbtn =>{
-        minusbtn.addEventListener("click" ,()=>{
-            updateData(data,"minus");
-            getIdxedDBValues();
-        });
+
+    minusbtn.addEventListener("click" ,()=>{
+        updateData(key,"minus");
+        getIdxedDBValues();
     });
+
 }
 
 
 
-function updateData(data,op){
+function updateData(key,op){
     const request = indexedDB.open("cart");      // 1. DB 열기
 
     request.onerror = (e)=> console.log(e.target.errorCode);
@@ -135,7 +136,7 @@ function updateData(data,op){
         const db = request.result;
         const objStore = db.transaction("items","readwrite").objectStore("items");  // 2. name 저장소 접근
 
-        const requestChangeCount = objStore.get(`${data.id}`);
+        const requestChangeCount = objStore.get(`${key}`);
         requestChangeCount.onerror= function(e){}
         requestChangeCount.onsuccess = function(e) { 
             const record = e.target.result;

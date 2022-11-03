@@ -1,7 +1,8 @@
 import * as Api from "../api.js";
 
-const btn = document.querySelector(".moveTocart");
-const itemname = document.querySelector(".item-name");
+const moveTocartBtn = document.querySelector(".moveTocart");
+const buyNowBtn = document.querySelector(".buyNow");
+const itemname = document.querySelector(".itemName");
 const itemcategory = document.querySelector(".category");
 const itemprice = document.querySelector(".price");
 const itemimg = document.querySelector(".imageUrl");
@@ -61,13 +62,20 @@ function saveData(){
     }
 }
 
-//btn listener
-btn.addEventListener("click", function () {
+//moveTocartBtn listener
+moveTocartBtn.addEventListener("click", function () {
     saveData();
     const moveTocart = confirm("장바구니로 이동하시겠습니까?");
     if(moveTocart === true){
         window.location.href = "/cart";
     }
+});
+//buyNowBtn listener
+buyNowBtn.addEventListener("click", function () {
+    saveData();
+    const buyNow = confirm("바로 구매하시겠습니까?");
+    if(buyNow === true){
+        window.location.href = "/orders";
+    }
 
 });
-

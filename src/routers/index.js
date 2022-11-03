@@ -3,6 +3,3 @@
 
 export * from "./views-router";
 export * from "./user-router";
-export * from "./item-router";
-export * from "./order-router";
-export * from "./category-router";

@@ -1,39 +1,46 @@
-import { Schema, model } from "mongoose";
+import { Schema } from "mongoose";
 
-const UserSchema = new Schema({
-  // 사용자가 적은 이메일
-  email: {
-    type: String,
-    required: true,
+const UserSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+    },
+    fullName: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
+      required: false,
+    },
+    address: {
+      type: new Schema(
+        {
+          postalCode: String,
+          address1: String,
+          address2: String,
+        },
+        {
+          _id: false,
+        }
+      ),
+      required: false,
+    },
+    role: {
+      type: String,
+      required: false,
+      default: "basic-user",
+    },
   },
-  // 사용자 이름
-  name: {
-    type: String,
-    required: true,
-  },
-  //비밀번호
-  password: {
-    type: String,
-    required: true,
-  },
-  // 전화번호
-  phoneNumber: {
-    type: String,
-    required: true,
-  },
-  // 주소
-  address: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    required: false,
-    default: "user",
-  },
-  orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
-});
-
-// export const User = model("User", UserSchema);
+  {
+    collection: "users",
+    timestamps: true,
+  }
+);
 
 export { UserSchema };

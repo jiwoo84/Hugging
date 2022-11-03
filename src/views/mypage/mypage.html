@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <title>관리자 페이지</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hugging</title>
     <!-- 아이콘 -->
     <link
       rel="icon"
@@ -26,8 +23,8 @@
       crossorigin="anonymous"
     ></script>
     <!-- 커스텀 css, js -->
-    <link rel="stylesheet" href="admin.css" />
-    <script src="admin.js" type="module" defer></script>
+    <link rel="stylesheet" href="mypage.css" />
+    <script src="mypage.js" type="module" defer></script>
 
     <!-- 헤더 푸터 불러오기 -->
     <link rel="stylesheet" href="../public/header/header.css" />
@@ -41,19 +38,22 @@
       loadHTML("../public/header/header.html");
     </script>
 
-    <main>
-      <div class="admin-title">관리자 페이지</div>
+    <main class="container">
+      <p class="title">마이페이지</p>
+      <p class="welcome-message" id="welcome-message">***님 반갑습니다</p>
+      <div class="message-box is-three-quarters box">
+        <!-- <p class="message-box__grade">회원등급: VIP</p> -->
+        <!-- <p class="message-box__Purchase-amount">
+          총 구매금액은 100,000원입니다.
+        </p> -->
+      </div>
 
-      <div class="main-box">
-        <div class="side-bar">
-          <button id="orderBtn">주문 관리</button>
-          <button id="itemsBtn">상품 관리</button>
-          <button id="categoryBtn">카테고리 관리</button>
-        </div>
-
-        <div id="list-box">
-          <!--리스트 들어감-->
-        </div>
+      <div class="buttons">
+        <button class="buttons__order-check button is-light">주문 조회</button>
+        <button class="buttons__modyfing-info button is-light">
+          정보 수정
+        </button>
+        <button class="buttons__Withdrawal button is-light">회원 탈퇴</button>
       </div>
     </main>
 

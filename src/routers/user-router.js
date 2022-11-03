@@ -49,18 +49,18 @@ userRouter.post("/login", async function (req, res, next) {
     if (is.emptyObject(req.body)) {
       throw new Error(
         "headers의 Content-Type을 application/json으로 설정해주세요"
-        );
-      }
+      );
+    }
     const { email, password } = req.body;
-      console.log(req.body)
+    console.log(req.body);
     // 어드민 로그인
-    if(email==="admin@hugging.com"&&password==="123123123"){
-      const adminToken = await userService.adminLogin({email,password})
+    if (email === "admin@hugging.com" && password === "123123123") {
+      const adminToken = await userService.adminLogin({ email, password });
       return res.status(200).json({
-        status:200,
-        msg:"관리자 계정 로그인",
-        accessToken:adminToken
-      })
+        status: 200,
+        msg: "관리자 계정 로그인",
+        accessToken: adminToken,
+      });
     }
     // req (request) 에서 데이터 가져오기
 
@@ -95,6 +95,22 @@ userRouter.get(
     }
   }
 );
+
+userRouter.get("/mypage", loginRequired, async (req, res, next) => {
+  const { currentRole, currentUserId } = req;
+  if (currentRole === "user" || currentRole === "admin") {
+    // 마이페이지 데이터 리턴
+    const user = await userService.mypage(currentUserId);
+    return res.status(200).json({
+      status: 200,
+      msg: `${user.name}의 마이페이지`,
+      name: user.name,
+      data: user,
+    });
+  } else if (req.currentRole === "admin") {
+    // 관리자페이지 이동
+  }
+});
 
 // 사용자 정보 수정
 // (예를 들어 /api/users/abc12345 로 요청하면 req.params.userId는 'abc12345' 문자열로 됨)

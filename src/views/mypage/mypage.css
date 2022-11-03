@@ -1,0 +1,24 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  font-size: 30px;
+  text-align: center;
+  margin: 40px;
+}
+
+.container {
+  margin: 40px;
+}
+
+.welcome-message {
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+}

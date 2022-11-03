@@ -27,8 +27,6 @@ class OrderService {
             개수: orders[i].items[r].count,
           });
         }
-        console.log("여기가문제?");
-        console.log(itemsArr);
         obj = {
           상품목록: itemsArr,
           주문번호: orders[i]._id,
@@ -39,8 +37,8 @@ class OrderService {
           구매자이메일: orders[i].buyer.email,
           전화번호: orders[i].buyer.phoneNumber,
           주소: orders[i].buyer.address,
+          수정: orders[i].orderStatus,
         };
-        console.log("여기가문제?");
         result.push(obj);
       }
       return result;
@@ -50,6 +48,36 @@ class OrderService {
         .populate("buyer");
       return orders;
     }
+  }
+
+  async orderCancel(data) {
+    const { id, currentRole } = data;
+    if (currentRole === "admin") {
+      await Order.updateMany(
+        { _id: id },
+        {
+          deliveryStatus: "관리자에 의한 주문취소",
+          orderStatus: "수정불가",
+        }
+      );
+      return;
+    } else {
+      await Order.updateMany(
+        { _id: id },
+        {
+          deliveryStatus: "주문취소",
+          orderStatus: "수정불가",
+        }
+      );
+      return;
+    }
+  }
+  async orderSend(_id) {
+    await Order.updateMany(
+      { _id },
+      { deliveryStatus: "발송완료", orderStatus: "수정불가" }
+    );
+    return;
   }
 }
 

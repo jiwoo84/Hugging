@@ -12,7 +12,7 @@ class UserService {
     const { email, name, password, address, phoneNumber } = userInfo;
     // 이메일 중복 확인
     const user = await User.findOne({ email });
-    if (user.email === email) {
+    if (user) {
       throw new Error(
         "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요."
       );
@@ -22,7 +22,7 @@ class UserService {
 
     // 우선 비밀번호 해쉬화(암호화)
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    console.log("여ㅑ기?");
     const newUserInfo = {
       name,
       email,
@@ -31,9 +31,9 @@ class UserService {
       phoneNumber,
     };
     // db에 저장
-
     // 일반적인 가입
     const createdNewUser = await User.create(newUserInfo);
+    console.log(createdNewUser);
     return createdNewUser;
   }
 

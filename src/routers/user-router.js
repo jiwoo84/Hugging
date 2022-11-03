@@ -180,6 +180,10 @@ userRouter.delete("/", loginRequired, async (req, res, next) => {
   }
   try {
     const result = await userService.userDelete(currentUserId);
+    return res.status(200).json({
+      status: 200,
+      msg: result,
+    });
   } catch (err) {
     next(err);
   }

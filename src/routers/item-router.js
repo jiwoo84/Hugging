@@ -65,4 +65,25 @@ itemRouter.get("/:id", async (req, res, next) => {
   }
 });
 
+//상품 지우거나 숨김처리
+itemRouter.delete("/:id", loginRequired, async (req, res, next) => {
+  console.log(req.currentRole);
+
+  if (req.currentRole == "admin") {
+    const findId = req.params.id;
+    try {
+      const deleteItemData = await itemService.deleteItem(findId);
+      return res.status(201).json({
+        status: 201,
+        msg: deleteItemData,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+  return res.status(400).json({
+    msg: "잘못된 접근입니다. (관리자가 아닙니다)",
+  });
+});
+
 export { itemRouter };

@@ -4,26 +4,12 @@ body {
   padding: 0;
 }
 
-.div-container {
+/* .div-container {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-}
-
-.landing {
-  cursor: pointer;
-  border: 1px solid red;
-  padding: 10px;
-}
-
-.greeting {
-  cursor: pointer;
-  border: 1px solid blue;
-  padding: 10px;
-  margin-left: 3rem;
-}
-
+} */
 .carousel-inner {
   height: 600px;
 }
@@ -33,17 +19,20 @@ body {
 .d-block {
   height: 100%;
 }
-
-.container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.bestTitle{
+  font-size:  xx-large;
+  margin:20px;
 }
-
-.item {
-  border: 1px solid black;
-  margin: 20px;
+.containerLayout{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+/* .bestItem{
+  margin:20px;
   width: 400px;
-  height: 430px;
+  height:400px;
+} */
+.newTitle{
+  font-size: xx-large;
+  margin: 50px 20px;
 }

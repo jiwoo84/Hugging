@@ -6,16 +6,18 @@ const itemcategory = document.querySelector(".category");
 const itemprice = document.querySelector(".price");
 const itemimg = document.querySelector(".imageUrl");
 const itemsales = document.querySelector(".sales");
+let id; 
 
 getDataFromApi();
 
-
+// 상세페이지 데이터 get api
 async function getDataFromApi(){
     console.log('id : '+ localStorage.getItem("itemDetail"));
     const res = await Api.get('/api/items',`${localStorage.getItem("itemDetail")}`);
-    const {id,name,category,price,imageUrl,sales} = res.data;
+    const {_id,name,category,price,imageUrl,sales} = res.data;
     console.log(res.data);
 
+    id = _id;
     itemname.innerHTML = name;
     itemcategory.innerHTML = category;
     itemprice.innerHTML = price;
@@ -24,19 +26,22 @@ async function getDataFromApi(){
 }
 
 // 상세페이지에서 indexedDB에 DB생성 및 데이터 저장
-btn.addEventListener("click", function () {
+// cart 페이지로 이동
+function saveData(){
     if (window.indexedDB) {
         const databaseName = "cart";
         const version = 1;
         const request = indexedDB.open(databaseName, version);
 
         const data = {
+            id: id,
             name:itemname.innerHTML,
             category:itemcategory.innerHTML,
             price:Number(itemprice.innerHTML),
             img:itemimg.src,
             // sales:Number(sales)
         };
+        console.log(data);
 
         request.onupgradeneeded = function () {
             // Object Store 생성
@@ -54,5 +59,15 @@ btn.addEventListener("click", function () {
         };
         request.onerror = function (event) { alert(event.target.errorCode);}
     }
-    window.location.href = "/cart";
+}
+
+//btn listener
+btn.addEventListener("click", function () {
+    saveData();
+    const moveTocart = confirm("장바구니로 이동하시겠습니까?");
+    if(moveTocart === true){
+        window.location.href = "/cart";
+    }
+
 });
+

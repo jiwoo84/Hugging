@@ -28,10 +28,6 @@ function createPost(item,key) {
     `;
 }
 
-// function selected(){
-//     console.log('onclick');
-
-// }
 
 // 전체데이터 조회
 function getIdxedDBValues() {
@@ -61,22 +57,7 @@ function getIdxedDBValues() {
                         if (cursor) {
                             const value = objStore.get(cursor.key);         // 3. 커서를 사용해 데이터 접근
                             value.onsuccess =(e)=> {
-                                
-                                main.innerHTML += `
-                                <div style="border 1px black">
-                                    <input type="checkbox" value="${cursor.key}" >
-                                    <p onclick="selected()">${value.result.name}</p>
-                                    <p>${value.result.category}</p>
-                                    <p>${value.result.price}</p>
-                                    <img src="${value.result.img}">
-                                    <p>${value.result.sales}</p>
-                                    <button class="plus">+</button>
-                                    <label class="quantity">1</label>
-                                    <button class="minus">-</button>
-                                    <label class="total-price">금액합계:${value.result.price}</label>
-                                </div>
-                                `;
-                                
+                                main.innerHTML += createPost(value.result,cursor.key);
                             }
                             cursor.continue();                              // 4. cursor로 순회
                         }
@@ -127,4 +108,3 @@ clearSelectBtn.addEventListener("click",function(){
         // })
     }
 })
-

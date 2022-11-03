@@ -21,6 +21,7 @@ async function getDataFromApi() {
 
 function draw(Items,className){
   let card = document.createElement ('div')
+  card.setAttribute("class","containerLayout")
   for(let i =0; i<Items.length;i++){
     card.innerHTML +=`
     <div id="${Items[i]._id}" class="${className}">

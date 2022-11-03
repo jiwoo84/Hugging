@@ -4,12 +4,12 @@ body {
   padding: 0;
 }
 
-.div-container {
+/* .div-container {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-}
+} */
 .carousel-inner {
   height: 600px;
 }
@@ -23,7 +23,7 @@ body {
   font-size:  xx-large;
   margin:20px;
 }
-.bestContainer{
+.containerLayout{
   display:grid;
   grid-template-columns: 1fr 1fr 1fr;
 }

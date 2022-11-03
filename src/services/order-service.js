@@ -52,31 +52,40 @@ class OrderService {
 
   async orderCancel(data) {
     const { id, currentRole } = data;
+    // 토큰 권한이 관리자일때 수정로직
     if (currentRole === "admin") {
-      await Order.updateMany(
-        { _id: id },
-        {
-          deliveryStatus: "관리자에 의한 주문취소",
-          orderStatus: "수정불가",
-        }
-      );
-      return;
-    } else {
-      await Order.updateMany(
-        { _id: id },
-        {
-          deliveryStatus: "주문취소",
-          orderStatus: "수정불가",
-        }
-      );
-      return;
+      // 요청받은 주문번호가 수정가능한 상태인지 체크
+      const statusCheck = await Order.findById({ _id: id });
+      if (statusCheck.orderStatus === "수정가능") {
+        await Order.updateMany(
+          { _id: id },
+          {
+            deliveryStatus: "관리자에 의한 주문취소",
+            orderStatus: "수정불가",
+          }
+        );
+        return;
+      } else {
+        await Order.updateMany(
+          { _id: id },
+          {
+            deliveryStatus: "주문취소",
+            orderStatus: "수정불가",
+          }
+        );
+        return;
+      }
     }
   }
-  async orderSend(_id) {
-    await Order.updateMany(
-      { _id },
-      { deliveryStatus: "발송완료", orderStatus: "수정불가" }
-    );
+  // 수정 이유가 배송상태 변경일 경우 함수
+  async orderSend(data) {
+    const { id, reson } = data;
+    // 배송상태변경
+    await Order.updateMany({ _id: id }, { deliveryStatus: reson });
+    // 만약 배송상태가 배송완료라면, 더이상 수정할수 없게 만듬.
+    if (reson === "배송완료") {
+      await Order.updateMany({ _id: id }, { orderStatus: "수정불가" });
+    }
     return;
   }
 }

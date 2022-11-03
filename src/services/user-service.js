@@ -71,7 +71,10 @@ class UserService {
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
 
     // 2개 프로퍼티를 jwt 토큰에 담음
-    const token = jwt.sign({ userId: user._id, role: user.role }, secretKey);
+    const token = jwt.sign(
+      { userId: user._id, role: user.role, sosial: user.sosial },
+      secretKey
+    );
 
     return token;
   }
@@ -108,13 +111,12 @@ class UserService {
   // 마이페이지
   async mypage(id) {
     const user = await User.findById(id);
-    const name = user.name;
-    return { name };
+    return user;
   }
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
   async setUser(userInfoRequired, toUpdate) {
     // 객체 destructuring
-    const { userId, currentPassword } = userInfoRequired;
+    const { userId, currentPassword, sosial } = userInfoRequired;
 
     // 우선 해당 id의 유저가 db에 있는지 확인
     let user = await User.findById(userId);
@@ -133,7 +135,10 @@ class UserService {
       correctPasswordHash
     );
 
-    if (!isPasswordCorrect) {
+    //소셜로그인 대상자라면 현재비밀번호는 중요하지않음, 통과
+    if (sosial === true) {
+      console.log("소셜로그인 대상자임, 통과");
+    } else if (!isPasswordCorrect) {
       throw new Error(
         "현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
       );
@@ -142,6 +147,7 @@ class UserService {
     // *********************이제 드디어 업데이트 시작****************************
 
     // 비밀번호도 변경하는 경우에는, 회원가입 때처럼 해쉬화 해주어야 함.
+    // 소셜로그인 대상자도 비번 변경이 있다면 가능하게 함.
     const { password } = toUpdate;
 
     if (password) {

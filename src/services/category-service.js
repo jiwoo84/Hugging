@@ -4,7 +4,6 @@ class CategoryService {
   constructor() {}
   async newCategory(data) {
     const { index, name } = data; // name = 홈 -> 홈 item
-
     // 8~15 입력 카테고리이름으로 이미 만들어졌었던 item들을 arr 배열에 담음
     let arr = [];
     const items = await Item.find({ category: name });
@@ -31,7 +30,7 @@ class CategoryService {
     const { name, index, currentName } = data;
 
     // 기존 카테고리 이름으로 찾은후 업데이트
-    const fixedCategory = await Category.updateMany(
+    const fixedCategory = await Category.updateOne(
       { name: currentName },
       {
         name,
@@ -39,19 +38,19 @@ class CategoryService {
       }
     );
     // 해당 카테고리에 속해있던 items 의 카테고리 변경
-    for (let i = 0; i < fixedCategory.items.length; i++) {
-      console.log("아이템 업뎃 시작");
-      await Item.updateOne(
-        { _id: fixedCategory.items[i] },
-        {
-          category: name,
-        }
-      );
-    }
+
+    await Item.updateMany(
+      { category: currentName },
+      {
+        category: name,
+      }
+    );
+
     console.log("리턴");
     return fixedCategory;
   }
 
+  //해당 카테고리 아이템 조회
   async categoriesItems(data) {
     const { name, index } = data;
     const result = await Category.findOne({
@@ -68,6 +67,17 @@ class CategoryService {
     resultArr.sort(-1);
     console.log(resultArr);
     return resultArr;
+  }
+
+  async deleteCategory(data) {
+    const { index, name } = data;
+
+    const deleteCategory = await Category.deleteOne({ index: index });
+    const changeItemCategoryName = await Item.updateMany(
+      { category: name },
+      { category: "" }
+    );
+    return deleteCategory, changeItemCategoryName;
   }
 }
 

@@ -83,7 +83,6 @@ async function patch(endpoint, params = "", data) {
 
     throw new Error(reason);
   }
-
   const result = await res.json();
 
   return result;

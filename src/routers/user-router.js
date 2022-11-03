@@ -18,13 +18,8 @@ userRouter.post("/join", async (req, res, next) => {
       );
     }
 
-    // req (request)의 body 에서 데이터 가져오기
-    // const name = req.body.name;
-    // const email = req.body.email;
-    // const password = req.body.password;
-    // const phoneNumber = req.body.phoneNumber;
     const { name, email, password, address, phoneNumber } = req.body;
-
+    console.log(email);
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userService.addUser({
       name,

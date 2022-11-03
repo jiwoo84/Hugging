@@ -105,6 +105,7 @@ userRouter.get("/mypage", loginRequired, async (req, res, next) => {
       status: 200,
       msg: `${user.name}의 마이페이지`,
       name: user.name,
+      data: user,
     });
   } else if (req.currentRole === "admin") {
     // 관리자페이지 이동

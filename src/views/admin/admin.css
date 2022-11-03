@@ -5,8 +5,10 @@ body {
 }
 
 main {
-  height: 100vh;
+  height: auto;
+  min-height: 100%;
 }
+
 .admin-title {
   font-size: 30px;
   font-weight: 600;

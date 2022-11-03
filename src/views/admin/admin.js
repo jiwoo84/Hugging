@@ -97,7 +97,6 @@ async function clickedOrder() {
   delBtns.forEach((delBtn) => {
     delBtn.addEventListener("click", async () => {
       const id = delBtn.id;
-      console.log(id);
       await Api.patch(`/api/orders`, "", {
         id: id,
         reson: "orderCancel",

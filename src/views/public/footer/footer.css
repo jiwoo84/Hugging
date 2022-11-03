@@ -1,7 +1,9 @@
-.footer {
-  /* border:1px black solid; */
-  padding: 30px 24px;
-  position: absolute;
+.footer-custom {
+  /* border: 1px black solid; */
+  position: relative;
+  margin-top: 30px;
+  padding: 30px 25px 30px 25px;
+  background-color: #ddd6c2;
   width: 100%;
 }
 .footerContainer {

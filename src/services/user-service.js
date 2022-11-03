@@ -140,7 +140,7 @@ class UserService {
 
     // 이제, 정보 수정을 위해 사용자가 입력한 비밀번호가 올바른 값인지 확인해야 함
 
-    // 비밀번호 일치 여부 확인
+    // 기존비밀번호 일치 여부 확인
     const correctPasswordHash = user.password;
     const isPasswordCorrect = await bcrypt.compare(
       currentPassword,
@@ -153,7 +153,7 @@ class UserService {
       );
     }
 
-    // 이제 드디어 업데이트 시작
+    // *********************이제 드디어 업데이트 시작****************************
 
     // 비밀번호도 변경하는 경우에는, 회원가입 때처럼 해쉬화 해주어야 함.
     const { password } = toUpdate;
@@ -164,12 +164,14 @@ class UserService {
     }
 
     // 업데이트 진행
-    user = await this.userMo({
-      userId,
-      update: toUpdate,
-    });
+    const updateUser = await User.updateMany(
+      { userId },
+      {
+        toUpdate,
+      }
+    );
 
-    return user;
+    return updateUser;
   }
 }
 

@@ -4,6 +4,8 @@ import { loginRequired } from "../middlewares";
 import { itemService } from "../services/";
 
 const itemRouter = express();
+
+// 상품 추가
 itemRouter.post("/", loginRequired, async (req, res, next) => {
   const data = req.body;
   try {
@@ -18,6 +20,7 @@ itemRouter.post("/", loginRequired, async (req, res, next) => {
   }
 });
 
+// 전체상품 조회 - 홈화면
 itemRouter.get("/", async (req, res, next) => {
   try {
     const { newItems, bestItems } = await itemService.homeFindItems();
@@ -31,6 +34,8 @@ itemRouter.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
+// 왜 만들었지/./.? 조회인거 같음.
 itemRouter.get("/admin", loginRequired, async (req, res, next) => {
   if (req.currentRole !== "admin") {
     return res.status(400).json({

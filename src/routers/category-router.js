@@ -1,9 +1,10 @@
 import { categoryService } from "../services";
 import express from "express";
-import { loginRequired } from "../middlewares/login-required";
+import { adminRequired, loginRequired } from "../middlewares/login-required";
 const categoryRouter = express();
 
-categoryRouter.post("/", async (req, res, next) => {
+//카테고리 생성
+categoryRouter.post("/", adminRequired, async (req, res, next) => {
   const { name, index } = req.body;
   if (!name || name === "") {
     return res.status(400).json({
@@ -22,7 +23,21 @@ categoryRouter.post("/", async (req, res, next) => {
     next(err);
   }
 });
+//전체 카테고리 조회
+categoryRouter.get("/all", async (req, res, next) => {
+  try {
+    const categories = await categoryService.getAll();
+    return res.status(200).json({
+      status: 200,
+      msg: "카테고리 전체 조회",
+      data: categories,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
+// 카테고리 하나만 조회, 쿼리로 받음
 categoryRouter.get("/", async (req, res, next) => {
   const { name, index } = req.query;
   if (!name || !index) {
@@ -45,6 +60,8 @@ categoryRouter.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
+//카테고리 수정
 categoryRouter.patch("/", loginRequired, async (req, res, next) => {
   const currentRole = req;
   const { name, index, currentName } = req.body;
@@ -67,6 +84,7 @@ categoryRouter.patch("/", loginRequired, async (req, res, next) => {
   }
 });
 
+//카테고리 삭제
 categoryRouter.delete("/", loginRequired, async (req, res, next) => {
   const { currentRole } = req;
   const { index, name } = req.body;

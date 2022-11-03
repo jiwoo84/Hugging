@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.imgurl {
+    display: flex;
+    justify-content: center;
+}
+.totalInfo, .deliveryInfo{
+    display: flex;
+    flex-direction: column;
+}
+.titleInfo {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1
+}
+.priceInfo, .finalInfo, .count, .sellInfo{
+    display: flex;
+    flex-direction: row;
+}
+.orderInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-grow: 1
+}

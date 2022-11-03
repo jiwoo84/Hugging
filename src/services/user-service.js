@@ -12,7 +12,7 @@ class UserService {
     const { email, name, password, address, phoneNumber } = userInfo;
     // 이메일 중복 확인
     const user = await User.findOne({ email });
-    if (user) {
+    if (user.email === email) {
       throw new Error(
         "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요."
       );
@@ -31,20 +31,6 @@ class UserService {
       phoneNumber,
     };
     // db에 저장
-
-    // 가입자가 관리자일 경우
-    if (name.includes("_admin")) {
-      const newUserInfo = {
-        name,
-        email,
-        password: hashedPassword,
-        address,
-        phoneNumber,
-        role: "admin",
-      };
-      const createdNewUser = await User.create(newUserInfo);
-      return createdNewUser;
-    }
 
     // 일반적인 가입
     const createdNewUser = await User.create(newUserInfo);
@@ -172,6 +158,12 @@ class UserService {
     );
 
     return updateUser;
+  }
+
+  async userDelete(_id) {
+    await User.findByIdAndDelete(_id);
+    console.log("유저가 떠났읍니다..");
+    return "유저가 떠났읍니다..";
   }
 }
 

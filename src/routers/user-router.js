@@ -165,4 +165,24 @@ userRouter.patch("/users", loginRequired, async function (req, res, next) {
   }
 });
 
+userRouter.delete("/", loginRequired, async (req, res, next) => {
+  const { currentUserId, currentRole } = req;
+  const { accept } = req.body;
+  if (!accept === "탈퇴") {
+    return res.status(400).json({
+      msg: "탈퇴하고싶지 않으시군요 ?ㅎㅎ",
+    });
+  }
+  if (currentRole === "admin") {
+    return res.status(400).json({
+      msg: "어딜 도망가려고, 관리자는 탈퇴 못함",
+    });
+  }
+  try {
+    const result = await userService.userDelete(currentUserId);
+  } catch (err) {
+    next(err);
+  }
+});
+
 export { userRouter };

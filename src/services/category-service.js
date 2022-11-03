@@ -25,9 +25,31 @@ class CategoryService {
     });
     return newCategory;
   }
+
+  // ***************************** 여기가 업뎃입니다 형석님 *******************************
   async updateCategory(data) {
-    const { name, index } = data;
-    const fixedCategory = await Category.updateOne({ name }, {});
+    const { name, index, currentName } = data;
+
+    // 기존 카테고리 이름으로 찾은후 업데이트
+    const fixedCategory = await Category.updateMany(
+      { name: currentName },
+      {
+        name,
+        index,
+      }
+    );
+    // 해당 카테고리에 속해있던 items 의 카테고리 변경
+    for (let i = 0; i < fixedCategory.items.length; i++) {
+      console.log("아이템 업뎃 시작");
+      await Item.updateOne(
+        { _id: fixedCategory.items[i] },
+        {
+          category: name,
+        }
+      );
+    }
+    console.log("리턴");
+    return fixedCategory;
   }
 
   async categoriesItems(data) {
@@ -36,6 +58,7 @@ class CategoryService {
       name,
       index,
     }).populate("items");
+
     let resultArr = [];
     for (let i = 0; i < result.items.length; i++) {
       let obj = {};

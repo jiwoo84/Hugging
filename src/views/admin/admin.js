@@ -10,7 +10,6 @@ itemBtn.addEventListener("click", clickedItem);
 categoryBtn.addEventListener("click", clickedCategory);
 
 async function clickedOrder() {
-  alert("주문목록 추가/수정/삭제");
   const data = await Api.get("/api/orders/");
   bigDiv.innerHTML = "";
 
@@ -19,10 +18,12 @@ async function clickedOrder() {
     console.log(data.data[i]);
     //
     const divComponent = document.createElement("div");
+    divComponent.className = "divComponent";
     console.log("첫번째 for문");
 
     // firstDiv: 상품배송정보
     const firstDiv = document.createElement("div");
+    firstDiv.className = "firstDiv";
 
     // firstDiv-orderInfoDiv:주문날짜, 주문시간, 주문번호
     const orderInfoDiv = document.createElement("div");
@@ -71,19 +72,23 @@ async function clickedOrder() {
     divComponent.appendChild(secondDiv);
 
     // thirdDiv: 주문삭제,발송완료 버튼 (구매취소,판매자취소시 수정불가)
+    const thirdDiv = document.createElement("div");
+    thirdDiv.className = "thirdDiv";
+
     if (data.data[i].수정 === "수정가능") {
-      const thirdDiv = document.createElement("div");
       thirdDiv.innerHTML = `
         <button id="${data.data[i].주문번호}" class="delBtn">주문삭제</button>
-        <label for="changeShippingState">배송상태변경</label>
-        <select id="changeShippingState">
+        <label for="${data.data[i].주문번호}">배송상태변경</label>
+        <select id="${data.data[i].주문번호}" class="selectShippingState">
             <option>배송준비중</option>
             <option>배송중</option>
             <option>배송완료</option>
-        </select>
+        </select> 
         `;
-      divComponent.appendChild(thirdDiv);
+    } else {
+      thirdDiv.innerHTML = "";
     }
+    divComponent.appendChild(thirdDiv);
 
     bigDiv.appendChild(divComponent);
   }
@@ -102,12 +107,28 @@ async function clickedOrder() {
         reson: "orderCancel",
       });
       alert("삭제되었습니다!");
+      clickedOrder();
+    });
+  });
+
+  // 배송상태 변경 (select) 이벤트동작 추가
+  const selects = document.querySelectorAll(".selectShippingState");
+
+  selects.forEach((select) => {
+    select.addEventListener("change", async () => {
+      const id = select.id;
+      // 선택된 배송상태
+      const changedState = select.value;
+      console.log(changedState);
+      await Api.patch("/api/orders", "", {
+        id: id,
+        reson: changedState,
+      });
+      alert("배송상태가 변경되었습니다");
+      clickedOrder();
     });
   });
 }
-
-// 배송상태변경 함수
-const changeSelect = document.querySelector("#changeShippingState");
 
 async function clickedItem() {
   alert("아이템 추가/수정/삭제");

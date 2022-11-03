@@ -63,11 +63,11 @@ orderRouter.patch("/", loginRequired, async (req, res, next) => {
       } catch (err) {
         next(err);
       }
-    } else if (reson === "orderSend") {
-      await orderService.orderSend(id);
+    } else {
+      await orderService.orderSend({ id, reson });
       return res.status(200).json({
         status: 200,
-        msg: "발송",
+        msg: `배송상태 ${reson} 로 변경`,
       });
     }
   }

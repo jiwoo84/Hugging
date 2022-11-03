@@ -5,7 +5,7 @@ const itemname = document.querySelector(".item-name");
 const itemcategory = document.querySelector(".category");
 const itemprice = document.querySelector(".price");
 const itemimg = document.querySelector(".imageUrl");
-const itemsales = document.querySelector(".sales");
+// const itemsales = document.querySelector(".sales");
 let id; 
 
 getDataFromApi();
@@ -15,7 +15,6 @@ async function getDataFromApi(){
     console.log('id : '+ localStorage.getItem("itemDetail"));
     const res = await Api.get('/api/items',`${localStorage.getItem("itemDetail")}`);
     const {_id,name,category,price,imageUrl,sales} = res.data;
-    console.log(res.data);
 
     id = _id;
     itemname.innerHTML = name;
@@ -39,9 +38,9 @@ function saveData(){
             category:itemcategory.innerHTML,
             price:Number(itemprice.innerHTML),
             img:itemimg.src,
-            // sales:Number(sales)
+            sales: 1,
         };
-        console.log(data);
+        // console.log(data);
 
         request.onupgradeneeded = function () {
             // Object Store 생성
@@ -50,14 +49,40 @@ function saveData(){
         };
         
         request.onsuccess = function () {
-            const store = request.result
+            const objStore = request.result
                 .transaction("items", "readwrite")
                 .objectStore("items");
                 // transaction : 통신 , items 객체스토어의 권한을 readwrite로 설정
                 // objectStore : 오브젝트스토어를 가져옴
-            store.add(data);
+
+            // 동일한 id를 가진 상품이 db에 있다면
+            // 상품의 수량을 증가
+            // 그렇지 않다면 상품데이터를 추가
+            isExist(data,objStore);
         };
         request.onerror = function (event) { alert(event.target.errorCode);}
+    }
+}
+
+function isExist(data,objStore){
+    const requesExists = objStore.get(`${data.id}`);
+    requesExists.onerror= function(event){}
+    requesExists.onsuccess = function(event) { 
+        const record = event.target.result;
+        if(record === undefined){ 
+            objStore.add(data);
+        }
+        else{
+            record.sales += 1;
+            var requestUpdate = objStore.put(record);
+            requestUpdate.onerror = function(event) {
+                // Do something with the error
+            };
+            requestUpdate.onsuccess = function(event) {
+                // Success - the data is updated!
+                console.log("중복상품 수량증가");
+            };
+        }
     }
 }
 
@@ -68,6 +93,5 @@ btn.addEventListener("click", function () {
     if(moveTocart === true){
         window.location.href = "/cart";
     }
-
 });
 

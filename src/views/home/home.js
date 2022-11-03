@@ -1,52 +1,11 @@
 import * as Api from "/api.js";
-// import { randomId } from "/useful-functions.js";
 
 const bestContainer= document.querySelector(".bestContainer");
 const newContainer = document.querySelector(".newContainer");
 
+createDB();
 getDataFromApi();
 
-addAllElements();
-addAllEvents();
-
-
-// html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-async function addAllElements() {
-  insertTextToLanding();
-  insertTextToGreeting();
-}
-
-// 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-function addAllEvents() {
-  landingDiv.addEventListener("click", alertLandingText);
-  greetingDiv.addEventListener("click", alertGreetingText);
-}
-
-function insertTextToLanding() {
-  landingDiv.insertAdjacentHTML(
-    "beforeend",
-    `
-      <h2>n팀 쇼핑몰의 랜딩 페이지입니다. 자바스크립트 파일에서 삽입되었습니다.</h2>
-    `
-  );
-}
-
-function insertTextToGreeting() {
-  greetingDiv.insertAdjacentHTML(
-    "beforeend",
-    `
-      <h1>반갑습니다! 자바스크립트 파일에서 삽입되었습니다.</h1>
-    `
-  );
-}
-
-function alertLandingText() {
-  alert("n팀 쇼핑몰입니다. 안녕하세요.");
-}
-
-function alertGreetingText() {
-  alert("n팀 쇼핑몰에 오신 것을 환영합니다");
-}
 
 async function getDataFromApi() {
 
@@ -54,10 +13,10 @@ async function getDataFromApi() {
   // data = [ [{...},{...}...{...}:8개] , [{...}{}{}:3개] ]
   const {bestItems, newItems} = data;
 
-  
   bestContainer.appendChild(draw(bestItems,"bestItem"));
-  attachBtn(className);
   newContainer.appendChild(draw(newItems,"newItem"));
+
+  attachBtn();
 }
 
 function draw(Items,className){
@@ -90,13 +49,23 @@ function createDB(){
   }
 }
 
-function attachBtn(className){
-  const detailToBtns = document.querySelectorAll(`.${className}`);
+function attachBtn(){
+  const detailToBtns = document.querySelectorAll(".bestItem");
+  const newItemToBtns = document.querySelectorAll(".newItem");
+
   console.log(detailToBtns);
 
   detailToBtns.forEach( (detailToBtn)=>{
     detailToBtn.addEventListener("click",()=>{
       const id = detailToBtn.id;
+      localStorage.setItem('itemDetail',`${id}`);
+      location.href = "/detail";
+    })
+  });
+
+  newItemToBtns.forEach( (newItemToBtn)=>{
+    newItemToBtn.addEventListener("click",()=>{
+      const id = newItemToBtn.id;
       localStorage.setItem('itemDetail',`${id}`);
       location.href = "/detail";
     })

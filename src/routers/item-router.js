@@ -55,8 +55,8 @@ itemRouter.get("/:id", async (req, res, next) => {
   const findId = req.params.id;
   try {
     const detailItem = await itemService.detailViewItem(findId);
-    return res.status(200).json({
-      satus: 200,
+    return res.status(201).json({
+      satus: 201,
       msg: "detail item 상품 데이터입니다.",
       data: detailItem,
     });

@@ -31,7 +31,7 @@ class ItemService {
   // 상품상세페이지를 위한 데이터 리턴
   async detailViewItem(findId) {
     //id값을 받아 해당 id의 아이템 정보 리턴
-    const findItem = await Item.findOne({ id: findId });
+    const findItem = await Item.findById({ _id: findId });
     return findItem;
   }
 }

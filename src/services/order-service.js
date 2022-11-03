@@ -75,8 +75,7 @@ class OrderService {
   async orderSend(_id) {
     await Order.updateMany(
       { _id },
-      { deliveryStatus: "발송완료" },
-      { orderStatus: "수정불가" }
+      { deliveryStatus: "발송완료", orderStatus: "수정불가" }
     );
     return;
   }

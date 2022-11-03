@@ -1,0 +1,31 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  height: auto;
+  min-height: 100%;
+}
+
+.admin-title {
+  font-size: 30px;
+  font-weight: 600;
+  margin: 20px 0 20px 20px;
+}
+
+.main-box {
+  display: flex;
+}
+
+.side-bar {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  margin-left: 20px;
+}
+
+.side-bar button {
+  margin-bottom: 10px;
+}

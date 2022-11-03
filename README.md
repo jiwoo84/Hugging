@@ -22,7 +22,7 @@
 
 ### 1-1. API 문서
 
-### https://documenter.getpostman.com/view/23952739/2s847JrX6f
+### https://www.notion.so/elice/FE-API-1fe25a59ca184e179896cdf9bb0dd7ee
 
 <br>
 

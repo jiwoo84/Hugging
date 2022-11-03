@@ -1,5 +1,6 @@
 import { categoryService } from "../services";
 import express from "express";
+import { loginRequired } from "../middlewares/login-required";
 const categoryRouter = express();
 
 categoryRouter.post("/", async (req, res, next) => {
@@ -39,6 +40,46 @@ categoryRouter.get("/", async (req, res, next) => {
       status: 200,
       msg: `${name}이름의 카테고리 리스트`,
       data: categoriesItems,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+categoryRouter.patch("/", loginRequired, async (req, res, next) => {
+  const currentRole = req;
+  const { name, index, currentName } = req.body;
+  if (currentRole !== "admin") {
+    return res.status(400).json({
+      msg: "카테고리는 관리자만 변경 가능합니다.",
+    });
+  }
+  try {
+    const updateCategory = categoryService.updateCategory({
+      name,
+      index,
+      currentName,
+    });
+    return res.status(201).json({
+      msg: "카테고리 변겅에 성공하였습니다.",
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+categoryRouter.delete("/", loginRequired, async (req, res, next) => {
+  const { currentRole } = req;
+  const { index, name } = req.body;
+  if (currentRole !== "admin") {
+    return res.status(400).json({
+      msg: "카테고리는 관리자만 변경 가능합니다.",
+    });
+  }
+
+  try {
+    const deleteCategory = categoryService.deleteCategory({ index, name });
+    return res.status(201).json({
+      msg: "카테고리가 정상적으로 삭제되었습니다.",
     });
   } catch (err) {
     next(err);

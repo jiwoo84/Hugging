@@ -43,7 +43,7 @@ function createDB(){
     const request = indexedDB.open(databaseName, version);
 
     request.onupgradeneeded = function () {
-      request.result.createObjectStore("items", { autoIncrement: true });
+      request.result.createObjectStore("items", { keyPath : "id" });
     };
     request.onsuccess = function () {};
     request.onerror = function (event) { alert(event.target.errorCode);}

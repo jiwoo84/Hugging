@@ -12,7 +12,7 @@ class UserService {
     const { email, name, password, address, phoneNumber } = userInfo;
     // 이메일 중복 확인
     const user = await User.findOne({ email });
-    if (user) {
+    if (user.email === email) {
       throw new Error(
         "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요."
       );
@@ -31,20 +31,6 @@ class UserService {
       phoneNumber,
     };
     // db에 저장
-
-    // 가입자가 관리자일 경우
-    if (name.includes("_admin")) {
-      const newUserInfo = {
-        name,
-        email,
-        password: hashedPassword,
-        address,
-        phoneNumber,
-        role: "admin",
-      };
-      const createdNewUser = await User.create(newUserInfo);
-      return createdNewUser;
-    }
 
     // 일반적인 가입
     const createdNewUser = await User.create(newUserInfo);
@@ -140,7 +126,7 @@ class UserService {
 
     // 이제, 정보 수정을 위해 사용자가 입력한 비밀번호가 올바른 값인지 확인해야 함
 
-    // 비밀번호 일치 여부 확인
+    // 기존비밀번호 일치 여부 확인
     const correctPasswordHash = user.password;
     const isPasswordCorrect = await bcrypt.compare(
       currentPassword,
@@ -153,7 +139,7 @@ class UserService {
       );
     }
 
-    // 이제 드디어 업데이트 시작
+    // *********************이제 드디어 업데이트 시작****************************
 
     // 비밀번호도 변경하는 경우에는, 회원가입 때처럼 해쉬화 해주어야 함.
     const { password } = toUpdate;
@@ -164,12 +150,20 @@ class UserService {
     }
 
     // 업데이트 진행
-    user = await this.userMo({
-      userId,
-      update: toUpdate,
-    });
+    const updateUser = await User.updateMany(
+      { userId },
+      {
+        toUpdate,
+      }
+    );
 
-    return user;
+    return updateUser;
+  }
+
+  async userDelete(_id) {
+    await User.findByIdAndDelete(_id);
+    console.log("유저가 떠났읍니다..");
+    return "유저가 떠났읍니다..";
   }
 }
 

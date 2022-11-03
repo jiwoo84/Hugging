@@ -17,6 +17,7 @@ main {
 
 .main-box {
   display: flex;
+  height: 100%;
 }
 
 .side-bar {
@@ -47,3 +48,33 @@ main {
 .thirdDiv {
   width: 33%;
 }
+
+.thirdDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+table,
+td,
+th {
+  border: 1px solid #333;
+}
+
+thead,
+tfoot {
+  background-color: rgb(219, 207, 190);
+  color: #fff;
+}
+
+#listImg {
+  width: 70px;
+}
+
+/* #productsListBox {
+  height: 100vh;
+  overflow: scroll;
+}
+
+#productDetailBox {
+  height: 40%;
+} */

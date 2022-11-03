@@ -92,7 +92,7 @@ userRouter.get(
 );
 
 userRouter.get("/mypage", loginRequired, async (req, res, next) => {
-  const { currentRole, currentUserId } = req;
+  const { currentRole, currentUserId, currentSosial } = req;
   if (currentRole === "user" || currentRole === "admin") {
     // 마이페이지 데이터 리턴
     const user = await userService.mypage(currentUserId);
@@ -101,6 +101,7 @@ userRouter.get("/mypage", loginRequired, async (req, res, next) => {
       msg: `${user.name}의 마이페이지`,
       name: user.name,
       data: user,
+      sosial: user.sosial,
     });
   } else if (req.currentRole === "admin") {
     // 관리자페이지 이동
@@ -109,7 +110,7 @@ userRouter.get("/mypage", loginRequired, async (req, res, next) => {
 
 // 사용자 정보 수정
 // (예를 들어 /api/users/abc12345 로 요청하면 req.params.userId는 'abc12345' 문자열로 됨)
-userRouter.patch("/users", loginRequired, async function (req, res, next) {
+userRouter.patch("/", loginRequired, async function (req, res, next) {
   try {
     // content-type 을 application/json 로 프론트에서
     // 설정 안 하고 요청하면, body가 비어 있게 됨.
@@ -121,7 +122,8 @@ userRouter.patch("/users", loginRequired, async function (req, res, next) {
 
     // jwt로부터 user id 가져옴
     const userId = req.curretUserId;
-
+    const sosial = req.currentSosial;
+    console.log(typeof sosial);
     // body data 로부터 업데이트할 사용자 정보를 추출함.
     const name = req.body.name;
     const password = req.body.password;
@@ -132,11 +134,14 @@ userRouter.patch("/users", loginRequired, async function (req, res, next) {
     const currentPassword = req.body.currentPassword;
 
     // currentPassword 없을 시, 진행 불가
-    if (!currentPassword) {
+    // 단, 소셜로그인한 사람이라면 그냥 지나감
+    if (sosial === true) {
+      console.log("소셜로그인인 사람임");
+    } else if (!currentPassword) {
       throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
     }
 
-    const userInfoRequired = { userId, currentPassword };
+    const userInfoRequired = { userId, currentPassword, sosial };
 
     // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
     // 보내주었다면, 업데이트용 객체에 삽입함.

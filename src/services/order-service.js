@@ -1,15 +1,21 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { Order } from "../db";
+import { Order, User } from "../db";
 class OrderService {
   // 본 파일의 맨 아래에서, new orderService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor() {}
   async newOrder(data) {
     const newOrder = await Order.create(data);
+    await User.updateOne(
+      { _id: data.buyer },
+      { $push: { orders: newOrder._id } }
+    );
     return newOrder;
   }
 
   async getOrderList(data) {
+    console.log("find orderList!  data :", data);
+    // 토큰에 관리자가 있다면 data 에 관리자가 들어옴
     if (data === "admin") {
       const orders = await Order.find({}) // 현재까지 주문한 모든 목록
         .populate("items.id")
@@ -42,10 +48,17 @@ class OrderService {
         result.push(obj);
       }
       return result;
-    } else {
-      const orders = await Order.find({ _id: data })
-        .populate("item")
-        .populate("buyer");
+    }
+    // 관리자가 아니라면 데이터에는 id가 들어오게 된다
+    else {
+      const orders = await User.findById(data).populate("orders");
+      let listArr = [];
+      let obj = {};
+      console.log(orders);
+      // for (let i = 0; i < orders.length; i++) {
+      //   const element = array[i];
+
+      // }
       return orders;
     }
   }

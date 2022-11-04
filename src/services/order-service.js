@@ -1,15 +1,21 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { Order } from "../db";
+import { Order, User } from "../db";
 class OrderService {
   // 본 파일의 맨 아래에서, new orderService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor() {}
   async newOrder(data) {
-    await Order.create(data);
-    return;
+    const newOrder = await Order.create(data);
+    await User.updateOne(
+      { _id: data.buyer },
+      { $push: { orders: newOrder._id } }
+    );
+    return newOrder;
   }
 
   async getOrderList(data) {
+    console.log("find orderList!  data :", data);
+    // 토큰에 관리자가 있다면 data 에 관리자가 들어옴
     if (data === "admin") {
       const orders = await Order.find({}) // 현재까지 주문한 모든 목록
         .populate("items.id")
@@ -42,41 +48,57 @@ class OrderService {
         result.push(obj);
       }
       return result;
-    } else {
-      const orders = await Order.find({ _id: data })
-        .populate("item")
-        .populate("buyer");
+    }
+    // 관리자가 아니라면 데이터에는 id가 들어오게 된다
+    else {
+      const orders = await User.findById(data).populate("orders");
+      let listArr = [];
+      let obj = {};
+      console.log(orders);
+      // for (let i = 0; i < orders.length; i++) {
+      //   const element = array[i];
+
+      // }
       return orders;
     }
   }
 
   async orderCancel(data) {
     const { id, currentRole } = data;
+    // 토큰 권한이 관리자일때 수정로직
     if (currentRole === "admin") {
-      await Order.updateMany(
-        { _id: id },
-        {
-          deliveryStatus: "관리자에 의한 주문취소",
-          orderStatus: "수정불가",
-        }
-      );
-      return;
-    } else {
-      await Order.updateMany(
-        { _id: id },
-        {
-          deliveryStatus: "주문취소",
-          orderStatus: "수정불가",
-        }
-      );
-      return;
+      // 요청받은 주문번호가 수정가능한 상태인지 체크
+      const statusCheck = await Order.findById({ _id: id });
+      if (statusCheck.orderStatus === "수정가능") {
+        await Order.updateMany(
+          { _id: id },
+          {
+            deliveryStatus: "관리자에 의한 주문취소",
+            orderStatus: "수정불가",
+          }
+        );
+        return;
+      } else {
+        await Order.updateMany(
+          { _id: id },
+          {
+            deliveryStatus: "주문취소",
+            orderStatus: "수정불가",
+          }
+        );
+        return;
+      }
     }
   }
-  async orderSend(_id) {
-    await Order.updateMany(
-      { _id },
-      { deliveryStatus: "발송완료", orderStatus: "수정불가" }
-    );
+  // 수정 이유가 배송상태 변경일 경우 함수
+  async orderSend(data) {
+    const { id, reson } = data;
+    // 배송상태변경
+    await Order.updateMany({ _id: id }, { deliveryStatus: reson });
+    // 만약 배송상태가 배송완료라면, 더이상 수정할수 없게 만듬.
+    if (reson === "배송완료") {
+      await Order.updateMany({ _id: id }, { orderStatus: "수정불가" });
+    }
     return;
   }
 }

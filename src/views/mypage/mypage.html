@@ -9,19 +9,16 @@
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="/elice-rabbit-favicon.png"
-    />
+      href="/elice-rabbit-favicon.png" />
     <!-- bulma css -->
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
-    />
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
     <!-- 폰트 어썸: 아이콘 -->
     <script
       defer
       src="https://kit.fontawesome.com/9daa42bcef.js"
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous"></script>
     <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="mypage.css" />
     <script src="mypage.js" type="module" defer></script>
@@ -35,7 +32,11 @@
   <body>
     <!-- 헤더 삽입 -->
     <script>
-      loadHTML("../public/header/header.html");
+      if (sessionStorage.getItem("loggedIn") === "true") {
+        loadHTML("../public/header/loggedInHeader.html");
+      } else {
+        loadHTML("../public/header/header.html");
+      }
     </script>
 
     <main class="container">
@@ -49,12 +50,37 @@
       </div>
 
       <div class="buttons">
-        <button class="buttons__order-check button is-light">주문 조회</button>
+        <button id="findOrder" class="buttons__order-check button is-light">
+          주문 조회
+        </button>
         <button class="buttons__modyfing-info button is-light">
           정보 수정
         </button>
         <button class="buttons__Withdrawal button is-light">회원 탈퇴</button>
       </div>
+
+      <section id="mypage__findContainer">
+        <div>
+          <h2>주문 조회</h2>
+          <p>주문내역</p>
+          <!-- 리스트들은 아래 div의 html임 -->
+          <div></div>
+          <!-- 여기서부터추가되는디브임 -->
+          <div>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSThD05wMOmwEeu3Vbe94JDBhWpHBnB--VXXA&usqp=CAU" />
+            <div>
+              <p>의자</p>
+              <span>150000</span><span>| 날짜</span>
+              <p>배송준비중</p>
+            </div>
+            <div>
+              <button>주문 취소</button>
+            </div>
+          </div>
+          <!-- 여기까지 -->
+        </div>
+      </section>
     </main>
 
     <!-- footer 삽입-->

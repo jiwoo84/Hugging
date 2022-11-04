@@ -23,8 +23,12 @@ class ItemService {
   }
   // newItems와 bestItems 를 리턴하는 함수
   async homeFindItems() {
-    const bestItems = await Item.find({}).sort({ sales: -1 }).limit(8);
-    const newItems = await Item.find({}).sort({ createdAt: -1 }).limit(3);
+    const bestItems = await Item.find({ onSale: true })
+      .sort({ sales: -1 })
+      .limit(8);
+    const newItems = await Item.find({ onSale: true })
+      .sort({ createdAt: -1 })
+      .limit(3);
     return { newItems, bestItems };
   }
 
@@ -33,6 +37,26 @@ class ItemService {
     //id값을 받아 해당 id의 아이템 정보 리턴
     const findItem = await Item.findById({ _id: findId });
     return findItem;
+  }
+
+  //상품 지우거나 숨김 처리
+  async deleteItem(deleteId) {
+    const findId = await Item.findById(deleteId);
+
+    if (findId.sales === 0) {
+      // 만약 판매량이 0이라면, 해당 제품은 삭제
+      await Item.findByIdAndDelete({ _id: deleteId });
+      return "정상적으로 삭제 되었습니다.";
+    } else {
+      // 만약 판매량이 0이 아니라면 onSale을 false로 변경, (구매목록에서의 삭제를 방지)
+      await Item.findByIdAndUpdate({ _id: deleteId }, { onSale: false });
+      return "구매자가 존재해 숨김처리 되었습니다.";
+    }
+  }
+
+  //상품 수정
+  async updateItem(findItemId, toUpdate) {
+    return await Item.updateMany({ _id: findItemId }, toUpdate);
   }
 }
 

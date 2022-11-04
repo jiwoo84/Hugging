@@ -10,3 +10,8 @@ async function getName() {
 
   welcomeMessage.innerText = `${username}님 반갑습니다`;
 }
+
+const findOrder = document.getElementById("findOrder");
+const find_order = async () => {};
+
+findOrder.addEventListener("click", find_order);

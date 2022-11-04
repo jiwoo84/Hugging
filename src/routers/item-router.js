@@ -4,6 +4,8 @@ import { loginRequired } from "../middlewares";
 import { itemService } from "../services/";
 
 const itemRouter = express();
+
+// 상품 추가
 itemRouter.post("/", loginRequired, async (req, res, next) => {
   const data = req.body;
   try {
@@ -18,6 +20,7 @@ itemRouter.post("/", loginRequired, async (req, res, next) => {
   }
 });
 
+// 전체상품 조회 - 홈화면
 itemRouter.get("/", async (req, res, next) => {
   try {
     const { newItems, bestItems } = await itemService.homeFindItems();
@@ -31,6 +34,8 @@ itemRouter.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
+// 왜 만들었지/./.? 조회인거 같음.
 itemRouter.get("/admin", loginRequired, async (req, res, next) => {
   if (req.currentRole !== "admin") {
     return res.status(400).json({
@@ -50,6 +55,38 @@ itemRouter.get("/admin", loginRequired, async (req, res, next) => {
   }
 });
 
+//관리자 주문 수정
+itemRouter.patch("/:id", loginRequired, async (req, res, next) => {
+  const findItemId = req.params.id;
+  const { currentRole } = req;
+  const { name, category, price, imageUrl, itemDetail, onSale } = req.body;
+  if (currentRole !== "admin") {
+    return res.status(400).json({
+      status: 400,
+      msg: "잘못된 접근입니다. (관리자가 아닙니다)",
+    });
+  }
+
+  try {
+    const toUpdate = {
+      ...(name && { name }),
+      ...(category && { category }),
+      ...(price && { price }),
+      ...(imageUrl && { imageUrl }),
+      ...(itemDetail && { itemDetail }),
+      ...(onSale && { onSale }),
+    };
+
+    const updateItem = await itemService.updateItem(findItemId, toUpdate);
+    return res.status(201).json({
+      status: 201,
+      msg: "상품이 정상적으로 변경 되었습니다.",
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 //상품 상세 페이지 라우팅
 itemRouter.get("/:id", async (req, res, next) => {
   const findId = req.params.id;
@@ -63,6 +100,27 @@ itemRouter.get("/:id", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+//상품 지우거나 숨김처리
+itemRouter.delete("/:id", loginRequired, async (req, res, next) => {
+  console.log(req.currentRole);
+
+  if (req.currentRole == "admin") {
+    const findId = req.params.id;
+    try {
+      const deleteItemData = await itemService.deleteItem(findId);
+      return res.status(201).json({
+        status: 201,
+        msg: deleteItemData,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+  return res.status(400).json({
+    msg: "잘못된 접근입니다. (관리자가 아닙니다)",
+  });
 });
 
 export { itemRouter };

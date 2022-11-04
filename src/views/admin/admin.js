@@ -169,7 +169,9 @@ async function clickedItem() {
     <td>${productObj.category}</td>
     <td>${productObj.price}</td>
     <td>
-      <img src=${productObj.imageUrl} id="listImg"/>
+      <img src=${productObj.imageUrl} alt="${
+      productObj.name
+    } 사진" id="listImg"/>
     </td>
     <td>${productObj.createdAt.slice(0, 10)}</td>
     <td>${productObj.sales}</td>
@@ -203,7 +205,7 @@ async function clickedItem() {
     });
   });
 
-  // 상품 수정
+  // 상품 수정 (여기서부터 코치님 조언대로 DocumentFragment 사용해봄)
   const productModifyBtn = document.querySelectorAll(".productModifyBtn");
   const productDetailBox = document.querySelector("#productDetailBox");
 
@@ -211,11 +213,43 @@ async function clickedItem() {
     btn.addEventListener("click", async () => {
       // 아래에 페이지 추가로 생성
       const id = btn.id;
-      const productInfo = await Api.get(`/api/items`, id);
-      console.log(productInfo);
-      // productDetailBox.innerHTML = `
-      //   <p></p>
-      // `
+      const productInfo = await Api.get(`/api/items/${id}`);
+
+      // DOM 요소 생성
+      let fragment = new DocumentFragment();
+      let table = document.createElement("table");
+
+      let nameT = document.createElement("tr");
+      let namdTd = document.createElement("td");
+      nameTd.innerText = productInfo.name;
+      nameTr.appendChild(nameTd);
+
+      let categoryTr = document.createElement("tr");
+      let categoryTd = document.createElement("td");
+      categoryTd.innerText = productInfo.name;
+      categoryTr.appendChild(nameTd);
+
+      productDetailTable.innerHTML = `
+        <table>
+          <tr>
+            <td>이름</td>
+            <td>${productInfo.name}</td>
+          </tr>
+          <tr>
+            <td>카테고리</td>
+            <td>${productInfo.category}</td>
+          </tr>
+          <tr>
+            <td>이미지</td>
+            <td><img src=${productObj.imageUrl} alt="${productObj.name} 사진"/></td>
+          </tr>
+          <tr>
+            <td>이름</td>
+            <td>${productInfo.name}</td>
+          </tr>
+        </table>
+      `;
+
       // 거기에 레이아웃 만들어서 데이터 + 수정버튼 뿌림
       // 수정 버튼 누르면 input 만들어지게 함
     });

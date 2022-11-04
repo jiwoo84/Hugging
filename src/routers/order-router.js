@@ -4,9 +4,26 @@ import { orderService } from "../services";
 const orderRouter = express();
 
 orderRouter.post("/", async (req, res, next) => {
-  const data = req.body; //data {email, name, items[{의자,6개},나무,] 최종결제금액:90000 }
+  const {
+    name,
+    address,
+    phoneNumber,
+    deliveryMsg,
+    items,
+    payMethod,
+    totalPrice,
+  } = req.body; //data {email, name, items[{의자,6개},나무,] 최종결제금액:90000 }
+
   try {
-    await orderService.newOrder(data);
+    await orderService.newOrder({
+      name,
+      address,
+      phoneNumber,
+      deliveryMsg,
+      items,
+      payMethod,
+      totalPrice,
+    });
     return res.status(201).json({
       stauts: 201,
       msg: "ㅋㅋ 만들어짐",

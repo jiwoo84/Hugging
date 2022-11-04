@@ -3,13 +3,34 @@ import { adminRequired, loginRequired } from "../middlewares/login-required";
 import { orderService } from "../services";
 const orderRouter = express();
 
-orderRouter.post("/", async (req, res, next) => {
-  const data = req.body; //data {email, name, items[{의자,6개},나무,] 최종결제금액:90000 }
+// 주문 하기
+orderRouter.post("/", loginRequired, async (req, res, next) => {
+  const { currentUserId } = req;
+  const {
+    name,
+    address,
+    phoneNumber,
+    deliveryMsg,
+    items,
+    payMethod,
+    totalPrice,
+  } = req.body; //data {email, name, items[{의자,6개},나무,] 최종결제금액:90000 }
+
   try {
-    await orderService.newOrder(data);
+    const newOrder = await orderService.newOrder({
+      name,
+      address,
+      phoneNumber,
+      deliveryMsg,
+      items,
+      payMethod,
+      totalPrice,
+      buyer: currentUserId,
+    });
     return res.status(201).json({
       stauts: 201,
       msg: "ㅋㅋ 만들어짐",
+      data: newOrder,
     });
   } catch (err) {
     next(err);
@@ -63,11 +84,11 @@ orderRouter.patch("/", loginRequired, async (req, res, next) => {
       } catch (err) {
         next(err);
       }
-    } else if (reson === "orderSend") {
-      await orderService.orderSend(id);
+    } else {
+      await orderService.orderSend({ id, reson });
       return res.status(200).json({
         status: 200,
-        msg: "발송",
+        msg: `배송상태 ${reson} 로 변경`,
       });
     }
   }

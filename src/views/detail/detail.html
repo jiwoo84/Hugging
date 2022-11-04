@@ -10,15 +10,19 @@
     <script src="detail.js" type="module" defer></script>
 		
 		<!-- 커스텀 css, js -->
-		<link rel="stylesheet" href="home.css" />
+	<link rel="stylesheet" href="./detail.css" />
     <link rel="stylesheet" href="../public/header/header.css" />
     <link rel="stylesheet" href="../public/footer/footer.css"/>
-    <script src="./home.js" type="module"></script>
-    <script src="./move.js" ></script>
     <script src="../public/loadHTML.js" type="text/javascript"></script>
-  </head>
-  <body>
-		<script>loadHTML("../public/header/header.html")</script>
+	</head>
+	<body>
+		<script>
+			if (sessionStorage.getItem("loggedIn") === "true") {
+				loadHTML("../public/header/loggedInHeader.html");
+			} else {
+				loadHTML("../public/header/header.html");
+			}
+		</script>
 
 		<main class="main">
 			<div class="container">
@@ -43,9 +47,9 @@
 						</div>
 						<div class="orderInfo">
 							<div class="count">
+								<button class="minus">-</button>
+								<p class="salseCount">1</p>
 								<button class="plus">+</button>
-								<p>1</p>
-								<button class="plus">-</button>
 							</div>
 							<div class="sellInfo">
 								<button class="moveTocart">장바구니담기</button>

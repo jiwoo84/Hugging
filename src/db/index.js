@@ -13,7 +13,7 @@ const db = mongoose.connection;
 db.on("connected", async () => {
   console.log("정상적으로 MongoDB 서버에 연결되었습니다.  " + DB_URL);
   await Item.deleteMany({});
-  await User.deleteMany({});
+  await User.deleteOne({ name: "관리자" });
   await Order.deleteMany({});
   const admin = await User.insertMany([
     {

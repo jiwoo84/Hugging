@@ -1,6 +1,7 @@
 import * as Api from "/api.js";
 // 관리자가 아니라면 튕겨내는 기능 구현 예정
 const bigDiv = document.querySelector("#list-box");
+
 const orderBtn = document.querySelector("#orderBtn");
 const itemBtn = document.querySelector("#itemsBtn");
 const categoryBtn = document.querySelector("#categoryBtn");
@@ -50,6 +51,7 @@ async function clickedOrder() {
     shippingState.innerText = data[i].배송상태;
     shippingState.id = "shippingState";
     ul.appendChild(shippingState);
+
     // firstDiv-itemsDiv li 마지막에 요청메세지(배송메시지) 추가
     const shippingMessage = document.createElement("li");
     shippingMessage.innerText = data[i].요청사항;
@@ -159,6 +161,7 @@ async function clickedItem() {
   const data = await Api.get("/api/items/admin");
   // 리스트가 들어갈 표의 body
   const tableBody = document.querySelector("#tableBody");
+
   // 상품 리스트 출력하기
   for (let i = 0; i < data.data.length; i++) {
     const productObj = data.data[i];

@@ -115,6 +115,7 @@ db.on("connected", async () => {
     {
       deliveryStatus: "발송완료",
       orderStatus: "수정불가",
+      deliveryMsg: "ㅋㅋ 이건 요청사항임",
       items: [
         {
           id: fakeItems[0]._id,
@@ -139,6 +140,7 @@ db.on("connected", async () => {
     {
       deliveryStatus: "배송준비중",
       orderStatus: "수정가능",
+      deliveryMsg: "ㅋㅋ 이건 요청사항임2",
       items: [
         {
           id: fakeItems[4]._id,
@@ -163,6 +165,7 @@ db.on("connected", async () => {
     {
       deliveryStatus: "배송준비중",
       orderStatus: "수정가능",
+      deliveryMsg: "ㅋㅋ 이건 요청사항임3",
       items: [
         {
           id: fakeItems[1]._id,

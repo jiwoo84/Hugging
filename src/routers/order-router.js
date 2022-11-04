@@ -3,7 +3,9 @@ import { adminRequired, loginRequired } from "../middlewares/login-required";
 import { orderService } from "../services";
 const orderRouter = express();
 
-orderRouter.post("/", async (req, res, next) => {
+// 주문 하기
+orderRouter.post("/", loginRequired, async (req, res, next) => {
+  const { currentUserId } = req;
   const {
     name,
     address,
@@ -23,6 +25,7 @@ orderRouter.post("/", async (req, res, next) => {
       items,
       payMethod,
       totalPrice,
+      buyer: currentUserId,
     });
     return res.status(201).json({
       stauts: 201,

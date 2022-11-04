@@ -110,6 +110,20 @@ db.on("connected", async () => {
       onSale: true,
     },
   ]);
+  await Category.insertMany([
+    {
+      name: "홈",
+      index: 1,
+    },
+    {
+      name: "오피스",
+      index: 2,
+    },
+    {
+      name: "아웃도어",
+      index: 3,
+    },
+  ]);
   await Order.insertMany([
     {
       deliveryStatus: "발송완료",

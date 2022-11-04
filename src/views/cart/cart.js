@@ -4,9 +4,15 @@ const clearbtns = document.querySelector(".clear-btn-container");
 const clearAllBtn = document.querySelector(".clear-all");
 const clearSelectBtn = document.querySelector(".clear-select");
 const purchaseBtn = document.querySelector(".moveTopurchase");
+
 let totalPrice = 0;
 
 getIdxedDBValues();
+
+
+function setTotalPrice(totalPrice){
+    localStorage.setItem("TotalPrice", totalPrice);
+}
 
 // rendering
 function createPost(item,key) {
@@ -99,6 +105,7 @@ function getTotalPrice(key){
     totalPrice += price;
     console.log("total:"+totalPrice);
     const msg = `${totalPrice}원 결제하기`;
+    setTotalPrice(totalPrice);
     purchaseBtn.value = msg;
 }
 

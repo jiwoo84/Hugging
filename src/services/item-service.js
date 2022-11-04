@@ -56,7 +56,7 @@ class ItemService {
 
   //상품 수정
   async updateItem(findItemId, toUpdate) {
-    return await Item.updateMany({ findItemId }, toUpdate);
+    return await Item.updateMany({ _id: findItemId }, toUpdate);
   }
 }
 

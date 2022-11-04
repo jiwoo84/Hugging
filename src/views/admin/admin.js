@@ -142,6 +142,7 @@ async function clickedItem() {
           <th>이미지</th>
           <th>생성날짜</th>
           <th>현재판매량</th>
+          <th>게시상태</th>
           <th>상세내용</th>
         </tr>
       </thead>
@@ -158,7 +159,7 @@ async function clickedItem() {
 
   for (let i = 0; i < data.data.length; i++) {
     const productObj = data.data[i];
-    console.log(productObj);
+    // console.log(productObj);
     // 한 행 생성
     const tr = document.createElement("tr");
     tr.id = productObj._id;
@@ -172,6 +173,15 @@ async function clickedItem() {
     </td>
     <td>${productObj.createdAt.slice(0, 10)}</td>
     <td>${productObj.sales}</td>
+    `;
+    // 판매량이 있는데 삭제 요청하면, 판매중 / 판매량 없으면 바로 삭제
+    if (productObj.onSale) {
+      tr.innerHTML += "<td>판매중</td>";
+    } else {
+      tr.innerHTML += "<td>판매중지</td>";
+    }
+
+    tr.innerHTML += `
     <td>${productObj.itemDetail}</td>
     <td>
       <button id=${productObj._id} class="productModifyBtn">상품수정</button>
@@ -187,8 +197,8 @@ async function clickedItem() {
   productDelBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const id = btn.id;
-      const res = await Api.delete(`api/items/${id}`);
-      console.log(res.msg);
+      const res = await Api.delete(`/api/items/${id}`);
+      alert(res.msg);
       clickedItem();
     });
   });
@@ -201,7 +211,7 @@ async function clickedItem() {
     btn.addEventListener("click", async () => {
       // 아래에 페이지 추가로 생성
       const id = btn.id;
-      const productInfo = await Api.get(`api/items`, id);
+      const productInfo = await Api.get(`/api/items`, id);
       console.log(productInfo);
       // productDetailBox.innerHTML = `
       //   <p></p>

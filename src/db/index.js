@@ -120,7 +120,7 @@ db.on("connected", async () => {
       index: 2,
     },
     {
-      name: "홈",
+      name: "아웃도어",
       index: 3,
     },
   ]);

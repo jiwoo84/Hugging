@@ -187,7 +187,7 @@ async function clickedItem() {
   productDelBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const id = btn.id;
-      const res = await Api.delete(`api/items/${id}`);
+      const res = await Api.delete(`/api/items/${id}`);
       console.log(res.msg);
       clickedItem();
     });
@@ -201,7 +201,7 @@ async function clickedItem() {
     btn.addEventListener("click", async () => {
       // 아래에 페이지 추가로 생성
       const id = btn.id;
-      const productInfo = await Api.get(`api/items`, id);
+      const productInfo = await Api.get(`/api/items`, id);
       console.log(productInfo);
       // productDetailBox.innerHTML = `
       //   <p></p>

@@ -16,7 +16,13 @@
     <script src="../public/loadHTML.js" type="text/javascript"></script>
   </head>
   <body>
-		<script>loadHTML("../public/header/header.html")</script>
+		<script>
+			if (sessionStorage.getItem("loggedIn") === "true") {
+				loadHTML("../public/header/loggedInHeader.html");
+			} else {
+				loadHTML("../public/header/header.html");
+			}
+		</script>
 
 		<main class="main">
 			<div class="container">

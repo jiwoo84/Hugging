@@ -34,6 +34,7 @@ const kakao_finish = async () => {
   const body = { access_token };
   const result = await Api.post(`${MY_DOMAIN}/api/sosial/kakao`, body);
   sessionStorage.setItem("token", result.accessToken);
+  sessionStorage.setItem("loggedIn", "true");
   alert("카카오 로그인 완료");
   window.location.href = "/";
 };

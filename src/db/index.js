@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Category } from "./models/category-model";
 import { Item } from "./models/item-model";
 import { Order } from "./models/order-model";
 import { User } from "./models/user-model";
@@ -15,6 +16,7 @@ db.on("connected", async () => {
   await Item.deleteMany({});
   await User.deleteOne({ name: "관리자" });
   await Order.deleteMany({});
+  await Category.deleteMany({});
   const admin = await User.insertMany([
     {
       email: "admin@hugging.com",
@@ -182,6 +184,33 @@ db.on("connected", async () => {
       totalPrice: 50530,
     },
   ]);
+  let arr = [];
+  const homeItems = await Item.find({ category: "홈" });
+  for (let i = 0; i < homeItems.length; i++) {
+    if (homeItems[i]._id) {
+      arr.push(homeItems[i]._id);
+    }
+  }
+  await Category.create({
+    name: "홈",
+    index: 400,
+    items: arr,
+  });
+  console.log(arr);
+  arr = [];
+  const officeItems = await Item.find({ category: "오피스" });
+  for (let i = 0; i < officeItems.length; i++) {
+    if (officeItems[i]._id) {
+      arr.push(officeItems[i]._id);
+    }
+  }
+  console.log(arr);
+  await Category.create({
+    name: "오피스",
+    index: 460,
+    items: arr,
+  });
+  arr = [];
 });
 db.on("error", (error) =>
   console.error("\nMongoDB 연결에 실패하였습니다...\n" + DB_URL + "\n" + error)

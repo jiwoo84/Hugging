@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Hugging</title>
+        <!-- 아이콘 -->
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/elice-rabbit-favicon.png"
+        />
+        <!-- bulma css -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+        />
+        <!-- 폰트 어썸: 아이콘 -->
+        <script
+            defer
+            src="https://kit.fontawesome.com/9daa42bcef.js"
+            crossorigin="anonymous"
+        ></script>
+        <!-- 커스텀 css, js -->
+        <link rel="stylesheet" href="cart.css" />
+        <script src="./order.js" type="module"></script>
+        <link rel="stylesheet" href="../public/header/header.css" />
+        <link rel="stylesheet" href="../public/footer/footer.css" />
+        <script src="../public/loadHTML.js" type="text/javascript"></script>
+    </head>
+
+    <body>
+        <script>
+            if (sessionStorage.getItem("loggedIn") === "true") {
+            loadHTML("../public/header/loggedInHeader.html");
+            } else {
+            loadHTML("../public/header/header.html");
+            }
+        </script>
+
+
+        <main>
+            <h1>주문/결제</h1>
+            <br>
+            <div>
+                <div class="orderedMan">주문자</div>
+            </div>
+            <br>
+            <div>
+                <div class="orderedAdress">배송지</div>
+
+                <div>
+                    <p>배송메세지</p>
+                    <select class="deliveryMsg"> 
+                        <option name="msg">배송메세지를 선택하세요.</option>
+                        <option name="msg">도착전 전화해주세요.</option>
+                        <option name="msg">부재시 문자남겨주세요.</option>
+                        <option name="msg">경비실에 맡겨주세요.</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="productContainer">
+                <p>주문상품</p>
+            </div>
+            <br>
+            <div class="totalPrice">
+                <p>결제금액</p>
+
+            </div>
+            <br>
+            <div>
+                <h2>결제수단</h2>
+                <button>신용카드</button>
+                <button>무통장입금</button>
+            </div>
+            <br>
+            <div class="btnGroup">
+                <button class = "purchase">주문하기</button>
+                <button class = "moveToCart">장바구니로 돌아가기</button>
+            </div>
+
+        </main>
+
+        <script>
+            loadHTML("../public/footer/footer.html");
+        </script>
+    </body>
+</html>

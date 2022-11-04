@@ -11,7 +11,7 @@ const plusBtn = document.querySelector(".plus");
 const minusBtn = document.querySelector(".minus");
 const salseCount = document.querySelector(".salseCount");
 
-let id; 
+let id;
 
 getDataFromApi();
 
@@ -33,17 +33,20 @@ minusBtn.addEventListener("click" , ()=>{
 });
 
 // 상세페이지 데이터 get api
-async function getDataFromApi(){
-    console.log('id : '+ localStorage.getItem("itemDetail"));
-    const res = await Api.get('/api/items',`${localStorage.getItem("itemDetail")}`);
-    const {_id,name,category,price,imageUrl,itemDetail} = res.data;
+async function getDataFromApi() {
+  console.log("id : " + localStorage.getItem("itemDetail"));
+  const res = await Api.get(
+    "/api/items",
+    `${localStorage.getItem("itemDetail")}`
+  );
+  const { _id, name, category, price, imageUrl, itemDetail } = res.data;
 
-    id = _id;
-    itemname.innerHTML = name;
-    itemcategory.innerHTML = category;
-    itemprice.innerHTML = price;
-    itemimg.src = imageUrl;
-    details.innerHTML=itemDetail;
+  id = _id;
+  itemname.innerHTML = name;
+  itemcategory.innerHTML = category;
+  itemprice.innerHTML = price;
+  itemimg.src = imageUrl;
+  details.innerHTML = itemDetail;
 }
 
 // 상세페이지에서 indexedDB에 DB생성 및 데이터 저장
@@ -89,26 +92,25 @@ function saveData(salseCount,storeName){
     }
 }
 
-function isExist(data,objStore){
-    const requesExists = objStore.get(`${data.id}`);
-    requesExists.onerror= function(event){}
-    requesExists.onsuccess = function(event) { 
-        const record = event.target.result;
-        if(record === undefined){ 
-            objStore.add(data);
-        }
-        else{
-            record.sales += 1;
-            var requestUpdate = objStore.put(record);
-            requestUpdate.onerror = function(event) {
-                // Do something with the error
-            };
-            requestUpdate.onsuccess = function(event) {
-                // Success - the data is updated!
-                console.log("중복상품 수량증가");
-            };
-        }
+function isExist(data, objStore) {
+  const requesExists = objStore.get(`${data.id}`);
+  requesExists.onerror = function (event) {};
+  requesExists.onsuccess = function (event) {
+    const record = event.target.result;
+    if (record === undefined) {
+      objStore.add(data);
+    } else {
+      record.sales += 1;
+      var requestUpdate = objStore.put(record);
+      requestUpdate.onerror = function (event) {
+        // Do something with the error
+      };
+      requestUpdate.onsuccess = function (event) {
+        // Success - the data is updated!
+        console.log("중복상품 수량증가");
+      };
     }
+  };
 }
 
 //carBtn listener
@@ -134,4 +136,7 @@ buyNowBtn.addEventListener("click", function () {
     else{
         alert("로그인을 먼저 해주세요.");
     }
+  } else {
+    alert("로그인을 먼저 해주세요.");
+  }
 });

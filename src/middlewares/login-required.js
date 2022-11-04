@@ -50,7 +50,7 @@ function loginRequired(req, res, next) {
     console.log("서비스 사용 요청이 있습니다.하지만, Authorization 토큰: 없음");
     res.status(403).json({
       result: "forbidden-approach",
-      reason: "로그인한 유저만 사용할 수 있는 서비스입니다.",
+      msg: "로그인한 유저만 사용할 수 있는 서비스입니다.",
     });
 
     return;
@@ -73,7 +73,7 @@ function loginRequired(req, res, next) {
     // 403 코드로 JSON 형태로 프론트에 전달함.
     res.status(403).json({
       result: "forbidden-approach",
-      reason: "정상적인 토큰이 아닙니다.",
+      msg: "정상적인 토큰이 아닙니다.",
     });
 
     return;

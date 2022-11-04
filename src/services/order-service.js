@@ -44,6 +44,7 @@ class OrderService {
           전화번호: orders[i].buyer.phoneNumber,
           주소: orders[i].buyer.address,
           수정: orders[i].orderStatus,
+          요청사항: orders[i].deliveryMsg,
         };
         result.push(obj);
       }

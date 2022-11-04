@@ -39,31 +39,48 @@
             }
         </script>
 
-        <h1>주문/결제</h1>
 
         <main>
+            <h1>주문/결제</h1>
+            <br>
             <div>
                 <div class="orderedMan">주문자</div>
             </div>
+            <br>
             <div>
                 <div class="orderedAdress">배송지</div>
 
-                <div>배송메세지
-                    <select>
-                        <option>도착전 전화해주세요.</option>
-                        <option>부재시 문자남겨주세요.</option>
-                        <option>경비실에 맡겨주세요.</option>
+                <div>
+                    <p>배송메세지</p>
+                    <select class="deliveryMsg"> 
+                        <option name="msg">배송메세지를 선택하세요.</option>
+                        <option name="msg">도착전 전화해주세요.</option>
+                        <option name="msg">부재시 문자남겨주세요.</option>
+                        <option name="msg">경비실에 맡겨주세요.</option>
                     </select>
                 </div>
             </div>
-            <div>
+            <br>
+            <div class="productContainer">
                 <p>주문상품</p>
             </div>
-            <h2>결제수단</h2>
-            <button>신용카드</button>
-            <button>무통장입금</button>
-            <button>주문하기</button>
-            <button class="moveToCart">장바구니로 돌아가기</button>
+            <br>
+            <div class="totalPrice">
+                <p>결제금액</p>
+
+            </div>
+            <br>
+            <div>
+                <h2>결제수단</h2>
+                <button>신용카드</button>
+                <button>무통장입금</button>
+            </div>
+            <br>
+            <div class="btnGroup">
+                <button class = "purchase">주문하기</button>
+                <button class = "moveToCart">장바구니로 돌아가기</button>
+            </div>
+
         </main>
 
         <script>

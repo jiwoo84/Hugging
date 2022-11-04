@@ -26,7 +26,7 @@
         <link rel="stylesheet" href="cart.css" />
         <script src="./order.js" type="module"></script>
         <link rel="stylesheet" href="../public/header/header.css" />
-        <link rel="styles   heet" href="../public/footer/footer.css" />
+        <link rel="stylesheet" href="../public/footer/footer.css" />
         <script src="../public/loadHTML.js" type="text/javascript"></script>
     </head>
 
@@ -43,10 +43,18 @@
 
         <main>
             <div>
-                <p>주문자</p>
+                <div class="orderedMan">주문자</div>
             </div>
             <div>
-                <p>배송지</p>
+                <div class="orderedAdress">배송지</div>
+
+                <div>배송메세지
+                    <select>
+                        <option>도착전 전화해주세요.</option>
+                        <option>부재시 문자남겨주세요.</option>
+                        <option>경비실에 맡겨주세요.</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <p>주문상품</p>
@@ -55,7 +63,7 @@
             <button>신용카드</button>
             <button>무통장입금</button>
             <button>주문하기</button>
-            <button>장바구니로 돌아가기</button>
+            <button class="moveToCart">장바구니로 돌아가기</button>
         </main>
 
         <script>

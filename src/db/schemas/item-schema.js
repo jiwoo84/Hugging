@@ -7,15 +7,11 @@ const itemSchema = new Schema({
   category: String,
   // 가격
   price: Number,
-  //아이템 상세정보
-  itemDetail: String,
   // 이미지
   imageUrl: String,
   // 판매량
   sales: Number,
   createdAt: { type: Date, default: Date.now },
-  //판매중 true, 판매중지 false
-  onSale: Boolean,
 });
 
 export { itemSchema };

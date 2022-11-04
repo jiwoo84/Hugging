@@ -13,9 +13,9 @@ async function get(endpoint, params = "") {
   // 응답 코드가 4XX 계열일 때 (400, 403 등)
   if (!res.ok) {
     const errorContent = await res.json();
-    const { msg } = errorContent;
+    const { reason } = errorContent;
 
-    throw new Error(msg);
+    throw new Error(reason);
   }
 
   const result = await res.json();
@@ -47,9 +47,9 @@ async function post(endpoint, data) {
   // 응답 코드가 4XX 계열일 때 (400, 403 등)
   if (!res.ok) {
     const errorContent = await res.json();
-    const { msg } = errorContent;
+    const { reason } = errorContent;
 
-    throw new Error(msg);
+    throw new Error(reason);
   }
 
   const result = await res.json();
@@ -79,10 +79,11 @@ async function patch(endpoint, params = "", data) {
   // 응답 코드가 4XX 계열일 때 (400, 403 등)
   if (!res.ok) {
     const errorContent = await res.json();
-    const { msg } = errorContent;
+    const { reason } = errorContent;
 
-    throw new Error(msg);
+    throw new Error(reason);
   }
+
   const result = await res.json();
 
   return result;
@@ -109,9 +110,9 @@ async function del(endpoint, params = "", data = {}) {
   // 응답 코드가 4XX 계열일 때 (400, 403 등)
   if (!res.ok) {
     const errorContent = await res.json();
-    const { msg } = errorContent;
+    const { reason } = errorContent;
 
-    throw new Error(msg);
+    throw new Error(reason);
   }
 
   const result = await res.json();

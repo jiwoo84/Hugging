@@ -6,32 +6,6 @@ import { userService } from "../services";
 import { itemService } from "../services/item-service";
 
 const userRouter = express();
-// jwt 검증만 하는 라우터
-userRouter.get("/authority", (req, res) => {
-  const userToken = req.headers["authorization"]?.split(" ")[1];
-  if (!userToken) {
-    return res.status(400).json({
-      status: 200,
-      msg: "토큰이 없어요, 이 창구는 권한 및 로그인 체크하는 곳입니다.\n토큰발급후 시도해주세요",
-    });
-  }
-  try {
-    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
-    const jwtDecoded = jwt.verify(userToken, secretKey);
-    const { role, sosial } = jwtDecoded;
-    return res.status(200).json({
-      status: 200,
-      authority: `${role}`,
-      sosial: `${sosial}`,
-    });
-  } catch (error) {
-    res.status(403).json({
-      result: "forbidden-approach",
-      msg: "정상적인 토큰이 아닙니다.",
-    });
-    return;
-  }
-});
 
 // 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
 userRouter.post("/join", async (req, res, next) => {
@@ -44,8 +18,13 @@ userRouter.post("/join", async (req, res, next) => {
       );
     }
 
+    // req (request)의 body 에서 데이터 가져오기
+    // const name = req.body.name;
+    // const email = req.body.email;
+    // const password = req.body.password;
+    // const phoneNumber = req.body.phoneNumber;
     const { name, email, password, address, phoneNumber } = req.body;
-    console.log(email);
+
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userService.addUser({
       name,
@@ -118,8 +97,8 @@ userRouter.get(
 );
 
 userRouter.get("/mypage", loginRequired, async (req, res, next) => {
-  const { currentRole, currentUserId, currentSosial } = req;
-  if (currentRole === "user") {
+  const { currentRole, currentUserId } = req;
+  if (currentRole === "user" || currentRole === "admin") {
     // 마이페이지 데이터 리턴
     const user = await userService.mypage(currentUserId);
     return res.status(200).json({
@@ -127,97 +106,69 @@ userRouter.get("/mypage", loginRequired, async (req, res, next) => {
       msg: `${user.name}의 마이페이지`,
       name: user.name,
       data: user,
-      sosial: user.sosial,
-      url: "/mypage",
     });
   } else if (req.currentRole === "admin") {
-    console.log("들어옴?");
-    return res.status(200).json({
-      msg: "관리자",
-      url: "/admin",
-    });
+    // 관리자페이지 이동
   }
 });
 
 // 사용자 정보 수정
 // (예를 들어 /api/users/abc12345 로 요청하면 req.params.userId는 'abc12345' 문자열로 됨)
-userRouter.patch("/", loginRequired, async function (req, res, next) {
-  try {
-    // content-type 을 application/json 로 프론트에서
-    // 설정 안 하고 요청하면, body가 비어 있게 됨.
-    if (is.emptyObject(req.body)) {
-      throw new Error(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
-      );
-    }
+// userRouter.patch(
+//   "/users/:userId",
+//   loginRequired,
+//   async function (req, res, next) {
+//     try {
+//       // content-type 을 application/json 로 프론트에서
+//       // 설정 안 하고 요청하면, body가 비어 있게 됨.
+//       if (is.emptyObject(req.body)) {
+//         throw new Error(
+//           "headers의 Content-Type을 application/json으로 설정해주세요"
+//         );
+//       }
 
-    // jwt로부터 user id 가져옴
-    const userId = req.curretUserId;
-    const sosial = req.currentSosial;
-    console.log(typeof sosial);
-    // body data 로부터 업데이트할 사용자 정보를 추출함.
-    const name = req.body.name;
-    const password = req.body.password;
-    const address = req.body.address;
-    const phoneNumber = req.body.phoneNumber;
+//       // params로부터 id를 가져옴
+//       const userId = req.params.userId;
 
-    // body data로부터, 확인용으로 사용할 현재 비밀번호를 추출함.
-    const currentPassword = req.body.currentPassword;
+//       // body data 로부터 업데이트할 사용자 정보를 추출함.
+//       const fullName = req.body.fullName;
+//       const password = req.body.password;
+//       const address = req.body.address;
+//       const phoneNumber = req.body.phoneNumber;
+//       const role = req.body.role;
 
-    // currentPassword 없을 시, 진행 불가
-    // 단, 소셜로그인한 사람이라면 그냥 지나감
-    if (sosial === true) {
-      console.log("소셜로그인인 사람임");
-    } else if (!currentPassword) {
-      throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
-    }
+//       // body data로부터, 확인용으로 사용할 현재 비밀번호를 추출함.
+//       const currentPassword = req.body.currentPassword;
 
-    const userInfoRequired = { userId, currentPassword, sosial };
+//       // currentPassword 없을 시, 진행 불가
+//       if (!currentPassword) {
+//         throw new Error("정보를 변경하려면, 현재의 비밀번호가 필요합니다.");
+//       }
 
-    // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
-    // 보내주었다면, 업데이트용 객체에 삽입함.
-    const toUpdate = {
-      ...(name && { name }),
-      ...(password && { password }),
-      ...(address && { address }),
-      ...(phoneNumber && { phoneNumber }),
-    }; //
+//       const userInfoRequired = { userId, currentPassword };
 
-    // 사용자 정보를 업데이트함.
-    const updatedUserInfo = await userService.setUser(
-      userInfoRequired,
-      toUpdate
-    );
+//       // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
+//       // 보내주었다면, 업데이트용 객체에 삽입함.
+//       const toUpdate = {
+//         ...(fullName && { fullName }),
+//         ...(password && { password }),
+//         ...(address && { address }),
+//         ...(phoneNumber && { phoneNumber }),
+//         ...(role && { role }),
+//       }; //
 
-    // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
-    res.status(200).json(updatedUserInfo);
-  } catch (error) {
-    next(error);
-  }
-});
+//       // 사용자 정보를 업데이트함.
+//       const updatedUserInfo = await userService.setUser(
+//         userInfoRequired,
+//         toUpdate
+//       );
 
-userRouter.delete("/", loginRequired, async (req, res, next) => {
-  const { currentUserId, currentRole } = req;
-  const { accept } = req.body;
-  if (!accept === "탈퇴") {
-    return res.status(400).json({
-      msg: "탈퇴하고싶지 않으시군요 ?ㅎㅎ",
-    });
-  }
-  if (currentRole === "admin") {
-    return res.status(400).json({
-      msg: "어딜 도망가려고, 관리자는 탈퇴 못함",
-    });
-  }
-  try {
-    const result = await userService.userDelete(currentUserId);
-    return res.status(200).json({
-      status: 200,
-      msg: result,
-    });
-  } catch (err) {
-    next(err);
-  }
-});
+//       // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
+//       res.status(200).json(updatedUserInfo);
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// );
 
 export { userRouter };

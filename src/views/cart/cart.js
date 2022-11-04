@@ -47,6 +47,7 @@ function getIdxedDBValues() {
                 if(recordCount < 1){
                     init.style.visibility = 'visible';
                     clearbtns.style.visibility = 'hidden';
+                    main.innerHTML="";
                 }
                 //4-2. 저장소에 레코드가 존재한다면
                 else{

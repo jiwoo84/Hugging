@@ -6,6 +6,32 @@ import { userService } from "../services";
 import { itemService } from "../services/item-service";
 
 const userRouter = express();
+// jwt 검증만 하는 라우터
+userRouter.get("/authority", (req, res) => {
+  const userToken = req.headers["authorization"]?.split(" ")[1];
+  if (!userToken) {
+    return res.status(400).json({
+      status: 200,
+      msg: "토큰이 없어요, 이 창구는 권한 및 로그인 체크하는 곳입니다.\n토큰발급후 시도해주세요",
+    });
+  }
+  try {
+    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+    const jwtDecoded = jwt.verify(userToken, secretKey);
+    const { role, sosial } = jwtDecoded;
+    return res.status(200).json({
+      status: 200,
+      authority: `${role}`,
+      sosial: `${sosial}`,
+    });
+  } catch (error) {
+    res.status(403).json({
+      result: "forbidden-approach",
+      msg: "정상적인 토큰이 아닙니다.",
+    });
+    return;
+  }
+});
 
 // 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
 userRouter.post("/join", async (req, res, next) => {

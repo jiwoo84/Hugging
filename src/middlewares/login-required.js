@@ -73,7 +73,7 @@ function loginRequired(req, res, next) {
     // 403 코드로 JSON 형태로 프론트에 전달함.
     res.status(403).json({
       result: "forbidden-approach",
-      reason: "정상적인 토큰이 아닙니다.",
+      msg: "정상적인 토큰이 아닙니다.",
     });
 
     return;

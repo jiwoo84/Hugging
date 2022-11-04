@@ -15,7 +15,7 @@ orderRouter.post("/", async (req, res, next) => {
   } = req.body; //data {email, name, items[{의자,6개},나무,] 최종결제금액:90000 }
 
   try {
-    await orderService.newOrder({
+    const newOrder = await orderService.newOrder({
       name,
       address,
       phoneNumber,
@@ -27,6 +27,7 @@ orderRouter.post("/", async (req, res, next) => {
     return res.status(201).json({
       stauts: 201,
       msg: "ㅋㅋ 만들어짐",
+      data: newOrder,
     });
   } catch (err) {
     next(err);

@@ -93,7 +93,7 @@ userRouter.get(
 
 userRouter.get("/mypage", loginRequired, async (req, res, next) => {
   const { currentRole, currentUserId, currentSosial } = req;
-  if (currentRole === "user" || currentRole === "admin") {
+  if (currentRole === "user") {
     // 마이페이지 데이터 리턴
     const user = await userService.mypage(currentUserId);
     return res.status(200).json({
@@ -102,9 +102,14 @@ userRouter.get("/mypage", loginRequired, async (req, res, next) => {
       name: user.name,
       data: user,
       sosial: user.sosial,
+      url: "/mypage",
     });
   } else if (req.currentRole === "admin") {
-    // 관리자페이지 이동
+    console.log("들어옴?");
+    return res.status(200).json({
+      msg: "관리자",
+      url: "/admin",
+    });
   }
 });
 

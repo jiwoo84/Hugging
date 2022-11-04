@@ -12,7 +12,7 @@ viewsRouter.use("/register", serveStatic("register"));
 viewsRouter.use("/login", serveStatic("login"));
 viewsRouter.use("/cart", serveStatic("cart"));
 viewsRouter.use("/mypage", serveStatic("mypage"));
-viewsRouter.use("/admin", adminRequired, serveStatic("admin"));
+viewsRouter.use("/admin", serveStatic("admin"));
 viewsRouter.use("/detail", serveStatic("detail"));
 viewsRouter.use("/sosial", serveStatic("sosialTerminal"));
 viewsRouter.use("/order", serveStatic("order"));

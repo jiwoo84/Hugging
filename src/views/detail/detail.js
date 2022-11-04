@@ -22,7 +22,6 @@ plusBtn.addEventListener("click", () =>{
     else{
         salseCount.innerText = parseInt(salseCount.innerText) + 1 ;
     }
-    // updateData(localStorage.getItem("itemDetail"),"plus");
 });
 
 minusBtn.addEventListener("click" , ()=>{
@@ -31,7 +30,6 @@ minusBtn.addEventListener("click" , ()=>{
     }else{
         salseCount.innerText = parseInt(salseCount.innerText) - 1 ;
     }
-    // updateData(localStorage.getItem("itemDetail"),"minus");
 });
 
 // 상세페이지 데이터 get api
@@ -50,12 +48,13 @@ async function getDataFromApi(){
 
 // 상세페이지에서 indexedDB에 DB생성 및 데이터 저장
 // cart 페이지로 이동
-function saveData(salseCount){
+function saveData(salseCount,storeName){
     if (window.indexedDB) {
         const databaseName = "cart";
         const version = 1;
         const request = indexedDB.open(databaseName, version);
 
+        //데이터 셋팅
         const data = {
             id: id,
             name:itemname.innerHTML,
@@ -63,28 +62,29 @@ function saveData(salseCount){
             price : parseInt(itemprice.innerHTML),
             img:itemimg.src,
             sales: parseInt(salseCount.innerText),
-            //parseInt(salseCount.innerText)
         };
-        // console.log(data);
 
         request.onupgradeneeded = function () {
             // Object Store 생성
-            // 데이터베이스 아래 객체 스토어라는 이름으로 또다시 객체를 만들 수 있습니다.
-            request.result.createObjectStore("items", { autoIncrement: true });
+            request.result.createObjectStore("items", { keyPath: "id" });
+            request.result.createObjectStore("nowBuy", { keyPath: "id" });
         };
         
         request.onsuccess = function () {
+            
+            localStorage.setItem("storName",storeName);
             const objStore = request.result
-                .transaction("items", "readwrite")
-                .objectStore("items");
+                .transaction(`${storeName}`, "readwrite")
+                .objectStore(`${storeName}`);
                 // transaction : 통신 , items 객체스토어의 권한을 readwrite로 설정
                 // objectStore : 오브젝트스토어를 가져옴
 
             // 동일한 id를 가진 상품이 db에 있다면
             // 상품의 수량을 증가
-            // 그렇지 않다면 상품데이터를 추가
-            isExist(data,objStore);
-        };
+            // 그렇지 않다면 상품데이터를 추가objStore.add(data);
+            if(storeName == "items") { isExist(data,objStore);}
+            else{objStore.add(data);}
+        }
         request.onerror = function (event) { alert(event.target.errorCode);}
     }
 }
@@ -115,7 +115,7 @@ function isExist(data,objStore){
 cartBtn.addEventListener("click", function () {
     console.log(salseCount);
     console.log(salseCount.innerText);
-    saveData(salseCount);
+    saveData(salseCount,"items");
     const moveTocart = confirm("장바구니로 이동하시겠습니까?");
     if(moveTocart === true){
         window.location.href = "/cart";
@@ -125,9 +125,9 @@ cartBtn.addEventListener("click", function () {
 //buyNowBtn listener
 buyNowBtn.addEventListener("click", function () {
     if (sessionStorage.getItem("loggedIn") === "true") {
-        saveData(salseCount);
         const buyNow = confirm("바로 구매하시겠습니까?");
         if(buyNow === true){
+            saveData(salseCount,"nowBuy");
             window.location.href = "/order";
         }
     }

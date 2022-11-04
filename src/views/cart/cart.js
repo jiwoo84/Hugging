@@ -45,7 +45,7 @@ function getIdxedDBValues() {
             // 2. items 저장소 접근
             const db = request.result;
             const objStore = db.transaction("items","readwrite").objectStore("items");  
-            // 3. items저장소의 레코드 개수 확인
+            // 3. items 레코드 개수 확인
             const countRequest = objStore.count();
             
             countRequest.onsuccess = function() {

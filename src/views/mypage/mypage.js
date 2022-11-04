@@ -6,6 +6,10 @@ window.addEventListener("load", getName);
 
 async function getName() {
   const user = await Api.get("/api/users/mypage");
+  if (Error) {
+    console.log(Error);
+  }
+  console.log(user);
   const username = user.name;
 
   welcomeMessage.innerText = `${username}님 반갑습니다`;

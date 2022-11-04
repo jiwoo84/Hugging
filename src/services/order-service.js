@@ -52,15 +52,39 @@ class OrderService {
     }
     // 관리자가 아니라면 데이터에는 id가 들어오게 된다
     else {
-      const orders = await User.findById(data).populate("orders");
-      let listArr = [];
-      let obj = {};
+      const orders = await Order.find({ buyer: data }) // 현재까지 주문한 모든 목록
+        .populate("items.id")
+        .populate("buyer");
       console.log(orders);
-      // for (let i = 0; i < orders.length; i++) {
-      //   const element = array[i];
-
-      // }
-      return orders;
+      let result = [];
+      for (let i = 0; i < orders.length; i++) {
+        let obj = {}; // json형태로 반환하려고 만든것
+        let itemsArr = []; // 상품목록을 깔끔하게 넣으려고
+        //
+        for (let r = 0; r < orders[i].items.length; r++) {
+          // i번째 주문의 items의 길이.
+          itemsArr.push({
+            상품: orders[i].items[r].id.name,
+            개수: orders[i].items[r].count,
+          });
+        }
+        obj = {
+          상품목록: itemsArr,
+          주문번호: orders[i]._id,
+          주문날짜: orders[i].createdAt,
+          주문시간: orders[i].createdAt,
+          배송상태: orders[i].deliveryStatus,
+          구매자이름: orders[i].buyer.name,
+          구매자이메일: orders[i].buyer.email,
+          전화번호: orders[i].buyer.phoneNumber,
+          주소: orders[i].buyer.address,
+          수정: orders[i].orderStatus,
+          요청사항: orders[i].deliveryMsg,
+          총금액: orders[i].totalPrice,
+        };
+        result.push(obj);
+      }
+      return result;
     }
   }
 

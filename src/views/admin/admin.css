@@ -66,15 +66,10 @@ tfoot {
   color: #fff;
 }
 
-#listImg {
-  width: 70px;
+#productsListBox {
+  margin-bottom: 20px;
 }
 
-/* #productsListBox {
-  height: 100vh;
-  overflow: scroll;
-}
-
-#productDetailBox {
+/* #productDetailBox {
   height: 40%;
 } */

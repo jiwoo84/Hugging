@@ -1,6 +1,7 @@
 import * as Api from "/api.js";
-
+// 관리자가 아니라면 튕겨내는 기능 구현 예정
 const bigDiv = document.querySelector("#list-box");
+
 const orderBtn = document.querySelector("#orderBtn");
 const itemBtn = document.querySelector("#itemsBtn");
 const categoryBtn = document.querySelector("#categoryBtn");
@@ -8,17 +9,16 @@ orderBtn.addEventListener("click", clickedOrder);
 itemBtn.addEventListener("click", clickedItem);
 categoryBtn.addEventListener("click", clickedCategory);
 
+// 주문 조회 버튼
 async function clickedOrder() {
-  const data = await Api.get("/api/orders/");
+  const dataObj = await Api.get("/api/orders/");
+  const data = dataObj.data;
   bigDiv.innerHTML = "";
 
   // divComponent: 한 사람의 주문정보 넣기 (first + second + thrid)
-  for (let i = 0; i < data.data.length; i++) {
-    console.log(data.data[i]);
-    //
+  for (let i = 0; i < data.length; i++) {
     const divComponent = document.createElement("div");
     divComponent.className = "divComponent";
-    console.log("첫번째 for문");
 
     // firstDiv: 상품배송정보
     const firstDiv = document.createElement("div");
@@ -27,31 +27,35 @@ async function clickedOrder() {
     // firstDiv-orderInfoDiv:주문날짜, 주문시간, 주문번호
     const orderInfoDiv = document.createElement("div");
 
-    orderInfoDiv.id = data.data[i].주문번호;
-    const orderDate = data.data[i].주문날짜;
+    orderInfoDiv.id = data[i].주문번호;
+    const orderDate = data[i].주문날짜;
 
     // orderDate=Date.now() => 날짜랑 시간 분리해서 출력
     orderInfoDiv.innerHTML = `
         <p>${orderDate.slice(0, 10)}</p>
         <p>${orderDate.slice(11, 19)}</p>
-        <p>${data.data[i].주문번호}</p>
+        <p>${data[i].주문번호}</p>
     `;
 
     // firstDiv-itemsDiv: 주문상품,개수
     const itemsDiv = document.createElement("div");
     const ul = document.createElement("ul");
-    for (let j = 0; j < data.data[i].상품목록.length; j++) {
-      console.log("두번째 for문");
+    for (let j = 0; j < data[i].상품목록.length; j++) {
       const li = document.createElement("li");
-      li.innerText = `${data.data[i].상품목록[j].상품} ${data.data[i].상품목록[j].개수}개`;
+      li.innerText = `${data[i].상품목록[j].상품} ${data[i].상품목록[j].개수}개`;
       ul.appendChild(li);
     }
 
     // firstDiv-itemsDiv li 마지막에 배송상태 추가
     const shippingState = document.createElement("li");
-    shippingState.innerText = data.data[i].배송상태;
+    shippingState.innerText = data[i].배송상태;
     shippingState.id = "shippingState";
     ul.appendChild(shippingState);
+
+    // firstDiv-itemsDiv li 마지막에 요청메세지(배송메시지) 추가
+    const shippingMessage = document.createElement("li");
+    shippingMessage.innerText = data[i].요청사항;
+    ul.appendChild(shippingMessage);
     itemsDiv.appendChild(ul);
 
     firstDiv.appendChild(orderInfoDiv);
@@ -61,10 +65,10 @@ async function clickedOrder() {
     const secondDiv = document.createElement("div");
 
     secondDiv.innerHTML = `
-    <p>${data.data[i].구매자이름}</p>
-    <p>${data.data[i].구매자이메일}</p>
-    <p>${data.data[i].전화번호}</p>
-    <p>${data.data[i].주소}</p>
+    <p>${data[i].구매자이름}</p>
+    <p>${data[i].구매자이메일}</p>
+    <p>${data[i].전화번호}</p>
+    <p>${data[i].주소}</p>
     `;
 
     divComponent.appendChild(firstDiv);
@@ -74,11 +78,11 @@ async function clickedOrder() {
     const thirdDiv = document.createElement("div");
     thirdDiv.className = "thirdDiv";
 
-    if (data.data[i].수정 === "수정가능") {
+    if (data[i].수정 === "수정가능") {
       thirdDiv.innerHTML = `
-        <button id="${data.data[i].주문번호} class="delBtn">주문삭제</button>
-        <label for="${data.data[i].주문번호}">배송상태변경</label>
-        <select id="${data.data[i].주문번호}" class="selectShippingState">
+        <button id="${data[i].주문번호}" class="delBtn">주문삭제</button>
+        <label for="${data[i].주문번호}">배송상태변경</label>
+        <select id="${data[i].주문번호}" class="selectShippingState">
             <option>배송준비중</option>
             <option>배송중</option>
             <option>배송완료</option>
@@ -91,8 +95,6 @@ async function clickedOrder() {
 
     bigDiv.appendChild(divComponent);
   }
-
-  console.log("정렬완료");
 
   // 주문삭제 버튼
   const delBtns = document.querySelectorAll(".delBtn");
@@ -129,8 +131,10 @@ async function clickedOrder() {
   });
 }
 
+// --------------------------------------------------------------------------
+// 상품조회 이벤트
 async function clickedItem() {
-  // 화면 초기화
+  // 표 상단 만들기
   bigDiv.innerHTML = `
   <div id="productsListBox">
     <table>
@@ -142,6 +146,7 @@ async function clickedItem() {
           <th>이미지</th>
           <th>생성날짜</th>
           <th>현재판매량</th>
+          <th>게시상태</th>
           <th>상세내용</th>
         </tr>
       </thead>
@@ -152,13 +157,14 @@ async function clickedItem() {
   <div id="productDetailBox"></div>
   `;
 
+  // 상품정보리스트 받아오기
   const data = await Api.get("/api/items/admin");
   // 리스트가 들어갈 표의 body
   const tableBody = document.querySelector("#tableBody");
 
+  // 상품 리스트 출력하기
   for (let i = 0; i < data.data.length; i++) {
     const productObj = data.data[i];
-    console.log(productObj);
     // 한 행 생성
     const tr = document.createElement("tr");
     tr.id = productObj._id;
@@ -168,46 +174,153 @@ async function clickedItem() {
     <td>${productObj.category}</td>
     <td>${productObj.price}</td>
     <td>
-      <img src=${productObj.imageUrl} id="listImg"/>
+      <img src=${productObj.imageUrl} alt="${productObj.name} 사진" width="70"/>
     </td>
     <td>${productObj.createdAt.slice(0, 10)}</td>
     <td>${productObj.sales}</td>
-    <td>${productObj.itemDetail}</td>
-    <td>
-      <button id=${productObj._id} class="productModifyBtn">상품수정</button>
-      <button id=${productObj._id} class="productDelBtn">상품삭제</button>
-    </td>
     `;
+    // 판매량이 있는데 삭제 요청하면, 판매중 / 판매량 없으면 바로 삭제
+    if (productObj.onSale) {
+      tr.innerHTML += "<td id>판매중</td>";
+    } else {
+      tr.innerHTML += "<td>판매중지</td>";
+    }
+
+    tr.innerHTML += `
+    <td>${productObj.itemDetail}</td>
+    `;
+
+    if (productObj.onSale) {
+      tr.innerHTML += `
+      <td>
+        <button id=${productObj._id} class="productModifyBtn">상품수정</button>
+        <button id=${productObj._id} class="productDelBtn">상품삭제</button>
+      </td>`;
+    } else {
+      tr.innerHTML += `
+      <td>
+        <button id=${productObj._id} class="productModifyBtn">상품수정</button>
+        <button id=${productObj._id} class="productOrderRestartBtn">판매시작</button>
+      </td>`;
+    }
     tableBody.appendChild(tr);
   }
 
-  // 상품 삭제
+  // 상품 삭제 버튼
   const productDelBtns = document.querySelectorAll(".productDelBtn");
-
+  // 각 버튼에 이벤트리스너 적용
   productDelBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const id = btn.id;
       const res = await Api.delete(`/api/items/${id}`);
-      console.log(res.msg);
+      alert(res.msg);
       clickedItem();
     });
   });
 
-  // 상품 수정
-  const productModifyBtn = document.querySelectorAll(".productModifyBtn");
-  const productDetailBox = document.querySelector("#productDetailBox");
+  // 상품 판매시작 버튼
+  const productOrderRestartBtns = document.querySelectorAll(
+    ".productOrderRestartBtn"
+  );
 
-  productModifyBtn.forEach((btn) => {
+  productOrderRestartBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
-      // 아래에 페이지 추가로 생성
       const id = btn.id;
-      const productInfo = await Api.get(`/api/items`, id);
-      console.log(productInfo);
-      // productDetailBox.innerHTML = `
-      //   <p></p>
-      // `
-      // 거기에 레이아웃 만들어서 데이터 + 수정버튼 뿌림
-      // 수정 버튼 누르면 input 만들어지게 함
+      await Api.patch(`/api/items/${id}`, "", {
+        name: undefined,
+        category: undefined,
+        price: undefined,
+        imageUrl: undefined,
+        itemDetail: undefined,
+        onSale: true,
+      });
+      alert("해당 상품이 판매 시작 처리되었습니다.");
+      btn.className = "productDelBtn";
+      btn.innerHTML = "상품 삭제";
+      clickedItem();
     });
   });
+
+  // 상품 수정 버튼
+  // 리스트 하단에 상세정보칸 나와서 수정가능
+  const productModifyBtns = document.querySelectorAll(".productModifyBtn");
+  const productDetailBox = document.querySelector("#productDetailBox");
+
+  productModifyBtns.forEach((btn) => {
+    btn.addEventListener("click", modifyFnc);
+
+    async function modifyFnc() {
+      // 아래에 페이지 추가로 생성
+      const id = btn.id;
+      // 상품 정보
+      const productInfo = (await Api.get(`/api/items/${id}`)).data;
+      productDetailBox.innerHTML += `
+        <table>
+          <tr>
+            <td>이름</td>
+            <td>
+              <input id="nameModifyInput" value="${productInfo.name}" />
+            </td>
+          </tr>
+          <tr>
+            <td>가격</td>
+            <td>
+              <input id="priceModifyInput" value="${productInfo.price}" />
+            </td>
+          </tr>
+          <tr>
+            <td>이미지url</td>
+            <td>
+              <input id="imgModifyInput" value="${productInfo.imageUrl}" />
+            </td>
+          </tr>
+          <tr>
+            <td>상세내용</td>
+            <td>
+              <input id="detailModifyInput" value="${productInfo.itemDetail}" />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button id="modifyDoneBtn">수정 완료</button></td>
+          </tr>
+        </table>
+      `;
+      // 카테고리 셀렉트 만들기
+      // 테이블 만들기
+      // 카테고리 셀릭트 만들기
+      // 카테고리들 가져오기
+      // 카테고리들 순회하며 셀렉트 안에 옵션 추가
+      // 셀렉트 테이블 안에 넣기
+
+      const categoriesSelect = document.createElement("select");
+      const categories = (await Api.get("/api/categories/all")).data;
+      categoriesSelect.id = "categoryModifySelect";
+
+      categories.forEach((category) => {
+        categoriesSelect.innerHTML += `
+          <option>${category}</option>
+        `;
+      });
+
+      const modifyDoneBtn = document.querySelector("#modifyDoneBtn");
+
+      modifyDoneBtn.addEventListener("click", async () => {
+        await Api.patch(`/api/items/${id}`, "", {
+          name: nameModifyInput.value,
+          category: categoryModifyInput.value,
+          price: priceModifyInput.value,
+          imageUrl: imgModifyInput.value,
+          itemDetail: detailModifyInput.value,
+          onSale: undefined,
+        });
+        alert("수정이 완료되었습니다");
+      });
+    }
+  });
+}
+
+async function clickedCategory() {
+  const dataObj = await Api.get("/api/categories/all");
+  const data = dataObj.data;
 }

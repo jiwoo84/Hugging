@@ -3,7 +3,7 @@ const init = document.querySelector(".init-msg");
 const clearbtns = document.querySelector(".clear-btn-container");
 const clearAllBtn = document.querySelector(".clear-all");
 const clearSelectBtn = document.querySelector(".clear-select");
-
+const purchaseBtn = document.querySelector(".moveTopurchase");
 
 
 getIdxedDBValues();
@@ -45,14 +45,16 @@ function getIdxedDBValues() {
                 const recordCount = countRequest.result;
                 //4-1. 저장소의 레코드가 0개라면( 장바구니가 비어있다면)
                 if(recordCount < 1){
-                    init.style.visibility = 'visible';
-                    clearbtns.style.visibility = 'hidden';
+                    init.style.visibility = "visible";
+                    clearbtns.style.visibility = "hidden";
+                    purchaseBtn.style.visibility ="hidden";
                     main.innerHTML="";
                 }
                 //4-2. 저장소에 레코드가 존재한다면
                 else{
-                    init.style.visibility = 'hidden';
-                    clearbtns.style.visibility = 'visible';
+                    init.style.visibility = "hidden";
+                    clearbtns.style.visibility = "visible";
+                    purchaseBtn.style.visibility = "visible";
                     main.innerHTML="";
                     const cursorRequest = objStore.openCursor();
                     cursorRequest.onsuccess =(e)=> {
@@ -65,51 +67,67 @@ function getIdxedDBValues() {
                                 main.insertAdjacentHTML("beforeend",createPost(value.result,cursor.key));
                                 // 7. 각 상품에 대한 수량변경 버튼 추가
                                 attachBtn(value.result.id);
+                                totalPrice(value.result.id);
                             }
                             // 8. cursor로 순회
                             cursor.continue();                              
                             
                         }
+                        
                     }
+                    
                 }
             }
         }
     }
 }
+//결제창으로 이동
+purchaseBtn.addEventListener("click",function(){
+    window.location.href = "/";
+});
 
-//전체삭제
+//결제버튼 텍스트 업데이트
+function totalPrice(key){
+    const container = document.getElementById(`${key}`);
+    const price = Number(container.childNodes[17].innerText.split(":")[1]);
+    const totalPrice = Number(purchaseBtn.innerText) + price;
+    const msg = `${totalPrice}원 결제하기`;
+    purchaseBtn.value = msg;
+}
+
+//db레코드 전체삭제
 clearAllBtn.addEventListener("click",function(){
     // 1. db 열기
-    const request = window.indexedDB.open('cart');     
+    const request = window.indexedDB.open("cart");     
     request.onerror =(e)=> console.log(e.target.errorCode);
     request.onsuccess =(e)=> {
         // 2. items 저장소 접근
         const db = request.result;
-        const objStore  = db.transaction('items', 'readwrite').objectStore('items'); 
+        const objStore  = db.transaction("items", "readwrite").objectStore("items"); 
         // 3. 전체 삭제
         const objStoreRequest = objStore.clear();           
         objStoreRequest.onsuccess =(e)=> {
-            console.log('cleared');
+            console.log("cleared");
         }
     }
     getIdxedDBValues();
 })
 
-//선택삭제
+//db레코드 선택삭제
 clearSelectBtn.addEventListener("click",function(){
     // 1. db 열기
-    const request = window.indexedDB.open('cart');     
+    const request = window.indexedDB.open("cart");     
     request.onerror =(e)=> console.log(e.target.errorCode);
     request.onsuccess =(e)=> {
         // 2. items 저장소 접근
         const db = request.result;
-        const objStore = db.transaction('items', 'readwrite').objectStore('items');
+        const objStore = db.transaction("items", "readwrite").objectStore("items");
         const keys = getCheckboxValue();
         
         keys.forEach((key)=>{
             const objStoreRequest = objStore.delete(key);       // 3. 삭제하기 
             objStoreRequest.onsuccess =(e)=> {
-                console.log('deleted');
+                console.log("deleted");
             }
         });
     }

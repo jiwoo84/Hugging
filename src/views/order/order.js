@@ -15,7 +15,10 @@ async function getDataFromApi() {
     const user = await Api.get("/api/users","mypage");
     const {name,address,phoneNumber} = user.data;
     renderUserComponent(name,address,phoneNumber);
-    renderProductComponent();
+
+    console.log(localStorage.getItem("storName"));
+
+    renderProductComponent(localStorage.getItem("storName"));
     getTotalPrice();
 }
 
@@ -59,7 +62,7 @@ function createPost(item,key) {
 
 
 
-function renderProductComponent(){
+function renderProductComponent(storName){
 
     if (window.indexedDB) {
         
@@ -70,8 +73,9 @@ function renderProductComponent(){
         request.onsuccess = (e)=> {
         // 2. items 저장소 접근
         const db = request.result;
-        const objStore = db.transaction("items","readwrite").objectStore("items");  
-        // 3. items저장소의 레코드 개수 확인
+
+        const objStore = db.transaction(`${storName}`,"readwrite").objectStore(`${storName}`);  
+        // 3. cart 레코드 개수 확인
             const cursorRequest = objStore.openCursor();
             cursorRequest.onsuccess =(e)=> {
                 // 5. 커서를 사용해 데이터 접근

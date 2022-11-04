@@ -53,6 +53,11 @@ class ItemService {
       return "구매자가 존재해 숨김처리 되었습니다.";
     }
   }
+
+  //상품 수정
+  async updateItem(findItemId, toUpdate) {
+    return await Item.updateMany({ findItemId }, toUpdate);
+  }
 }
 
 const itemService = new ItemService();

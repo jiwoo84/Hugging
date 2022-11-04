@@ -38,7 +38,11 @@
   <body>
     <!-- 헤더 삽입 -->
     <script>
-      loadHTML("../public/header/header.html");
+      if (sessionStorage.getItem("loggedIn") === "true") {
+        loadHTML("../public/header/loggedInHeader.html");
+      } else {
+        loadHTML("../public/header/header.html");
+      }
     </script>
 
     <main>

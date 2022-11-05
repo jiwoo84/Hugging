@@ -6,8 +6,9 @@ window.addEventListener("load", getName);
 
 async function getName() {
   const user = await Api.get("/api/users/mypage");
-  const username = user.name;
 
+  const username = user.name;
+  welcomeMessage.dataset.id = user.data._id;
   welcomeMessage.innerText = `${username}님 반갑습니다`;
 }
 
@@ -16,6 +17,10 @@ const findOrder = document.getElementById("findOrder");
 // api 요청후 해당 여러 요소 생성후 데이터 주입,
 // 모두 주입후 최상위 div에 append 시킴
 const find_order = async () => {
+  const clicked_title = document.getElementById("clicked_title");
+  const clicked_descript = document.getElementById("clicked_descript");
+  clicked_title.textContent = "주문 조회";
+  clicked_descript.textContent = "구매내역";
   // list_mom 이 최상위 div, 이 공간이 주문목록이 들어오는곳
   const list_mom = document.getElementById("list_mom");
   // 아래 반복문은 초기화의 기능. 수정,탈퇴 form 이 나올땐 주문목록은 삭제되어야 함.

@@ -116,10 +116,12 @@ class UserService {
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
   async setUser(userInfoRequired, toUpdate) {
     // 객체 destructuring
+    console.log("변경에필요한 사항 : ", userInfoRequired);
+    console.log("변경할 내역들 : ", toUpdate);
     const { userId, currentPassword, sosial } = userInfoRequired;
 
     // 우선 해당 id의 유저가 db에 있는지 확인
-    let user = await User.findById(userId);
+    const user = await User.findById(userId);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {

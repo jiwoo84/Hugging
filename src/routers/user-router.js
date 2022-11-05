@@ -119,29 +119,34 @@ userRouter.get(
 
 userRouter.get("/mypage", loginRequired, async (req, res, next) => {
   const { currentRole, currentUserId, currentSosial } = req;
-  if (currentRole === "user") {
-    // 마이페이지 데이터 리턴
-    const user = await userService.mypage(currentUserId);
-    return res.status(200).json({
-      status: 200,
-      msg: `${user.name}의 마이페이지`,
-      name: user.name,
-      data: user,
-      sosial: user.sosial,
-      url: "/mypage",
-    });
-  } else if (req.currentRole === "admin") {
-    console.log("들어옴?");
-    return res.status(200).json({
-      msg: "관리자",
-      url: "/admin",
-    });
+  try {
+    if (currentRole === "user") {
+      // 마이페이지 데이터 리턴
+      const user = await userService.mypage(currentUserId);
+      return res.status(200).json({
+        status: 200,
+        msg: `${user.name}의 마이페이지`,
+        name: user.name,
+        data: user,
+        sosial: user.sosial,
+        url: "/mypage",
+      });
+    } else if (req.currentRole === "admin") {
+      console.log("들어옴?");
+      return res.status(200).json({
+        msg: "관리자",
+        url: "/admin",
+      });
+    }
+  } catch (err) {
+    next(err);
   }
 });
 
 // 사용자 정보 수정
 // (예를 들어 /api/users/abc12345 로 요청하면 req.params.userId는 'abc12345' 문자열로 됨)
 userRouter.patch("/", loginRequired, async function (req, res, next) {
+  const { currentUserId } = req;
   try {
     // content-type 을 application/json 로 프론트에서
     // 설정 안 하고 요청하면, body가 비어 있게 됨.
@@ -152,9 +157,8 @@ userRouter.patch("/", loginRequired, async function (req, res, next) {
     }
 
     // jwt로부터 user id 가져옴
-    const userId = req.curretUserId;
+    const userId = currentUserId;
     const sosial = req.currentSosial;
-    console.log(typeof sosial);
     // body data 로부터 업데이트할 사용자 정보를 추출함.
     const name = req.body.name;
     const password = req.body.password;
@@ -173,7 +177,7 @@ userRouter.patch("/", loginRequired, async function (req, res, next) {
     }
 
     const userInfoRequired = { userId, currentPassword, sosial };
-
+    console.log(userId);
     // 위 데이터가 undefined가 아니라면, 즉, 프론트에서 업데이트를 위해
     // 보내주었다면, 업데이트용 객체에 삽입함.
     const toUpdate = {
@@ -190,7 +194,10 @@ userRouter.patch("/", loginRequired, async function (req, res, next) {
     );
 
     // 업데이트 이후의 유저 데이터를 프론트에 보내 줌
-    res.status(200).json(updatedUserInfo);
+    res.status(200).json({
+      status: 200,
+      msg: "수정완료",
+    });
   } catch (error) {
     next(error);
   }
@@ -199,24 +206,27 @@ userRouter.patch("/", loginRequired, async function (req, res, next) {
 userRouter.delete("/", loginRequired, async (req, res, next) => {
   const { currentUserId, currentRole } = req;
   const { accept } = req.body;
+  console.log(req.body);
+  if (is.emptyObject(req.body)) {
+    throw new Error("탈퇴하고 싶지 않으시군요~?");
+  }
+
   if (!accept === "탈퇴") {
-    return res.status(400).json({
-      msg: "탈퇴하고싶지 않으시군요 ?ㅎㅎ",
-    });
+    throw new Error("탈퇴하고 싶지 않으시군요~?");
   }
   if (currentRole === "admin") {
-    return res.status(400).json({
-      msg: "어딜 도망가려고, 관리자는 탈퇴 못함",
-    });
+    throw new Error("탈퇴하고 싶지 않으시군요~?");
   }
-  try {
-    const result = await userService.userDelete(currentUserId);
-    return res.status(200).json({
-      status: 200,
-      msg: result,
-    });
-  } catch (err) {
-    next(err);
+  if (accept === "탈퇴") {
+    try {
+      const result = await userService.userDelete(currentUserId);
+      return res.status(200).json({
+        status: 200,
+        msg: result,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
 });
 

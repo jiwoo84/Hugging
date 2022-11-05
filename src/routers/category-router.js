@@ -39,7 +39,8 @@ categoryRouter.get("/all", async (req, res, next) => {
 
 // 카테고리 하나만 조회, 쿼리로 받음
 categoryRouter.get("/", async (req, res, next) => {
-  const { name, index } = req.query;
+  let { name, index } = req.query;
+  index = index.slice(0, -1);
   if (!name || !index) {
     return res.status(400).json({
       status: 400,

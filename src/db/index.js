@@ -28,18 +28,18 @@ db.on("connected", async () => {
     },
   ]);
   const testingUser = await User.findById("636472cd26f0a28586608873");
-  await User.updateOne(
-    { _id: "636472cd26f0a28586608873" },
-    { $unset: { orders: 1 } }
-  );
-  await User.updateOne(
-    {
-      _id: "636472cd26f0a28586608873",
-    },
-    {
-      $set: { orders: [] },
-    }
-  );
+  // await User.updateOne(
+  //   { _id: "636472cd26f0a28586608873" },
+  //   { $unset: { orders: 1 } }
+  // );
+  // await User.updateOne(
+  //   {
+  //     _id: "636472cd26f0a28586608873",
+  //   },
+  //   {
+  //     $set: { orders: [] },
+  //   }
+  // );
   const fakeItems = await Item.insertMany([
     {
       name: "모던 체어",
@@ -123,95 +123,95 @@ db.on("connected", async () => {
       onSale: true,
     },
   ]);
-  const fakeUserOrder = await Order.insertMany([
-    {
-      deliveryStatus: "발송완료",
-      orderStatus: "수정불가",
-      deliveryMsg: "ㅋㅋ 이건 요청사항임",
-      items: [
-        {
-          id: fakeItems[0]._id,
-          count: 2,
-        },
-        {
-          id: fakeItems[1]._id,
-          count: 2,
-        },
-        {
-          id: fakeItems[2]._id,
-          count: 2,
-        },
-        {
-          id: fakeItems[3]._id,
-          count: 2,
-        },
-      ],
-      buyer: "636472cd26f0a28586608873",
-      totalPrice: 50530,
-    },
-    {
-      deliveryStatus: "배송준비중",
-      orderStatus: "수정가능",
-      deliveryMsg: "ㅋㅋ 이건 요청사항임2",
-      items: [
-        {
-          id: fakeItems[4]._id,
-          count: 2,
-        },
-        {
-          id: fakeItems[5]._id,
-          count: 2,
-        },
-        {
-          id: fakeItems[6]._id,
-          count: 2,
-        },
-        {
-          id: fakeItems[7]._id,
-          count: 2,
-        },
-      ],
-      buyer: "636472cd26f0a28586608873",
-      totalPrice: 50530,
-    },
-    {
-      deliveryStatus: "배송준비중",
-      orderStatus: "수정가능",
-      deliveryMsg: "ㅋㅋ 이건 요청사항임3",
-      items: [
-        {
-          id: fakeItems[1]._id,
-          count: 2,
-        },
-        {
-          id: fakeItems[2]._id,
-          count: 2,
-        },
-        {
-          id: fakeItems[5]._id,
-          count: 2,
-        },
-        {
-          id: fakeItems[7]._id,
-          count: 2,
-        },
-      ],
-      buyer: "636472cd26f0a28586608873",
-      totalPrice: 50530,
-    },
-  ]);
-  for (let i = 0; i < fakeUserOrder.length; i++) {
-    console.log(fakeUserOrder[i]._id), "를 유저 order에 넣을것임";
-    await User.updateOne(
-      {
-        _id: "636472cd26f0a28586608873",
-      },
-      {
-        $push: { orders: fakeUserOrder[i]._id },
-      }
-    );
-  }
-  console.log(testingUser, " 이 갖고있는 orders");
+  // const fakeUserOrder = await Order.insertMany([
+  //   {
+  //     deliveryStatus: "발송완료",
+  //     orderStatus: "수정불가",
+  //     deliveryMsg: "ㅋㅋ 이건 요청사항임",
+  //     items: [
+  //       {
+  //         id: fakeItems[0]._id,
+  //         count: 2,
+  //       },
+  //       {
+  //         id: fakeItems[1]._id,
+  //         count: 2,
+  //       },
+  //       {
+  //         id: fakeItems[2]._id,
+  //         count: 2,
+  //       },
+  //       {
+  //         id: fakeItems[3]._id,
+  //         count: 2,
+  //       },
+  //     ],
+  //     buyer: "636472cd26f0a28586608873",
+  //     totalPrice: 50530,
+  //   },
+  //   {
+  //     deliveryStatus: "배송준비중",
+  //     orderStatus: "수정가능",
+  //     deliveryMsg: "ㅋㅋ 이건 요청사항임2",
+  //     items: [
+  //       {
+  //         id: fakeItems[4]._id,
+  //         count: 2,
+  //       },
+  //       {
+  //         id: fakeItems[5]._id,
+  //         count: 2,
+  //       },
+  //       {
+  //         id: fakeItems[6]._id,
+  //         count: 2,
+  //       },
+  //       {
+  //         id: fakeItems[7]._id,
+  //         count: 2,
+  //       },
+  //     ],
+  //     buyer: "636472cd26f0a28586608873",
+  //     totalPrice: 50530,
+  //   },
+  //   {
+  //     deliveryStatus: "배송준비중",
+  //     orderStatus: "수정가능",
+  //     deliveryMsg: "ㅋㅋ 이건 요청사항임3",
+  //     items: [
+  //       {
+  //         id: fakeItems[1]._id,
+  //         count: 2,
+  //       },
+  //       {
+  //         id: fakeItems[2]._id,
+  //         count: 2,
+  //       },
+  //       {
+  //         id: fakeItems[5]._id,
+  //         count: 2,
+  //       },
+  //       {
+  //         id: fakeItems[7]._id,
+  //         count: 2,
+  //       },
+  //     ],
+  //     buyer: "636472cd26f0a28586608873",
+  //     totalPrice: 50530,
+  //   },
+  // ]);
+  // for (let i = 0; i < fakeUserOrder.length; i++) {
+  //   console.log(fakeUserOrder[i]._id), "를 유저 order에 넣을것임";
+  //   await User.updateOne(
+  //     {
+  //       _id: "636472cd26f0a28586608873",
+  //     },
+  //     {
+  //       $push: { orders: fakeUserOrder[i]._id },
+  //     }
+  //   );
+  // }
+  // console.log(testingUser, " 이 갖고있는 orders");
   await Order.insertMany([
     {
       deliveryStatus: "발송완료",

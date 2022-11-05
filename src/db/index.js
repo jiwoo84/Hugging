@@ -27,7 +27,7 @@ db.on("connected", async () => {
       role: "admin",
     },
   ]);
-  const testingUser = await User.findById("636472cd26f0a28586608873");
+  // const testingUser = await User.findById("636472cd26f0a28586608873");
   // await User.updateOne(
   //   { _id: "636472cd26f0a28586608873" },
   //   { $unset: { orders: 1 } }
@@ -228,10 +228,6 @@ db.on("connected", async () => {
         },
         {
           id: fakeItems[2]._id,
-          count: 2,
-        },
-        {
-          id: fakeItems[3]._id,
           count: 2,
         },
       ],

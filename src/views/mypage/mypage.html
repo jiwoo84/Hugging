@@ -25,6 +25,7 @@
     <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="mypage.css" />
     <script src="mypage.js" type="module" defer></script>
+    <script src="signOut.js" type="module" defer></script>
 
     <!-- 헤더 푸터 불러오기 -->
     <link rel="stylesheet" href="../public/header/header.css" />
@@ -44,7 +45,9 @@
 
     <main class="container">
       <p class="title">마이페이지</p>
-      <p class="welcome-message" id="welcome-message">***님 반갑습니다</p>
+      <p class="welcome-message" data-id="" id="welcome-message">
+        ***님 반갑습니다
+      </p>
       <div class="message-box is-three-quarters box">
         <!-- <p class="message-box__grade">회원등급: VIP</p> -->
         <!-- <p class="message-box__Purchase-amount">
@@ -59,15 +62,28 @@
         <button class="buttons__modyfing-info button is-light">
           정보 수정
         </button>
-        <button class="buttons__Withdrawal button is-light">회원 탈퇴</button>
+        <button id="signOut" class="buttons__Withdrawal button is-light">
+          회원 탈퇴
+        </button>
       </div>
 
       <section id="mypage__findContainer">
         <div>
-          <h2>주문 조회</h2>
-          <p>주문내역</p>
+          <h2 id="clicked_title">주문 조회</h2>
+          <p id="clicked_descript">구매내역</p>
           <!-- 리스트들은 아래 div의 html임 -->
-          <div id="list_mom"></div>
+          <div id="list_mom">
+            <!-- <form id="signOut_form">
+              <small>회원 탈퇴를 위하여 입력란에 '탈퇴'를 넣어주세요</small>
+              <input
+                type="text"
+                id="signout_accept"
+                placeholder="'탈퇴'를 입력해주세요"
+              />
+              <input type="submit" value="제출" />
+            </form> -->
+          </div>
+
           <!-- 여기서부터추가되는디브임 -->
           <!-- <div>
             <img

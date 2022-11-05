@@ -119,23 +119,27 @@ userRouter.get(
 
 userRouter.get("/mypage", loginRequired, async (req, res, next) => {
   const { currentRole, currentUserId, currentSosial } = req;
-  if (currentRole === "user") {
-    // 마이페이지 데이터 리턴
-    const user = await userService.mypage(currentUserId);
-    return res.status(200).json({
-      status: 200,
-      msg: `${user.name}의 마이페이지`,
-      name: user.name,
-      data: user,
-      sosial: user.sosial,
-      url: "/mypage",
-    });
-  } else if (req.currentRole === "admin") {
-    console.log("들어옴?");
-    return res.status(200).json({
-      msg: "관리자",
-      url: "/admin",
-    });
+  try {
+    if (currentRole === "user") {
+      // 마이페이지 데이터 리턴
+      const user = await userService.mypage(currentUserId);
+      return res.status(200).json({
+        status: 200,
+        msg: `${user.name}의 마이페이지`,
+        name: user.name,
+        data: user,
+        sosial: user.sosial,
+        url: "/mypage",
+      });
+    } else if (req.currentRole === "admin") {
+      console.log("들어옴?");
+      return res.status(200).json({
+        msg: "관리자",
+        url: "/admin",
+      });
+    }
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -199,24 +203,27 @@ userRouter.patch("/", loginRequired, async function (req, res, next) {
 userRouter.delete("/", loginRequired, async (req, res, next) => {
   const { currentUserId, currentRole } = req;
   const { accept } = req.body;
+  console.log(req.body);
+  if (is.emptyObject(req.body)) {
+    throw new Error("탈퇴하고 싶지 않으시군요~?");
+  }
+
   if (!accept === "탈퇴") {
-    return res.status(400).json({
-      msg: "탈퇴하고싶지 않으시군요 ?ㅎㅎ",
-    });
+    throw new Error("탈퇴하고 싶지 않으시군요~?");
   }
   if (currentRole === "admin") {
-    return res.status(400).json({
-      msg: "어딜 도망가려고, 관리자는 탈퇴 못함",
-    });
+    throw new Error("탈퇴하고 싶지 않으시군요~?");
   }
-  try {
-    const result = await userService.userDelete(currentUserId);
-    return res.status(200).json({
-      status: 200,
-      msg: result,
-    });
-  } catch (err) {
-    next(err);
+  if (accept === "탈퇴") {
+    try {
+      const result = await userService.userDelete(currentUserId);
+      return res.status(200).json({
+        status: 200,
+        msg: result,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
 });
 

@@ -122,6 +122,36 @@ db.on("connected", async () => {
       sales: 140,
       onSale: true,
     },
+    {
+      name: "난 소속없어1",
+      category: "ㅋㅋ",
+      price: 4000,
+      itemDetail: "ㅠㅠ",
+      imageUrl:
+        "https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F850c7b59-c215-4555-b42a-42b6f0d7739e%2FUntitled.png?table=block&id=9edba707-a9c7-40fd-a49d-0c00ee226fd9&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=2000&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2",
+      sales: 10,
+      onSale: true,
+    },
+    {
+      name: "난 소속없어2",
+      category: "ㅋㅋ11",
+      price: 4000,
+      itemDetail: "ㅠㅠ",
+      imageUrl:
+        "https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F850c7b59-c215-4555-b42a-42b6f0d7739e%2FUntitled.png?table=block&id=9edba707-a9c7-40fd-a49d-0c00ee226fd9&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=2000&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2",
+      sales: 10,
+      onSale: true,
+    },
+    {
+      name: "난 소속없어3",
+      category: "ㅋㅋ325",
+      price: 4000,
+      itemDetail: "ㅠㅠ",
+      imageUrl:
+        "https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F850c7b59-c215-4555-b42a-42b6f0d7739e%2FUntitled.png?table=block&id=9edba707-a9c7-40fd-a49d-0c00ee226fd9&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=2000&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2",
+      sales: 10,
+      onSale: true,
+    },
   ]);
   // const fakeUserOrder = await Order.insertMany([
   //   {

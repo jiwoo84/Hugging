@@ -5,11 +5,12 @@ const clearAllBtn = document.querySelector(".clear-all");
 const clearSelectBtn = document.querySelector(".clear-select");
 const purchaseBtn = document.querySelector(".moveTopurchase");
 
-let totalPrice = 0;
+let totalPrice =0;
 
 getIdxedDBValues();
 
-function setTotalPrice(totalPrice){
+// 총 금액 저장
+function setTotalPrice(){
     localStorage.setItem("TotalPrice", totalPrice);
 }
 
@@ -31,11 +32,11 @@ function createPost(item,key) {
     `;
 }
 
-
 // 전체데이터 조회
 function getIdxedDBValues() {
+    totalPrice =0;
+
     if (window.indexedDB) {
-        
         // 1. DB 열기
         const request = indexedDB.open("cart");      
 
@@ -58,6 +59,7 @@ function getIdxedDBValues() {
                 }
                 //4-2. 저장소에 레코드가 존재한다면
                 else{
+                    
                     init.style.visibility = "hidden";
                     clearbtns.style.visibility = "visible";
                     purchaseBtn.style.visibility = "visible";
@@ -66,19 +68,20 @@ function getIdxedDBValues() {
                     const cursorRequest = objStore.openCursor();
                     cursorRequest.onsuccess =(e)=> {
                         // 5. 커서를 사용해 데이터 접근
-                        let totalPrice = 0;
                         let cursor = e.target.result;
                         if (cursor) {
                             const value = objStore.get(cursor.key);         
                             value.onsuccess = (e)=> {
+                                totalPrice += value.result.price*value.result.sales; 
                                 
                                 //6. 상품추가 렌더링 실행
                                 main.insertAdjacentHTML("beforeend",createPost(value.result,cursor.key));
                                 // 7. 각 상품에 대한 수량변경 버튼 추가
                                 attachBtn(value.result.id);
+                                // 상품상세페이지로 이동버튼
                                 moveTodetailBtn(value.result.id);
                                 // 결제버튼 금액 변경
-                                getTotalPrice(value.result.id,totalPrice);
+                                getTotalPrice();
                             }
                             // 8. cursor로 순회
                             cursor.continue();                              
@@ -86,33 +89,24 @@ function getIdxedDBValues() {
                         }
                         
                     }
-                    
                 }
             }
         }
     }
 }
-//결제창으로 이동
-purchaseBtn.addEventListener("click",function(){
-    location.href = "/order";
-});
 
-//결제버튼 텍스트 업데이트
-function getTotalPrice(key){
-    const container = document.getElementById(`${key}`);
-    const price = container.querySelector(".productPrice").innerText.split(":")[1];
-    totalPrice += Number(price);
-    console.log("total:"+totalPrice);
-
+//결제버튼 텍스트
+function getTotalPrice(){
+    // totalPrice += productPrice;
     const msg = `${totalPrice}원 결제하기`;
-    setTotalPrice(totalPrice);
     purchaseBtn.value = msg;
+    setTotalPrice();
 }
 
 // 상품의 이미지 클릭하면 상세페이지로 이동
 function moveTodetailBtn(key){
     const container = document.getElementById(`${key}`);
-    const imgTag = container.querySelector('.productImg');
+    const imgTag = container.querySelector(".productImg");
     imgTag.addEventListener("click", ()=>{
         localStorage.setItem("itemDetail",key);
         location.href = "/detail";
@@ -170,13 +164,14 @@ function updateData(key,op){
             if(op==="plus"){
                 // 수량증가
                 if(record.sales > 9){alert("최대 구매 수량은 10개 입니다.");}
-                else {record.sales += 1;}
+                else {record.sales += 1; }
                 
             }
             else{
                 // 수량감소
                 if(record.sales > 1){record.sales -= 1;}
                 else{alert("삭제버튼을 이용해 삭제하세요");}
+                
             }
             //데이터 업데이트
             const requestUpdate = objStore.put(record);
@@ -226,4 +221,9 @@ clearSelectBtn.addEventListener("click",function(){
         });
     }
     getIdxedDBValues();
-})
+});
+
+//결제창으로 이동
+purchaseBtn.addEventListener("click",function(){
+    location.href = "/order";
+});

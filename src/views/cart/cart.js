@@ -225,6 +225,10 @@ clearSelectBtn.addEventListener("click",function(){
 
 //결제창으로 이동
 purchaseBtn.addEventListener("click",function(){
-    localStorage.setItem("storeName","items");
-    location.href = "/order";
+    if (sessionStorage.getItem("loggedIn") === "true") {
+        localStorage.setItem("storeName","items");
+        location.href = "/order";
+        return;
+    }
+    alert("로그인을 먼저 해주세요.");
 });

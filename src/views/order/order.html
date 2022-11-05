@@ -23,7 +23,7 @@
             crossorigin="anonymous"
         ></script>
         <!-- 커스텀 css, js -->
-        <link rel="stylesheet" href="cart.css" />
+        <link rel="stylesheet" href="order.css" />
         <script src="./order.js" type="module"></script>
         <link rel="stylesheet" href="../public/header/header.css" />
         <link rel="stylesheet" href="../public/footer/footer.css" />
@@ -73,9 +73,17 @@
             <br>
             <div>
                 <h2>결제수단</h2>
-                <button>신용카드</button>
-                <button>무통장입금</button>
-            </div>
+                <label>
+                    <input type="radio" class="card" name="radio" checked>
+                    카드결제
+                </label>
+
+                
+                <label>
+                    <input type="radio" class="cash" name="radio">
+                    무통장입금
+                </label>
+
             <br>
             <div class="btnGroup">
                 <button class = "purchase">주문하기</button>

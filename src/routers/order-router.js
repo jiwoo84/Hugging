@@ -75,7 +75,7 @@ orderRouter.patch("/", loginRequired, async (req, res, next) => {
   if (currentRole === "admin") {
     if (reson === "orderCancel") {
       try {
-        console.log("리즌");
+        console.log("ORDER: 관리자 취소");
         await orderService.orderCancel({ id, currentRole });
         return res.status(200).json({
           status: 200,
@@ -85,17 +85,23 @@ orderRouter.patch("/", loginRequired, async (req, res, next) => {
         next(err);
       }
     } else {
-      await orderService.orderSend({ id, reson });
-      return res.status(200).json({
-        status: 200,
-        msg: `배송상태 ${reson} 로 변경`,
-      });
+      console.log("ORDER: 관리자 배송상태 라우터");
+      try {
+        const result = await orderService.orderSend({ id, reson });
+        console.log("ORDER: ", result);
+        return res.status(200).json({
+          status: 200,
+          msg: `배송상태 ${reson} 로 변경`,
+        });
+      } catch (err) {
+        next(err);
+      }
     }
   }
   //권한이 평번함 유저일때는 주문취소기능밖에 없음
   else if (currentRole === "user") {
     try {
-      console.log("고객 취소");
+      console.log("ORDER: 유저 취소 라우터");
       await orderService.orderCancel({ id, currentRole });
       return res.status(200).json({
         status: 200,

@@ -1,19 +1,23 @@
 import * as Api from "/api.js";
 // 구글 로그인
+
+// 아래 도메인 변경시 각 소셜REST API 콘솔에서 리다이렉트 url도 바꿔줘야함.
 const MY_DOMAIN = "http://localhost:5000";
-const login__google = async () => {
-  const code = new URL(window.location.href).searchParams.get("code");
-  console.log(code);
-  console.log("google");
-  await $.ajax({
-    url: `https://wetube-jinytree.herokuapp.com/2eum/auth/google/callback?code=${code}`,
-    type: "GET",
-    success: function (res) {
-      localStorage.setItem("token", `${res.data.access_token}`);
-      location.href = "/";
-    },
-  });
-};
+
+// 아래 구글로그인은 다른 프로젝트에서 쓰던 코드. 구글로그인 추가시 수정하여 사용
+// const login__google = async () => {
+//   const code = new URL(window.location.href).searchParams.get("code");
+//   console.log(code);
+//   console.log("google");
+//   await $.ajax({
+//     url: `https://wetube-jinytree.herokuapp.com/2eum/auth/google/callback?code=${code}`,
+//     type: "GET",
+//     success: function (res) {
+//       localStorage.setItem("token", `${res.data.access_token}`);
+//       location.href = "/";
+//     },
+//   });
+// };
 
 // 카카오 로그인
 //이 페이지에 잘 도착했다면 코드를 받아왔을것임
@@ -39,6 +43,8 @@ const kakao_finish = async () => {
   window.location.href = "/";
 };
 
+// 이 창으로 왔을때 바로 실행됨
+// 구글로그인이라면 구글 로그인 로직을, 카카오라면 카카오로직을 실행
 const loginStart = async () => {
   if (localStorage.getItem("sosial") === "google") {
     await login__google();

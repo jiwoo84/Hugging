@@ -79,12 +79,13 @@ async function clickedOrder() {
     // thirdDiv: 주문삭제,발송완료 버튼 (구매취소,판매자취소시 수정불가)
     const thirdDiv = document.createElement("div");
     thirdDiv.className = "thirdDiv";
+    thirdDiv.id = data[i].주문번호;
 
     if (data[i].수정 === "수정가능") {
       thirdDiv.innerHTML = `
-        <button id="${data[i].주문번호}" class="delBtn">주문삭제</button>
-        <label for="${data[i].주문번호}">배송상태변경</label>
-        <select id="${data[i].주문번호}" class="selectShippingState">
+        <button class="delBtn">주문삭제</button>
+        <label>배송상태변경</label>
+        <select class="selectShippingState">
             <option>배송준비중</option>
             <option>배송중</option>
             <option>배송완료</option>
@@ -104,7 +105,7 @@ async function clickedOrder() {
   // 버튼마다 이벤트동작 추가
   delBtns.forEach((delBtn) => {
     delBtn.addEventListener("click", async () => {
-      const id = delBtn.id;
+      const id = delBtn.parentElement.id;
       await Api.patch(`/api/orders`, "", {
         id: id,
         reson: "orderCancel",
@@ -119,7 +120,7 @@ async function clickedOrder() {
 
   selects.forEach((select) => {
     select.addEventListener("change", async () => {
-      const id = select.id;
+      const id = select.parentElement.id;
       // 선택된 배송상태
       const changedState = select.value;
       console.log(changedState);
@@ -183,7 +184,7 @@ async function clickedItem() {
     `;
     // 판매량이 있는데 삭제 요청하면, 판매중 / 판매량 없으면 바로 삭제
     if (productObj.onSale) {
-      tr.innerHTML += "<td id>판매중</td>";
+      tr.innerHTML += "<td>판매중</td>";
     } else {
       tr.innerHTML += "<td>판매중지</td>";
     }
@@ -194,15 +195,15 @@ async function clickedItem() {
 
     if (productObj.onSale) {
       tr.innerHTML += `
-      <td>
-        <button id=${productObj._id} class="productModifyBtn">상품수정</button>
-        <button id=${productObj._id} class="productDelBtn">상품삭제</button>
+      <td id="${productObj._id}">
+        <button class="productModifyBtn">상품수정</button>
+        <button class="productDelBtn">상품삭제</button>
       </td>`;
     } else {
       tr.innerHTML += `
-      <td>
-        <button id=${productObj._id} class="productModifyBtn">상품수정</button>
-        <button id=${productObj._id} class="productOrderRestartBtn">판매시작</button>
+      <td id="${productObj._id}">
+        <button class="productModifyBtn">상품수정</button>
+        <button class="productOrderRestartBtn">판매시작</button>
       </td>`;
     }
     tableBody.appendChild(tr);
@@ -213,7 +214,7 @@ async function clickedItem() {
   // 각 버튼에 이벤트리스너 적용
   productDelBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
-      const id = btn.id;
+      const id = btn.parentElement.id;
       const res = await Api.delete(`/api/items/${id}`);
       alert(res.msg);
       clickedItem();
@@ -227,7 +228,7 @@ async function clickedItem() {
 
   productOrderRestartBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
-      const id = btn.id;
+      const id = btn.parentElement.id;
       await Api.patch(`/api/items/${id}`, "", {
         name: undefined,
         category: undefined,
@@ -253,7 +254,7 @@ async function clickedItem() {
 
     async function modifyFnc() {
       // 아래에 페이지 추가로 생성
-      const id = btn.id;
+      const id = btn.parentElement.id;
       // 상품 정보
       const productInfo = (await Api.get(`/api/items/${id}`)).data;
       productDetailBox.innerHTML += `

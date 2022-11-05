@@ -1,10 +1,12 @@
 import * as Api from "/api.js";
 // 관리자가 아니라면 튕겨내는 기능 구현 예정
+// 리스트 들어가는 공간
 const bigDiv = document.querySelector("#list-box");
-
+// 버튼 불러오기
 const orderBtn = document.querySelector("#orderBtn");
 const itemBtn = document.querySelector("#itemsBtn");
 const categoryBtn = document.querySelector("#categoryBtn");
+// 버튼에 이벤트 넣기
 orderBtn.addEventListener("click", clickedOrder);
 itemBtn.addEventListener("click", clickedItem);
 categoryBtn.addEventListener("click", clickedCategory);
@@ -281,30 +283,22 @@ async function clickedItem() {
             </td>
           </tr>
           <tr>
+            <td>카테고리</td>
+            <td>
+              <input id="categoryModifyInput" value="${productInfo.category}" />
+            </td>
+          </tr>
+          <tr>
             <td></td>
             <td><button id="modifyDoneBtn">수정 완료</button></td>
           </tr>
         </table>
       `;
-      // 카테고리 셀렉트 만들기
-      // 테이블 만들기
-      // 카테고리 셀릭트 만들기
-      // 카테고리들 가져오기
-      // 카테고리들 순회하며 셀렉트 안에 옵션 추가
-      // 셀렉트 테이블 안에 넣기
 
-      const categoriesSelect = document.createElement("select");
-      const categories = (await Api.get("/api/categories/all")).data;
-      categoriesSelect.id = "categoryModifySelect";
-
-      categories.forEach((category) => {
-        categoriesSelect.innerHTML += `
-          <option>${category}</option>
-        `;
-      });
-
+      // 수정버튼 구현
       const modifyDoneBtn = document.querySelector("#modifyDoneBtn");
 
+      // input으로 값을 받아서 변경 (아무것도 입력x -> 그대로 저장)
       modifyDoneBtn.addEventListener("click", async () => {
         await Api.patch(`/api/items/${id}`, "", {
           name: nameModifyInput.value,
@@ -320,7 +314,24 @@ async function clickedItem() {
   });
 }
 
-async function clickedCategory() {
-  const dataObj = await Api.get("/api/categories/all");
-  const data = dataObj.data;
-}
+// 카테고리 셀렉트로 선택해서 수정하기 (미완성)
+// 테이블 만들기
+// 카테고리 셀릭트 만들기
+// 카테고리들 가져오기
+// 카테고리들 순회하며 셀렉트 안에 옵션 추가
+// 셀렉트 테이블 안에 넣기
+
+// const categoriesSelect = document.createElement("select");
+// const categories = (await Api.get("/api/categories/all")).data;
+// categoriesSelect.id = "categoryModifySelect";
+
+// categories.forEach((category) => {
+//   categoriesSelect.innerHTML += `
+//     <option>${category}</option>
+//   `;
+// });
+
+// async function clickedCategory() {
+//   const dataObj = await Api.get("/api/categories/all");
+//   const data = dataObj.data;
+// }

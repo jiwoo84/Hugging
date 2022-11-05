@@ -4,19 +4,18 @@ const orderedMan= document.querySelector(".orderedMan");
 const orderedAdress= document.querySelector(".orderedAdress");
 const moveToCartBtn = document.querySelector(".moveToCart");
 const productContainer = document.querySelector(".productContainer");
-const totalPriceContainer=document.querySelector(".totalPriceContainer");
-const totalPrice=document.querySelector(".totalPrice");
+const orderPrice=document.querySelector(".totalPrice");
 const purchaseBtn=document.querySelector(".purchase");
-const deliveryMsg = document.querySelector(".deliveryMsg");
+const deliveryMessage = document.querySelector(".deliveryMsg");
 
-
+let items = [];
+let totalPrice = 0;
 getDataFromApi();
 
 async function getDataFromApi() {
     const user = await Api.get("/api/users","mypage");
     const {name,address,phoneNumber} = user.data;
     renderUserComponent(name,address,phoneNumber);
-    console.log(localStorage.getItem("storeName"));
     renderProductComponent(localStorage.getItem("storeName"));
     
 }
@@ -25,14 +24,15 @@ function getTotalPrice(key,storeName){
 
     if ( storeName ==="items"){
         //장바구니에서 결제창
-        const total=  localStorage.getItem("TotalPrice");
-        totalPrice.innerText = `${total}원`;
+        totalPrice=  localStorage.getItem("TotalPrice");
+        orderPrice.innerText = `${totalPrice}원`;
         return;
     }
     //바로구매로 결제창( 한 종류의 상품 )
     const container = document.getElementById(`${key}`);
     const productPrice =  container.querySelector(".itemsPrice");
-    totalPrice.innerText = `${productPrice.innerText.split(":")[1]}원`;
+    totalPrice = parseInt(productPrice.innerText.split(":")[1]);
+    orderPrice.innerText = `${totalPrice}원`;
 }
 
 function renderUserComponent(name,address,phoneNumber){
@@ -68,7 +68,7 @@ function createPost(item,key) {
 
 
 function renderProductComponent(storeName){
-
+    
     if (window.indexedDB) {
         
         // 1. DB 열기
@@ -89,6 +89,9 @@ function renderProductComponent(storeName){
                     value.onsuccess = (e)=> {
                         //6. 상품추가 렌더링 실행
                         productContainer.insertAdjacentHTML("beforeend",createPost(value.result,cursor.key));
+                        const {id} = value.result;
+                        const count = value.result.sales;
+                        items.push({id,count});
                         getTotalPrice(value.result.id,storeName);
                     }
                     // 8. cursor로 순회
@@ -105,40 +108,36 @@ moveToCartBtn.addEventListener("click",()=>{
 });
 
 purchaseBtn.addEventListener("click", async()=>{
-    //user -> get으로 user정보를 mongo에서 받고
     //indexeddb에서 -> 상품데이터 가져오고 배열형태로
     //총금액
-
-
-
-
-    if ( localStorage.getItem("storeName") === "nowBuy"){
-        //몽고디비에 데이터를 주고
-        //로컬의 nowBuy는 비운다.
+    const storeName =  localStorage.getItem("storeName");
+    const user = await Api.get("/api/users","mypage");
+    const {name,address,phoneNumber} = user.data;
+    const deliveryMsg = (deliveryMessage.options[deliveryMessage.selectedIndex].innerText);
+    const card = document.querySelector('input[name="radio"]').checked;
+    let payMethod;
+    if(card){
+        payMethod = "카드결제";
+    }else{
+        payMethod = "무통장입금";
     }
-    const selectedDeliveryMsg = (deliveryMsg.options[deliveryMsg.selectedIndex].innerText);
-    // console.log(selectedDeliveryMsg);
-    // db에 전달후 로컬db 클리어
 
-    // window.location.href="/";
+    const postData = {name,address,phoneNumber,deliveryMsg,items,payMethod,totalPrice}
+    console.log(postData);
+    await Api.post("/api/orders/", postData);
+
+    //주문완료후 indexedDB 비우기
+    const request = window.indexedDB.open("cart");     
+    request.onerror =(e)=> console.log(e.target.errorCode);
+    request.onsuccess =(e)=> {
+        const db = request.result;
+        const objStore  = db.transaction(`${storeName}`, "readwrite").objectStore(`${storeName}`); 
+        const objStoreRequest = objStore.clear();           
+        objStoreRequest.onsuccess =(e)=> {
+            console.log("cleared");
+        }
+    }
+
+    window.location.href="/";
 });
 
-
-function postDataFromApi(){
-
-    /*
-    {
-        name,
-        address,
-        phoneNumber,
-        deliveryMsg,
-        items : [{
-          id
-          count
-         }]
-        payMethod:
-        totalPrice:
-      }*/
-    // const data = { };
-    // const user = await Api.post("/api/order",);
-}

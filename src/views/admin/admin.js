@@ -13,7 +13,7 @@ categoryBtn.addEventListener("click", clickedCategory);
 
 // 주문 조회 버튼
 async function clickedOrder() {
-  const dataObj = await Api.get("/api/orders/");
+  const dataObj = await Api.get("/api/orders");
   const data = dataObj.data;
   bigDiv.innerHTML = "";
 
@@ -148,12 +148,12 @@ async function clickedItem() {
           <th>가격</th>
           <th>이미지</th>
           <th>생성날짜</th>
-          <th>현재판매량</th>
+          <th>누적판매량</th>
           <th>게시상태</th>
           <th>상세내용</th>
         </tr>
       </thead>
-      <tbody id="tableBody">
+      <tbody id="itemsTableBody">
       </tbody>
     </table>
   </div>
@@ -163,7 +163,7 @@ async function clickedItem() {
   // 상품정보리스트 받아오기
   const data = await Api.get("/api/items/admin");
   // 리스트가 들어갈 표의 body
-  const tableBody = document.querySelector("#tableBody");
+  const itemsTableBody = document.querySelector("#itemsTableBody");
 
   // 상품 리스트 출력하기
   for (let i = 0; i < data.data.length; i++) {
@@ -332,7 +332,122 @@ async function clickedItem() {
 //   `;
 // });
 
-// async function clickedCategory() {
-//   const dataObj = await Api.get("/api/categories/all");
-//   const data = dataObj.data;
-// }
+// -----------------------------------------------------------------------
+// 카테고리 관리 버튼
+async function clickedCategory() {
+  bigDiv.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>카테고리명</th>
+          <th>인덱스</th>
+        </tr>
+      </thead>
+      <tbody id="categoryTableBody">
+      </tbody>
+    </table>
+  `;
+  const datas = (await Api.get("/api/categories/all")).data;
+  const categoryTableBody = document.querySelector("#categoryTableBody");
+  console.log(datas);
+
+  datas.forEach((data) => {
+    categoryTableBody.innerHTML += `
+      <tr id=${data.index} class=${data.name}>
+        <td id="categoryNameContent">${data.name}</td>
+        <td id="categoryIndexContent">${data.index}</td>
+        <td class="categoryBtns">
+          <button class="categoryModifyBtn">수정</button>
+          <button class="categoryDelBtn">삭제</button>
+        </td>
+      </tr>
+    `;
+  });
+  // 리스트, 수정, 삭제 버튼 삽입
+  // 삭제버튼 구현
+  const categoryDelBtns = document.querySelectorAll(".categoryDelBtn");
+
+  categoryDelBtns.forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const index = btn.parentElement.parentElement.id;
+      const name = btn.parentElement.parentElement.className;
+      console.log(name);
+      const res = await Api.delete("/api/categories", "", {
+        index: index,
+        name: name,
+      });
+      alert(res.msg);
+      clickedCategory();
+    });
+  });
+
+  // 수정버튼 구현
+  const categoryModifyBtns = document.querySelectorAll(".categoryModifyBtn");
+
+  categoryModifyBtns.forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const index = btn.parentElement.parentElement.id;
+      const name = btn.parentElement.parentElement.className;
+      const categoryBtns = document.querySelector(".categoryBtns");
+      const categoryNameContent = document.querySelector(
+        "#categoryNameContent"
+      );
+      const categoryIndexContent = document.querySelector(
+        "#categoryIndexContent"
+      );
+      categoryNameContent.innerHTML = `
+          <input id="categoryNameInput" value="${name}" />
+          `;
+      categoryIndexContent.innerHTML = `
+          <input id="categoryIndexInput" value="${index}" />
+        `;
+      categoryBtns.innerHTML = `
+        <button class="categoryModifyDone">수정완료</button>
+        <button class="categoryModifyCancel">취소</button>
+      `;
+
+      const categoryModifyDone = document.querySelector(".categoryModifyDone");
+
+      categoryModifyDone.addEventListener("click", async () => {
+        const categoryNameInput = document.querySelector("#categoryNameInput");
+        const categoryIndexInput = document.querySelector(
+          "#categoryIndexInput"
+        );
+        const modifyName = categoryNameInput.value;
+        const modifyIndex = categoryIndexInput.value;
+
+        const res = await Api.patch("/api/categories", "", {
+          name: modifyName,
+          index: modifyIndex,
+          currentName: name,
+        });
+
+        alert(res.msg);
+      });
+
+      const categoryModifyCancel = document.querySelector(
+        ".categoryModifyCancel"
+      );
+      categoryModifyCancel.addEventListener("click", () => {
+        console.log("취소누름");
+
+        // 다시 원래의 값 넣어줌
+        // const tr = document.getElementById(index);
+        // tr.innerHTML = `
+        // <td id="categoryNameContent">${name}</td>
+        //   <td id="categoryIndexContent">${index}</td>
+        //   <td class="categoryBtns">
+        //     <button class="categoryModifyBtn">수정</button>
+        //     <button class="categoryDelBtn">삭제</button>
+        //   </td>
+        // `;
+
+        clickedCategory();
+      });
+    });
+  });
+
+  // 카테고리 추가
+  // 카테고리 관리 클릭 -> 카테고리 추가 생성
+  // 카테고리 추가 클릭 -> 밑에 input 두개 생성
+}

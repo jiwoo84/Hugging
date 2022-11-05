@@ -1,5 +1,5 @@
 import express from "express";
-import { adminRequired, loginRequired } from "../middlewares/login-required";
+import { loginRequired } from "../middlewares/login-required";
 import { orderService } from "../services";
 const orderRouter = express();
 

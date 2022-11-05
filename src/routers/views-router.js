@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import { adminRequired } from "../middlewares";
 
 const viewsRouter = express.Router();
 

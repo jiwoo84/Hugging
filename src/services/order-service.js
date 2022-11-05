@@ -68,7 +68,7 @@ class OrderService {
           });
         }
         obj = {
-          대표이미지: orders[0].items[0].id.imageUrl,
+          대표이미지: orders[i].items[0].id.imageUrl,
           상품목록: itemsArr,
           주문번호: orders[i]._id,
           주문날짜: orders[i].createdAt,

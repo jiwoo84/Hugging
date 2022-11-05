@@ -30,5 +30,4 @@ const mypage = async () => {
   const url = json.url;
   console.log(url);
   window.location.href = url;
-  //   window.location.href = url;
 };

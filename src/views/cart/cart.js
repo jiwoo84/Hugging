@@ -9,7 +9,6 @@ let totalPrice = 0;
 
 getIdxedDBValues();
 
-
 function setTotalPrice(totalPrice){
     localStorage.setItem("TotalPrice", totalPrice);
 }
@@ -23,11 +22,11 @@ function createPost(item,key) {
         <p >${item.name}</p>
         <p>${item.category}</p>
         <p>${item.price}</p>
-        <img src="${item.img}">
+        <img src="${item.img}" class ="productImg">
         <button class="minus">-</button>
         <span class="quantity">${item.sales}</span>
         <button class ="plus">+</button>
-        <label class="items-price">금액합계:${priceSum}</label>
+        <label class="productPrice">금액합계:${priceSum}</label>
     </div>
     `;
 }
@@ -45,7 +44,7 @@ function getIdxedDBValues() {
             // 2. items 저장소 접근
             const db = request.result;
             const objStore = db.transaction("items","readwrite").objectStore("items");  
-            // 3. items저장소의 레코드 개수 확인
+            // 3. items 레코드 개수 확인
             const countRequest = objStore.count();
             
             countRequest.onsuccess = function() {
@@ -101,9 +100,10 @@ purchaseBtn.addEventListener("click",function(){
 //결제버튼 텍스트 업데이트
 function getTotalPrice(key){
     const container = document.getElementById(`${key}`);
-    const price = Number(container.childNodes[17].innerText.split(":")[1]);
-    totalPrice += price;
+    const price = container.querySelector(".productPrice").innerText.split(":")[1];
+    totalPrice += Number(price);
     console.log("total:"+totalPrice);
+
     const msg = `${totalPrice}원 결제하기`;
     setTotalPrice(totalPrice);
     purchaseBtn.value = msg;
@@ -112,11 +112,81 @@ function getTotalPrice(key){
 // 상품의 이미지 클릭하면 상세페이지로 이동
 function moveTodetailBtn(key){
     const container = document.getElementById(`${key}`);
-    const imgTag = container.childNodes[9];
+    const imgTag = container.querySelector('.productImg');
     imgTag.addEventListener("click", ()=>{
         localStorage.setItem("itemDetail",key);
         location.href = "/detail";
     });
+}
+
+// checked된 checkbox의 키 값들을 가져오는 함수
+function getCheckboxValue(){
+    let keys = [];
+    const checkboxs = document.querySelectorAll(".checkbox");
+    
+    checkboxs.forEach( checkbox => {
+        if ( checkbox.checked === true){keys.push(checkbox.name);}
+    });
+    return keys;
+}
+
+//수량변경 버튼 : addevnetListener
+function attachBtn(key){   
+    //parentElement
+    const container = document.getElementById(`${key}`);
+    //plus, minuy button
+    const plusbtn = container.querySelector(".plus");
+    const minusbtn = container.querySelector(".minus");
+
+    plusbtn.addEventListener("click" ,()=>{
+        updateData(key,"plus");
+        getIdxedDBValues();
+    });
+
+    minusbtn.addEventListener("click" ,()=>{
+        updateData(key,"minus");
+        getIdxedDBValues();
+    });
+}
+
+
+// 수량변경시 db업데이트
+function updateData(key,op){
+    // 1. DB 열기
+    const request = indexedDB.open("cart");      
+
+    request.onerror = (e)=> console.log(e.target.errorCode);
+    request.onsuccess = (e)=> {
+        // 2. items 저장소 접근
+        const db = request.result;
+        const objStore = db.transaction("items","readwrite").objectStore("items");  
+
+        // 3. 변경하고자하는 데이터의 키 값을 가져옴 
+        const requestChangeCount = objStore.get(`${key}`);
+
+        requestChangeCount.onerror= function(e){}
+        requestChangeCount.onsuccess = function(e) { 
+            const record = e.target.result;
+            if(op==="plus"){
+                // 수량증가
+                if(record.sales > 9){alert("최대 구매 수량은 10개 입니다.");}
+                else {record.sales += 1;}
+                
+            }
+            else{
+                // 수량감소
+                if(record.sales > 1){record.sales -= 1;}
+                else{alert("삭제버튼을 이용해 삭제하세요");}
+            }
+            //데이터 업데이트
+            const requestUpdate = objStore.put(record);
+            
+            requestUpdate.onerror = function(e) {};
+            requestUpdate.onsuccess = function(e) {
+                console.log("수량변경완료");
+            };
+        }
+    }
 }
 
 //db레코드 전체삭제
@@ -157,73 +227,3 @@ clearSelectBtn.addEventListener("click",function(){
     }
     getIdxedDBValues();
 })
-
-// checked된 checkbox의 키 값들을 가져오는 함수
-function getCheckboxValue(){
-    //node여서 filter가 안먹음..
-    let keys = [];
-    const checkboxs = document.querySelectorAll(".checkbox");
-    
-    checkboxs.forEach( checkbox => {
-        if ( checkbox.checked == true){keys.push(checkbox.name);}
-    });
-    return keys;
-}
-
-//수량변경 버튼 : addevnetListener
-function attachBtn(key){   
-    //parentElement
-    const container = document.getElementById(`${key}`);
-    //plus, minuy button
-    const plusbtn = container.childNodes[15];
-    const minusbtn = container.childNodes[11];
-
-    plusbtn.addEventListener("click" ,()=>{
-        updateData(key,"plus");
-        getIdxedDBValues();
-    });
-
-    minusbtn.addEventListener("click" ,()=>{
-        updateData(key,"minus");
-        getIdxedDBValues();
-    });
-}
-
-
-// 수량변경시 db업데이트
-function updateData(key,op){
-    // 1. DB 열기
-    const request = indexedDB.open("cart");      
-
-    request.onerror = (e)=> console.log(e.target.errorCode);
-    request.onsuccess = (e)=> {
-        // 2. items 저장소 접근
-        const db = request.result;
-        const objStore = db.transaction("items","readwrite").objectStore("items");  
-
-        // 3. 변경하고자하는 데이터의 키 값을 가져옴 
-        const requestChangeCount = objStore.get(`${key}`);
-
-        requestChangeCount.onerror= function(e){}
-        requestChangeCount.onsuccess = function(e) { 
-            const record = e.target.result;
-            if(op==="plus"){
-                // 수량증가
-                if(record.sales > 9){alert("최대 구매 수량은 10개 입니다.");}
-                else{record.sales += 1;}
-            }
-            else{
-                // 수량감소
-                if(record.sales > 1){record.sales -= 1;}
-                else{alert("삭제버튼을 이용해 삭제하세요");}
-            }
-            //데이터 업데이트
-            const requestUpdate = objStore.put(record);
-            
-            requestUpdate.onerror = function(e) {};
-            requestUpdate.onsuccess = function(e) {
-                console.log("수량변경완료");
-            };
-        }
-    }
-}

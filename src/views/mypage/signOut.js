@@ -1,10 +1,9 @@
 import * as Api from "/api.js";
-const welcomeMessage = document.getElementById("welcomeMessage");
-const signOut = document.getElementById("signOut");
 const list_mom = document.getElementById("list_mom");
+const signOut = document.getElementById("signOut");
 
 // 회원탈퇴 폼을 제공해주는 함수
-const createForm = () => {
+const createForm = async () => {
   while (list_mom.hasChildNodes()) {
     list_mom.removeChild(list_mom.firstChild);
   }
@@ -17,19 +16,21 @@ const createForm = () => {
   form.id = "signOut_form";
   form.className = "signOut_form";
   form.innerHTML = `
-    <small>회원 탈퇴를 위하여 입력란에 '탈퇴'를 넣어주세요</small>
+    <small>'탈퇴' 입력후 제출</small>
     <input
         type="text"
-        id="signout_accept"
-        placeholder="'탈퇴'를 입력해주세요"
-    />    
+        id="accept"
+        placeholder="'탈퇴'입력"
+    />
+ 
     <br>
     <br>
     <div>
-      <button id="canCel">취소</button>
+      <a id="canCel">취소</a>
       <input type="submit" value="제출" />
     </div>
     `;
+
   list_mom.appendChild(form);
   const signOut_form = document.getElementById("signOut_form");
   signOut_form.addEventListener("submit", submitFrom);
@@ -57,11 +58,15 @@ function canCel() {
 
 const submitFrom = async (e) => {
   e.preventDefault();
-
-  const body = { accept: document.getElementById("signout_accept").value };
-  const res = await Api.delete("/api/users", "", body);
-  console.log(res);
-  sessionStorage.clear();
-  alert("그동안 감사했습니다.");
-  window.location.href = "/";
+  if (
+    confirm("정말 탈퇴하시겠습니까? \n 탈퇴시 모든 정보는 복구가 불가능합니다.")
+  ) {
+    const body = { accept: document.getElementById("signout_accept").value };
+    const res = await Api.delete("/api/users", "", body);
+    console.log(res);
+    sessionStorage.clear();
+    alert("그동안 감사했습니다.");
+    window.location.href = "/";
+  }
+  alert("휴 다행이에요~ ");
 };

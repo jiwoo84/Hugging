@@ -1,9 +1,14 @@
-html,
-body {
-  margin: 0;
-  padding: 0;
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
+#user__data {
+  width: 80%;
+ display: flex;
+ flex-direction: column;
+ align-items: flex-start; 
+}
 .title {
   font-size: 30px;
   text-align: center;
@@ -20,7 +25,7 @@ body {
 
 .buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 
@@ -53,7 +58,7 @@ body {
   flex-direction: column;
 }
 
-/* 회원탈퇴폼*/
+/* 폼*/
 .signOut_form{
   display: flex;
   flex-direction: column;
@@ -66,4 +71,5 @@ body {
   top:30%;
   left:40%;
   animation: hide 1 ;
+  z-index: 3;
 }

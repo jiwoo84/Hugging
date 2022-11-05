@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="mypage.css" />
     <script src="mypage.js" type="module" defer></script>
     <script src="signOut.js" type="module" defer></script>
+    <script src="userEdit.js" type="module" defer></script>
 
     <!-- 헤더 푸터 불러오기 -->
     <link rel="stylesheet" href="../public/header/header.css" />
@@ -48,18 +49,22 @@
       <p class="welcome-message" data-id="" id="welcome-message">
         ***님 반갑습니다
       </p>
-      <div class="message-box is-three-quarters box">
+      <div class="message-box is-three-quarters box" id="user__data">
+        <p>사용가능 쿠폰 - 장 //2주차 구현고려</p>
+        <p>이번달 등급은 ~입니다 //2주차 구현고려</p>
+        <p>총 구매금액은 x원 입니다.</p>
+        <p>저희와 함께한 시간 ...</p>
         <!-- <p class="message-box__grade">회원등급: VIP</p> -->
         <!-- <p class="message-box__Purchase-amount">
-          총 구매금액은 100,000원입니다.
-        </p> -->
+            총 구매금액은 100,000원입니다.
+          </p> -->
       </div>
 
       <div class="buttons">
         <button id="findOrder" class="buttons__order-check button is-light">
           주문 조회
         </button>
-        <button class="buttons__modyfing-info button is-light">
+        <button id="userEdit" class="buttons__modyfing-info button is-light">
           정보 수정
         </button>
         <button id="signOut" class="buttons__Withdrawal button is-light">

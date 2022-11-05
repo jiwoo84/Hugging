@@ -64,7 +64,7 @@ categoryRouter.get("/", async (req, res, next) => {
 
 //카테고리 수정
 categoryRouter.patch("/", loginRequired, async (req, res, next) => {
-  const currentRole = req;
+  const { currentRole } = req;
   const { name, index, currentName } = req.body;
   if (currentRole !== "admin") {
     return res.status(400).json({

@@ -1,5 +1,7 @@
 import * as Api from "../api.js";
 
+//띄어쓰기, 포문 왜 돌아가는지, 이유 적어서 숙제!!!
+
 const navigationBar = document.querySelector(".navigation");
 const postItems = document.querySelector(".postItems");
 
@@ -13,33 +15,55 @@ AllCategoryList();
 ////모든카테고리 보여줘
 async function ShowNavBar() {
   const data = await Api.get("/api/categories/all");
-  // const homeproducts = data.data[0].name;
-  // const homeproducts1 = data.data[0].index;
-  // const officeproducts = data.data[1].name;
-  // const officeproducts1 = data.data[1].index;
-  // const itemsFromCategory = await Api.get(
-  //   `/api/categories?name=${homeproducts}&index=${homeproducts1}`
-  // );
-  // console.log(itemsFromCategory);
-  // postItems.innerHTML = `<div class="showItem">
-  // </div>`;
 
   for (let i = 0; i < data.data.length; i++) {
     const navName = data.data[i].name;
-    navigationBar.innerHTML += `<div class="${navName}">${navName}<div>`;
-    // showItem.innerHTML += `<div class="${showItem}">${showItem}<div>`;
+    const navIdx = data.data[i].index;
+    const categoryDiv = document.createElement("div");
+    categoryDiv.id = navName;
+    categoryDiv.textContent = navName;
+    navigationBar.appendChild(categoryDiv);
+    categoryDiv.addEventListener("click", () => {
+      showFuction(navName, navIdx);
+    });
   }
 }
-// const showItem = document.querySelector(".showItem");
 
 ShowNavBar();
 
+//데이터 잘 오니?
 async function showItems() {
-  const items = await Api.get(`/api/categories?name=%ED%99%88&index=400`);
+  let 카테고리이름 = "홈";
+  let 인덱스 = 400;
+  const items = await Api.get(
+    `/api/categories?name=${카테고리이름}&index=${인덱스}`
+  );
   console.log(items);
 }
-showItems();
-// for (let i = 0; i < data.data.length; i++) {
-//   const navName = data.data[i].name;
-//   itemBox.innerHTML += `<div class="${navName}">${navName}<div>`;
-// }
+
+//카테고리 값 클릭 시 아이템 렌더링
+
+async function showFuction(카테고리이름, 인덱스) {
+  // 이전 데이터 삭제
+  while (postItems.hasChildNodes()) {
+    postItems.removeChild(postItems.firstChild);
+  }
+  const categoryItem = await Api.get(
+    `/api/categories?name=${카테고리이름}&index=${인덱스}`
+  );
+  for (let i = 0; i < categoryItem.data.length; i++) {
+    //큰 엄마 디브 만들기
+    const momDiv = document.createElement("div");
+    const img = document.createElement("img");
+    img.src = categoryItem.data[i].imageUrl;
+    const nameDiv = document.createElement("div");
+    nameDiv.textContent = categoryItem.data[i].name;
+    const priceDiv = document.createElement("div");
+    priceDiv.textContent = categoryItem.data[i].price;
+
+    momDiv.appendChild(img);
+    momDiv.appendChild(nameDiv);
+    momDiv.appendChild(priceDiv);
+    postItems.appendChild(momDiv);
+  }
+}

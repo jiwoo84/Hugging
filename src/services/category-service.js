@@ -64,7 +64,6 @@ class CategoryService {
       name,
       index,
     }).populate("items");
-
     let resultArr = [];
     for (let i = 0; i < result.items.length; i++) {
       let obj = {};

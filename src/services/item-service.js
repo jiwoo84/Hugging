@@ -58,6 +58,21 @@ class ItemService {
   async updateItem(findItemId, toUpdate) {
     return await Item.updateMany({ _id: findItemId }, toUpdate);
   }
+
+  async noAffiliation() {
+    const a = await Category.find({});
+    const items = await Item.find({});
+    let isCategory = [];
+    for (let i = 0; i < a.length; i++) {
+      isCategory.push(a[i].name);
+    }
+    const noAffiliation = a.filter(
+      (item) => !isCategory.includes(item.category)
+    );
+    console.log(items.length);
+    console.log(noAffiliation.length);
+    return noAffiliation;
+  }
 }
 
 const itemService = new ItemService();

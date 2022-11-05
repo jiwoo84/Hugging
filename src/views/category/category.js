@@ -1,53 +1,45 @@
 import * as Api from "../api.js";
 
-async function 전체카테고리() {
-  const allCategories = await Api.get("/api/ctegories/all");
+const navigationBar = document.querySelector(".navigation");
+const postItems = document.querySelector(".postItems");
+
+//모든카테고리 콘솔창에 보여줘
+async function AllCategoryList() {
+  const allCategories = await Api.get("/api/categories/all");
   console.log(allCategories);
 }
-전체카테고리();
-// createDB();
-// getDataFromApi();
+AllCategoryList();
 
-// async function getDataFromApi() {
-//   const data = await Api.get("/categories/all");
-//   // data = [ [{...},{...}...{...}:8개] , [{...}{}{}:3개] ]
-//   const { bestItems, newItems } = data;
+////모든카테고리 보여줘
+async function ShowNavBar() {
+  const data = await Api.get("/api/categories/all");
+  // const homeproducts = data.data[0].name;
+  // const homeproducts1 = data.data[0].index;
+  // const officeproducts = data.data[1].name;
+  // const officeproducts1 = data.data[1].index;
+  // const itemsFromCategory = await Api.get(
+  //   `/api/categories?name=${homeproducts}&index=${homeproducts1}`
+  // );
+  // console.log(itemsFromCategory);
+  // postItems.innerHTML = `<div class="showItem">
+  // </div>`;
 
-//   bestContainer.appendChild(draw(bestItems, "bestItem"));
-//   newContainer.appendChild(draw(newItems, "newItem"));
+  for (let i = 0; i < data.data.length; i++) {
+    const navName = data.data[i].name;
+    navigationBar.innerHTML += `<div class="${navName}">${navName}<div>`;
+    // showItem.innerHTML += `<div class="${showItem}">${showItem}<div>`;
+  }
+}
+// const showItem = document.querySelector(".showItem");
 
-//   attachBtn();
-// }
+ShowNavBar();
 
-// function draw(Items, className) {
-//   let card = document.createElement("div");
-//   card.setAttribute("class", "containerLayout");
-//   for (let i = 0; i < Items.length; i++) {
-//     card.innerHTML += `
-//     <div id="${Items[i]._id}" class="${className}">
-//       <p>${Items[i].name}</p>
-//       <img src="${Items[i].imageUrl}">
-//       <p>${Items[i].price}</p>
-//       <p>${Items[i].category}</p>
-//     </div>
-//     `;
-//   }
-//   return card;
-// }
-
-// function createDB() {
-//   if (window.indexedDB) {
-//     const databaseName = "cart";
-//     const version = 1;
-
-//     const request = indexedDB.open(databaseName, version);
-
-//     request.onupgradeneeded = function () {
-//       request.result.createObjectStore("items", { keyPath: "id" });
-//     };
-//     request.onsuccess = function () {};
-//     request.onerror = function (event) {
-//       alert(event.target.errorCode);
-//     };
-//   }
+async function 아이템보여줘() {
+  const items = await Api.get(`/api/categories?name=%ED%99%88&index=400`);
+  console.log(items);
+}
+아이템보여줘();
+// for (let i = 0; i < data.data.length; i++) {
+//   const navName = data.data[i].name;
+//   itemBox.innerHTML += `<div class="${navName}">${navName}<div>`;
 // }

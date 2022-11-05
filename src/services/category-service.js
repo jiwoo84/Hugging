@@ -80,10 +80,11 @@ class CategoryService {
     const { index, name } = data;
 
     const deleteCategory = await Category.deleteOne({ index: index });
-    const changeItemCategoryName = await Item.updateMany(
-      { category: name },
-      { category: "" }
-    );
+    // 아래 코드는 리뷰때
+    // const changeItemCategoryName = await Item.updateMany(
+    //   { category: name },
+    //   { category: "" }
+    // );
     return deleteCategory, changeItemCategoryName;
   }
 }

@@ -34,11 +34,11 @@ async function ShowNavBar() {
 
 ShowNavBar();
 
-async function 아이템보여줘() {
+async function showItems() {
   const items = await Api.get(`/api/categories?name=%ED%99%88&index=400`);
   console.log(items);
 }
-아이템보여줘();
+showItems();
 // for (let i = 0; i < data.data.length; i++) {
 //   const navName = data.data[i].name;
 //   itemBox.innerHTML += `<div class="${navName}">${navName}<div>`;

@@ -71,7 +71,6 @@ class CategoryService {
       obj = result.items[i];
       resultArr.push(obj);
     }
-    resultArr.sort(-1);
     console.log(resultArr);
     return resultArr;
   }

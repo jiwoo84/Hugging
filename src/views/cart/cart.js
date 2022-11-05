@@ -225,5 +225,6 @@ clearSelectBtn.addEventListener("click",function(){
 
 //결제창으로 이동
 purchaseBtn.addEventListener("click",function(){
+    localStorage.setItem("storeName","items");
     location.href = "/order";
 });

@@ -423,6 +423,7 @@ async function clickedCategory() {
         });
 
         alert(res.msg);
+        clickedCategory();
       });
 
       const categoryModifyCancel = document.querySelector(
@@ -448,6 +449,7 @@ async function clickedCategory() {
   });
 
   // 카테고리 추가
+
   // 카테고리 관리 클릭 -> 카테고리 추가 생성
   // 카테고리 추가 클릭 -> 밑에 input 두개 생성
 }

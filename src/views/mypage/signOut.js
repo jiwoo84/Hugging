@@ -8,6 +8,7 @@ const createForm = () => {
   while (list_mom.hasChildNodes()) {
     list_mom.removeChild(list_mom.firstChild);
   }
+  list_mom.className = "holder_center";
   const clicked_title = document.getElementById("clicked_title");
   const clicked_descript = document.getElementById("clicked_descript");
   clicked_title.textContent = "회원탈퇴";
@@ -21,21 +22,45 @@ const createForm = () => {
         type="text"
         id="signout_accept"
         placeholder="'탈퇴'를 입력해주세요"
-    />
-    <input type="submit" value="제출" />`;
+    />    
+    <br>
+    <br>
+    <div>
+      <button id="canCel">취소</button>
+      <input type="submit" value="제출" />
+    </div>
+    `;
   list_mom.appendChild(form);
   const signOut_form = document.getElementById("signOut_form");
   signOut_form.addEventListener("submit", submitFrom);
+  if (document.getElementById("canCel")) {
+    document.getElementById("canCel").addEventListener("click", () => {
+      canCel();
+    });
+  }
   console.log("회원탈퇴 폼 생성");
 };
 
 signOut.addEventListener("click", createForm);
+function canCel() {
+  setTimeout(() => {
+    while (list_mom.hasChildNodes()) {
+      list_mom.removeChild(list_mom.firstChild);
+    }
+  }, 1);
+  list_mom.className = "";
+  const clicked_title = document.getElementById("clicked_title");
+  const clicked_descript = document.getElementById("clicked_descript");
+  clicked_title.textContent = "";
+  clicked_descript.textContent = "";
+}
 
 const submitFrom = async (e) => {
   e.preventDefault();
 
   const body = { accept: document.getElementById("signout_accept").value };
   const res = await Api.delete("/api/users", "", body);
+  console.log(res);
   sessionStorage.clear();
   alert("그동안 감사했습니다.");
   window.location.href = "/";

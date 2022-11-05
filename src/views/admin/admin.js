@@ -206,7 +206,7 @@ async function clickedItem() {
         <button class="productOrderRestartBtn">판매시작</button>
       </td>`;
     }
-    tableBody.appendChild(tr);
+    itemsTableBody.appendChild(tr);
   }
 
   // 상품 삭제 버튼

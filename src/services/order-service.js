@@ -55,7 +55,6 @@ class OrderService {
       const orders = await Order.find({ buyer: data }) // 현재까지 주문한 모든 목록
         .populate("items.id")
         .populate("buyer");
-      console.log(orders);
       let result = [];
       for (let i = 0; i < orders.length; i++) {
         let obj = {}; // json형태로 반환하려고 만든것
@@ -69,6 +68,7 @@ class OrderService {
           });
         }
         obj = {
+          대표이미지: orders[0].items[0].id.imageUrl,
           상품목록: itemsArr,
           주문번호: orders[i]._id,
           주문날짜: orders[i].createdAt,
@@ -84,14 +84,17 @@ class OrderService {
         };
         result.push(obj);
       }
+      console.log("ORDER : 리스트 ", result);
       return result;
     }
   }
 
   async orderCancel(data) {
     const { id, currentRole } = data;
+    console.log("ORDER : 취소 서비스 들어옴");
     // 토큰 권한이 관리자일때 수정로직
     if (currentRole === "admin") {
+      console.log("ORDER : 관리자 캔슬");
       // 요청받은 주문번호가 수정가능한 상태인지 체크
       const statusCheck = await Order.findById({ _id: id });
       if (statusCheck.orderStatus === "수정가능") {
@@ -103,16 +106,20 @@ class OrderService {
           }
         );
         return;
-      } else {
-        await Order.updateMany(
-          { _id: id },
-          {
-            deliveryStatus: "주문취소",
-            orderStatus: "수정불가",
-          }
-        );
-        return;
       }
+      // 토큰권한 사용자일 경우
+    } else if (currentRole === "user") {
+      console.log("ORDER : 사용자가 주문취소 버튼 누름");
+      await Order.updateOne(
+        { _id: id },
+        {
+          deliveryStatus: "주문취소",
+          orderStatus: "수정불가",
+        }
+      );
+      return;
+    } else {
+      throw new Error("ORDER: 로그인 사용자만 이용 가능한 서비스입니다.");
     }
   }
   // 수정 이유가 배송상태 변경일 경우 함수

@@ -22,3 +22,33 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+
+.order_img{
+  width: 70px;
+  height: 70px;
+}
+.list_son{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  border: solid 0.5px black;
+  align-items: center;
+}
+.list_div_info{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.list_div_info_div{
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.list_div_status{
+  padding-right: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}

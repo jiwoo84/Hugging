@@ -41,17 +41,17 @@
 
 
         <main>
-            <h1>주문/결제</h1>
+            <h1 id="order">주문/결제</h1>
             <br>
             <div>
-                <div class="orderedMan">주문자</div>
+                <div class="orderedMan"><p>주문자</p></div>
             </div>
             <br>
-            <div>
-                <div class="orderedAdress">배송지</div>
-
-                <div>
-                    <p>배송메세지</p>
+            <div class="orderedInfoContainer">
+                <div class="orderedAdress"><p class="orderedAdressTitle">배송지</p></div>
+                <br>
+                <div class="deliveryMsgContainer">
+                    <p class="deliveryMsgTitle">배송메세지</p>
                     <select class="deliveryMsg"> 
                         <option name="msg">배송메세지를 선택하세요.</option>
                         <option name="msg">도착전 전화해주세요.</option>
@@ -62,28 +62,30 @@
             </div>
             <br>
             <div class="productContainer">
-                <p>주문상품</p>
+                <p class="productTitle">주문상품</p>
             </div>
-            <br>
+            
             <div class="totalPriceContainer">
-                <p>결제금액</p>
+                <p class="priceTitle">결제금액</p>
                 <p class="totalPrice"></p>
-
             </div>
+
             <br>
-            <div>
-                <h2>결제수단</h2>
-                <label>
-                    <input type="radio" class="card" name="radio" checked>
-                    카드결제
-                </label>
 
-                
-                <label>
-                    <input type="radio" class="cash" name="radio">
-                    무통장입금
-                </label>
+            <div class="cardOrcashContainer">
+                <h2 class = "cardOrcashTitle">결제수단</h2>
+                <div class="cardOrcashBtnGroup">
+                    <div class="cardOrcashBtn">
+                        <input type="radio" class="card" name="radio" >
+                        <label>카드결제</label>
+                    </div>
 
+                    <div class="cardOrcashBtn">
+                        <input type="radio" class="cash" name="radio">
+                        <label>무통장입금</label>
+                    </div>
+                </div>
+            </div>
             <br>
             <div class="btnGroup">
                 <button class = "purchase">주문하기</button>

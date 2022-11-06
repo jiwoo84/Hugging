@@ -75,10 +75,12 @@ tfoot {
 
 #modal-container__inner {
   position: absolute;
-  background-color: rgb(253, 194, 194);
+  background-color: rgb(195, 228, 238);
   padding: 100px;
+  border-radius: 20px;
+  border: #333 solid;
   top: 30%;
-  left: 40%;
+  left: 20%;
   animation: hide 1;
   z-index: 3;
 }

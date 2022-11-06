@@ -9,6 +9,9 @@ itemBtn.addEventListener("click", clickedItem);
 
 // 상품조회 이벤트
 async function clickedItem() {
+  // 화면 초기화 (모달창)
+  const itemAddBox = document.querySelector("#modal-container");
+  itemAddBox.innerHTML = "";
   // 사이드바 카테고리 하단에 추가 있다면 삭제
   const categoryBtn_add = document.querySelector("#category-btn__add");
   if (categoryBtn_add) {
@@ -259,11 +262,10 @@ async function clickedItem() {
 
   // -----------------------------------------------------------------
   // 상품 추가
-  const itemAddBox = document.querySelector("#modal-container");
+
   const itemsBtn_add = document.querySelector("#items-btn__add");
 
   itemsBtn_add.addEventListener("click", async () => {
-    console.log("클릭함");
     itemAddBox.innerHTML = `
       <div id="modal-container__inner">
           <p>상품명</p>
@@ -274,6 +276,8 @@ async function clickedItem() {
           <input id="itemAddbox_priceInput"/>
           <p>이미지</p>
           <input id="itemAddbox_imgInput"/>
+          <p>상세설명</p>
+          <input id="itemAddbox_detailInput"/>
           <button id="itemAddBox_addBtn">추가완료</button>
           <button id="itemAddBox_cancelBtn">취소</button>
       </div>
@@ -306,11 +310,15 @@ async function clickedItem() {
       const itemAddbox_imgInput = document.querySelector(
         "#itemAddbox_imgInput"
       );
+      const itemAddbox_detailInput = document.querySelector(
+        "#itemAddbox_detailInput"
+      );
 
       const name = itemAddbox_nameInput.value;
       const category = itemAddbox_categorySelect.value;
       const price = itemAddbox_priceInput.value;
       const img = itemAddbox_imgInput.value;
+      const detail = itemAddbox_detailInput.value;
 
       if (!/[0-9]/.test(price)) {
         return alert("가격에 숫자를 입력해주세요");
@@ -321,6 +329,7 @@ async function clickedItem() {
         category: category,
         price: price,
         imageUrl: img,
+        itemDetail: detail,
       });
       alert(res.msg);
       itemAddBox.innerHTML = "";

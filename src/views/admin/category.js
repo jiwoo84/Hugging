@@ -4,12 +4,16 @@ import * as Api from "/api.js";
 // 화면이 들어가는 공간
 const listContainer = document.querySelector("#list-container");
 // 카테고리 관리 버튼
-const categoryBtn = document.querySelector("#category-btn");
+const categoryBtn = document.querySelector("#category-btn__management");
 // 버튼에 이벤트 넣기
 categoryBtn.addEventListener("click", clickedCategory);
 
 // 카테고리 관리 버튼
 async function clickedCategory() {
+  // 화면 초기화 (모달창 지우거)
+  const categoryAddBox = document.querySelector("#modal-container");
+  categoryAddBox.innerHTML = "";
+
   // 사이드바: 상품관리 하단에 버튼 있다면 지우기
   const itemsBtn_add = document.querySelector("#items-btn__add");
 
@@ -85,38 +89,34 @@ async function clickedCategory() {
       // index,name 값 받아옴
       const index = btn.parentElement.parentElement.id;
       const name = btn.parentElement.parentElement.className;
-      // ** index 형태를 바꿔서 index로 식별하게 변경해야함
-      const categoryBody_row = document.querySelector(`.${name}`);
 
       // 행의 칸 안에 input,button 다시 세팅
-      categoryBody_row.innerHTML = `
-        <td class="categoryBody_row_nameContent">
-          <input id="categoryBody_row_nameContent_input" value="${name}" />
-        </td>
-        <td class="categoryBody_row_indexContent">
-          <input id="categoryBody_row_indexContent_input" value="${index}" />
-        </td>
-        <td class="categoryBody_row_btns">
-          <button class="categoryBody_row_btns_modifyDone">수정완료</button>
-          <button class="categoryBody_row_btns_cancel">취소</button>
-        </td>
+      categoryAddBox.innerHTML = `
+        <div id="modal-container__inner">
+          <p>카테고리명</p>
+          <input id="categoryAddBox_nameInput" value="${name}" />
+          <p>인덱스</p>
+          <input id="categoryAddBox_indexInput" value="${index}" />
+          <button class="categoryAddBox_doneBtn">수정완료</button>
+          <button class="categoryAddBox_cancelBtn">취소</button>
+        </div>
       `;
 
       // 수정완료 버튼 이벤트
-      const categoryBody_row_btns_modifyDone = document.querySelector(
-        ".categoryBody_row_btns_modifyDone"
+      const categoryAddBox_doneBtn = document.querySelector(
+        ".categoryAddBox_doneBtn"
       );
 
-      categoryBody_row_btns_modifyDone.addEventListener("click", async () => {
-        const categoryBody_row_nameContent_input = document.querySelector(
-          "#categoryBody_row_nameContent_input"
+      categoryAddBox_doneBtn.addEventListener("click", async () => {
+        const categoryAddBox_nameInput = document.querySelector(
+          "#categoryAddBox_nameInput"
         );
-        const categoryBody_row_indexContent_input = document.querySelector(
-          "#categoryBody_row_indexContent_input"
+        const categoryAddBox_indexInput = document.querySelector(
+          "#categoryAddBox_indexInput"
         );
         // 수정된 값 받아와서 전달
-        const modifyName = categoryBody_row_nameContent_input.value;
-        const modifyIndex = categoryBody_row_indexContent_input.value;
+        const modifyName = categoryAddBox_nameInput.value;
+        const modifyIndex = categoryAddBox_indexInput.value;
 
         if (!/^[a-z|A-Z]/.test(modifyIndex)) {
           return alert(`인덱스는 알파벳으로 시작해야합니다.
@@ -130,27 +130,27 @@ async function clickedCategory() {
         });
         // 수정 완료
         alert(res.msg);
+        categoryAddBox.innerHTML = "";
         clickedCategory();
       });
 
       // 취소 버튼
-      const categoryBody_row_btns_cancel = document.querySelector(
-        ".categoryBody_row_btns_cancel"
+      const categoryAddBox_cancelBtn = document.querySelector(
+        ".categoryAddBox_cancelBtn"
       );
-      categoryBody_row_btns_cancel.addEventListener("click", () => {
+      categoryAddBox_cancelBtn.addEventListener("click", () => {
         console.log("취소누름");
         clickedCategory();
       });
     });
   });
 
+  // ----------------------------------------------------------------
   // 카테고리 추가
-  const categoryAddBox = document.querySelector("#modal-container");
   const categoryBtn_add = document.querySelector("#category-btn__add");
 
   // 카테고리 추가 버튼 이벤트 -> 모달창 생성
   categoryBtn_add.addEventListener("click", async () => {
-    console.log("클릭함");
     categoryAddBox.innerHTML = `
       <div id="modal-container__inner">
           <p>카테고리명</p>

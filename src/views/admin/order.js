@@ -11,7 +11,9 @@ orderBtn.addEventListener("click", clickedOrder);
 // 주문 조회 버튼
 async function clickedOrder() {
   // 화면 초기화
+  const modalBox = document.querySelector("#modal-container");
   listContainer.innerHTML = "";
+  modalBox.innerHTML = "";
 
   // 상품관리, 카테고리관리 하단에 버튼 있다면 지우기
   const categoryBtn_add = document.querySelector("#category-btn__add");

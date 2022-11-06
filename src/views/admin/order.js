@@ -12,6 +12,17 @@ orderBtn.addEventListener("click", clickedOrder);
 async function clickedOrder() {
   // 화면 초기화
   listContainer.innerHTML = "";
+
+  // 상품관리, 카테고리관리 하단에 버튼 있다면 지우기
+  const categoryBtn_add = document.querySelector("#category-btn__add");
+  const itemsBtn_add = document.querySelector("#items-btn__add");
+  if (categoryBtn_add) {
+    categoryBtn_add.parentElement.removeChild(categoryBtn_add);
+  }
+  if (itemsBtn_add) {
+    itemsBtn_add.parentElement.removeChild(itemsBtn_add);
+  }
+
   // 주문 리스트 데이터 받아오기
   const data = (await Api.get("/api/orders")).data;
 

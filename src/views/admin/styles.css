@@ -22,12 +22,13 @@ main {
 #side-bar {
   display: flex;
   flex-direction: column;
-  width: 100px;
+  width: 200px;
   margin-left: 20px;
 }
 
-#side-bar button {
+#side-bar > div {
   margin-bottom: 10px;
+  height: 60px;
 }
 
 #list-container {

@@ -3,12 +3,29 @@ import * as Api from "/api.js";
 // 리스트 들어가는 공간
 const listContainer = document.querySelector("#list-container");
 // 상품 관리 버튼
-const itemBtn = document.querySelector("#items-btn");
+const itemBtn = document.querySelector("#items-btn__management");
 // 버튼에 이벤트 넣기
 itemBtn.addEventListener("click", clickedItem);
 
 // 상품조회 이벤트
 async function clickedItem() {
+  // 사이드바 카테고리 하단에 추가 있다면 삭제
+  const categoryBtn_add = document.querySelector("#category-btn__add");
+  if (categoryBtn_add) {
+    categoryBtn_add.parentElement.removeChild(categoryBtn_add);
+  }
+
+  // 버튼 하단에 상품 추가 넣기
+  if (!document.querySelector("#items-btn__add")) {
+    // 버튼의 부모 불러오기
+    const itemsBtnParent = document.querySelector("#items-btn");
+    //추가할 버튼 생성
+    const itemsBtn_add = document.createElement("div");
+    itemsBtn_add.id = "items-btn__add";
+    itemsBtn_add.innerText = "상품 추가";
+    // 버튼을 부모에 추가
+    itemsBtnParent.appendChild(itemsBtn_add);
+  }
   // 표 상단 만들기
   listContainer.innerHTML = `
   <div>
@@ -308,6 +325,14 @@ async function clickedItem() {
       alert(res.msg);
       itemAddBox.innerHTML = "";
       clickedItem();
+    });
+
+    // 취소 버튼
+    const itemAddBox_cancelBtn = document.querySelector(
+      "#itemAddBox_cancelBtn"
+    );
+    itemAddBox_cancelBtn.addEventListener("click", () => {
+      itemAddBox.innerHTML = "";
     });
   });
 }

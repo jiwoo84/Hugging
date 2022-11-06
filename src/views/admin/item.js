@@ -166,7 +166,7 @@ async function clickedItem() {
           <tr>
             <td>카테고리</td>
             <td>
-              <input id="itemsModifyBox_category" value="${itemData.category}" />
+              <select id="itemsModifyBox_category" value="${itemData.category}"></select>
             </td>
           </tr>
           <tr>
@@ -180,6 +180,18 @@ async function clickedItem() {
         </div>
       `;
 
+      // 카테고리 셀렉트에 값 넣기
+      const itemsModifyBox_category = document.querySelector(
+        "#itemsModifyBox_category"
+      );
+      const categories = (await Api.get("/api/categories/all")).data;
+
+      categories.forEach((category) => {
+        itemsModifyBox_category.innerHTML += `
+        <option>${category.name}</option>
+      `;
+      });
+
       // 수정버튼 구현
       const itemsModifyBox_doneBtn = document.querySelector(
         "#itemsModifyBox_doneBtn"
@@ -188,7 +200,22 @@ async function clickedItem() {
       // input으로 값을 받아서 변경 (아무것도 입력x -> 그대로 저장)
       // 근데 각 input의 요소를 찾지 않고 넘겨줬는데 왜 실행이 될까??????????
       itemsModifyBox_doneBtn.addEventListener("click", async () => {
-        console.log(itemsModifyBox_name);
+        const itemsModifyBox_name = document.querySelector(
+          "#itemsModifyBox_name"
+        );
+        const itemsModifyBox_category = document.querySelector(
+          "#itemsModifyBox_category"
+        );
+        const itemsModifyBox_price = document.querySelector(
+          "#itemsModifyBox_price"
+        );
+        const itemsModifyBox_img = document.querySelector(
+          "#itemsModifyBox_img"
+        );
+        const itemsModifyBox_detail = document.querySelector(
+          "#itemsModifyBox_detail"
+        );
+
         await Api.patch(`/api/items/${id}`, "", {
           name: itemsModifyBox_name.value,
           category: itemsModifyBox_category.value,
@@ -212,21 +239,75 @@ async function clickedItem() {
       });
     }
   });
+
+  // -----------------------------------------------------------------
+  // 상품 추가
+  const itemAddBox = document.querySelector("#modal-container");
+  const itemsBtn_add = document.querySelector("#items-btn__add");
+
+  itemsBtn_add.addEventListener("click", async () => {
+    console.log("클릭함");
+    itemAddBox.innerHTML = `
+      <div id="modal-container__inner">
+          <p>상품명</p>
+          <input id="itemAddbox_nameInput"/>
+          <p>카테고리</p>
+          <select id="itemAddbox_categorySelect"></select>
+          <p>가격</p>
+          <input id="itemAddbox_priceInput"/>
+          <p>이미지</p>
+          <input id="itemAddbox_imgInput"/>
+          <button id="itemAddBox_addBtn">추가완료</button>
+          <button id="itemAddBox_cancelBtn">취소</button>
+      </div>
+    `;
+
+    // 카테고리값 받아와서 select의 option 값으로 넣기
+    const itemAddbox_categorySelect = document.querySelector(
+      "#itemAddbox_categorySelect"
+    );
+    const categories = (await Api.get("/api/categories/all")).data;
+
+    categories.forEach((category) => {
+      itemAddbox_categorySelect.innerHTML += `
+        <option>${category.name}</option>
+      `;
+    });
+
+    // 추가완료 버튼
+    const itemAddBox_addBtn = document.querySelector("#itemAddBox_addBtn");
+    itemAddBox_addBtn.addEventListener("click", async () => {
+      const itemAddbox_nameInput = document.querySelector(
+        "#itemAddbox_nameInput"
+      );
+      const itemAddbox_categorySelect = document.querySelector(
+        "#itemAddbox_categorySelect"
+      );
+      const itemAddbox_priceInput = document.querySelector(
+        "#itemAddbox_priceInput"
+      );
+      const itemAddbox_imgInput = document.querySelector(
+        "#itemAddbox_imgInput"
+      );
+
+      const name = itemAddbox_nameInput.value;
+      const category = itemAddbox_categorySelect.value;
+      const price = itemAddbox_priceInput.value;
+      const img = itemAddbox_imgInput.value;
+
+      if (!/[0-9]/.test(price)) {
+        return alert("가격에 숫자를 입력해주세요");
+      }
+      // 추가 요청 보내기
+      const res = await Api.post("/api/items", {
+        name: name,
+        category: category,
+        price: price,
+        imageUrl: img,
+      });
+      alert(res.msg);
+      itemAddBox.innerHTML = "";
+      clickedItem();
+    });
+  });
 }
-
-// 카테고리 셀렉트로 선택해서 수정하기 (미완성)
-// 테이블 만들기
-// 카테고리 셀릭트 만들기
-// 카테고리들 가져오기
-// 카테고리들 순회하며 셀렉트 안에 옵션 추가
-// 셀렉트 테이블 안에 넣기
-
-// const categoriesSelect = document.createElement("select");
-// const categories = (await Api.get("/api/categories/all")).data;
-// categoriesSelect.id = "categoryModifySelect";
-
-// categories.forEach((category) => {
-//   categoriesSelect.innerHTML += `
-//     <option>${category}</option>
-//   `;
-// });

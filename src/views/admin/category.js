@@ -137,9 +137,9 @@ async function clickedCategory() {
     categoryAddBox.innerHTML = `
       <div id="modal-container__inner">
           <p>카테고리명</p>
-          <input id="categoryAddBox_nameInput" required/>
+          <input id="categoryAddBox_nameInput"/>
           <p>인덱스</p>
-          <input id="categoryAddBox_indexInput" required/>
+          <input id="categoryAddBox_indexInput"/>
           <button id="categoryAddBox_addBtn">추가완료</button>
           <button id="categoryAddBox_cancelBtn">취소</button>
       </div>

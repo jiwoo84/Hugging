@@ -1,10 +1,14 @@
 import { categoryService } from "../services";
 import express from "express";
-import { adminRequired, loginRequired } from "../middlewares/login-required";
+import { loginRequired } from "../middlewares/login-required";
 const categoryRouter = express();
 
 //카테고리 생성
-categoryRouter.post("/", adminRequired, async (req, res, next) => {
+categoryRouter.post("/", loginRequired, async (req, res, next) => {
+  const { currentRole } = req;
+  if (currentRole !== "admin") {
+    throw new Error("관리자만 접근 가능합니다.");
+  }
   const { name, index } = req.body;
   if (!name || name === "") {
     return res.status(400).json({

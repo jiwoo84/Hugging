@@ -47,7 +47,6 @@ class SosialService {
     });
 
     // 해당 변수를 확인해보면 data 안에 access_token 이 있는것을 확인할 수 있다.
-    console.log(axiosHTTP);
     // 해당 access_token 을 적절한 변수명에 저장해준다.
     const access_token = axiosHTTP.data.access_token;
     return access_token;
@@ -82,17 +81,17 @@ class SosialService {
         //원래 있었다면
         name,
       });
+      console.log("닉네임 존재 여부, false=존재 : ", !nickCheck);
       let nickname = name;
       let num = 0;
       // 해당 사용자가 존재한다면
       if (nickCheck) {
-        //
-        while (true) {
-          if (!nickCheck) break; // 언디파인이나 null 일경우 멈춤
+        while (!nickCheck) {
           // 여기서 null 또는 언디파인으로 바뀜
           nickCheck = await User.findOne({
             nickname: nickname + "_" + String(num),
           });
+          console.log("닉네임 존재 여부, false=존재 : ", !nickCheck);
           ++num;
           console.log("🔥 닉네임 중복을 피하는중...");
         }

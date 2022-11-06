@@ -19,7 +19,7 @@ const createForm = async () => {
     <small>'탈퇴' 입력후 제출</small>
     <input
         type="text"
-        id="accept"
+        id="signout_accept"
         placeholder="'탈퇴'입력"
     />
  
@@ -67,6 +67,7 @@ const submitFrom = async (e) => {
     sessionStorage.clear();
     alert("그동안 감사했습니다.");
     window.location.href = "/";
+    return;
   }
   alert("휴 다행이에요~ ");
 };

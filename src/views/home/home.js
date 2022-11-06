@@ -23,10 +23,13 @@ function draw(Items, className) {
   for (let i = 0; i < Items.length; i++) {
     card.innerHTML += `
     <div id="${Items[i]._id}" class="${className}">
-      <p>${Items[i].name}</p>
       <img src="${Items[i].imageUrl}">
-      <p>${Items[i].price}</p>
-      <p>${Items[i].category}</p>
+      <h3>${Items[i].name}</h3>
+      <div>
+        <p>${Items[i].price} 원 </p>
+        <h4> | </h4>
+        <small>  ${Items[i].category}</small>
+      </div>
     </div>
     `;
   }

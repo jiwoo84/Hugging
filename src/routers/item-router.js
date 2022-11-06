@@ -20,7 +20,7 @@ itemRouter.post("/", loginRequired, async (req, res, next) => {
   }
 });
 
-// 전체상품 조회 - 홈화면
+// 전체상품 조회 - newItems, bestItems 리턴
 itemRouter.get("/", async (req, res, next) => {
   try {
     const { newItems, bestItems } = await itemService.homeFindItems();
@@ -35,7 +35,7 @@ itemRouter.get("/", async (req, res, next) => {
   }
 });
 
-// 왜 만들었지/./.? 조회인거 같음.
+// 관리자가 상품 CRU 하기위해 요청하는 곳, 전체상품을 리턴한다.
 itemRouter.get("/admin", loginRequired, async (req, res, next) => {
   if (req.currentRole !== "admin") {
     return res.status(400).json({
@@ -53,6 +53,19 @@ itemRouter.get("/admin", loginRequired, async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+// 카테고리에 속하지  아이템들을 리스트로 리턴함
+itemRouter.get("/affiliation", loginRequired, async (req, res, next) => {
+  const { currentRole } = req;
+  if (currentRole !== "admin") {
+    throw new Error("넌 못지나간다!");
+  }
+  const noAffiliations = await itemService.noAffiliation();
+  return res.status(200).json({
+    msg: "존재하지 않은 카테고리에 담긴 아이템의 배열",
+    data: noAffiliations,
+  });
 });
 
 //관리자 주문 수정

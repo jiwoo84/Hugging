@@ -6,6 +6,7 @@ const orderRouter = express();
 // 주문 하기
 orderRouter.post("/", loginRequired, async (req, res, next) => {
   const { currentUserId } = req;
+  console.log("주문하기 라우터에 오신걸 환영합니다.");
   const {
     name,
     address,
@@ -16,17 +17,13 @@ orderRouter.post("/", loginRequired, async (req, res, next) => {
     totalPrice,
   } = req.body; //data {email, name, items[{의자,6개},나무,] 최종결제금액:90000 }
 
+  const data = { ...req.body, buyer: currentUserId };
+  console.log("바디로 보낸것 : ", req.body);
   try {
-    const newOrder = await orderService.newOrder({
-      name,
-      address,
-      phoneNumber,
-      deliveryMsg,
-      items,
-      payMethod,
-      totalPrice,
-      buyer: currentUserId,
-    });
+    console.log("보내질 data : ", data);
+    console.log("만들기직전");
+    const newOrder = await orderService.newOrder(data);
+    console.log("만들어짐 ㅋㅋ");
     return res.status(201).json({
       stauts: 201,
       msg: "ㅋㅋ 만들어짐",

@@ -55,7 +55,9 @@ const find_order = async () => {
     const list_span_totalPrice = document.createElement("span");
     const list_deliveryMsg = document.createElement("p");
     const list_orderId = document.createElement("span");
-    list_items.textContent = `${data[i].상품목록[0].상품}외 ${data[i].상품목록.length}개`;
+    list_items.textContent = `${data[i].상품목록[0].상품}외 ${
+      data[i].상품목록.length - 1
+    }개`;
     list_span_totalPrice.textContent = `결제 금액 : ${data[i].총금액} 원 |  ${list.data[i].주문날짜}`;
     list_deliveryMsg.textContent = `요청사항 : ${data[i].요청사항}`;
     list_orderId.textContent = `주문번호 : ${data[i].주문번호}`;

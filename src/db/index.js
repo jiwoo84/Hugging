@@ -27,7 +27,7 @@ db.on("connected", async () => {
       role: "admin",
     },
   ]);
-  const testingUser = await User.findById("636472cd26f0a28586608873");
+  // const testingUser = await User.findById("636472cd26f0a28586608873");
   // await User.updateOne(
   //   { _id: "636472cd26f0a28586608873" },
   //   { $unset: { orders: 1 } }
@@ -122,96 +122,37 @@ db.on("connected", async () => {
       sales: 140,
       onSale: true,
     },
+    {
+      name: "난 소속없어1",
+      category: "ㅋㅋ",
+      price: 4000,
+      itemDetail: "ㅠㅠ",
+      imageUrl:
+        "https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F850c7b59-c215-4555-b42a-42b6f0d7739e%2FUntitled.png?table=block&id=9edba707-a9c7-40fd-a49d-0c00ee226fd9&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=2000&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2",
+      sales: 10,
+      onSale: true,
+    },
+    {
+      name: "난 소속없어2",
+      category: "ㅋㅋ11",
+      price: 4000,
+      itemDetail: "ㅠㅠ",
+      imageUrl:
+        "https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F850c7b59-c215-4555-b42a-42b6f0d7739e%2FUntitled.png?table=block&id=9edba707-a9c7-40fd-a49d-0c00ee226fd9&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=2000&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2",
+      sales: 10,
+      onSale: true,
+    },
+    {
+      name: "난 소속없어3",
+      category: "ㅋㅋ325",
+      price: 4000,
+      itemDetail: "ㅠㅠ",
+      imageUrl:
+        "https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F850c7b59-c215-4555-b42a-42b6f0d7739e%2FUntitled.png?table=block&id=9edba707-a9c7-40fd-a49d-0c00ee226fd9&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=2000&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2",
+      sales: 10,
+      onSale: true,
+    },
   ]);
-  // const fakeUserOrder = await Order.insertMany([
-  //   {
-  //     deliveryStatus: "발송완료",
-  //     orderStatus: "수정불가",
-  //     deliveryMsg: "ㅋㅋ 이건 요청사항임",
-  //     items: [
-  //       {
-  //         id: fakeItems[0]._id,
-  //         count: 2,
-  //       },
-  //       {
-  //         id: fakeItems[1]._id,
-  //         count: 2,
-  //       },
-  //       {
-  //         id: fakeItems[2]._id,
-  //         count: 2,
-  //       },
-  //       {
-  //         id: fakeItems[3]._id,
-  //         count: 2,
-  //       },
-  //     ],
-  //     buyer: "636472cd26f0a28586608873",
-  //     totalPrice: 50530,
-  //   },
-  //   {
-  //     deliveryStatus: "배송준비중",
-  //     orderStatus: "수정가능",
-  //     deliveryMsg: "ㅋㅋ 이건 요청사항임2",
-  //     items: [
-  //       {
-  //         id: fakeItems[4]._id,
-  //         count: 2,
-  //       },
-  //       {
-  //         id: fakeItems[5]._id,
-  //         count: 2,
-  //       },
-  //       {
-  //         id: fakeItems[6]._id,
-  //         count: 2,
-  //       },
-  //       {
-  //         id: fakeItems[7]._id,
-  //         count: 2,
-  //       },
-  //     ],
-  //     buyer: "636472cd26f0a28586608873",
-  //     totalPrice: 50530,
-  //   },
-  //   {
-  //     deliveryStatus: "배송준비중",
-  //     orderStatus: "수정가능",
-  //     deliveryMsg: "ㅋㅋ 이건 요청사항임3",
-  //     items: [
-  //       {
-  //         id: fakeItems[1]._id,
-  //         count: 2,
-  //       },
-  //       {
-  //         id: fakeItems[2]._id,
-  //         count: 2,
-  //       },
-  //       {
-  //         id: fakeItems[5]._id,
-  //         count: 2,
-  //       },
-  //       {
-  //         id: fakeItems[7]._id,
-  //         count: 2,
-  //       },
-  //     ],
-  //     buyer: "636472cd26f0a28586608873",
-  //     totalPrice: 50530,
-  //   },
-  // ]);
-  // for (let i = 0; i < fakeUserOrder.length; i++) {
-  //   console.log(fakeUserOrder[i]._id), "를 유저 order에 넣을것임";
-  //   await User.updateOne(
-  //     {
-  //       _id: "636472cd26f0a28586608873",
-  //     },
-  //     {
-  //       $push: { orders: fakeUserOrder[i]._id },
-  //     }
-  //   );
-  // }
-  // console.log(testingUser, " 이 갖고있는 orders");
   await Order.insertMany([
     {
       deliveryStatus: "발송완료",
@@ -228,10 +169,6 @@ db.on("connected", async () => {
         },
         {
           id: fakeItems[2]._id,
-          count: 2,
-        },
-        {
-          id: fakeItems[3]._id,
           count: 2,
         },
       ],

@@ -58,6 +58,29 @@ class ItemService {
   async updateItem(findItemId, toUpdate) {
     return await Item.updateMany({ _id: findItemId }, toUpdate);
   }
+
+  // 카테고리 포함되어있지 않은 아이템들 소환
+  async noAffiliation() {
+    const categories = await Category.find({});
+    const items = await Item.find({});
+    // let isCategory = [];
+    // for (let i = 0; i < categories.length; i++) {
+    //   isCategory.push(categories[i].name);
+    // }
+    // console.log(categories);
+    const isCategory = categories.reduce((ac, category) => {
+      ac.push(category.name);
+      return ac;
+    }, []);
+    console.log(isCategory);
+
+    const noAffiliation = items.filter(
+      (item) => !isCategory.includes(item.category)
+    );
+    console.log(items.length);
+    console.log(noAffiliation.length);
+    return noAffiliation;
+  }
 }
 
 const itemService = new ItemService();

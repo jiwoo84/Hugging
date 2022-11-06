@@ -113,7 +113,7 @@ class OrderService {
       await Order.updateOne(
         { _id: id },
         {
-          deliveryStatus: "주문취소",
+          deliveryStatus: "고객주문취소",
           orderStatus: "수정불가",
         }
       );

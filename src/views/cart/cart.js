@@ -18,16 +18,18 @@ function setTotalPrice(){
 function createPost(item,key) {
     const priceSum = item.price*item.sales;
     return `
-    <div id="${key}">
-        <input type="checkbox" name="${key}" class="checkbox">
-        <p >${item.name}</p>
-        <p>${item.category}</p>
-        <p>${item.price}</p>
+    <div id="${key}" class = "card">
         <img src="${item.img}" class ="productImg">
-        <button class="minus">-</button>
-        <span class="quantity">${item.sales}</span>
-        <button class ="plus">+</button>
-        <label class="productPrice">금액합계:${priceSum}</label>
+        <div class="productInfo">
+            <input type="checkbox" name="${key}" class="checkbox">
+            <p class="name">${item.name}</p>
+            <p class="category">${item.category}</p>
+            <p class="price">${item.price}</p>
+            <button class="minus">-</button>
+            <span class="quantity">${item.sales}</span>
+            <button class ="plus">+</button>
+            <p class="productPrice">금액합계 : ${priceSum}</p>
+        </div>
     </div>
     `;
 }

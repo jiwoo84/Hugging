@@ -3,19 +3,24 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="detail.css" />
 		<title>Hugging</title>
 		<!-- bulma css -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <script src="detail.js" type="module" defer></script>
-		
+		<!-- 폰트 어썸: 아이콘 -->
+		<script
+		defer
+		src="https://kit.fontawesome.com/9daa42bcef.js"
+		crossorigin="anonymous"
+		></script>
 		<!-- 커스텀 css, js -->
-	<link rel="stylesheet" href="./detail.css" />
+		<link rel="stylesheet" href="./detail.css" />
     <link rel="stylesheet" href="../public/header/header.css" />
     <link rel="stylesheet" href="../public/footer/footer.css"/>
-    <script src="../public/loadHTML.js" type="text/javascript"></script>
+		<script src="detail.js" type="module" defer></script>
+    <script src="../public/loadHTML.js"></script>
 	</head>
 	<body>
+		<!-- 헤더 삽입 -->
 		<script>
 			if (sessionStorage.getItem("loggedIn") === "true") {
 				loadHTML("../public/header/loggedInHeader.html");
@@ -23,50 +28,49 @@
 				loadHTML("../public/header/header.html");
 			}
 		</script>
-
-		<main class="main">
-			<div class="container">
-				<div class="imgUrl">
-					<img class="imageUrl" src="../elice-rabbit.png">
+		
+		<section class="container">
+			<div class="imgUrl">
+				<img class="imageUrl" src="../elice-rabbit.png">
+			</div>
+			<div class="totalInfo">
+				<div class="titleInfo">
+					<p class="category is-size-7">카테고리</p>
+				<div>
+					<span class="itemName is-size-3 has-text-weight-semibold">가구</span>
+					<span class="tag is-danger">Best</span>	
+				<div class="priceInfo">
+					<p class="price is-size-4">980,000원</p>
 				</div>
-				<div class="totalInfo">
-					<div class="titleInfo">
-						<p class="category is-size-7">카테고리</p>
-					<div>
-						<span class="itemName is-size-3 has-text-weight-semibold">가구</span>
-						<span class="tag is-danger">Best</span>	
-					<div class="priceInfo">
-						<p class="price is-size-4">980,000원</p>
+				<div class="finalInfo">
+					<div class="deliveryInfo">
+						<span class="is-size-6 has-text-weight-semibold">배송 방법 </span>
+						<span class="is-size-7">택배</span>
+						<span class="is-size-6 has-text-weight-semibold">배송비 무료 </span>
+						<span class="is-size-7">(50,000원 이상 무료배송)</span>
 					</div>
-					<div class="finalInfo">
-						<div class="deliveryInfo">
-							<span class="is-size-6 has-text-weight-semibold">배송 방법 </span>
-							<span class="is-size-7">택배</span>
-							<span class="is-size-6 has-text-weight-semibold">배송비 무료 </span>
-							<span class="is-size-7">(50,000원 이상 무료배송)</span>
+					<div class="orderInfo">
+						<div class="count">
+							<button class="minus">-</button>
+							<p class="salseCount">1</p>
+							<button class="plus">+</button>
 						</div>
-						<div class="orderInfo">
-							<div class="count">
-								<button class="minus">-</button>
-								<p class="salseCount">1</p>
-								<button class="plus">+</button>
-							</div>
-							<div class="sellInfo">
-								<button class="moveTocart">장바구니담기</button>
-								<button class="buyNow">바로구매</button>
-							</div>
+						<div class="sellInfo">
+							<button class="moveTocart">장바구니담기</button>
+							<button class="buyNow">바로구매</button>
 						</div>
 					</div>
 				</div>
-				<div class="tabs is-centered">
-					<ul>
-						<li><a href="#details">상세정보</a></li>
-						<li><a>구매평(0)</a></li>
-						<li><a>Q&A(0)</a></li>
-					</ul>
-				</div>
-				<p id="details"> Lorem ipsum dolor sit amet,</p>
-		</main>
+			</div>
+			<div class="tabs is-centered">
+				<ul>
+					<li><a href="#details">상세정보</a></li>
+					<li><a>구매평(0)</a></li>
+					<li><a>Q&A(0)</a></li>
+				</ul>
+			</div>
+			<p id="details"> Lorem ipsum dolor sit amet,</p>
+		</section>
 		<script>loadHTML("../public/footer/footer.html");</script>      
   </body>
 </html>

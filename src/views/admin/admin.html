@@ -26,8 +26,10 @@
       crossorigin="anonymous"
     ></script>
     <!-- 커스텀 css, js -->
-    <link rel="stylesheet" href="admin.css" />
-    <script src="admin.js" type="module" defer></script>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="item.js" type="module" defer></script>
+    <script src="order.js" type="module" defer></script>
+    <script src="category.js" type="module" defer></script>
 
     <!-- 헤더 푸터 불러오기 -->
     <link rel="stylesheet" href="../public/header/header.css" />
@@ -46,17 +48,23 @@
     </script>
 
     <main>
-      <div class="admin-title">관리자 페이지</div>
+      <div id="admin-title">관리자 페이지</div>
 
-      <div class="main-box">
-        <div class="side-bar">
-          <button id="orderBtn">주문 관리</button>
-          <button id="itemsBtn">상품 관리</button>
-          <button id="categoryBtn">카테고리 관리</button>
+      <div id="main-container">
+        <div id="side-bar">
+          <button id="order-btn">주문 관리</button>
+          <button id="items-btn">상품 관리</button>
+          <button id="items-btn__add">상품 추가</button>
+          <button id="category-btn">카테고리 관리</button>
+          <button id="category-btn__add">카테고리 추가</button>
         </div>
 
-        <div id="list-box">
+        <div id="list-container">
           <!--리스트 들어감-->
+        </div>
+
+        <div id="modal-container">
+          <!--상품추가,카테고리추가 모달-->
         </div>
       </div>
     </main>

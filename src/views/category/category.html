@@ -4,14 +4,34 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hugging</title>
+    <!-- bulma css -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
+    <!-- 폰트 어썸: 아이콘 -->
+    <script
+      defer
+      src="https://kit.fontawesome.com/9daa42bcef.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="category.css" />
+    <link rel="stylesheet" href="../public/header/header.css" />
+    <link rel="stylesheet" href="../public/footer/footer.css" />
     <script src="category.js" type="module" defer></script>
+    <script src="../public/loadHTML.js"></script>
   </head>
   <body>
+    <!-- 헤더 삽입 -->
+    <script>
+      if (sessionStorage.getItem("loggedIn") === "true") {
+        loadHTML("../public/header/loggedInHeader.html");
+      } else {
+        loadHTML("../public/header/header.html");
+      }
+    </script>
+
     <section class="section">
       <div>
         <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -26,5 +46,8 @@
         </div>
       </div>
     </section>
+    <script>
+      loadHTML("../public/footer/footer.html");
+    </script>
   </body>
 </html>

@@ -1,60 +1,78 @@
-// 아래는 현재 home.html 페이지에서 쓰이는 코드는 아닙니다.
-// 다만, 앞으로 ~.js 파일을 작성할 때 아래의 코드 구조를 참조할 수 있도록,
-// 코드 예시를 남겨 두었습니다.
-
 import * as Api from "/api.js";
-import { randomId } from "/useful-functions.js";
 
-// 요소(element), input 혹은 상수
-const landingDiv = document.querySelector("#landingDiv");
-const greetingDiv = document.querySelector("#greetingDiv");
+const bestContainer = document.querySelector(".bestContainer");
+const newContainer = document.querySelector(".newContainer");
 
-addAllElements();
-addAllEvents();
-
-// html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-async function addAllElements() {
-  insertTextToLanding();
-  insertTextToGreeting();
-}
-
-// 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-function addAllEvents() {
-  landingDiv.addEventListener("click", alertLandingText);
-  greetingDiv.addEventListener("click", alertGreetingText);
-}
-
-function insertTextToLanding() {
-  landingDiv.insertAdjacentHTML(
-    "beforeend",
-    `
-      <h2>n팀 쇼핑몰의 랜딩 페이지입니다. 자바스크립트 파일에서 삽입되었습니다.</h2>
-    `
-  );
-}
-
-function insertTextToGreeting() {
-  greetingDiv.insertAdjacentHTML(
-    "beforeend",
-    `
-      <h1>반갑습니다! 자바스크립트 파일에서 삽입되었습니다.</h1>
-    `
-  );
-}
-
-function alertLandingText() {
-  alert("n팀 쇼핑몰입니다. 안녕하세요.");
-}
-
-function alertGreetingText() {
-  alert("n팀 쇼핑몰에 오신 것을 환영합니다");
-}
+createDB();
+getDataFromApi();
 
 async function getDataFromApi() {
-  // 예시 URI입니다. 현재 주어진 프로젝트 코드에는 없는 URI입니다.
-  const data = await Api.get("/api/user/data");
-  const random = randomId();
+  const data = await Api.get("/api/items");
+  // data = [ [{...},{...}...{...}:8개] , [{...}{}{}:3개] ]
+  const { bestItems, newItems } = data;
 
-  console.log({ data });
-  console.log({ random });
+  bestContainer.appendChild(draw(bestItems, "bestItem"));
+  newContainer.appendChild(draw(newItems, "newItem"));
+
+  attachBtn();
+}
+
+function draw(Items, className) {
+  const card = document.createElement("div");
+  card.setAttribute("class", "containerLayout");
+  for (let i = 0; i < Items.length; i++) {
+    card.innerHTML += `
+    <div id="${Items[i]._id}" class="${className}">
+      <img src="${Items[i].imageUrl}">
+      <h3>${Items[i].name}</h3>
+      <div>
+        <p>${Items[i].price} 원 </p>
+        <h4> | </h4>
+        <small>  ${Items[i].category}</small>
+      </div>
+    </div>
+    `;
+  }
+  return card;
+}
+
+function createDB() {
+  if (window.indexedDB) {
+    const databaseName = "cart";
+    const version = 1;
+
+    const request = indexedDB.open(databaseName, version);
+
+    request.onupgradeneeded = function () {
+      request.result.createObjectStore("items", { keyPath: "id" });
+      request.result.createObjectStore("nowBuy", { keyPath: "id" });
+    };
+    request.onsuccess = function () {};
+    request.onerror = function (event) {
+      alert(event.target.errorCode);
+    };
+  }
+}
+
+function attachBtn() {
+  const detailToBtns = document.querySelectorAll(".bestItem");
+  const newItemToBtns = document.querySelectorAll(".newItem");
+
+  console.log(detailToBtns);
+
+  detailToBtns.forEach((detailToBtn) => {
+    detailToBtn.addEventListener("click", () => {
+      const id = detailToBtn.id;
+      localStorage.setItem("itemDetail", `${id}`);
+      location.href = "/detail";
+    });
+  });
+
+  newItemToBtns.forEach((newItemToBtn) => {
+    newItemToBtn.addEventListener("click", () => {
+      const id = newItemToBtn.id;
+      localStorage.setItem("itemDetail", `${id}`);
+      location.href = "/detail";
+    });
+  });
 }

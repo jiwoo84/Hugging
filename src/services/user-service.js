@@ -1,21 +1,17 @@
-import { userModel } from "../db";
-
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { User } from "../db";
 
 class UserService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
-  constructor(userModel) {
-    this.userModel = userModel;
-  }
+  constructor() {}
 
-  // 회원가입
+  // 회원가입 (admin 가입시 이름끝에 _admin 붙이기)
   async addUser(userInfo) {
     // 객체 destructuring
-    const { email, fullName, password } = userInfo;
-
+    const { email, name, password, address, phoneNumber } = userInfo;
     // 이메일 중복 확인
-    const user = await this.userModel.findByEmail(email);
+    const user = await User.findOne({ email });
     if (user) {
       throw new Error(
         "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요."
@@ -26,12 +22,18 @@ class UserService {
 
     // 우선 비밀번호 해쉬화(암호화)
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUserInfo = { fullName, email, password: hashedPassword };
-
+    console.log("여ㅑ기?");
+    const newUserInfo = {
+      name,
+      email,
+      password: hashedPassword,
+      address,
+      phoneNumber,
+    };
     // db에 저장
-    const createdNewUser = await this.userModel.create(newUserInfo);
-
+    // 일반적인 가입
+    const createdNewUser = await User.create(newUserInfo);
+    console.log(createdNewUser);
     return createdNewUser;
   }
 
@@ -41,7 +43,7 @@ class UserService {
     const { email, password } = loginInfo;
 
     // 우선 해당 이메일의 사용자 정보가  db에 존재하는지 확인
-    const user = await this.userModel.findByEmail(email);
+    const user = await User.findOne({ email });
     if (!user) {
       throw new Error(
         "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요."
@@ -69,24 +71,57 @@ class UserService {
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
 
     // 2개 프로퍼티를 jwt 토큰에 담음
-    const token = jwt.sign({ userId: user._id, role: user.role }, secretKey);
+    const token = jwt.sign(
+      { userId: user._id, role: user.role, sosial: user.sosial },
+      secretKey
+    );
 
-    return { token };
+    return token;
+  }
+
+  // 관리자 로그인
+  async adminLogin(loginInfo) {
+    const { email, password } = loginInfo;
+    const secretKey = process.env.JWT_SECRET_KEY;
+    const admin = await User.findOne({ email });
+    if (!admin) {
+      const newAdmin = await User.create({
+        email,
+        name: "관리자",
+        password: "erboinerboiber",
+        address: "엘리스 랩실",
+        phoneNumber: "010-0000-0000",
+        role: "admin",
+      });
+      const token = jwt.sign(
+        { userId: newAdmin._id, role: "admin" },
+        secretKey
+      );
+      return token;
+    }
+    const token = jwt.sign({ userId: admin._id, role: "admin" }, secretKey);
+    return token;
   }
 
   // 사용자 목록을 받음.
   async getUsers() {
-    const users = await this.userModel.findAll();
+    const users = await User.find({});
     return users;
   }
-
+  // 마이페이지
+  async mypage(id) {
+    const user = await User.findById(id);
+    return user;
+  }
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
   async setUser(userInfoRequired, toUpdate) {
     // 객체 destructuring
-    const { userId, currentPassword } = userInfoRequired;
+    console.log("변경에필요한 사항 : ", userInfoRequired);
+    console.log("변경할 내역들 : ", toUpdate);
+    const { userId, currentPassword, sosial } = userInfoRequired;
 
     // 우선 해당 id의 유저가 db에 있는지 확인
-    let user = await this.userModel.findById(userId);
+    const user = await User.findById(userId);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
@@ -95,22 +130,26 @@ class UserService {
 
     // 이제, 정보 수정을 위해 사용자가 입력한 비밀번호가 올바른 값인지 확인해야 함
 
-    // 비밀번호 일치 여부 확인
+    // 기존비밀번호 일치 여부 확인
     const correctPasswordHash = user.password;
     const isPasswordCorrect = await bcrypt.compare(
       currentPassword,
       correctPasswordHash
     );
 
-    if (!isPasswordCorrect) {
+    //소셜로그인 대상자라면 현재비밀번호는 중요하지않음, 통과
+    if (sosial === true) {
+      console.log("소셜로그인 대상자임, 통과");
+    } else if (!isPasswordCorrect) {
       throw new Error(
         "현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
       );
     }
 
-    // 이제 드디어 업데이트 시작
+    // *********************이제 드디어 업데이트 시작****************************
 
     // 비밀번호도 변경하는 경우에는, 회원가입 때처럼 해쉬화 해주어야 함.
+    // 소셜로그인 대상자도 비번 변경이 있다면 가능하게 함.
     const { password } = toUpdate;
 
     if (password) {
@@ -119,15 +158,18 @@ class UserService {
     }
 
     // 업데이트 진행
-    user = await this.userModel.update({
-      userId,
-      update: toUpdate,
-    });
+    const updateUser = await User.updateMany({ userId }, toUpdate);
 
-    return user;
+    return updateUser;
+  }
+
+  async userDelete(_id) {
+    await User.findByIdAndDelete(_id);
+    console.log("유저가 떠났읍니다..");
+    return "유저가 떠났읍니다..";
   }
 }
 
-const userService = new UserService(userModel);
+const userService = new UserService();
 
 export { userService };

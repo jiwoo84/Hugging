@@ -1,0 +1,67 @@
+<header class="header">
+  <!-- title -->
+  <div class="title-container">
+    <a class="title" href="/">
+      <h1 class="title-text">Hugging</h1>
+    </a>
+  </div>
+
+  <!-- nav -->
+
+  <nav class="navbar-container">
+    <ul id="navbar">
+      <li>검색</li>
+      <li><a id="logout" , onclick="logout()">로그아웃</a></li>
+      <li>
+        <a href="/cart" aria-current="page">
+          <span class="icon">
+            <i class="fas fa-cart-shopping"></i>
+          </span>
+          <span>장바구니</span>
+        </a>
+      </li>
+    </ul>
+    <div id="header__profile">
+      <a onclick="mypage()">
+        마이페이지
+        <img id="header__profile_img" />
+      </a>
+    </div>
+  </nav>
+  <a
+    id="toggleBtn"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasScrolling"
+    aria-controls="offcanvasScrolling"
+  >
+    <i class="fa-solid fa-bars"></i>
+  </a>
+  <!-- 배경색 바꾸려면 요 id 의 배경색 변경 -->
+  <div
+    class="offcanvas offcanvas-start"
+    data-bs-scroll="true"
+    data-bs-backdrop="false"
+    tabindex="-1"
+    id="offcanvasScrolling"
+    aria-labelledby="offcanvasScrollingLabel"
+  >
+    <div class="offcanvas-header">
+      <a
+        id="toggleBtn"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasScrolling"
+        aria-controls="offcanvasScrolling"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </a>
+    </div>
+    <!-- 아래 DIV에 카테고리리스트 불러오기 -->
+    <div id="category_mom">
+      <p>카테고리</p>
+      <li>요기에</li>
+      <li>요런식으로</li>
+      <li>요런식으로</li>
+      <li>요런식으로</li>
+    </div>
+  </div>
+</header>

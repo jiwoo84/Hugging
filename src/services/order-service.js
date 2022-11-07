@@ -144,7 +144,6 @@ class OrderService {
     const findOrderOwner = await Order.findById({ _id: id });
     const findUser = await User.findById({ _id: findOrderOwner.buyer });
     const subTotal = findUser.totalPayAmount - findOrderOwner.totalPrice;
-
     await User.updateOne({ _id: findUser.id }, { totalPayAmount: subTotal });
     return;
   }

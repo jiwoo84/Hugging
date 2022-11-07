@@ -100,7 +100,6 @@ async function clickedItem() {
           return alert("가격에 숫자를 입력해주세요");
         }
 
-        console.log(name, category, price, detail);
         // 추가 요청 보내기
         const res = await fetch(
           `/api/items?name=${name}&category=${category}&price=${price}&itemDetail=${detail}`,
@@ -113,7 +112,7 @@ async function clickedItem() {
           }
         );
 
-        alert(res.msg);
+        alert("추가 완료했습니다");
         itemAddBox.innerHTML = "";
         clickedItem();
       });

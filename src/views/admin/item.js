@@ -28,6 +28,7 @@ async function clickedItem() {
     itemsBtn_add.innerText = "상품 추가";
     // 버튼을 부모에 추가
     itemsBtnParent.appendChild(itemsBtn_add);
+    //여기에 복붙
   }
   // 표 상단 만들기
   listContainer.innerHTML = `
@@ -262,7 +263,7 @@ async function clickedItem() {
 
   // -----------------------------------------------------------------
   // 상품 추가
-
+  // 해결방법 아래 변수선언 지우고 268~346 잘라내서 31번라인에 복붙
   const itemsBtn_add = document.querySelector("#items-btn__add");
 
   itemsBtn_add.addEventListener("click", async () => {

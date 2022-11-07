@@ -5,6 +5,7 @@ const categoryRouter = express();
 
 //카테고리 생성
 categoryRouter.post("/", loginRequired, async (req, res, next) => {
+  console.log("카테고리생성 라우터에 오신걸 환영합니다!!");
   const { currentRole } = req;
   if (currentRole !== "admin") {
     throw new Error("관리자만 접근 가능합니다.");
@@ -29,6 +30,7 @@ categoryRouter.post("/", loginRequired, async (req, res, next) => {
 });
 //전체 카테고리 조회
 categoryRouter.get("/all", async (req, res, next) => {
+  console.log("전체카테고리조회 라우터에 오신걸 환영합니다!!");
   try {
     const categories = await categoryService.getAll();
     return res.status(200).json({
@@ -43,6 +45,7 @@ categoryRouter.get("/all", async (req, res, next) => {
 
 // 카테고리 하나만 조회, 쿼리로 받음
 categoryRouter.get("/", async (req, res, next) => {
+  console.log("카테고리하나조회 라우터에 오신걸 환영합니다!!");
   let { name, index } = req.query;
   index = index.slice(0, -1);
   if (!name || !index) {
@@ -68,6 +71,7 @@ categoryRouter.get("/", async (req, res, next) => {
 
 //카테고리 수정
 categoryRouter.patch("/", loginRequired, async (req, res, next) => {
+  console.log("카테고리수정 라우터에 오신걸 환영합니다!!");
   const { currentRole } = req;
   const { name, index, currentName } = req.body;
   if (currentRole !== "admin") {
@@ -91,6 +95,7 @@ categoryRouter.patch("/", loginRequired, async (req, res, next) => {
 
 //카테고리 삭제
 categoryRouter.delete("/", loginRequired, async (req, res, next) => {
+  console.log("카테고리삭제 라우터에 오신걸 환영합니다!!");
   const { currentRole } = req;
   const { index, name } = req.body;
   if (currentRole !== "admin") {

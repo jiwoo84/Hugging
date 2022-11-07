@@ -38,6 +38,7 @@ orderRouter.post("/", loginRequired, async (req, res, next) => {
 // 주문목록조회 API
 orderRouter.get("/", loginRequired, async (req, res, next) => {
   // JWT 에서 디코딩한 id와 권한 값
+  console.log("주문목록조회 라우터에 오신걸 환영합니다.");
   const { currentUserId, currentRole } = req;
   try {
     if (currentRole === "admin") {
@@ -64,6 +65,7 @@ orderRouter.get("/", loginRequired, async (req, res, next) => {
 
 // 주문 취소  또는 배송완료 patch
 orderRouter.patch("/", loginRequired, async (req, res, next) => {
+  console.log("주문취소 또는 배송수정 라우터에 오신걸 환영합니다.");
   const { currentRole } = req; // jwt에 의한  권한을 요기담음
   const { id, reson } = req.body || req.query;
   console.log(req.body);

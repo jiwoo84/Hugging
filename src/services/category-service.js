@@ -84,7 +84,7 @@ class CategoryService {
     //   { category: name },
     //   { category: "" }
     // );
-    return deleteCategory, changeItemCategoryName;
+    return deleteCategory;
   }
 }
 

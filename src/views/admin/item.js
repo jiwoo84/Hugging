@@ -30,6 +30,7 @@ async function clickedItem() {
     itemsBtn_add.innerText = "상품 추가";
     // 버튼을 부모에 추가
     itemsBtnParent.appendChild(itemsBtn_add);
+<<<<<<< HEAD
 
     itemsBtn_add.addEventListener("click", async () => {
       itemAddBox.innerHTML = `
@@ -126,6 +127,9 @@ async function clickedItem() {
         itemAddBox.innerHTML = "";
       });
     });
+=======
+    //여기에 복붙
+>>>>>>> 64403708c1366cd9e07b5efea99fc77db01b95f5
   }
   // 표 상단 만들기
   listContainer.innerHTML = `
@@ -357,4 +361,92 @@ async function clickedItem() {
       });
     }
   });
+<<<<<<< HEAD
+=======
+
+  // -----------------------------------------------------------------
+  // 상품 추가
+  // 해결방법 아래 변수선언 지우고 268~346 잘라내서 31번라인에 복붙
+  const itemsBtn_add = document.querySelector("#items-btn__add");
+
+  itemsBtn_add.addEventListener("click", async () => {
+    itemAddBox.innerHTML = `
+      <div id="modal-container__inner">
+          <p>상품명</p>
+          <input id="itemAddbox_nameInput"/>
+          <p>카테고리</p>
+          <select id="itemAddbox_categorySelect"></select>
+          <p>가격</p>
+          <input id="itemAddbox_priceInput"/>
+          <p>이미지</p>
+          <input id="itemAddbox_imgInput"/>
+          <p>상세설명</p>
+          <input id="itemAddbox_detailInput"/>
+          <button id="itemAddBox_addBtn">추가완료</button>
+          <button id="itemAddBox_cancelBtn">취소</button>
+      </div>
+    `;
+
+    // 카테고리값 받아와서 select의 option 값으로 넣기
+    const itemAddbox_categorySelect = document.querySelector(
+      "#itemAddbox_categorySelect"
+    );
+    const categories = (await Api.get("/api/categories/all")).data;
+
+    categories.forEach((category) => {
+      itemAddbox_categorySelect.innerHTML += `
+        <option>${category.name}</option>
+      `;
+    });
+
+    // 추가완료 버튼
+    const itemAddBox_addBtn = document.querySelector("#itemAddBox_addBtn");
+    itemAddBox_addBtn.addEventListener("click", async () => {
+      const itemAddbox_nameInput = document.querySelector(
+        "#itemAddbox_nameInput"
+      );
+      const itemAddbox_categorySelect = document.querySelector(
+        "#itemAddbox_categorySelect"
+      );
+      const itemAddbox_priceInput = document.querySelector(
+        "#itemAddbox_priceInput"
+      );
+      const itemAddbox_imgInput = document.querySelector(
+        "#itemAddbox_imgInput"
+      );
+      const itemAddbox_detailInput = document.querySelector(
+        "#itemAddbox_detailInput"
+      );
+
+      const name = itemAddbox_nameInput.value;
+      const category = itemAddbox_categorySelect.value;
+      const price = itemAddbox_priceInput.value;
+      const img = itemAddbox_imgInput.value;
+      const detail = itemAddbox_detailInput.value;
+
+      if (!/[0-9]/.test(price)) {
+        return alert("가격에 숫자를 입력해주세요");
+      }
+      // 추가 요청 보내기
+      const res = await Api.post("/api/items", {
+        name: name,
+        category: category,
+        price: price,
+        imageUrl: img,
+        itemDetail: detail,
+      });
+      alert(res.msg);
+      itemAddBox.innerHTML = "";
+      clickedItem();
+    });
+
+    // 취소 버튼
+    const itemAddBox_cancelBtn = document.querySelector(
+      "#itemAddBox_cancelBtn"
+    );
+    itemAddBox_cancelBtn.addEventListener("click", () => {
+      itemAddBox.innerHTML = "";
+    });
+  });
+>>>>>>> 64403708c1366cd9e07b5efea99fc77db01b95f5
 }

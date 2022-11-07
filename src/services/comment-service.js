@@ -40,7 +40,8 @@ class CommentService {
     for (let i = 0; i < comments.length; i++) {
       const commentData = await comments[i].populate("owner");
       const obj = {
-        _id: commentData.owner._id,
+        cmtId: comments[i]._id,
+        ownId: commentData.owner._id,
         name: commentData.owner.name,
         createdAt: commentData.createdAt,
         text: commentData.text,
@@ -48,6 +49,34 @@ class CommentService {
       commentOwners.push(obj);
     }
     return commentOwners;
+  }
+
+  async deleteComment(data) {
+    const { userId, itemId, commentId } = data;
+    const user = await User.findById(userId);
+    const item = await Item.findById(itemId);
+    // 유저정보에서 리뷰 달았던 item 빼줌
+    user.ownComments.pull(item._id);
+    user.save();
+    // 상품에서 해당 리뷰 빼줌
+    item.comments.pull(commentId);
+    item.save();
+    // db에서 해당 리뷰 doc 제거
+    const cmtId = await Comment.findByIdAndDelete(commentId);
+    return cmtId;
+  }
+
+  //리뷰업뎃
+  async updateCmt(userId, cmtId, fixText) {
+    const user = await User.findById(userId);
+    const cmt = await Comment.findById(cmtId);
+    // objectID 와 비교연산자 쓰려면  JSON.stringify 로 바꿔주고 해야함
+    if (JSON.stringify(cmt.owner) !== JSON.stringify(user._id)) {
+      throw new Error("댓글의 주인이 아니네.. ");
+    }
+    cmt.text = fixText;
+    cmt.save();
+    return cmt;
   }
 }
 

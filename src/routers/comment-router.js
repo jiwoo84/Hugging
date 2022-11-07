@@ -15,8 +15,8 @@ commentRouter.post("/", loginRequired, async (req, res, next) => {
   // }
   if (!text) {
     throw new Error("공백은 불가능합니다.");
-  } else if (text.length < 10) {
-    throw new Error("10자 이상 적어주세요");
+  } else if (text.length < 5) {
+    throw new Error("5자 이상 적어주세요");
   }
   try {
     const success = await commentService.addComment(
@@ -34,8 +34,54 @@ commentRouter.post("/", loginRequired, async (req, res, next) => {
   }
 });
 
+// 댓글 삭제
+commentRouter.delete("/", loginRequired, async (req, res, next) => {
+  console.log("리뷰삭제 라우터에 오신것을 환영합니다");
+  const { currentUserId } = req;
+  const { itemId, commentId } = req.body;
+  try {
+    const result = await commentService.deleteComment({
+      userId: currentUserId,
+      itemId,
+      commentId,
+    });
+    return res.status(200).json({
+      status: 200,
+      msg: "삭제완료",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+//리뷰 수정
+commentRouter.patch("/", loginRequired, async (req, res, next) => {
+  console.log("리뷰수정 라우터에 오신것을 환영합니다");
+  const { currentUserId } = req;
+  const { fixText, commentId } = req.body;
+  if (!fixText || fixText.length < 5) {
+    throw new Error("바꿀내용을 입력하세요 (10자이상)");
+  }
+  try {
+    const result = await commentService.updateCmt(
+      currentUserId,
+      commentId,
+      fixText
+    );
+    return res.status(200).json({
+      status: 200,
+      msg: "수정완료",
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 //상품 디테일에서 리뷰 보기
 commentRouter.get("/:id", async (req, res, next) => {
+  console.log("리뷰보기 라우터에 오신것을 환영합니다");
   const itemId = req.params.id;
   console.log("itemId : ", itemId);
   if (!itemId) {

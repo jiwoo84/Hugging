@@ -1,3 +1,8 @@
+body {
+  height: auto;
+  min-height: 100%;
+}
+
 .register-user-form-container {
   display: flex;
   align-items: center;

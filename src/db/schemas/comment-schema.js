@@ -1,11 +1,10 @@
 import { Schema } from "mongoose";
 
 const commentSchema = new Schema({
-  name: { type: String },
-  discount: Number,
   owner: { type: Schema.Types.ObjectId, ref: "User" },
+  affiliation: { type: Schema.Types.ObjectId, ref: "Item" },
+  text: { type: String, minlength: 10, maxlength: 40 },
   createdAt: { type: Date, default: Date.now },
-  // expired 해보기
 });
 
 export { commentSchema };

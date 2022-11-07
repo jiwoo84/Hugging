@@ -6,7 +6,14 @@
   grid-gap: 10px;
 }
 
+.sonDiv {
+  display: grid;
+  place-items: center;
+}
 #imgId {
   width: 256px;
   height: 256px;
+}
+.nameDiv {
+  font-weight: 600;
 }

@@ -68,6 +68,7 @@ orderRouter.patch("/", loginRequired, async (req, res, next) => {
   console.log("주문취소 또는 배송수정 라우터에 오신걸 환영합니다.");
   const { currentRole } = req; // jwt에 의한  권한을 요기담음
   const { id, reson } = req.body || req.query;
+
   console.log(req.body);
   console.log(req.query);
   // 권한이 관리자일때
@@ -76,6 +77,7 @@ orderRouter.patch("/", loginRequired, async (req, res, next) => {
       try {
         console.log("ORDER: 관리자 취소");
         await orderService.orderCancel({ id, currentRole });
+        await orderService.subTotalPayAmount(id);
         return res.status(200).json({
           status: 200,
           msg: "관리자취소",
@@ -102,6 +104,7 @@ orderRouter.patch("/", loginRequired, async (req, res, next) => {
     try {
       console.log("ORDER: 유저 취소 라우터");
       await orderService.orderCancel({ id, currentRole });
+      await orderService.subTotalPayAmount(id);
       return res.status(200).json({
         status: 200,
         msg: "고객취소",

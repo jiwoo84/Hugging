@@ -158,8 +158,7 @@ class UserService {
     }
 
     // 업데이트 진행
-    const updateUser = await User.updateMany({ userId }, toUpdate);
-
+    const updateUser = await User.updateOne({ _id: userId }, toUpdate);
     return updateUser;
   }
 

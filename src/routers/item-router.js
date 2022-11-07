@@ -7,7 +7,16 @@ const itemRouter = express();
 
 // 상품 추가
 itemRouter.post("/", loginRequired, async (req, res, next) => {
-  const data = req.body;
+  console.log("상품추가 라우터에 오신걸 환영합니다!!");
+  const data = req.query;
+  const fileData = req.file.path;
+  console.log("쿼리로 받아온 값 : ", data);
+  console.log("파일 정보 : ", req.file);
+  console.log("파일이 저장된경로 : ", fileData);
+  // item 의 price 값은 Number이므로 형변환
+  data.price = Number(data.price);
+  //data 에 imageURL 키값추가, 값은 저장된파일의 경로
+  data.imageUrl = fileData;
   try {
     const newItem = await itemService.addItem(data);
     return res.status(201).json({
@@ -22,6 +31,7 @@ itemRouter.post("/", loginRequired, async (req, res, next) => {
 
 // 전체상품 조회 - newItems, bestItems 리턴
 itemRouter.get("/", async (req, res, next) => {
+  console.log("홈화면 상품조회 라우터에 오신걸 환영합니다!!");
   try {
     const { newItems, bestItems } = await itemService.homeFindItems();
     return res.status(200).json({
@@ -37,6 +47,7 @@ itemRouter.get("/", async (req, res, next) => {
 
 // 관리자가 상품 CRU 하기위해 요청하는 곳, 전체상품을 리턴한다.
 itemRouter.get("/admin", loginRequired, async (req, res, next) => {
+  console.log("관리자 상품조회 라우터에 오신걸 환영합니다!!");
   if (req.currentRole !== "admin") {
     return res.status(400).json({
       status: 400,
@@ -57,6 +68,7 @@ itemRouter.get("/admin", loginRequired, async (req, res, next) => {
 
 // 카테고리에 속하지  아이템들을 리스트로 리턴함
 itemRouter.get("/affiliation", loginRequired, async (req, res, next) => {
+  console.log("무소속 아이템조회 라우터에 오신걸 환영합니다!!");
   const { currentRole } = req;
   if (currentRole !== "admin") {
     throw new Error("넌 못지나간다!");
@@ -68,8 +80,9 @@ itemRouter.get("/affiliation", loginRequired, async (req, res, next) => {
   });
 });
 
-//관리자 주문 수정
+//관리자 상품 수정
 itemRouter.patch("/:id", loginRequired, async (req, res, next) => {
+  console.log("관리자 상품수정 라우터에 오신걸 환영합니다!!");
   const findItemId = req.params.id;
   const { currentRole } = req;
   const { name, category, price, imageUrl, itemDetail, onSale } = req.body;
@@ -102,6 +115,7 @@ itemRouter.patch("/:id", loginRequired, async (req, res, next) => {
 
 //상품 상세 페이지 라우팅
 itemRouter.get("/:id", async (req, res, next) => {
+  console.log(" 상품상세조회 라우터에 오신걸 환영합니다!!");
   const findId = req.params.id;
   try {
     const detailItem = await itemService.detailViewItem(findId);
@@ -118,6 +132,7 @@ itemRouter.get("/:id", async (req, res, next) => {
 //상품 지우거나 숨김처리
 itemRouter.delete("/:id", loginRequired, async (req, res, next) => {
   console.log(req.currentRole);
+  console.log("상품삭제_수정 라우터에 오신걸 환영합니다!!");
 
   if (req.currentRole == "admin") {
     const findId = req.params.id;
@@ -125,7 +140,7 @@ itemRouter.delete("/:id", loginRequired, async (req, res, next) => {
       const deleteItemData = await itemService.deleteItem(findId);
       return res.status(201).json({
         status: 201,
-        msg: deleteItemData,
+        msg: "삭제되었습니다.",
       });
     } catch (err) {
       next(err);

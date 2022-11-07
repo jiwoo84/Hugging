@@ -38,7 +38,7 @@ function getTotalPrice(key,storeName){
 function renderUserComponent(name,address,phoneNumber){
     const nameInfo =  document.createElement("div");
     const addressInfo = document.createElement("div");
-    
+    addressInfo.setAttribute("class","addressInfo");
     nameInfo.innerHTML = `<p>${name}</p>`;
     addressInfo.innerHTML = `
         <p>${name}</p>
@@ -54,13 +54,17 @@ function renderUserComponent(name,address,phoneNumber){
 function createPost(item,key) {
     const priceSum = item.price*item.sales;
     return `
-    <div id="${key}">
-        <p>${item.name}</p>
-        <p>${item.category}</p>
-        <p>${item.price}원</p>
+    <div id="${key}" class = "card">
         <img src="${item.img}">
-        <span class="quantity">${item.sales}개</span>
-        <label class="itemsPrice">금액합계:${priceSum}</label>
+        <div class="productInfo">
+            <p class ="name">${item.name}</p>
+            <p class ="category">${item.category}</p>
+            <br>
+            <p class="price">${item.price}원</p>
+            <p class="quantity">${item.sales}개</p>
+            <br>
+            <p class="itemsPrice">금액합계 : ${priceSum}</p>
+        </div>
     </div>
     `;
 }
@@ -137,6 +141,7 @@ purchaseBtn.addEventListener("click", async()=>{
             console.log("cleared");
         }
     }
+    alert("주문이 완료되었습니다.");
 
     window.location.href="/";
 });

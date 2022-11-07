@@ -8,34 +8,34 @@ main {
   height: auto;
   min-height: 100%;
 }
-
-.admin-title {
+#admin-title {
   font-size: 30px;
   font-weight: 600;
   margin: 20px 0 20px 20px;
 }
 
-.main-box {
+#main-container {
   display: flex;
   height: 100%;
 }
 
-.side-bar {
+#side-bar {
   display: flex;
   flex-direction: column;
-  width: 100px;
+  width: 200px;
   margin-left: 20px;
 }
 
-.side-bar button {
+#side-bar > div {
   margin-bottom: 10px;
+  height: 60px;
 }
 
-#list-box {
+#list-container {
   margin: 0 30px 0 30px;
   width: 100%;
 }
-.divComponent {
+.orderBox {
   display: flex;
   justify-content: space-between;
   background-color: rgb(230, 228, 228);
@@ -43,13 +43,12 @@ main {
   width: 100%;
 }
 
-.firstDiv,
-.secondDiv,
-.thirdDiv {
+.orderBox_order,
+.orderBox_btn {
   width: 33%;
 }
 
-.thirdDiv {
+.orderBox_btn {
   display: flex;
   flex-direction: column;
 }
@@ -73,3 +72,20 @@ tfoot {
 /* #productDetailBox {
   height: 40%;
 } */
+
+#modal-container__inner {
+  position: absolute;
+  background-color: rgb(195, 228, 238);
+  padding: 100px;
+  border-radius: 20px;
+  border: #333 solid;
+  top: 30%;
+  left: 20%;
+  animation: hide 1;
+  z-index: 3;
+}
+
+#catefory-btn__add {
+  border: 0;
+  outline: 0;
+}

@@ -21,7 +21,7 @@ function createPost(item,key) {
     <div id="${key}" class = "card">
         <img src="${item.img}" class ="productImg">
         <div class="productInfo">
-            <input type="checkbox" name="${key}" class="checkbox">
+            <input type="checkbox" name="${key}" class="checkbox" checked>
             <p class="name">${item.name}</p>
             <p class="category">${item.category}</p>
             <p class="price">${item.price}</p>
@@ -82,6 +82,8 @@ function getIdxedDBValues() {
                                 attachBtn(value.result.id);
                                 // 상품상세페이지로 이동버튼
                                 moveTodetailBtn(value.result.id);
+                                // 체크된 상품의 값이 결제금액이 되야한다.
+                                // getCheckedProduct();
                                 // 결제버튼 금액 변경
                                 getTotalPrice();
                             }
@@ -95,6 +97,22 @@ function getIdxedDBValues() {
             }
         }
     }
+}
+
+// function getCheckedProduct(){
+//     getCheckboxValue();
+
+// }
+
+// checked된 checkbox의 키 값들을 가져오는 함수
+function getCheckboxValue(){
+    let keys = [];
+    const checkboxs = document.querySelectorAll(".checkbox");
+    
+    checkboxs.forEach( checkbox => {
+        if ( checkbox.checked === true){keys.push(checkbox.name);}
+    });
+    return keys;
 }
 
 //결제버튼 텍스트
@@ -113,17 +131,6 @@ function moveTodetailBtn(key){
         localStorage.setItem("itemDetail",key);
         location.href = "/detail";
     });
-}
-
-// checked된 checkbox의 키 값들을 가져오는 함수
-function getCheckboxValue(){
-    let keys = [];
-    const checkboxs = document.querySelectorAll(".checkbox");
-    
-    checkboxs.forEach( checkbox => {
-        if ( checkbox.checked === true){keys.push(checkbox.name);}
-    });
-    return keys;
 }
 
 //수량변경 버튼 : addevnetListener
@@ -228,6 +235,23 @@ clearSelectBtn.addEventListener("click",function(){
 //결제창으로 이동
 purchaseBtn.addEventListener("click",function(){
     if (sessionStorage.getItem("loggedIn") === "true") {
+        // 1. db 열기
+        const request = window.indexedDB.open("cart");     
+        request.onerror =(e)=> console.log(e.target.errorCode);
+        request.onsuccess =(e)=> {
+            // 2. items 저장소 접근
+            const db = request.result;
+            const objStore = db.transaction("items", "readwrite").objectStore("items");
+            const keys = getCheckboxValue();
+            
+            keys.forEach((key)=>{
+                const objStoreRequest = objStore.get(key);       
+                objStoreRequest.onsuccess =(e)=> {
+                    const value = e.target.result;
+                    console.log(value.price*value.sales);
+                }
+            });
+        }
         localStorage.setItem("storeName","items");
         location.href = "/order";
         return;

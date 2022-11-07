@@ -1,0 +1,50 @@
+html,body{
+    margin:0;
+    padding:0;
+}
+.search{
+    display: block;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    margin: 60px auto 0px auto; 
+}
+.search__form{
+    display: flex;
+    justify-content: center;
+    margin: 50px auto;
+}
+.search__text{
+    width: 500px;
+    height: 45px;;
+}
+.search__result{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 35px;
+    margin : 0 20vw;
+}
+.card{
+    /* display: flex;
+    flex-direction: row; */
+    padding: 40px;
+    text-align: center;
+    background-color: #fff;
+    width: 400px;
+    height:400px;
+}
+.name{
+    font-size: 25px;
+    font-weight:bold;
+}
+.price{
+    font-size: 20px;
+}
+.productImg{
+    margin: auto ;
+    width: 200px;
+    height: 200px;
+}
+.productInfo{
+    padding:20px;
+}

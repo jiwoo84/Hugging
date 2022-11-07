@@ -35,6 +35,9 @@ app.use(express.json());
 // Content-Type: application/x-www-form-urlencoded 형태의 데이터를 인식하고 핸들링할 수 있게 함.
 app.use(express.urlencoded({ extended: false }));
 
+//
+app.use("/uploads", express.static("uploads"));
+
 // html, css, js 라우팅
 app.use(viewsRouter);
 // api 라우팅

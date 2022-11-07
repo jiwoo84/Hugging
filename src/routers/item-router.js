@@ -1,33 +1,39 @@
 import express from "express";
 import is from "@sindresorhus/is";
-import { loginRequired } from "../middlewares";
+import { itemImg, loginRequired, namingItem } from "../middlewares";
 import { itemService } from "../services/";
 
 const itemRouter = express();
 
 // 상품 추가
-itemRouter.post("/", loginRequired, async (req, res, next) => {
-  console.log("상품추가 라우터에 오신걸 환영합니다!!");
-  const data = req.query;
-  const fileData = req.file.path;
-  console.log("쿼리로 받아온 값 : ", data);
-  console.log("파일 정보 : ", req.file);
-  console.log("파일이 저장된경로 : ", fileData);
-  // item 의 price 값은 Number이므로 형변환
-  data.price = Number(data.price);
-  //data 에 imageURL 키값추가, 값은 저장된파일의 경로
-  data.imageUrl = fileData;
-  try {
-    const newItem = await itemService.addItem(data);
-    return res.status(201).json({
-      status: 201,
-      msg: "아이템 생성 완료",
-      data: newItem,
-    });
-  } catch (err) {
-    next(err);
+itemRouter.post(
+  "/",
+  loginRequired,
+  namingItem,
+  itemImg.single("itemAddbox_imgInput"),
+  async (req, res, next) => {
+    console.log("상품추가 라우터에 오신걸 환영합니다!!");
+    const data = req.query;
+    const fileData = `${process.env.MY_DOMAIN}${req.file.path}`;
+    console.log("쿼리로 받아온 값 : ", data);
+    console.log("파일 정보 : ", req.file);
+    console.log("파일이 저장된경로 : ", fileData);
+    // item 의 price 값은 Number이므로 형변환
+    data.price = Number(data.price);
+    //data 에 imageURL 키값추가, 값은 저장된파일의 경로
+    data.imageUrl = fileData;
+    try {
+      const newItem = await itemService.addItem(data);
+      return res.status(201).json({
+        status: 201,
+        msg: "아이템 생성 완료",
+        data: newItem,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 // 전체상품 조회 - newItems, bestItems 리턴
 itemRouter.get("/", async (req, res, next) => {

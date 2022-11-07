@@ -104,6 +104,15 @@ class ItemService {
     console.log(noAffiliation.length);
     return noAffiliation;
   }
+
+  async searchItems(word) {
+    console.log("들어옴");
+    const reward = await Item.find({ name: { $regex: word, $options: "i" } });
+    if (!reward) {
+      return null;
+    }
+    return reward;
+  }
 }
 
 const itemService = new ItemService();

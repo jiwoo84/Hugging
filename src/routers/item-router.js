@@ -51,6 +51,29 @@ itemRouter.get("/", async (req, res, next) => {
   }
 });
 
+// 상품 검색
+itemRouter.get("/search", async (req, res, next) => {
+  console.log("검색 라우터에 오신걸 환영합니다.");
+  const { word } = req.query;
+  console.log("word : ", word);
+  if (!word) {
+    return res.status(400).json({
+      status: 400,
+      msg: "공백으로 검색할 수 없습니다.",
+    });
+  }
+  try {
+    const reward = await itemService.searchItems(word);
+    return res.status(200).json({
+      status: 200,
+      msg: `'${word}'를 포함하는 상품을 찾아봤습니다.`,
+      data: reward,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // 관리자가 상품 CRU 하기위해 요청하는 곳, 전체상품을 리턴한다.
 itemRouter.get("/admin", loginRequired, async (req, res, next) => {
   console.log("관리자 상품조회 라우터에 오신걸 환영합니다!!");

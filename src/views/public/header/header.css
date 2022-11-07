@@ -27,8 +27,9 @@ body {
 }
 
 #offcanvasScrolling {
-  background-color: rgb(39, 57, 125);
-  color: #bbbbbb;
+  background-color: rgb(159, 132, 115);
+  /* color: #bbbbbb; */
+  color: black;
 }
 #categoryMom {
   position: absolute;
@@ -41,13 +42,14 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  border-bottom: solid 1px gray;
+  border-bottom: solid 1px black;
   margin-bottom: 15px;
 }
 #categoryMom li {
   font-size: 20px;
   font-weight: 600;
   padding: 5px 0;
+  color: #705d57;
 }
 .title-text {
   font-size: 100px;

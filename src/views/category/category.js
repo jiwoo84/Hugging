@@ -78,7 +78,7 @@ async function showFuction(카테고리이름, 인덱스) {
     const priceDiv = document.createElement("div");
     priceDiv.setAttribute("class", "priceDiv");
     priceDiv.textContent = categoryItem.data[i].price;
-    const priceDiv = document.createElement("div");
+    // const priceDiv = document.createElement("div");
 
     sonDiv.appendChild(img);
     sonDiv.appendChild(nameDiv);

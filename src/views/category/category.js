@@ -1,25 +1,26 @@
 import * as Api from "../api.js";
 
+const navigationBar = document.querySelector(".navbar-start");
+const postItems = document.querySelector(".postItems");
+
 showItemFromSidebar();
+AllCategoryList();
+ShowNavBar();
 
 // sidebar에서 특정 카테고리 이름 클릭 시 특정 카테고리 렌더링
 async function showItemFromSidebar() {
+  const name = localStorage.getItem("catetoryName");
+  const index = localStorage.getItem("catetoryIndex");
   console.log("catetoryName : " + localStorage.getItem("catetoryName"));
-  const res = await Api.get(
-    "/api/category",
-    `${localStorage.getItem("catetoryName")}`
-  );
+  //아이템 렌더링
+  showFuction(name, index);
 }
-
-const navigationBar = document.querySelector(".navbar-start");
-const postItems = document.querySelector(".postItems");
 
 //카테고리리스트 콘솔창에 출력
 async function AllCategoryList() {
   const allCategories = await Api.get("/api/categories/all");
   console.log(allCategories);
 }
-AllCategoryList();
 
 //카테고리리스트 화면에 렌더링
 async function ShowNavBar() {
@@ -39,8 +40,6 @@ async function ShowNavBar() {
     });
   }
 }
-
-ShowNavBar();
 
 //특정 카테고리 값이 잘오는지 콘솔창 출력
 async function showItems() {
@@ -64,20 +63,27 @@ async function showFuction(카테고리이름, 인덱스) {
   for (let i = 0; i < categoryItem.data.length; i++) {
     //큰 디브 이후, 이미지, 네임디브, 가격디브 만들고 추가
     const momDiv = document.createElement("div");
-    momDiv.class = "momDiv";
+    momDiv.setAttribute("class", "momDiv");
     momDiv.id = categoryItem.data[i]._id;
+    const sonDiv = document.createElement("div");
+    sonDiv.setAttribute("class", "sonDiv");
     const img = document.createElement("img");
     img.id = "imgId";
     img.src = categoryItem.data[i].imageUrl;
     img.alt = categoryItem.data[i].name;
     const nameDiv = document.createElement("div");
+    nameDiv.setAttribute("class", "nameDiv");
+    // nameDiv.class = "itemName";
     nameDiv.textContent = categoryItem.data[i].name;
     const priceDiv = document.createElement("div");
+    priceDiv.setAttribute("class", "priceDiv");
     priceDiv.textContent = categoryItem.data[i].price;
+    const priceDiv = document.createElement("div");
 
-    momDiv.appendChild(img);
-    momDiv.appendChild(nameDiv);
-    momDiv.appendChild(priceDiv);
+    sonDiv.appendChild(img);
+    sonDiv.appendChild(nameDiv);
+    sonDiv.appendChild(priceDiv);
+    momDiv.appendChild(sonDiv);
     postItems.appendChild(momDiv);
 
     momDiv.addEventListener("click", () => {

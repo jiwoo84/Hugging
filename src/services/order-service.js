@@ -10,6 +10,13 @@ class OrderService {
       { _id: data.buyer },
       { $push: { orders: newOrder._id } }
     );
+    const sumUser = await User.findById({ _id: data.buyer });
+    const SumTotalPrice =
+      Number(sumUser.totalPayAmount) + Number(newOrder.totalPrice);
+    await User.updateOne(
+      { _id: sumUser.id },
+      { totalPayAmount: SumTotalPrice }
+    );
     return newOrder;
   }
 
@@ -20,7 +27,6 @@ class OrderService {
       const orders = await Order.find({}) // 현재까지 주문한 모든 목록
         .populate("items.id")
         .populate("buyer");
-      console.log(orders);
       let result = [];
       for (let i = 0; i < orders.length; i++) {
         let obj = {}; // json형태로 반환하려고 만든것
@@ -84,7 +90,6 @@ class OrderService {
         };
         result.push(obj);
       }
-      console.log("ORDER : 리스트 ", result);
       return result;
     }
   }
@@ -134,6 +139,22 @@ class OrderService {
     }
     return;
   }
+
+  async subTotalPayAmount(id) {
+    const findOrderOwner = await Order.findById({ _id: id });
+    const findUser = await User.findById({ _id: findOrderOwner.buyer });
+    const subTotal = findUser.totalPayAmount - findOrderOwner.totalPrice;
+    await User.updateOne({ _id: findUser.id }, { totalPayAmount: subTotal });
+    return;
+  }
+
+  //   const sumUser = await User.findById({ _id: data.buyer });
+  // const SumTotalPrice =
+  //   Number(sumUser.totalPayAmount) + Number(newOrder.totalPrice);
+  // await User.updateOne(
+  //   { _id: sumUser.id },
+  //   { totalPayAmount: SumTotalPrice }
+  // );
 }
 
 const orderService = new OrderService();

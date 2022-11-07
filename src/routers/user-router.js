@@ -237,4 +237,30 @@ userRouter.delete("/", loginRequired, async (req, res, next) => {
   }
 });
 
+userRouter.get("/grades", loginRequired, async (req, res, next) => {
+  console.log("등급 구분 라우터");
+  const { currentUserId } = req;
+  console.log("지금 여기에 찍히고 있는지 확인 " + currentUserId);
+  try {
+    const result = await userService.classification(currentUserId);
+    let grade;
+    if (result <= 50000) {
+      grade = "Bronze";
+    } else if (result > 50000 && result <= 250000) {
+      grade = "Silver";
+    } else if (result > 250000 && result <= 1000000) {
+      grade = "Gold";
+    } else if (result > 1000000) {
+      grade = "Diamond";
+    }
+    console.log(grade);
+    return res.status(201).json({
+      status: 201,
+      level: grade,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export { userRouter };

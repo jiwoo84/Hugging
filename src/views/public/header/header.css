@@ -4,7 +4,7 @@ body {
   align-items: center;
   margin: 0;
   padding: 0;
-  background-color: #BBBBBB;
+  background-color: #EAE9E6;
 }
 .header {
   display: flex;
@@ -51,8 +51,11 @@ body {
 }
 .title-text {
   font-size: 100px;
+  font-family: 'Cinzel', serif;
 }
-
+.title-container{
+  margin-top:40px;
+}
 #toggleBtn{
   position: absolute;
   top: 10px;

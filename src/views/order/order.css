@@ -6,7 +6,7 @@ html,body{
     display: block;
     font-size: 40px;
     font-weight: bold;
-    width: 90%;
+    text-align: center;
     margin: 60px auto 0px auto; 
 }
 .orderedMan{

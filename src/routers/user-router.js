@@ -8,6 +8,7 @@ import { itemService } from "../services/item-service";
 const userRouter = express();
 // jwt 검증만 하는 라우터
 userRouter.get("/authority", (req, res) => {
+  console.log("jwt검증 라우터에 오신걸 환영합니다!!");
   const userToken = req.headers["authorization"]?.split(" ")[1];
   if (!userToken) {
     return res.status(400).json({
@@ -35,6 +36,7 @@ userRouter.get("/authority", (req, res) => {
 
 // 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
 userRouter.post("/join", async (req, res, next) => {
+  console.log("회원가입 라우터에 오신걸 환영합니다!!");
   try {
     // Content-Type: application/json 설정을 안 한 경우, 에러를 만들도록 함.
     // application/json 설정을 프론트에서 안 하면, body가 비어 있게 됨.
@@ -65,6 +67,7 @@ userRouter.post("/join", async (req, res, next) => {
 
 // 로그인 api (아래는 /login 이지만, 실제로는 /api/login로 요청해야 함.)
 userRouter.post("/login", async function (req, res, next) {
+  console.log("로그인 라우터에 오신걸 환영합니다!!");
   try {
     // application/json 설정을 프론트에서 안 하면, body가 비어 있게 됨.
     if (is.emptyObject(req.body)) {
@@ -103,6 +106,7 @@ userRouter.get(
   "/userlist",
   // loginRequired,
   async function (req, res, next) {
+    console.log("전체유저조회 라우터에 오신걸 환영합니다!!");
     try {
       // 전체 사용자 목록을 얻음
       const users = await userService.getUsers(); // =>let returns =  [{name}{name}{name}{}{}{}{}]
@@ -118,6 +122,7 @@ userRouter.get(
 );
 
 userRouter.get("/mypage", loginRequired, async (req, res, next) => {
+  console.log("마이페이지 라우터에 오신걸 환영합니다!!");
   const { currentRole, currentUserId, currentSosial } = req;
   try {
     if (currentRole === "user") {
@@ -146,6 +151,7 @@ userRouter.get("/mypage", loginRequired, async (req, res, next) => {
 // 사용자 정보 수정
 // (예를 들어 /api/users/abc12345 로 요청하면 req.params.userId는 'abc12345' 문자열로 됨)
 userRouter.patch("/", loginRequired, async function (req, res, next) {
+  console.log("개인정보수정 라우터에 오신걸 환영합니다!!");
   const { currentUserId } = req;
   try {
     // content-type 을 application/json 로 프론트에서
@@ -204,6 +210,7 @@ userRouter.patch("/", loginRequired, async function (req, res, next) {
 });
 
 userRouter.delete("/", loginRequired, async (req, res, next) => {
+  console.log("회원탈퇴 라우터에 오신걸 환영합니다!!");
   const { currentUserId, currentRole } = req;
   const { accept } = req.body;
   console.log(req.body);

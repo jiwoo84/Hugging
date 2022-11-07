@@ -130,6 +130,7 @@ class OrderService {
     // 만약 배송상태가 배송완료라면, 더이상 수정할수 없게 만듬.
     if (reson === "배송완료") {
       await Order.updateMany({ _id: id }, { orderStatus: "수정불가" });
+      //
     }
     return;
   }

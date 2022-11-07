@@ -4,7 +4,11 @@ body {
   align-items: center;
   margin: 0;
   padding: 0;
+<<<<<<< HEAD
   background-color: #bbbbbb;
+=======
+  background-color: #EAE9E6;
+>>>>>>> 64403708c1366cd9e07b5efea99fc77db01b95f5
 }
 .header {
   display: flex;
@@ -51,9 +55,17 @@ body {
 }
 .title-text {
   font-size: 100px;
+  font-family: 'Cinzel', serif;
 }
+.title-container{
+  margin-top:40px;
+}
+<<<<<<< HEAD
 
 #toggleBtn {
+=======
+#toggleBtn{
+>>>>>>> 64403708c1366cd9e07b5efea99fc77db01b95f5
   position: absolute;
   top: 10px;
   left: 10px;

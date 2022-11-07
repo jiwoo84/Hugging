@@ -1,15 +1,29 @@
 import * as Api from "/api.js";
 
 const welcomeMessage = document.querySelector("#welcome-message");
+const messageBox__totalPayAmount = document.querySelector(
+  ".message-box__totalPayAmount"
+);
+const messageBox__grade = document.querySelector(".message-box__grade");
 
-window.addEventListener("load", getName);
+window.addEventListener("load", getUserdata);
 
-async function getName() {
+// 환영메세지 넣기
+async function getUserdata() {
   const user = await Api.get("/api/users/mypage");
 
   const username = user.name;
+  const totalPayAmount = user.data.totalPayAmount;
+
+  // 환영 메세지 넣기
   welcomeMessage.dataset.id = user.data._id;
-  welcomeMessage.innerText = `${username}님 반갑습니다`;
+  welcomeMessage.innerText = `${username}님 반갑습니다!`;
+
+  // 총구매금액 넣기
+  messageBox__totalPayAmount.innerText = `총 구매 금액은 ${totalPayAmount}원 입니다`;
+  // 등급 넣기
+  const grade = (await Api.get("/api/users/grades")).level;
+  messageBox__grade.innerText = `구매 등급은 ${grade}입니다`;
 }
 
 const findOrder = document.getElementById("findOrder");

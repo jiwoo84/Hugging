@@ -36,6 +36,8 @@ const UserSchema = new Schema({
   sosial: { type: Boolean, default: false },
   // 총 결재 금액
   totalPayAmount: { type: Number, default: 0 },
+  //
+  ownComments: [{ type: Schema.Types.ObjectId, ref: "Item" }],
 });
 
 // export const User = model("User", UserSchema);

@@ -9,7 +9,7 @@
   <!-- nav -->
   <nav class="navbar-container">
     <ul id="navbar">
-      <li>검색</li>
+      <li><a href="/search">검색</a></li>
       <li><a href="/login">로그인</a></li>
       <li><a href="/register">회원가입</a></li>
       <li>
@@ -22,5 +22,38 @@
       </li>
     </ul>
   </nav>
-  
+  <!-- 아래는 햄버거 버튼-->
+  <a
+    id="toggleBtn"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasScrolling"
+    aria-controls="offcanvasScrolling"
+  >
+    <i class="fa-solid fa-bars"></i>
+  </a>
+  <!-- 배경색 바꾸려면 요 id 의 배경색 변경 -->
+  <div
+    class="offcanvas offcanvas-start"
+    data-bs-scroll="true"
+    data-bs-backdrop="false"
+    tabindex="-1"
+    id="offcanvasScrolling"
+    aria-labelledby="offcanvasScrollingLabel"
+  >
+    <div class="offcanvas-header">
+      <a
+        id="toggleBtn"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasScrolling"
+        aria-controls="offcanvasScrolling"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </a>
+    </div>
+    <!-- 아래 DIV에 카테고리리스트 불러오기 -->
+    <div id="categoryMom">
+      <p>카테고리</p>
+      <!-- <li >카테고리리스트</li> -->
+    </div>
+  </div>
 </header>

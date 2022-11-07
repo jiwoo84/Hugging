@@ -1,16 +1,22 @@
+html,
+body {
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  background-color: #eae9e6;
+}
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 .navbar-container {
   display: flex;
   justify-content: flex-end;
   width: 100%;
   margin-top: 50px;
 }
-
 #navbar {
   width: 300px;
   display: flex;
@@ -18,6 +24,40 @@
   justify-content: space-around;
 }
 
+#offcanvasScrolling {
+  background-color: rgb(39, 57, 125);
+  color: #bbbbbb;
+}
+#categoryMom {
+  position: absolute;
+  top: 150px;
+  left: 20px;
+}
+#categoryMom p {
+  font-size: 25px;
+  font-weight: bolder;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-bottom: solid 1px gray;
+  margin-bottom: 15px;
+}
+#categoryMom li {
+  font-size: 20px;
+  font-weight: 600;
+  padding: 5px 0;
+}
 .title-text {
   font-size: 100px;
+  font-family: "Cinzel", serif;
+}
+.title-container {
+  margin-top: 40px;
+}
+#toggleBtn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 50px;
+  padding: 30px 30px;
 }

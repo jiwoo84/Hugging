@@ -32,6 +32,10 @@ const UserSchema = new Schema({
     default: "user",
   },
   orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
+  // 소셜로그인 여부, 후에 개인정보 수정시 비밀번호 필요없게만듬
+  sosial: { type: Boolean, default: false },
+  // 총 결재 금액
+  totalPayAmount: { type: Number, default: 0 },
 });
 
 // export const User = model("User", UserSchema);

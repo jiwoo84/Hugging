@@ -3,27 +3,6 @@ body {
   margin: 0;
   padding: 0;
 }
-
-.div-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
-.landing {
-  cursor: pointer;
-  border: 1px solid red;
-  padding: 10px;
-}
-
-.greeting {
-  cursor: pointer;
-  border: 1px solid blue;
-  padding: 10px;
-  margin-left: 3rem;
-}
-
 .carousel-inner {
   height: 600px;
 }
@@ -33,17 +12,73 @@ body {
 .d-block {
   height: 100%;
 }
+.bestTitle{
+  font-family: 'Cinzel', serif;
+  font-size:  xx-large;
+  margin:20px;
+}
+.containerLayout{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 35px;
+}
 
-.container {
+/* 홈 그리드 레이아웃 */
+.containerLayout div img{
+  width: 256px;
+  height: 256px;
+  padding: 5px 5px;
+  background-color: gray;
+  border-radius: 10px;
+}
+.containerLayout div {
+  cursor: pointer;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+}
+.containerLayout div div {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+.containerLayout div h3 {
+  font-size: large;
+  padding-top: 10px;
+  font-weight: bolder;
+}
+.containerLayout div small {
+  padding-left: 5px;
+  color: brown
+}
+.containerLayout div p {
+  color: blueviolet;
+  padding-right: 5px;
+  font-weight: 600;
+}
+.newTitle{
+  font-family: 'Cinzel', serif;
+  font-size: xx-large;
+  margin: 50px 20px;
+}
+/*
+.splashImg{
+  position: fixed;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  animation: splash 2s linear 1s;
+  animation-fill-mode: forwards;
 }
 
-.item {
-  border: 1px solid black;
-  margin: 20px;
-  width: 400px;
-  height: 430px;
+@keyframes splash {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    z-index: -1;
+    display: none;
+  }
 }
+*/

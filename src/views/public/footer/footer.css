@@ -1,39 +1,37 @@
-.footer {
-  /* border:1px black solid; */
-  padding: 30px 24px;
-  position: absolute;
+.footer-custom {
+  position: relative;
+  margin-top: 30px;
+  padding: 30px 25px 30px 25px;
+  background-color: #ddd6c2;
   width: 100%;
 }
 .footerContainer {
   display: flex;
   justify-content: space-evenly;
 }
-
 .footer__company-box__title {
+  font-family: 'Cinzel', serif;
   font-size: 40px;
   font-weight: 700;
 }
-
 .footer__company-box__copyright {
+  font-family: 'Cinzel', serif;
   margin-top: 10px;
   font-size: 12px;
 }
-
 .footer__title {
+  font-family: 'Cinzel', serif;
   font-size: 25px;
   font-weight: 700;
 }
-
 .footer__office-box__content {
   font-size: 13px;
   margin: 5px 0 5px 0;
 }
-
 .footer__cs-center-box__phone-num {
   font-size: 18px;
   font-weight: bold;
 }
-
 .footer__cs-center-box__breaktime {
   font-size: 13px;
   margin-top: 5px;

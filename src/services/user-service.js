@@ -22,7 +22,7 @@ class UserService {
 
     // 우선 비밀번호 해쉬화(암호화)
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    console.log("여ㅑ기?");
     const newUserInfo = {
       name,
       email,
@@ -31,23 +31,9 @@ class UserService {
       phoneNumber,
     };
     // db에 저장
-
-    // 가입자가 관리자일 경우
-    if (name.includes("_admin")) {
-      const newUserInfo = {
-        name,
-        email,
-        password: hashedPassword,
-        address,
-        phoneNumber,
-        role: "admin",
-      };
-      const createdNewUser = await User.create(newUserInfo);
-      return createdNewUser;
-    }
-
     // 일반적인 가입
     const createdNewUser = await User.create(newUserInfo);
+    console.log(createdNewUser);
     return createdNewUser;
   }
 
@@ -85,7 +71,10 @@ class UserService {
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
 
     // 2개 프로퍼티를 jwt 토큰에 담음
-    const token = jwt.sign({ userId: user._id, role: user.role }, secretKey);
+    const token = jwt.sign(
+      { userId: user._id, role: user.role, sosial: user.sosial },
+      secretKey
+    );
 
     return token;
   }
@@ -122,16 +111,17 @@ class UserService {
   // 마이페이지
   async mypage(id) {
     const user = await User.findById(id);
-    const name = user.name;
-    return { name };
+    return user;
   }
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
   async setUser(userInfoRequired, toUpdate) {
     // 객체 destructuring
-    const { userId, currentPassword } = userInfoRequired;
+    console.log("변경에필요한 사항 : ", userInfoRequired);
+    console.log("변경할 내역들 : ", toUpdate);
+    const { userId, currentPassword, sosial } = userInfoRequired;
 
     // 우선 해당 id의 유저가 db에 있는지 확인
-    let user = await User.findById(userId);
+    const user = await User.findById(userId);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
@@ -140,22 +130,26 @@ class UserService {
 
     // 이제, 정보 수정을 위해 사용자가 입력한 비밀번호가 올바른 값인지 확인해야 함
 
-    // 비밀번호 일치 여부 확인
+    // 기존비밀번호 일치 여부 확인
     const correctPasswordHash = user.password;
     const isPasswordCorrect = await bcrypt.compare(
       currentPassword,
       correctPasswordHash
     );
 
-    if (!isPasswordCorrect) {
+    //소셜로그인 대상자라면 현재비밀번호는 중요하지않음, 통과
+    if (sosial === true) {
+      console.log("소셜로그인 대상자임, 통과");
+    } else if (!isPasswordCorrect) {
       throw new Error(
         "현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
       );
     }
 
-    // 이제 드디어 업데이트 시작
+    // *********************이제 드디어 업데이트 시작****************************
 
     // 비밀번호도 변경하는 경우에는, 회원가입 때처럼 해쉬화 해주어야 함.
+    // 소셜로그인 대상자도 비번 변경이 있다면 가능하게 함.
     const { password } = toUpdate;
 
     if (password) {
@@ -164,12 +158,19 @@ class UserService {
     }
 
     // 업데이트 진행
-    user = await this.userMo({
-      userId,
-      update: toUpdate,
-    });
+    const updateUser = await User.updateOne({ _id: userId }, toUpdate);
+    return updateUser;
+  }
 
-    return user;
+  async userDelete(_id) {
+    await User.findByIdAndDelete(_id);
+    console.log("유저가 떠났읍니다..");
+    return "유저가 떠났읍니다..";
+  }
+
+  async classification(data) {
+    const findUser = await User.findById({ _id: data });
+    return findUser.totalPayAmount;
   }
 }
 

@@ -167,6 +167,11 @@ class UserService {
     console.log("유저가 떠났읍니다..");
     return "유저가 떠났읍니다..";
   }
+
+  async classification(data) {
+    const findUser = await User.findById({ _id: data });
+    return findUser.totalPayAmount;
+  }
 }
 
 const userService = new UserService();

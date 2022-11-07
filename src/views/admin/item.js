@@ -18,7 +18,9 @@ async function clickedItem() {
     categoryBtn_add.parentElement.removeChild(categoryBtn_add);
   }
 
-  // 버튼 하단에 상품 추가 넣기
+  // --------------------------------------------------------------
+  // 상품추가
+  // 카테고리 하단에 없다면 넣기
   if (!document.querySelector("#items-btn__add")) {
     // 버튼의 부모 불러오기
     const itemsBtnParent = document.querySelector("#items-btn");
@@ -28,7 +30,106 @@ async function clickedItem() {
     itemsBtn_add.innerText = "상품 추가";
     // 버튼을 부모에 추가
     itemsBtnParent.appendChild(itemsBtn_add);
+<<<<<<< HEAD
+
+    itemsBtn_add.addEventListener("click", async () => {
+      itemAddBox.innerHTML = `
+      <form id="modal-container__inner" enctype="multipart/form-data">
+          <p>상품명</p>
+          <input id="itemAddbox_nameInput"/>
+          <p>카테고리</p>
+          <select id="itemAddbox_categorySelect"></select>
+          <p>가격</p>
+          <input id="itemAddbox_priceInput"/>
+          <p>이미지</p>
+          <input type="file" id="itemAddbox_imgInput" name="itemAddbox_imgInput" accept="image/*" />
+          <p>상세설명</p>
+          <input id="itemAddbox_detailInput"/>
+          <input type="submit" id="itemAddBox_addBtn"></input>
+          <button id="itemAddBox_cancelBtn">취소</button>
+      </form>
+    `;
+
+      // 카테고리값 받아와서 select의 option 값으로 넣기
+      const itemAddbox_categorySelect = document.querySelector(
+        "#itemAddbox_categorySelect"
+      );
+      const categories = (await Api.get("/api/categories/all")).data;
+
+      categories.forEach((category) => {
+        itemAddbox_categorySelect.innerHTML += `
+        <option>${category.name}</option>
+      `;
+      });
+
+      // 전체 폼 불러오기
+      const itemAddbox_form = document.querySelector("#modal-container__inner");
+
+      // 추가완료 처리: 폼에 submit 이벤트 넣기
+      itemAddbox_form.addEventListener("submit", async (event) => {
+        // 새로고침 방지
+        event.preventDefault();
+
+        // 폼 내부 input 불러오기
+        const itemAddbox_nameInput = document.querySelector(
+          "#itemAddbox_nameInput"
+        );
+        const itemAddbox_categorySelect = document.querySelector(
+          "#itemAddbox_categorySelect"
+        );
+        const itemAddbox_priceInput = document.querySelector(
+          "#itemAddbox_priceInput"
+        );
+        const itemAddbox_imgInput = document.querySelector(
+          "#itemAddbox_imgInput"
+        );
+        const itemAddbox_detailInput = document.querySelector(
+          "#itemAddbox_detailInput"
+        );
+
+        // 이미지 파일 데이터 받아오기
+        const imgFormData = new FormData(itemAddbox_form);
+        imgFormData.append("img", itemAddbox_imgInput.file);
+
+        // 입력값 받아오기
+        const name = itemAddbox_nameInput.value;
+        const category = itemAddbox_categorySelect.value;
+        const price = itemAddbox_priceInput.value;
+        const detail = itemAddbox_detailInput.value;
+
+        if (!/[0-9]/.test(price)) {
+          return alert("가격에 숫자를 입력해주세요");
+        }
+
+        console.log(name, category, price, detail);
+        // 추가 요청 보내기
+        const res = await fetch(
+          `/api/items?name=${name}&category=${category}&price=${price}&itemDetail=${detail}`,
+          {
+            method: "post",
+            headers: {
+              authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+            body: imgFormData,
+          }
+        );
+
+        alert(res.msg);
+        itemAddBox.innerHTML = "";
+        clickedItem();
+      });
+
+      // 취소 버튼
+      const itemAddBox_cancelBtn = document.querySelector(
+        "#itemAddBox_cancelBtn"
+      );
+      itemAddBox_cancelBtn.addEventListener("click", () => {
+        itemAddBox.innerHTML = "";
+      });
+    });
+=======
     //여기에 복붙
+>>>>>>> 64403708c1366cd9e07b5efea99fc77db01b95f5
   }
   // 표 상단 만들기
   listContainer.innerHTML = `
@@ -260,6 +361,8 @@ async function clickedItem() {
       });
     }
   });
+<<<<<<< HEAD
+=======
 
   // -----------------------------------------------------------------
   // 상품 추가
@@ -345,4 +448,5 @@ async function clickedItem() {
       itemAddBox.innerHTML = "";
     });
   });
+>>>>>>> 64403708c1366cd9e07b5efea99fc77db01b95f5
 }

@@ -13,7 +13,8 @@ const categories = (await Api.get("/api/categories/all")).data;
 // 버튼에 이벤트 넣기
 itemBtn.addEventListener("click", clickedItem);
 
-// 상품조회 이벤트
+// *******************************************************************
+// 상품조회 버튼
 async function clickedItem(e) {
   // 모달창 띄워져 있다면 없애기
   itemAddBox.innerHTML = "";
@@ -60,6 +61,8 @@ async function clickedItem(e) {
   makeItemsList("전체보기");
 }
 
+// *******************************************************************
+// 카테고리 셀렉트 생성, 구현
 async function makeCategorySelecter() {
   const itemsCategorySelecter = document.querySelector(
     "#itemsCategorySelecter"
@@ -86,6 +89,7 @@ async function makeCategorySelecter() {
   // makeIemsList에 data 넘겨줌
 }
 
+// *******************************************************************
 // 상품리스트 출력 함수
 async function makeItemsList(categoryName) {
   // 리스트가 들어갈 표의 body
@@ -171,6 +175,7 @@ async function makeItemsList(categoryName) {
   modifyItem();
 }
 
+// *******************************************************************
 // 상품추가 버튼 생성,실행 함수
 function addItemBtn() {
   if (!document.querySelector("#items-btn__add")) {
@@ -280,6 +285,7 @@ function addItemBtn() {
   }
 }
 
+// *******************************************************************
 // 상품 삭제 버튼
 function delItem() {
   const itemTableBody_row_delBtns = document.querySelectorAll(
@@ -297,6 +303,7 @@ function delItem() {
   });
 }
 
+// *******************************************************************
 // 상품 판매시작 버튼
 function restartSaleItem() {
   const itemTableBody_row_restartBtns = document.querySelectorAll(
@@ -320,6 +327,7 @@ function restartSaleItem() {
   });
 }
 
+// *******************************************************************
 // 상품 수정 버튼
 function modifyItem() {
   // 상품 수정 버튼

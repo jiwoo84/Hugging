@@ -5,13 +5,16 @@ import * as Api from "/api.js";
 const listContainer = document.querySelector("#list-container");
 // 카테고리 관리 버튼
 const categoryBtn = document.querySelector("#category-btn__management");
+// 모달창
+const categoryAddBox = document.querySelector("#modal-container");
+
 // 버튼에 이벤트 넣기
 categoryBtn.addEventListener("click", clickedCategory);
 
+// *******************************************************************
 // 카테고리 관리 버튼
 async function clickedCategory() {
   // 화면 초기화 (모달창 지우거)
-  const categoryAddBox = document.querySelector("#modal-container");
   categoryAddBox.innerHTML = "";
 
   // 사이드바: 상품관리 하단에 버튼 있다면 지우기
@@ -20,77 +23,13 @@ async function clickedCategory() {
   if (itemsBtn_add) {
     itemsBtn_add.parentElement.removeChild(itemsBtn_add);
   }
-  // 버튼 하단에 카테고리 추가 넣기
+
+  // 카테고리 추가 버튼 (없다면)넣기
   if (!document.querySelector("#category-btn__add")) {
-    // 버튼의 부모 불러오기
-    const categoryBtnParent = document.querySelector("#category-btn");
-    //추가할 버튼 생성
-    const categoryBtn_add = document.createElement("div");
-    categoryBtn_add.id = "category-btn__add";
-    categoryBtn_add.innerText = "카테고리 추가";
-    // 버튼을 부모에 추가
-    categoryBtnParent.appendChild(categoryBtn_add);
-
-    // 카테고리 추가 버튼 이벤트 -> 모달창 생성
-    categoryBtn_add.addEventListener("click", async () => {
-      categoryAddBox.innerHTML = `
-      <div id="modal-container__inner">
-          <p>카테고리명</p>
-          <input id="categoryAddBox_nameInput"/>
-          <p>인덱스</p>
-          <input id="categoryAddBox_indexInput"/>
-          <button id="categoryAddBox_addBtn">추가완료</button>
-          <button id="categoryAddBox_cancelBtn">취소</button>
-      </div>
-    `;
-
-      // 추가완료 버튼
-      const categoryAddBox_addBtn = document.querySelector(
-        "#categoryAddBox_addBtn"
-      );
-
-      categoryAddBox_addBtn.addEventListener("click", async () => {
-        // 입력받는 input 불러오기
-        const categoryAddBox_nameInput = document.querySelector(
-          "#categoryAddBox_nameInput"
-        );
-        const categoryAddBox_indexInput = document.querySelector(
-          "#categoryAddBox_indexInput"
-        );
-        // 입력값 받아오기
-        const addName = categoryAddBox_nameInput.value;
-        const addIndex = categoryAddBox_indexInput.value;
-
-        // 빈칸인지 검사
-        if (addName === "" || addIndex === "") {
-          return alert("값을 입력해주세요");
-        }
-        // 인덱스 형태 검사
-        if (!/^[a-z|A-Z]/.test(addIndex)) {
-          return alert(`인덱스는 알파벳으로 시작해야합니다. ex) a200, b300`);
-        }
-        // 검사를 통과했으면 요청 보냄
-        const res = await categoryPost("/api/categories", {
-          name: addName,
-          index: addIndex,
-        });
-
-        alert(res.msg);
-        // 모달창 없애기
-        categoryAddBox.innerHTML = "";
-        clickedCategory();
-      });
-
-      const categoryAddBox_cancelBtn = document.querySelector(
-        "#categoryAddBox_cancelBtn"
-      );
-
-      categoryAddBox_cancelBtn.addEventListener("click", () => {
-        categoryAddBox.innerHTML = "";
-      });
-    });
+    addCategory();
   }
-  // 리스트에 카테고리 출력
+
+  // 리스트 테이블 헤더 넣기
   listContainer.innerHTML = `
     <table>
       <thead>
@@ -103,6 +42,87 @@ async function clickedCategory() {
       </tbody>
     </table>
   `;
+
+  // 리스트 출력
+  makeCategoryList();
+}
+
+// *******************************************************************
+// 카테고리 추가 버튼
+function addCategory() {
+  // 버튼의 부모 불러오기
+  const categoryBtnParent = document.querySelector("#category-btn");
+  //추가할 버튼 생성
+  const categoryBtn_add = document.createElement("div");
+  categoryBtn_add.id = "category-btn__add";
+  categoryBtn_add.innerText = "카테고리 추가";
+  // 버튼을 부모에 추가
+  categoryBtnParent.appendChild(categoryBtn_add);
+
+  // 카테고리 추가 버튼 이벤트 -> 모달창 생성
+  categoryBtn_add.addEventListener("click", async () => {
+    categoryAddBox.innerHTML = `
+      <div id="modal-container__inner">
+          <p>카테고리명</p>
+          <input id="categoryAddBox_nameInput"/>
+          <p>인덱스</p>
+          <input id="categoryAddBox_indexInput"/>
+          <button id="categoryAddBox_addBtn">추가완료</button>
+          <button id="categoryAddBox_cancelBtn">취소</button>
+      </div>
+    `;
+
+    // 추가완료 버튼
+    const categoryAddBox_addBtn = document.querySelector(
+      "#categoryAddBox_addBtn"
+    );
+
+    categoryAddBox_addBtn.addEventListener("click", async () => {
+      // 입력받는 input 불러오기
+      const categoryAddBox_nameInput = document.querySelector(
+        "#categoryAddBox_nameInput"
+      );
+      const categoryAddBox_indexInput = document.querySelector(
+        "#categoryAddBox_indexInput"
+      );
+      // 입력값 받아오기
+      const addName = categoryAddBox_nameInput.value;
+      const addIndex = categoryAddBox_indexInput.value;
+
+      // 빈칸인지 검사
+      if (addName === "" || addIndex === "") {
+        return alert("값을 입력해주세요");
+      }
+      // 인덱스 형태 검사
+      if (!/^[a-z|A-Z]/.test(addIndex)) {
+        return alert(`인덱스는 알파벳으로 시작해야합니다. ex) a200, b300`);
+      }
+      // 검사를 통과했으면 요청 보냄
+      const res = await categoryPost("/api/categories", {
+        name: addName,
+        index: addIndex,
+      });
+
+      alert(res.msg);
+      // 모달창 없애기
+      categoryAddBox.innerHTML = "";
+      clickedCategory();
+    });
+
+    // 취소 버튼
+    const categoryAddBox_cancelBtn = document.querySelector(
+      "#categoryAddBox_cancelBtn"
+    );
+
+    categoryAddBox_cancelBtn.addEventListener("click", () => {
+      categoryAddBox.innerHTML = "";
+    });
+  });
+}
+
+// *******************************************************************
+// 카테고리 리스트 출력
+async function makeCategoryList() {
   const datas = (await Api.get("/api/categories/all")).data;
   const categoryBody = document.querySelector("#categoryBody");
 
@@ -119,8 +139,17 @@ async function clickedCategory() {
       </tr>
     `;
   });
-  // 리스트, 수정, 삭제 버튼 삽입
-  // 삭제버튼 구현
+
+  // 삭제 버튼 구현
+  delCategory();
+
+  // 수정 버튼 구현
+  modifyCategory();
+}
+
+// *******************************************************************
+// 삭제 버튼 함수
+function delCategory() {
   const categoryBody_row_btns_dels = document.querySelectorAll(
     ".categoryBody_row_btns_del"
   );
@@ -137,8 +166,11 @@ async function clickedCategory() {
       clickedCategory();
     });
   });
+}
 
-  // 수정버튼 구현
+// *******************************************************************
+// 수정버튼 함수
+function modifyCategory() {
   const categoryBody_row_btns_modifys = document.querySelectorAll(
     ".categoryBody_row_btns_modify"
   );
@@ -205,6 +237,7 @@ async function clickedCategory() {
   });
 }
 
+// *******************************************************************
 // 카테고리에만 사용하는 api 함수
 // alert으로 에러를 받아야해서 따로 만듬
 async function categoryPost(endpoint, data) {

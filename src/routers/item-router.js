@@ -2,7 +2,7 @@ import express from "express";
 import is from "@sindresorhus/is";
 import { itemImg, loginRequired, namingItem } from "../middlewares";
 import { itemService } from "../services/";
-const MY_DOMAIN = process.env.KAKAO_REDIRECT;
+const MY_DOMAIN = process.env.MY_DOMAIN;
 const itemRouter = express();
 
 // 상품 추가

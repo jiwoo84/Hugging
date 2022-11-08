@@ -62,7 +62,8 @@ function addCategory() {
   // 카테고리 추가 버튼 이벤트 -> 모달창 생성
   categoryBtn_add.addEventListener("click", async () => {
     categoryAddBox.innerHTML = `
-      <div id="modal-container__inner">
+    <div id="modal-container__inner">
+      <p id="modalTitle">카테고리 추가</p>
           <p>카테고리명</p>
           <input id="categoryAddBox_nameInput"/>
           <p>인덱스</p>

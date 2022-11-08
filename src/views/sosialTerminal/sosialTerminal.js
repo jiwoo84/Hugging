@@ -1,4 +1,3 @@
-import * as Api from "../api";
 // 구글 로그인
 
 // 아래 도메인 변경시 각 소셜REST API 콘솔에서 리다이렉트 url도 바꿔줘야함.
@@ -25,7 +24,8 @@ const login__kakao = async () => {
   console.log("카카오 로그인 시작");
   const code = { code: new URL(window.location.href).searchParams.get("code") };
   console.log(code);
-  const access_token = await Api.post(
+
+  const access_token = await fetch.post(
     `${MYDOMAIN}api/sosial/kakao/oauth`,
     code
   );
@@ -37,7 +37,7 @@ const kakao_finish = async () => {
   console.log(access_token);
   console.log("피니시 시작!!");
   const body = { access_token };
-  const result = await Api.post(`${MY_DOMAIN}/api/sosial/kakao`, body);
+  const result = await fetch.post(`${MYDOMAIN}/api/sosial/kakao`, body);
   sessionStorage.setItem("token", result.accessToken);
   sessionStorage.setItem("loggedIn", "true");
   alert("카카오 로그인 완료");

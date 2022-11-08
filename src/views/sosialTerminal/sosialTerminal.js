@@ -67,7 +67,7 @@ window.addEventListener("load", () => {
       "code",
       new URL(window.location.href).searchParams.get("code")
     );
-    window.location.reload();
+    window.location.href = "/sosial";
   }
   loginStart();
 });

@@ -26,6 +26,7 @@ const login__kakao = async () => {
   console.log(code);
 
   const access_token = await fetch(`${MYDOMAIN}api/sosial/kakao/oauth`, {
+    method: "POST",
     body: code,
   });
   console.log(access_token);
@@ -37,6 +38,7 @@ const kakao_finish = async () => {
   console.log("피니시 시작!!");
   const body = { access_token };
   const result = await fetch(`${MYDOMAIN}/api/sosial/kakao`, {
+    method: "POST",
     body,
   });
   sessionStorage.setItem("token", result.accessToken);

@@ -21,7 +21,7 @@
 // 그 코드에 대한 권한을 보기위한 HTTP 통신
 const login__kakao = async () => {
   console.log("카카오 로그인 시작");
-  const code = { code: new URL(window.location.href).searchParams.get("code") };
+  const code = { code: sessionStorage.getItem("code") };
   console.log(code);
   console.log("http://34.64.162.140/api/sosial/kakao/oauth");
   const access_token = await fetch(
@@ -32,6 +32,7 @@ const login__kakao = async () => {
     }
   );
   console.log(access_token);
+  sessionStorage.clear();
   sessionStorage.setItem("access_token", access_token.accessToken);
 };
 const kakao_finish = async () => {
@@ -60,4 +61,12 @@ const loginStart = async () => {
   }
 };
 
-window.addEventListener("load", loginStart);
+window.addEventListener("load", () => {
+  if (sessionStorage.getItem("code") === null) {
+    sessionStorage.setItem(
+      "code",
+      new URL(window.location.href).searchParams.get("code")
+    );
+    loginStart();
+  }
+});

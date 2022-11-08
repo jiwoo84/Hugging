@@ -1,6 +1,5 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { Category, Item } from "../db";
+import fs from "fs";
 class ItemService {
   // 본 파일의 맨 아래에서, new ItemService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor() {}
@@ -82,15 +81,36 @@ class ItemService {
 
   //상품 수정
   async updateItem(findItemId, toUpdate) {
-    const { category } = toUpdate;
-    const categories = await Category.find();
-    const categoryName = categories.reduce((a, c) => {
-      a.push(c.name);
-      return a;
-    }, []);
-    console.log(categoryName);
-
-    return await Item.updateMany({ _id: findItemId }, toUpdate);
+    console.log("업데이트 요구사항 : ", toUpdate);
+    // 문제상황 카테고리 변경시
+    const beforeItem = await Item.findById(findItemId);
+    const pullFromCategory = await Category.findOneAndUpdate(
+      {
+        name: beforeItem.category,
+      },
+      { $pull: { items: beforeItem._id } }
+    );
+    console.log("헌 카테고리 빼기 ", pullFromCategory);
+    // const categories = await Category.findOneAndUpdate({ name: category });
+    // const categoryName = categories.reduce((a, c) => {
+    //   a.push(c.name);
+    //   return a;
+    // }, []);
+    // console.log("카테고리네임 : ", categoryName);
+    //카테고리입력값이 변경되었고, 그게 유효하다면
+    // }
+    // console.log("이게?", item);
+    // itme.updateOne(toUpdate);
+    // itme.save();
+    await Item.findByIdAndUpdate(findItemId, toUpdate);
+    const afterItem = await Item.findById(findItemId);
+    const putToCategory = await Category.findOneAndUpdate(
+      { name: afterItem.category },
+      { $push: { items: afterItem._id } }
+    );
+    console.log("새 카테고리 넣기 ", putToCategory);
+    // console.log(await Item.findById(findItemId));
+    return;
   }
 
   // 카테고리 포함되어있지 않은 아이템들 소환

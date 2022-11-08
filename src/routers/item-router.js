@@ -2,7 +2,7 @@ import express from "express";
 import is from "@sindresorhus/is";
 import { itemImg, loginRequired, namingItem } from "../middlewares";
 import { itemService } from "../services/";
-const MY_DOMAIN = process.env.KAKAO_REDIRECT || "http://localhost:5000";
+const MY_DOMAIN = process.env.KAKAO_REDIRECT;
 const itemRouter = express();
 
 // 상품 추가
@@ -14,7 +14,7 @@ itemRouter.post(
   async (req, res, next) => {
     console.log("상품추가 라우터에 오신걸 환영합니다!!");
     const data = req.query;
-    const fileData = `${MY_DOMAIN}/${req.file.path}`;
+    const fileData = `${MY_DOMAIN}${req.file.path}`;
     console.log("쿼리로 받아온 값 : ", data);
     console.log("파일 정보 : ", req.file);
     console.log("파일이 저장된경로 : ", fileData);

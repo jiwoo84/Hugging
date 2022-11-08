@@ -1,4 +1,5 @@
-import * as Api from "/api.js";
+import * as Api from "../api.js";
+console.log("들어옴~");
 const login__kakao = async () => {
   console.log("카카오 로그인 시작");
   const code = { code: new URL(window.location.href).searchParams.get("code") };
@@ -24,13 +25,15 @@ const kakao_finish = async () => {
 // 이 창으로 왔을때 바로 실행됨
 // 구글로그인이라면 구글 로그인 로직을, 카카오라면 카카오로직을 실행
 const loginStart = async () => {
+  console.log("꿈적도안하네");
+  console.log("안볐다~");
   if (localStorage.getItem("sosial") === "google") {
     await login__google();
   } else if (localStorage.getItem("sosial") === "kakao") {
+    console.log("카카오");
     await login__kakao();
     await kakao_finish();
   }
+  console.log("볏다~~");
 };
-if (localStorage.getItem("sosial" !== null)) {
-  window.addEventListener("load", loginStart);
-}
+window.addEventListener("load", loginStart);

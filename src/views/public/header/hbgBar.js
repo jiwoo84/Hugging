@@ -16,13 +16,18 @@ ShowNavBar();
 
 //상단 사용자 정보 랜더링
 async function ShowUserInfo() {
-  //유저 이름 받아오기
-  const username = (await Api.get("/api/users/mypage")).data.name;
-  categoryUserInfo__welcomeMsg.innerText = `${username}님 반갑습니다`;
-  // 등급 받아오기
-  const grade = (await Api.get("/api/users/grades")).level;
-  console.log(grade);
-  categoryUserInfo__grade.innerText = `회원님의 등급은 ${grade}입니다`;
+  try {
+    //유저 이름 받아오기
+    const username = (await Api.get("/api/users/mypage")).data.name;
+    categoryUserInfo__welcomeMsg.innerText = `${username}님 반갑습니다`;
+    // 등급 받아오기
+    const grade = (await Api.get("/api/users/grades")).level;
+    console.log(grade);
+    categoryUserInfo__grade.innerText = `회원님의 등급은 ${grade}입니다`;
+  } catch {
+    // 관리자라면 name 받아올 수 없으니 에러처리
+    categoryUserInfo__welcomeMsg.innerText = `관리자님 반갑습니다`;
+  }
 }
 
 //카테고리리스트 햄버거바에 렌더링

@@ -44,7 +44,7 @@ class ItemService {
     const newItems = await Item.find({ onSale: true })
       .sort({ createdAt: -1 })
       .limit(3);
-    console.log(bestItems, newItems);
+    // console.log(bestItems, newItems);
     return { newItems, bestItems };
   }
 
@@ -115,6 +115,22 @@ class ItemService {
       return null;
     }
     return reward;
+  }
+  async paginationItems(data) {
+    const page = data.page;
+    const perPage = data.perPage;
+
+    console.log("페이지네이션 서비스 로직");
+    const total = await Item.countDocuments({});
+    const items = await Item.find({})
+      .sort({ createdAt: -1 })
+      .skip(perPage * (page - 1))
+      .limit(perPage);
+
+    const totalPage = Math.ceil(total / perPage);
+    console.log(items);
+    // console.log(`1.${total}\n2.${items}\n3.${totalPage}`);
+    return { page, perPage, items, totalPage };
   }
 }
 

@@ -2,7 +2,7 @@ import express from "express";
 import is from "@sindresorhus/is";
 import { itemImg, loginRequired, namingItem } from "../middlewares";
 import { itemService } from "../services/";
-
+const MY_DOMAIN = process.env.KAKAO_REDIRECT;
 const itemRouter = express();
 
 // 상품 추가
@@ -14,7 +14,7 @@ itemRouter.post(
   async (req, res, next) => {
     console.log("상품추가 라우터에 오신걸 환영합니다!!");
     const data = req.query;
-    const fileData = `${process.env.MY_DOMAIN}${req.file.path}`;
+    const fileData = `${MY_DOMAIN}${req.file.path}`;
     console.log("쿼리로 받아온 값 : ", data);
     console.log("파일 정보 : ", req.file);
     console.log("파일이 저장된경로 : ", fileData);
@@ -40,12 +40,34 @@ itemRouter.get("/", async (req, res, next) => {
   console.log("홈화면 상품조회 라우터에 오신걸 환영합니다!!");
   try {
     const { newItems, bestItems } = await itemService.homeFindItems();
-    console.log(newItems, bestItems);
+    // console.log(newItems, bestItems);
     return res.status(200).json({
       status: 200,
       msg: "아이템리스트",
       newItems,
       bestItems,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+//pagination
+itemRouter.get("/paging", async (req, res, next) => {
+  console.log("페이지네이션 진입");
+  //page = 1, perPage = 9
+
+  const page = Number(req.query.page || 1);
+  const perPage = Number(req.query.perPage || 9);
+  console.log("타입ㅡㅡ:" + typeof page);
+  try {
+    const pagingItems = await itemService.paginationItems({ page, perPage });
+    // console.log(pagingItems);
+
+    return res.status(201).json({
+      status: 201,
+      msg: "페이징네이션 구현완료",
+      pagingItems,
     });
   } catch (err) {
     next(err);

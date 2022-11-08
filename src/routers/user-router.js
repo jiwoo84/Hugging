@@ -59,7 +59,11 @@ userRouter.post("/join", async (req, res, next) => {
 
     // 추가된 유저의 db 데이터를 프론트에 다시 보내줌
     // 물론 프론트에서 안 쓸 수도 있지만, 편의상 일단 보내 줌
-    res.status(201).json(newUser);
+    res.status(201).json({
+      status: 201,
+      msg: "회원가입 성공!",
+      accessToken: newUser,
+    });
   } catch (error) {
     next(error);
   }

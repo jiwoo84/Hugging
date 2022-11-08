@@ -34,7 +34,8 @@ class UserService {
     // 일반적인 가입
     const createdNewUser = await User.create(newUserInfo);
     console.log(createdNewUser);
-    return createdNewUser;
+    const login = this.getUserToken({ email, password });
+    return login;
   }
 
   // 로그인

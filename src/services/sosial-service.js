@@ -12,7 +12,8 @@ class SosialService {
     const baseUrl = "https://kauth.kakao.com/oauth/authorize?";
     const config = {
       client_id: process.env.KAKAO_KEY,
-      redirect_uri: process.env.KAKAO_REDIRECT,
+      redirect_uri:
+        process.env.KAKAO_REDIRECT || "http://localhost:5000/sosial",
       response_type: "code",
       scope: "profile_nickname,profile_image,account_email",
     };
@@ -30,7 +31,8 @@ class SosialService {
     const config = {
       grant_type: "authorization_code",
       client_id: process.env.KAKAO_KEY,
-      redirect_uri: process.env.KAKAO_REDIRECT,
+      redirect_uri:
+        process.env.KAKAO_REDIRECT || "http://localhost:5000/sosial",
       client_secret: process.env.KAKAO_SECRET,
       code, // 매개변수로 얻어온 코드
     };

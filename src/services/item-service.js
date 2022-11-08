@@ -82,6 +82,14 @@ class ItemService {
 
   //상품 수정
   async updateItem(findItemId, toUpdate) {
+    const { category } = toUpdate;
+    const categories = await Category.find();
+    const categoryName = categories.reduce((a, c) => {
+      a.push(c.name);
+      return a;
+    }, []);
+    console.log(categoryName);
+
     return await Item.updateMany({ _id: findItemId }, toUpdate);
   }
 

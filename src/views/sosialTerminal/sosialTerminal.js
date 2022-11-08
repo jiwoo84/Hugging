@@ -1,4 +1,4 @@
-import * as Api from "/api.js";
+import * as Api from "../api";
 // 구글 로그인
 
 // 아래 도메인 변경시 각 소셜REST API 콘솔에서 리다이렉트 url도 바꿔줘야함.

@@ -10,7 +10,7 @@ itemRouter.post(
   "/",
   loginRequired,
   namingItem,
-  itemImg.single("itemAddbox_imgInput"),
+  itemImg.single("modalBox_imgInput"),
   async (req, res, next) => {
     console.log("상품추가 라우터에 오신걸 환영합니다!!");
     const data = req.query;
@@ -137,7 +137,7 @@ itemRouter.patch(
   "/:id",
   loginRequired,
   namingItem,
-  itemImg.single("itemAddbox_imgInput"),
+  itemImg.single("modalBox_imgInput"),
   async (req, res, next) => {
     console.log("관리자 상품수정 라우터에 오신걸 환영합니다!!");
     const findItemId = req.params.id;

@@ -13,7 +13,7 @@ viewsRouter.use("/cart", serveStatic("cart"));
 viewsRouter.use("/mypage", serveStatic("mypage"));
 viewsRouter.use("/admin", serveStatic("admin"));
 viewsRouter.use("/detail", serveStatic("detail"));
-viewsRouter.use("/sosial", serveStatic("sosialTerminal"));
+viewsRouter.use("/sosial", serveStatic("sosial"));
 viewsRouter.use("/order", serveStatic("order"));
 viewsRouter.use("/category", serveStatic("category"));
 viewsRouter.use("/search", serveStatic("search"));

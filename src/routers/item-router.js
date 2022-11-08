@@ -40,6 +40,7 @@ itemRouter.get("/", async (req, res, next) => {
   console.log("홈화면 상품조회 라우터에 오신걸 환영합니다!!");
   try {
     const { newItems, bestItems } = await itemService.homeFindItems();
+    console.log(newItems, bestItems);
     return res.status(200).json({
       status: 200,
       msg: "아이템리스트",
@@ -169,7 +170,7 @@ itemRouter.delete("/:id", loginRequired, async (req, res, next) => {
       const deleteItemData = await itemService.deleteItem(findId);
       return res.status(201).json({
         status: 201,
-        msg: "삭제되었습니다.",
+        msg: deleteItemData,
       });
     } catch (err) {
       next(err);

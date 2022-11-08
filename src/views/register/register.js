@@ -33,7 +33,7 @@ async function handleSubmit(e) {
   const password = passwordInput.value;
   const passwordConfirm = passwordConfirmInput.value;
   const phoneNumber = phoneNumberInput.value;
-  const address = addressInput.value;
+  const address = `${addressInput.value} ${addAddressInput.value}`;
 
   // 잘 입력했는지 확인
   const isFullNameValid = name.length >= 2;
@@ -46,7 +46,7 @@ async function handleSubmit(e) {
   //폰번호
   const phoneNum = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
   const isphoneNumber = phoneNum.test(phoneNumber);
-  // const isaddress = ;
+  // 주소
 
   if (!isFullNameValid) {
     return alert("이름은 2글자 이상 입력해주세요.");

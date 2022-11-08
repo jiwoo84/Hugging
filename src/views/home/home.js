@@ -1,7 +1,10 @@
 import * as Api from "/api.js";
 
+
 const bestContainer = document.querySelector(".bestContainer");
 const newContainer = document.querySelector(".newContainer");
+const splashImg = document.querySelector(".splashImg");
+const splashContainer = document.querySelector(".splashContainer");
 
 createDB();
 getDataFromApi();
@@ -75,4 +78,16 @@ function attachBtn() {
       location.href = "/detail";
     });
   });
+}
+
+window.onload = function enterCheck(){  
+    if(sessionStorage.getItem("enterIn") !== "show"){
+      const splashImg = document.createElement("img");
+      splashImg.setAttribute("src","../public/img/splashImg.jpg");
+      splashImg.setAttribute("class","splashImg");
+      splashContainer.appendChild(splashImg);
+      sessionStorage.setItem("enterIn","show"); 
+      return;
+    }
+    splashContainer.removeChild(splashImg);
 }

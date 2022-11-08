@@ -1,3 +1,6 @@
+.navbar-item {
+  width: 100%;
+}
 .postItems {
   display: grid;
   padding: 10px;
@@ -5,7 +8,9 @@
   grid-auto-rows: minmax(150px, auto);
   grid-gap: 10px;
 }
-
+.navbar {
+  display: block;
+}
 .sonDiv {
   display: grid;
   place-items: center;
@@ -16,4 +21,22 @@
 }
 .nameDiv {
   font-weight: 600;
+}
+.detailDiv {
+  display: flex;
+}
+
+.priceDiv,
+h4,
+.detailCategory {
+  padding: 5px;
+}
+.priceDiv {
+  color: blueviolet;
+  padding-right: 5px;
+  font-weight: 600;
+}
+.detailCategory {
+  padding-left: 5px;
+  color: brown;
 }

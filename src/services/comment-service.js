@@ -18,8 +18,10 @@ class CommentService {
       affiliation: itemId,
       owner: _id,
     });
+    console.log("여기?");
     // 해당 아이템DB에 생성된 댓글 id 넘기고 저장
     item.comments.push(newComment._id);
+    console.log("요기?");
     item.save();
     // 중복리뷰를 막기위해 유저 리뷰배열에 저장
     user.ownComments.push(itemId);
@@ -29,11 +31,29 @@ class CommentService {
   }
 
   // 상품에 추가된 댓글 보기
-  async getAll(_id) {
+  async getAll(id) {
     // item.commets 를 찾음
+    const _id = id.itemId;
+    const { userId } = id;
     const comments = (await Item.findById(_id).populate("comments")).comments;
     console.log("포문 돌아감@@");
-
+    let ownCmt = "";
+    try {
+      const user = await User.findById(userId);
+      console.log(user);
+      if (user) {
+        if (user.ownComments.includes(_id)) {
+          const cmt = await Comment.findOne({
+            owner: userId,
+            affiliation: _id,
+          });
+          ownCmt = cmt._id;
+        } // 소속이 현재아이템이고, 주인이 현재 유저인 값을 ownCmt 에 넣는다.
+      }
+    } catch (err) {
+      console.log("무시해도되는에러");
+    }
+    // 삭제나 update 에 사용될 것임.
     //찾은 commets가 user를 참조하기위해 for문 실행
     // 아래 빈 배열에 리턴할 내용을 추가해줄것임
     let commentOwners = [];
@@ -48,7 +68,9 @@ class CommentService {
       };
       commentOwners.push(obj);
     }
-    return commentOwners;
+    //
+    console.log("return : ", commentOwners, ownCmt);
+    return { commentOwners, ownCmt };
   }
 
   async deleteComment(data) {

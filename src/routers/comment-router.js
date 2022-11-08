@@ -1,6 +1,7 @@
 import { commentService } from "../services";
 import express from "express";
 import { loginRequired } from "../middlewares/login-required";
+import jwt from "jsonwebtoken";
 const commentRouter = express();
 
 // 리뷰 추가
@@ -82,17 +83,33 @@ commentRouter.patch("/", loginRequired, async (req, res, next) => {
 //상품 디테일에서 리뷰 보기
 commentRouter.get("/:id", async (req, res, next) => {
   console.log("리뷰보기 라우터에 오신것을 환영합니다");
+  //비회원도 볼 수 있어야 하므로 jwt 토큰을 여기서 검증
+  let userId = "";
+  try {
+    const userToken = req.headers["authorization"]?.split(" ")[1];
+    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+    const jwtDecoded = jwt.verify(userToken, secretKey);
+    console.log(jwtDecoded);
+    userId = jwtDecoded.userId;
+    console.log("유저아이디", userId);
+  } catch (err) {
+    console.log("무시해도되는 에러");
+  }
   const itemId = req.params.id;
   console.log("itemId : ", itemId);
   if (!itemId) {
     throw new Error("아이템 id 값을 다시 가져오시게");
   }
   try {
-    const result = await commentService.getAll(itemId);
+    const { commentOwners, ownCmt } = await commentService.getAll({
+      userId,
+      itemId,
+    });
     return res.status(200).json({
       status: 200,
       msg: "해당상품의 댓글들은 이러함",
-      data: result,
+      ownCmt,
+      data: commentOwners,
     });
   } catch (err) {
     next(err);

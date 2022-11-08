@@ -1,20 +1,33 @@
 import * as Api from "../../api.js";
 
-AllCategoryList();
+const categoryMom = document.querySelector("#categoryMom");
+const categoryUserInfo__welcomeMsg = document.querySelector(
+  "#categoryUserInfo__welcomeMsg"
+);
+const categoryUserInfo__grade = document.querySelector(
+  "#categoryUserInfo__grade"
+);
+
+// 로그인시에만 상단 사용자정보 불러옴
+if (sessionStorage.getItem("loggedIn") === "true") {
+  ShowUserInfo();
+}
 ShowNavBar();
 
-const categoryMom = document.querySelector("#categoryMom");
-
-//카테고리리스트 콘솔창에 출력
-async function AllCategoryList() {
-  const allCategories = await Api.get("/api/categories/all");
-  console.log(allCategories);
+//상단 사용자 정보 랜더링
+async function ShowUserInfo() {
+  //유저 이름 받아오기
+  const username = (await Api.get("/api/users/mypage")).data.name;
+  categoryUserInfo__welcomeMsg.innerText = `${username}님 반갑습니다`;
+  // 등급 받아오기
+  const grade = (await Api.get("/api/users/grades")).level;
+  console.log(grade);
+  categoryUserInfo__grade.innerText = `회원님의 등급은 ${grade}입니다`;
 }
 
 //카테고리리스트 햄버거바에 렌더링
 async function ShowNavBar() {
   const data = await Api.get("/api/categories/all");
-  console.log("category");
 
   for (let i = 0; i < data.data.length; i++) {
     const navName = data.data[i].name;
@@ -25,7 +38,7 @@ async function ShowNavBar() {
     categoryDiv.dataset.index = navIdx;
     categoryDiv.textContent = navName;
     categoryMom.appendChild(categoryDiv);
-    console.log();
+
     //클릭 시 로컬 스토리지에 저장
     categoryDiv.addEventListener("click", () => {
       const id = categoryDiv.id;

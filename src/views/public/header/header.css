@@ -29,9 +29,17 @@ body {
   /* color: #bbbbbb; */
   color: black;
 }
+#categoryUserInfo {
+  position: absolute;
+  top: 130px;
+  left: 20px;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
 #categoryMom {
   position: absolute;
-  top: 150px;
+  top: 210px;
   left: 20px;
 }
 #categoryMom p {

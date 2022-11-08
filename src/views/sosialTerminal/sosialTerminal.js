@@ -67,6 +67,7 @@ window.addEventListener("load", () => {
       "code",
       new URL(window.location.href).searchParams.get("code")
     );
-    loginStart();
+    window.location.reload();
   }
+  loginStart();
 });

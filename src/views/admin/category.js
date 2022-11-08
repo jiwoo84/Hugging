@@ -70,7 +70,7 @@ async function clickedCategory() {
           return alert(`인덱스는 알파벳으로 시작해야합니다. ex) a200, b300`);
         }
         // 검사를 통과했으면 요청 보냄
-        const res = await Api.post("/api/categories", {
+        const res = await categoryPost("/api/categories", {
           name: addName,
           index: addIndex,
         });
@@ -106,7 +106,7 @@ async function clickedCategory() {
   const datas = (await Api.get("/api/categories/all")).data;
   const categoryBody = document.querySelector("#categoryBody");
 
-  //
+  // 각 행에 정보 넣어주기
   datas.forEach((data) => {
     categoryBody.innerHTML += `
       <tr id=${data.index} class=${data.name}>
@@ -203,4 +203,37 @@ async function clickedCategory() {
       });
     });
   });
+}
+
+// 카테고리에만 사용하는 api 함수
+async function categoryPost(endpoint, data) {
+  const apiUrl = endpoint;
+
+  // JSON.stringify 함수: Javascript 객체를 JSON 형태로 변환함.
+  // 예시: {name: "Kim"} => {"name": "Kim"}
+
+  const bodyData = JSON.stringify(data);
+  console.log(`%cPOST 요청: ${apiUrl}`, "color: #296aba;");
+  console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
+
+  const res = await fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    },
+    body: bodyData,
+  });
+
+  // 응답 코드가 4XX 계열일 때 (400, 403 등)
+  if (!res.ok) {
+    const errorContent = await res.json();
+    const { msg } = errorContent;
+    alert(msg);
+    throw new Error(msg);
+  }
+
+  const result = await res.json();
+
+  return result;
 }

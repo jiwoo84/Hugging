@@ -315,7 +315,6 @@ async function clickedItem() {
       );
 
       // input으로 값을 받아서 변경 (아무것도 입력x -> 그대로 저장)
-      // 근데 각 input의 요소를 찾지 않고 넘겨줬는데 왜 실행이 될까??????????
       itemsModifyBox_doneBtn.addEventListener("click", async () => {
         const itemsModifyBox_name = document.querySelector(
           "#itemsModifyBox_name"

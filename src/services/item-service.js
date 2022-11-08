@@ -44,6 +44,7 @@ class ItemService {
     const newItems = await Item.find({ onSale: true })
       .sort({ createdAt: -1 })
       .limit(3);
+    console.log(bestItems, newItems);
     return { newItems, bestItems };
   }
 
@@ -69,11 +70,13 @@ class ItemService {
         { $pull: { items: deleteId } }
       );
       console.log("아이템삭제 : 카테고리수정도 완료");
-      return "정상적으로 삭제 되었습니다.";
+      const result = "정상적으로 삭제 되었습니다.";
+      return result;
     } else {
       // 만약 판매량이 0이 아니라면 onSale을 false로 변경, (구매목록에서의 삭제를 방지)
       await Item.findByIdAndUpdate({ _id: deleteId }, { onSale: false });
-      return "구매자가 존재해 숨김처리 되었습니다.";
+      const result = "구매자가 존재해 숨김처리 되었습니다.";
+      return result;
     }
   }
 
@@ -103,6 +106,15 @@ class ItemService {
     console.log(items.length);
     console.log(noAffiliation.length);
     return noAffiliation;
+  }
+
+  async searchItems(word) {
+    console.log("들어옴");
+    const reward = await Item.find({ name: { $regex: word, $options: "i" } });
+    if (!reward) {
+      return null;
+    }
+    return reward;
   }
 }
 

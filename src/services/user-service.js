@@ -159,8 +159,7 @@ class UserService {
     }
 
     // 업데이트 진행
-    const updateUser = await User.updateMany({ userId }, toUpdate);
-
+    const updateUser = await User.updateOne({ _id: userId }, toUpdate);
     return updateUser;
   }
 
@@ -168,6 +167,11 @@ class UserService {
     await User.findByIdAndDelete(_id);
     console.log("유저가 떠났읍니다..");
     return "유저가 떠났읍니다..";
+  }
+
+  async classification(data) {
+    const findUser = await User.findById({ _id: data });
+    return findUser.totalPayAmount;
   }
 }
 

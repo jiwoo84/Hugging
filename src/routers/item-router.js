@@ -40,11 +40,35 @@ itemRouter.get("/", async (req, res, next) => {
   console.log("홈화면 상품조회 라우터에 오신걸 환영합니다!!");
   try {
     const { newItems, bestItems } = await itemService.homeFindItems();
+    console.log(newItems, bestItems);
     return res.status(200).json({
       status: 200,
       msg: "아이템리스트",
       newItems,
       bestItems,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// 상품 검색
+itemRouter.get("/search", async (req, res, next) => {
+  console.log("검색 라우터에 오신걸 환영합니다.");
+  const { word } = req.query;
+  console.log("word : ", word);
+  if (!word) {
+    return res.status(400).json({
+      status: 400,
+      msg: "공백으로 검색할 수 없습니다.",
+    });
+  }
+  try {
+    const reward = await itemService.searchItems(word);
+    return res.status(200).json({
+      status: 200,
+      msg: `'${word}'를 포함하는 상품을 찾아봤습니다.`,
+      data: reward,
     });
   } catch (err) {
     next(err);
@@ -146,7 +170,7 @@ itemRouter.delete("/:id", loginRequired, async (req, res, next) => {
       const deleteItemData = await itemService.deleteItem(findId);
       return res.status(201).json({
         status: 201,
-        msg: "삭제되었습니다.",
+        msg: deleteItemData,
       });
     } catch (err) {
       next(err);

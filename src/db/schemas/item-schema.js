@@ -16,6 +16,8 @@ const itemSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   //판매중 true, 판매중지 false
   onSale: { type: Boolean, default: true },
+  //달린 리뷰 수 unique 준 이유는 한 유저에 하나의
+  comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
 });
 
 export { itemSchema };

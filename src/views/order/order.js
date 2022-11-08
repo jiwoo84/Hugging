@@ -36,10 +36,11 @@ function getTotalPrice(key,storeName){
 }
 
 function renderUserComponent(name,address,phoneNumber){
-    const nameInfo =  document.createElement("div");
+    const nameInfo =  document.createElement("p");
+    nameInfo.setAttribute("class","nameInfo");
     const addressInfo = document.createElement("div");
     addressInfo.setAttribute("class","addressInfo");
-    nameInfo.innerHTML = `<p>${name}</p>`;
+    nameInfo.innerText = `${name}`;
     addressInfo.innerHTML = `
         <p>${name}</p>
         <p>${address}</p>

@@ -58,22 +58,23 @@ async function clickedCategory() {
           "#categoryAddBox_indexInput"
         );
         // 입력값 받아오기
-        const modifyName = categoryAddBox_nameInput.value;
-        const modifyIndex = categoryAddBox_indexInput.value;
+        const addName = categoryAddBox_nameInput.value;
+        const addIndex = categoryAddBox_indexInput.value;
 
         // 빈칸인지 검사
-        if (modifyName === "" || modifyIndex === "") {
+        if (addName === "" || addIndex === "") {
           return alert("값을 입력해주세요");
         }
         // 인덱스 형태 검사
-        if (!/^[a-z|A-Z]/.test(modifyIndex)) {
+        if (!/^[a-z|A-Z]/.test(addIndex)) {
           return alert(`인덱스는 알파벳으로 시작해야합니다. ex) a200, b300`);
         }
         // 검사를 통과했으면 요청 보냄
         const res = await Api.post("/api/categories", {
-          name: modifyName,
-          index: modifyIndex,
+          name: addName,
+          index: addIndex,
         });
+
         alert(res.msg);
         // 모달창 없애기
         categoryAddBox.innerHTML = "";

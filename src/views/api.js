@@ -48,7 +48,6 @@ async function post(endpoint, data) {
   if (!res.ok) {
     const errorContent = await res.json();
     const { msg } = errorContent;
-
     throw new Error(msg);
   }
 

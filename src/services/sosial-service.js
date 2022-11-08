@@ -12,8 +12,7 @@ class SosialService {
     const baseUrl = "https://kauth.kakao.com/oauth/authorize?";
     const config = {
       client_id: process.env.KAKAO_KEY,
-      redirect_uri:
-        process.env.KAKAO_REDIRECT || "http://localhost:5000/sosial",
+      redirect_uri: process.env.KAKAO_REDIRECT,
       response_type: "code",
       scope: "profile_nickname,profile_image,account_email",
     };
@@ -31,8 +30,7 @@ class SosialService {
     const config = {
       grant_type: "authorization_code",
       client_id: process.env.KAKAO_KEY,
-      redirect_uri:
-        process.env.KAKAO_REDIRECT || "http://localhost:5000/sosial",
+      redirect_uri: process.env.KAKAO_REDIRECT,
       client_secret: process.env.KAKAO_SECRET,
       code, // 매개변수로 얻어온 코드
     };
@@ -50,6 +48,7 @@ class SosialService {
 
     // 해당 변수를 확인해보면 data 안에 access_token 이 있는것을 확인할 수 있다.
     // 해당 access_token 을 적절한 변수명에 저장해준다.
+    console.log("리워드", axiosHTTP);
     const access_token = axiosHTTP.data.access_token;
     return access_token;
 

@@ -1,7 +1,6 @@
 // 구글 로그인
 
 // 아래 도메인 변경시 각 소셜REST API 콘솔에서 리다이렉트 url도 바꿔줘야함.
-const MYDOMAIN = "http://34.64.162.140/";
 // 아래 구글로그인은 다른 프로젝트에서 쓰던 코드. 구글로그인 추가시 수정하여 사용
 // const login__google = async () => {
 //   const code = new URL(window.location.href).searchParams.get("code");
@@ -25,7 +24,7 @@ const login__kakao = async () => {
   const code = { code: new URL(window.location.href).searchParams.get("code") };
   console.log(code);
 
-  const access_token = await fetch(`${MYDOMAIN}api/sosial/kakao/oauth`, {
+  const access_token = await fetch(`/api/sosial/kakao/oauth`, {
     method: "POST",
     body: code,
   });
@@ -37,7 +36,7 @@ const kakao_finish = async () => {
   console.log(access_token);
   console.log("피니시 시작!!");
   const body = { access_token };
-  const result = await fetch(`${MYDOMAIN}/api/sosial/kakao`, {
+  const result = await fetch(`/api/sosial/kakao`, {
     method: "POST",
     body,
   });

@@ -178,6 +178,111 @@ async function makeItemsList(categoryName) {
 }
 
 // *******************************************************************
+// 상품 수정 버튼
+function modifyItem() {
+  const itemTableBody_row_modifyBtns = document.querySelectorAll(
+    ".itemTableBody_row_modifyBtn"
+  );
+
+  // 모달 안에 폼 넣기
+  itemTableBody_row_modifyBtns.forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.parentElement.id;
+      const itemData = (await Api.get(`/api/items/${id}`)).data;
+      modalBox.innerHTML = `
+      <form id="modal-container__inner" enctype="multipart/form-data">
+        <p id="modalTitle">상품 수정</p>
+          <p>상품명</p>
+          <input id="modalBox_nameInput" value="${itemData.name}"/>
+          <p>카테고리</p>
+          <select id="modalBox_categorySelect" value="${itemData.category}"></select>
+          <p>가격</p>
+          <input id="modalBox_priceInput" value="${itemData.price}"/>
+          <p>이미지</p>
+          <input type="file" id="modalBox_imgInput" name="modalBox_imgInput" accept="image/*" />
+          <p>상세설명</p>
+          <input id="modalBox_detailInput" value="${itemData.itemDetail}"/>
+          <input type="submit" id="modalBox_doneBtn"></input>
+          <button id="modalBox_cancelBtn">취소</button>
+      </form>
+    `;
+
+      // 카테고리값 받아와서 select의 option 값으로 넣기
+      const modalBox_categorySelect = document.querySelector(
+        "#modalBox_categorySelect"
+      );
+      const categories = (await Api.get("/api/categories/all")).data;
+
+      categories.forEach((category) => {
+        modalBox_categorySelect.innerHTML += `
+        <option>${category.name}</option>
+      `;
+      });
+
+      // 전체 폼 불러오기
+      const modalBox_form = document.querySelector("#modal-container__inner");
+
+      // 추가완료 처리: 폼에 submit 이벤트 넣기
+      modalBox_form.addEventListener("submit", async (event) => {
+        // 새로고침 방지
+        event.preventDefault();
+
+        // 폼 내부 input 불러오기
+        const modalBox_nameInput = document.querySelector(
+          "#modalBox_nameInput"
+        );
+        const modalBox_categorySelect = document.querySelector(
+          "#modalBox_categorySelect"
+        );
+        const modalBox_priceInput = document.querySelector(
+          "#modalBox_priceInput"
+        );
+        const modalBox_imgInput = document.querySelector("#modalBox_imgInput");
+        const modalBox_detailInput = document.querySelector(
+          "#modalBox_detailInput"
+        );
+
+        // 이미지 파일 데이터 받아오기
+        const imgFormData = new FormData(modalBox_form);
+        imgFormData.append("img", modalBox_imgInput.file);
+
+        // 입력값 받아오기
+        const name = modalBox_nameInput.value;
+        const category = modalBox_categorySelect.value;
+        const price = modalBox_priceInput.value;
+        const detail = modalBox_detailInput.value;
+
+        if (!/[0-9]/.test(price)) {
+          return alert("가격에 숫자를 입력해주세요");
+        }
+        console.log(id);
+        // 추가 요청 보내기
+        const res = await fetch(
+          `/api/items/${id}?name=${name}&category=${category}&price=${price}&itemDetail=${detail}&onSale=${undefined}`,
+          {
+            method: "patch",
+            headers: {
+              authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+            body: imgFormData,
+          }
+        );
+
+        alert(res.msg);
+        modalBox.innerHTML = "";
+        makeItemsList("전체보기");
+      });
+
+      // 취소 버튼
+      const modalBox_cancelBtn = document.querySelector("#modalBox_cancelBtn");
+      modalBox_cancelBtn.addEventListener("click", () => {
+        modalBox.innerHTML = "";
+      });
+    });
+  });
+}
+
+// *******************************************************************
 // 상품추가 버튼
 function addItemBtn() {
   // 버튼의 부모 불러오기
@@ -318,111 +423,6 @@ function restartSaleItem() {
       });
       alert("해당 상품이 판매 시작되었습니다.");
       clickedItem();
-    });
-  });
-}
-
-// *******************************************************************
-// 상품 수정 버튼
-function modifyItem() {
-  const itemTableBody_row_modifyBtns = document.querySelectorAll(
-    ".itemTableBody_row_modifyBtn"
-  );
-
-  // 모달 안에 폼 넣기
-  itemTableBody_row_modifyBtns.forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const id = btn.parentElement.id;
-      const itemData = (await Api.get(`/api/items/${id}`)).data;
-      modalBox.innerHTML = `
-      <form id="modal-container__inner" enctype="multipart/form-data">
-        <p id="modalTitle">상품 수정</p>
-          <p>상품명</p>
-          <input id="modalBox_nameInput" value="${itemData.name}"/>
-          <p>카테고리</p>
-          <select id="modalBox_categorySelect" value="${itemData.category}"></select>
-          <p>가격</p>
-          <input id="modalBox_priceInput" value="${itemData.price}"/>
-          <p>이미지</p>
-          <input type="file" id="modalBox_imgInput" name="modalBox_imgInput" accept="image/*" />
-          <p>상세설명</p>
-          <input id="modalBox_detailInput" value="${itemData.itemDetail}"/>
-          <input type="submit" id="modalBox_doneBtn"></input>
-          <button id="modalBox_cancelBtn">취소</button>
-      </form>
-    `;
-
-      // 카테고리값 받아와서 select의 option 값으로 넣기
-      const modalBox_categorySelect = document.querySelector(
-        "#modalBox_categorySelect"
-      );
-      const categories = (await Api.get("/api/categories/all")).data;
-
-      categories.forEach((category) => {
-        modalBox_categorySelect.innerHTML += `
-        <option>${category.name}</option>
-      `;
-      });
-
-      // 전체 폼 불러오기
-      const modalBox_form = document.querySelector("#modal-container__inner");
-
-      // 추가완료 처리: 폼에 submit 이벤트 넣기
-      modalBox_form.addEventListener("submit", async (event) => {
-        // 새로고침 방지
-        event.preventDefault();
-
-        // 폼 내부 input 불러오기
-        const modalBox_nameInput = document.querySelector(
-          "#modalBox_nameInput"
-        );
-        const modalBox_categorySelect = document.querySelector(
-          "#modalBox_categorySelect"
-        );
-        const modalBox_priceInput = document.querySelector(
-          "#modalBox_priceInput"
-        );
-        const modalBox_imgInput = document.querySelector("#modalBox_imgInput");
-        const modalBox_detailInput = document.querySelector(
-          "#modalBox_detailInput"
-        );
-
-        // 이미지 파일 데이터 받아오기
-        const imgFormData = new FormData(modalBox_form);
-        imgFormData.append("img", modalBox_imgInput.file);
-
-        // 입력값 받아오기
-        const name = modalBox_nameInput.value;
-        const category = modalBox_categorySelect.value;
-        const price = modalBox_priceInput.value;
-        const detail = modalBox_detailInput.value;
-
-        if (!/[0-9]/.test(price)) {
-          return alert("가격에 숫자를 입력해주세요");
-        }
-
-        // 추가 요청 보내기
-        const res = await fetch(
-          `/api/items/:id?name=${name}&category=${category}&price=${price}&itemDetail=${detail}&onSale=true`,
-          {
-            method: "patch",
-            headers: {
-              authorization: `Bearer ${sessionStorage.getItem("token")}`,
-            },
-            body: imgFormData,
-          }
-        );
-
-        alert(res.msg);
-        modalBox.innerHTML = "";
-        makeItemsList("전체보기");
-      });
-
-      // 취소 버튼
-      const modalBox_cancelBtn = document.querySelector("#modalBox_cancelBtn");
-      modalBox_cancelBtn.addEventListener("click", () => {
-        modalBox.innerHTML = "";
-      });
     });
   });
 }

@@ -75,40 +75,52 @@ function createPost(item,key) {
 function renderProductComponent(storeName){
     
     if (window.indexedDB) {
-        
         // 1. DB 열기
         const request = indexedDB.open("cart");      
         
         request.onerror = (e)=> console.log(e.target.errorCode);
         request.onsuccess = (e)=> {
         // 2. items 저장소 접근
-        const db = request.result;
-        const objStore = db.transaction(`${storeName}`,"readwrite").objectStore(`${storeName}`);  
-        // 3. items저장소의 레코드 개수 확인
-            const cursorRequest = objStore.openCursor();
-            cursorRequest.onsuccess =(e)=> {
-                // 5. 커서를 사용해 데이터 접근
-                let cursor = e.target.result;
-                if (cursor) {
-                    const value = objStore.get(cursor.key);         
-                    value.onsuccess = (e)=> {
-                        //6. 상품추가 렌더링 실행
-                        productContainer.insertAdjacentHTML("beforeend",createPost(value.result,cursor.key));
-                        const {id} = value.result;
-                        const count = value.result.sales;
-                        items.push({id,count});
-                        getTotalPrice(value.result.id,storeName);
-                    }
-                    // 8. cursor로 순회
-                    cursor.continue();                              
+            const keys = localStorage.getItem("keys").split(",");
+            console.log(keys);
+            const db = request.result;
+            const objStore = db.transaction(`${storeName}`,"readwrite").objectStore(`${storeName}`);  
+
+            keys.forEach( (key) => {
+                const value = objStore.get(key);   
+                value.onsuccess = (e)=> {
+                    //6. 상품추가 렌더링 실행
+                    productContainer.insertAdjacentHTML("beforeend",createPost(value.result,key));
+                    const {id} = value.result;
+                    const count = value.result.sales;
+                    items.push({id,count});
+                    getTotalPrice(value.result.id,storeName);
                 }
-            }
+            })                   
         }
     }
 }
 
 
-moveToCartBtn.addEventListener("click",()=>{
+moveToCartBtn.addEventListener("click",()=> {
+     // 바로구매에서 결제페이지로 넘어온 경우 
+     // 결제페이지를 벗어나게 되면 nowBuy 테이블 레코드 삭제
+    const storeName =  localStorage.getItem("storeName");
+    if(storeName === "nowBuy"){
+        const request = window.indexedDB.open("cart");     
+        request.onerror =(e)=> console.log(e.target.errorCode);
+        request.onsuccess =(e)=> {
+            const db = request.result;
+            const objStore  = db.transaction(`${storeName}`, "readwrite").objectStore(`${storeName}`); 
+            const objStoreRequest = objStore.clear();           
+            objStoreRequest.onsuccess =(e)=> {
+                console.log("cleared");
+            }
+        }
+        window.location.href="/cart";
+        return;
+    }
+    // 장바구니로 돌아가기
     window.location.href="/cart";
 });
 

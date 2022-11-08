@@ -56,7 +56,7 @@ function createPost(item,key) {
     const priceSum = item.price*item.sales;
     return `
     <div id="${key}" class = "card">
-        <img src="${item.img}">
+        <img src="${item.img}" class="cardImg">
         <div class="productInfo">
             <p class ="name">${item.name}</p>
             <p class ="category">${item.category}</p>

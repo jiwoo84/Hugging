@@ -206,6 +206,7 @@ async function clickedCategory() {
 }
 
 // 카테고리에만 사용하는 api 함수
+// alert으로 에러를 받아야해서 따로 만듬
 async function categoryPost(endpoint, data) {
   const apiUrl = endpoint;
 

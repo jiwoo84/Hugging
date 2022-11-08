@@ -80,7 +80,7 @@ class ItemService {
   }
 
   //상품 수정
-  async updateItem(findItemId, toUpdate) {
+  async updateItem(findItemId, toUpdate, fixImgUrl) {
     console.log("업데이트 요구사항 : ", toUpdate);
     // 문제상황 카테고리 변경시
     const beforeItem = await Item.findById(findItemId);
@@ -102,7 +102,11 @@ class ItemService {
     // console.log("이게?", item);
     // itme.updateOne(toUpdate);
     // itme.save();
+
     await Item.findByIdAndUpdate(findItemId, toUpdate);
+    if (fixImgUrl) {
+      await Item.findByIdAndUpdate(findItemId, { imageUrl: fixImgUrl });
+    }
     const afterItem = await Item.findById(findItemId);
     const putToCategory = await Category.findOneAndUpdate(
       { name: afterItem.category },

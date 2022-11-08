@@ -142,15 +142,16 @@ itemRouter.patch(
     console.log("관리자 상품수정 라우터에 오신걸 환영합니다!!");
     const findItemId = req.params.id;
     const { currentRole } = req;
-    const { name, category, itemDetail } = req.query;
+    const { name, category, itemDetail, imageUrl } = req.query;
     let { price } = req.query;
     price = Number(price);
     const onSale = false;
-    let imageUrl = undefined;
-
+    let fixImgUrl = "";
     // 만약 들어온 파일이 있다면,
     if (req.file) {
-      imageUrl = req.file.path;
+      console.log(req.file);
+      fixImgUrl = `${MY_DOMAIN}${req.file.path}`;
+      console.log("fixImgUrl : ", fixImgUrl);
     }
     if (currentRole !== "admin") {
       return res.status(400).json({
@@ -168,10 +169,13 @@ itemRouter.patch(
         ...(itemDetail && { itemDetail }),
         ...(onSale && { onSale }),
       };
-      console.log("이미지유알엘", imageUrl);
       console.log(toUpdate);
 
-      const updateItem = await itemService.updateItem(findItemId, toUpdate);
+      const updateItem = await itemService.updateItem(
+        findItemId,
+        toUpdate,
+        fixImgUrl
+      );
       return res.status(201).json({
         status: 201,
         msg: "상품이 정상적으로 변경 되었습니다.",

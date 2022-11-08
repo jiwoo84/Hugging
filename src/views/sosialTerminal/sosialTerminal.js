@@ -63,8 +63,8 @@ const loginStart = async () => {
 
 window.addEventListener("load", () => {
   console.log("온로드!");
+  window.location.href = "/";
   if (sessionStorage.getItem("code") === null) {
-    alert("오케 코드없다 리다이렉트 시키자!");
     sessionStorage.setItem(
       "code",
       new URL(window.location.href).searchParams.get("code")
@@ -72,5 +72,6 @@ window.addEventListener("load", () => {
     window.location.href = "/sosial/";
     return;
   }
+  console.log("코드있음");
   // loginStart();
 });

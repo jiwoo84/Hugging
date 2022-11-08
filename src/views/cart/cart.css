@@ -38,7 +38,9 @@ html,body{
     flex-direction: row;
     background-color: #fff;
     margin:40px auto;
-    padding-bottom: 20px;
+    padding: 20px;
+    width:90%;
+    height: 300px;
 }
 .checkbox{
     float: right;

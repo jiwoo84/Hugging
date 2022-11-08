@@ -61,10 +61,12 @@ async function showFuction(카테고리이름, 인덱스) {
     `/api/categories?name=${카테고리이름}&index=${인덱스}`
   );
   for (let i = 0; i < categoryItem.data.length; i++) {
-    //큰 디브 이후, 이미지, 네임디브, 가격디브 만들고 추가
+    // item 렌더링
+    // 큰 div
     const momDiv = document.createElement("div");
     momDiv.setAttribute("class", "momDiv");
     momDiv.id = categoryItem.data[i]._id;
+    //작은 div(이미지+이름)
     const sonDiv = document.createElement("div");
     sonDiv.setAttribute("class", "sonDiv");
     const img = document.createElement("img");
@@ -73,16 +75,25 @@ async function showFuction(카테고리이름, 인덱스) {
     img.alt = categoryItem.data[i].name;
     const nameDiv = document.createElement("div");
     nameDiv.setAttribute("class", "nameDiv");
-    // nameDiv.class = "itemName";
     nameDiv.textContent = categoryItem.data[i].name;
+    //가격|카테고리이름 div
+    const detailDiv = document.createElement("div");
+    detailDiv.setAttribute("class", "detailDiv");
     const priceDiv = document.createElement("div");
     priceDiv.setAttribute("class", "priceDiv");
     priceDiv.textContent = categoryItem.data[i].price;
-    const priceDiv = document.createElement("div");
+    const stick = document.createElement("h4");
+    stick.textContent = "|";
+    const detailCategory = document.createElement("div");
+    detailCategory.setAttribute("class", "detailCategory");
+    detailCategory.textContent = categoryItem.data[i].category;
 
+    detailDiv.appendChild(priceDiv);
+    detailDiv.appendChild(stick);
+    detailDiv.appendChild(detailCategory);
     sonDiv.appendChild(img);
     sonDiv.appendChild(nameDiv);
-    sonDiv.appendChild(priceDiv);
+    sonDiv.appendChild(detailDiv);
     momDiv.appendChild(sonDiv);
     postItems.appendChild(momDiv);
 

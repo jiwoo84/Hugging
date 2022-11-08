@@ -9,10 +9,6 @@ let totalPrice =0;
 
 getIdxedDBValues();
 
-// 총 금액 저장
-function setTotalPrice(){
-    localStorage.setItem("TotalPrice", totalPrice);
-}
 
 // rendering
 function createPost(item,key) {
@@ -36,8 +32,7 @@ function createPost(item,key) {
 
 // 전체데이터 조회
 function getIdxedDBValues() {
-    totalPrice =0;
-
+    totalPrice = 0;
     if (window.indexedDB) {
         // 1. DB 열기
         const request = indexedDB.open("cart");      
@@ -82,9 +77,7 @@ function getIdxedDBValues() {
                                 attachBtn(value.result.id);
                                 // 상품상세페이지로 이동버튼
                                 moveTodetailBtn(value.result.id);
-                                // 체크된 상품의 값이 결제금액이 되야한다.
-                                // getCheckedProduct();
-                                // 결제버튼 금액 변경
+                                // 결제금액
                                 getTotalPrice();
                             }
                             // 8. cursor로 순회
@@ -99,10 +92,18 @@ function getIdxedDBValues() {
     }
 }
 
-// function getCheckedProduct(){
-//     getCheckboxValue();
+// 총 금액 저장
+function setTotalPrice(){
+    localStorage.setItem("TotalPrice", totalPrice);
+}
 
-// }
+//결제버튼 텍스트
+function getTotalPrice(){ //1
+    // totalPrice += productPrice;
+    const msg = `${totalPrice}원 결제하기`;
+    purchaseBtn.value = msg;
+    setTotalPrice();
+}
 
 // checked된 checkbox의 키 값들을 가져오는 함수
 function getCheckboxValue(){
@@ -115,13 +116,7 @@ function getCheckboxValue(){
     return keys;
 }
 
-//결제버튼 텍스트
-function getTotalPrice(){
-    // totalPrice += productPrice;
-    const msg = `${totalPrice}원 결제하기`;
-    purchaseBtn.value = msg;
-    setTotalPrice();
-}
+
 
 // 상품의 이미지 클릭하면 상세페이지로 이동
 function moveTodetailBtn(key){
@@ -140,6 +135,7 @@ function attachBtn(key){
     //plus, minuy button
     const plusbtn = container.querySelector(".plus");
     const minusbtn = container.querySelector(".minus");
+    const checkbox = container.querySelector(".checkbox");
 
     plusbtn.addEventListener("click" ,()=>{
         updateData(key,"plus");
@@ -149,6 +145,20 @@ function attachBtn(key){
     minusbtn.addEventListener("click" ,()=>{
         updateData(key,"minus");
         getIdxedDBValues();
+    });
+    checkbox.addEventListener("change" ,()=>{
+        const productPrice = container.querySelector(".productPrice");
+        const price = productPrice.innerText.split(":")[1].trim();
+
+        if ( checkbox.checked === true){
+            console.log(price);
+            totalPrice += Number(price);
+            getTotalPrice();
+        }
+        else{
+            totalPrice -= Number(price);
+            getTotalPrice();
+        }
     });
 }
 
@@ -234,25 +244,13 @@ clearSelectBtn.addEventListener("click",function(){
 
 //결제창으로 이동
 purchaseBtn.addEventListener("click",function(){
-    if (sessionStorage.getItem("loggedIn") === "true") {
-        // 1. db 열기
-        const request = window.indexedDB.open("cart");     
-        request.onerror =(e)=> console.log(e.target.errorCode);
-        request.onsuccess =(e)=> {
-            // 2. items 저장소 접근
-            const db = request.result;
-            const objStore = db.transaction("items", "readwrite").objectStore("items");
-            const keys = getCheckboxValue();
-            
-            keys.forEach((key)=>{
-                const objStoreRequest = objStore.get(key);       
-                objStoreRequest.onsuccess =(e)=> {
-                    const value = e.target.result;
-                    console.log(value.price*value.sales);
-                }
-            });
-        }
+    if (purchaseBtn.innerText[0]==="0" || purchaseBtn.value[0]==="0"){
+        alert("상품을 선택하세요.");
+        return ;
+    }
+    if (sessionStorage.getItem("loggedIn") === "true" ) {
         localStorage.setItem("storeName","items");
+        localStorage.setItem("keys",getCheckboxValue());
         location.href = "/order";
         return;
     }

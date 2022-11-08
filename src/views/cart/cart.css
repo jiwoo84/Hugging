@@ -16,28 +16,38 @@ a{
     text-align: center;
     margin: 60px auto 0px auto; 
 }
-.viewProduct{
-    display: block;
-    width: 200px;
-    font-size: 20px;
-    margin: 60px auto 0px auto; 
+a:link{
+    color:#4a4a4a;
+    text-decoration: none;
 }
-.moveTopurchase{
+a:visited{
+    color:#4a4a4a;
+    text-decoration: none;
+}
+.moveTopurchase, .viewProduct{
     display: block;
     width: 90%;
-    margin:auto;
+
     border: none;
     background-color:#fff;
     padding: 14px 28px;
     
     cursor: pointer;
     text-align: center;
-    margin-top: 70px;
-    margin-bottom: 40px;
-
+    margin-left:auto;
+    margin-right: auto;
     font-size: 20px;
     font-weight: bold;
 }
+.viewProduct{
+    margin-top: 15px;
+    margin-bottom: 80px;
+}
+.moveTopurchase{
+    margin-top: 80px;
+    margin-bottom: 15px;
+}
+
 .card{
     display: flex;
     flex-direction: row;
@@ -59,6 +69,10 @@ a{
 .name{
     font-size: 25px;
     font-weight:bold;
+}
+.productImg{
+    width: 250px;
+    height: 250px;
 }
 .productPrice{
     text-align: right;

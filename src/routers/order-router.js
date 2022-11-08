@@ -8,6 +8,7 @@ orderRouter.post("/", loginRequired, async (req, res, next) => {
   const { currentUserId } = req;
   console.log("주문하기 라우터에 오신걸 환영합니다.");
   const {
+    couponId,
     name,
     address,
     phoneNumber,

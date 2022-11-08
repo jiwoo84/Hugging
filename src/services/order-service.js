@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { Order, User } from "../db";
+import { Coupon, Order, User } from "../db";
 class OrderService {
   // 본 파일의 맨 아래에서, new orderService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor() {}
@@ -17,6 +17,18 @@ class OrderService {
       { _id: sumUser.id },
       { totalPayAmount: SumTotalPrice }
     );
+    // 사용한 쿠폰 삭제
+    if (data.couponId !== undefined) {
+      //여기서 data.couponId는 쿠폰의 id값을 의미한다.
+      const findcoupon = await Coupon.findOne({ id: data.couponId });
+      const findUser = await User.findById(findcoupon.owner);
+      console.log(
+        "제발 내가 찾는게 맞아라 제발 부탁이야: " + findUser.ownCoupons
+      );
+      //유저의 ownCoupons와 해당 쿠폰 지우기
+      // await User.deleteOne({ ownCoupons: findUser.ownCoupons }); 이건 나중에 수정해보자
+      await Coupon.deleteOne({ _id: data.couponId });
+    }
     return newOrder;
   }
 

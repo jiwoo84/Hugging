@@ -38,6 +38,7 @@ const UserSchema = new Schema({
   totalPayAmount: { type: Number, default: 0 },
   //
   ownComments: [{ type: Schema.Types.ObjectId, ref: "Item" }],
+  ownCoupons: [{ type: Schema.Types.ObjectId, ref: "Coupon" }],
 });
 
 // export const User = model("User", UserSchema);

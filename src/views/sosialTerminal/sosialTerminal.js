@@ -25,10 +25,9 @@ const login__kakao = async () => {
   const code = { code: new URL(window.location.href).searchParams.get("code") };
   console.log(code);
 
-  const access_token = await fetch.post(
-    `${MYDOMAIN}api/sosial/kakao/oauth`,
-    code
-  );
+  const access_token = await fetch(`${MYDOMAIN}api/sosial/kakao/oauth`, {
+    body: code,
+  });
   console.log(access_token);
   sessionStorage.setItem("access_token", access_token.accessToken);
 };
@@ -37,7 +36,9 @@ const kakao_finish = async () => {
   console.log(access_token);
   console.log("피니시 시작!!");
   const body = { access_token };
-  const result = await fetch.post(`${MYDOMAIN}/api/sosial/kakao`, body);
+  const result = await fetch(`${MYDOMAIN}/api/sosial/kakao`, {
+    body,
+  });
   sessionStorage.setItem("token", result.accessToken);
   sessionStorage.setItem("loggedIn", "true");
   alert("카카오 로그인 완료");

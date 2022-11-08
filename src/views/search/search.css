@@ -17,6 +17,7 @@ html,body{
 .search__text{
     width: 500px;
     height: 45px;;
+    font-size: 18px;
 }
 .search__result{
     display: grid;
@@ -47,4 +48,7 @@ html,body{
 }
 .productInfo{
     padding:20px;
+}
+.search__submit{
+    font-size: 18px;
 }

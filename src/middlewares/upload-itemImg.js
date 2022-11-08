@@ -39,7 +39,7 @@ const namingItem = (req, res, next) => {
   }
   console.log("req.query = ", req.query);
   const { name } = req.query;
-  req.itemName = name;
+  req.itemName = name.replace(/ /g, "");
   console.log("req.itemName = ", req.itemName);
   next();
 };

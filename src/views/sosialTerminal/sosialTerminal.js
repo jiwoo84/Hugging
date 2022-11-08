@@ -1,10 +1,8 @@
 import * as Api from "/api.js";
-import "dotenv/config";
 // 구글 로그인
 
 // 아래 도메인 변경시 각 소셜REST API 콘솔에서 리다이렉트 url도 바꿔줘야함.
-const MY_DOMAIN = process.env.MY_DOMAIN;
-
+const MY_DOMAIN = "http://localhost:5000/";
 // 아래 구글로그인은 다른 프로젝트에서 쓰던 코드. 구글로그인 추가시 수정하여 사용
 // const login__google = async () => {
 //   const code = new URL(window.location.href).searchParams.get("code");

@@ -72,5 +72,5 @@ window.addEventListener("load", () => {
     window.location.href = "/sosial/";
     return;
   }
-  loginStart();
+  // loginStart();
 });

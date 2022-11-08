@@ -6,6 +6,14 @@ body {
   padding: 0;
   background-color: #eae9e6;
 }
+a:link{
+  color:#4a4a4a;
+  text-decoration: none;
+}
+a:visited{
+  color:#4a4a4a;
+  text-decoration: none;
+}
 .header {
   display: flex;
   flex-direction: column;
@@ -17,11 +25,15 @@ body {
   width: 100%;
   margin-top: 50px;
 }
+.navbarItem{
+  padding: 10px;
+}
 #navbar {
-  width: 300px;
+  width: 450px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  font-size: 18px;
 }
 
 #offcanvasScrolling {

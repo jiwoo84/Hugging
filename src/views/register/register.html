@@ -67,11 +67,11 @@
         loadHTML("../public/header/header.html");
       }
     </script>
-
+    <h1 class="title">회원가입</h1>
     <!-- 회원가입 폼(Form) -->
     <div class="register-user-form-container">
-      <form class="box register-user-form-box" id="registerUserForm">
-        <p class="title is-5 has-text-primary">회원가입</p>
+      <div class="box register-user-form-box" id="registerUserForm">
+        <!-- <p class="title is-5 has-text-primary">회원가입</p> -->
         <div class="field">
           <label class="label" for="fullNameInput">이름</label>
           <div class="control">
@@ -148,7 +148,7 @@
           </div>
         </div>
         <div class="field">
-          <label class="label" for="postalCodeInput">주소</label>
+          <label class="label">주소</label>
           <div class="control">
             <input
               class="input"
@@ -161,22 +161,24 @@
         </div>
         <div class="field">
           <div class="control">
-            <input class="input" id="addressInput" type="text" />
+            <input class="input" id="address1Input" type="text" />
+
           </div>
         </div>
         <div class="field">
           <div class="control">
-            <input class="input" id="addAddressInput" type="text" />
+            <input class="input" id="address2Input" type="text" />
           </div>
         </div>
 
         <button class="button is-primary is-fullwidth" id="submitButton">
           회원가입하기
         </button>
-      </form>
+      </div>
     </div>
     <script>
       loadHTML("../public/footer/footer.html");
     </script>
+
   </body>
 </html>

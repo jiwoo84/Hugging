@@ -1,34 +1,44 @@
+html,body{
+  margin:0;
+  padding:0;
+}
+.title{
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px auto;
+  height: 80px;
+}
 .container{
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 40px auto;
 }
 #user__data {
   width: 80%;
- display: flex;
- flex-direction: column;
- align-items: flex-start; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin:20px; 
 }
-.title {
-  font-size: 30px;
-  text-align: center;
-  margin: 40px;
-}
-
-.container {
-  margin: 40px;
-}
-
 .welcome-message {
+  height: 40px;
   text-align: center;
+  font-size: 20px;
 }
-
+.message-box{
+  height: 150px;
+  border-radius: 15px;
+}
+.message-box__coupon, .message-box__totalPayAmount, .message-box__grade{
+  font-size: 18px;
+}
 .buttons {
   display: flex;
   flex-direction: row;
+  margin: 20px;
 }
-
-
 .order_img{
   width: 70px;
   height: 70px;
@@ -57,6 +67,13 @@
   display: flex;
   flex-direction: column;
 }
+#findOrder, #userEdit, #signOut{
+  width: 150px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
 
 /* 폼*/
 .signOut_form{

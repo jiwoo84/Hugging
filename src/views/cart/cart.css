@@ -2,27 +2,12 @@ html,body{
     margin:0;
     padding:0;
 }
-a:hover{
-    color:black;
-    text-decoration: none;
-}
-a{
-    text-decoration: none;
-}
 .cart{
     display: block;
     font-size: 40px;
     font-weight: bold;
     text-align: center;
     margin: 60px auto 0px auto; 
-}
-a:link{
-    color:#4a4a4a;
-    text-decoration: none;
-}
-a:visited{
-    color:#4a4a4a;
-    text-decoration: none;
 }
 .moveTopurchase, .viewProduct{
     display: block;
@@ -52,9 +37,10 @@ a:visited{
     display: flex;
     flex-direction: row;
     background-color: #fff;
-    width: 90%;
     margin:40px auto;
     padding: 20px;
+    width:90%;
+    height: 300px;
 }
 .checkbox{
     float: right;
@@ -79,10 +65,12 @@ a:visited{
     font-size: 20px;
     font-weight: bold;
 }
+.init-msg{
+    margin-top:60px;
+}
 .init-msg-empty{
     font-size: 20px;
-    width: 90%;
-    margin: 60px auto 0px auto;
+    text-align: center;
 }
 .price{
     font-size: 20px;

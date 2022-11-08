@@ -2,7 +2,7 @@ import * as Api from "/api.js";
 // 구글 로그인
 
 // 아래 도메인 변경시 각 소셜REST API 콘솔에서 리다이렉트 url도 바꿔줘야함.
-const MY_DOMAIN = "http://localhost:5000/";
+const MY_DOMAIN = "http://http://34.64.162.140//";
 // 아래 구글로그인은 다른 프로젝트에서 쓰던 코드. 구글로그인 추가시 수정하여 사용
 // const login__google = async () => {
 //   const code = new URL(window.location.href).searchParams.get("code");
@@ -23,6 +23,7 @@ const MY_DOMAIN = "http://localhost:5000/";
 // 그 코드에 대한 권한을 보기위한 HTTP 통신
 const login__kakao = async () => {
   const code = { code: new URL(window.location.href).searchParams.get("code") };
+  console.log(code);
   const access_token = await Api.post(
     `${MY_DOMAIN}api/sosial/kakao/oauth`,
     code

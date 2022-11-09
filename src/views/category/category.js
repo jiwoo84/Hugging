@@ -91,7 +91,7 @@ function paging(page,perPage,totalPage){
 
 
   //페이징 번호 표시
-  for (var i = first; i <= last; i++) {
+  for (let i = first; i <= last; i++) {
     if (page == i) {
       pageHtml.innerHTML +=
         "<li class='on'><a href='#' id='" + i + "'>" + i + "</a></li>";

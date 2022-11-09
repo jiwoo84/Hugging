@@ -288,7 +288,7 @@ function modifyCategory() {
         });
         // 수정 완료
         console.log(res);
-        alert(res);
+        alert("카테고리 값이 수정되었습니다.");
         categoryAddBox.innerHTML = "";
         clickedCategory();
       });

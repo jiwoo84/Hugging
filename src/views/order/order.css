@@ -35,12 +35,12 @@ html,body{
     height: 60px;
     border-radius: 15px;
 }
-.orderedAdressTitle, .deliveryMsgTitle{
+.orderedAdressTitle, .deliveryMsgTitle, .couponTitle{
     padding:10px 0;
     font-size:20px;
     font-weight: bold;
 }
-.deliveryMsg{
+.deliveryMsg, .couponSelect{
     font-size: 15px;
     width:400px;
     height:35px;
@@ -57,13 +57,18 @@ html,body{
     flex-direction: row;
     padding: 20px;
 }
-.productContainer{
+.cardImg{
+    width: 250px;
+    height: 250px;
+}
+.productContainer, .couponContainer{
     padding: 30px;
     border-radius: 15px;
     background-color: #fff;
     width: 90%;
     margin:20px auto;
 }
+
 .totalPrice{
     font-size: 20px;
     font-weight: bold;

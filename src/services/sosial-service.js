@@ -48,6 +48,7 @@ class SosialService {
 
     // 해당 변수를 확인해보면 data 안에 access_token 이 있는것을 확인할 수 있다.
     // 해당 access_token 을 적절한 변수명에 저장해준다.
+    console.log("리워드", axiosHTTP);
     const access_token = axiosHTTP.data.access_token;
     return access_token;
 

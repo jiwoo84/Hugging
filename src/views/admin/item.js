@@ -1,16 +1,21 @@
 import * as Api from "/api.js";
 // 관리자가 아니라면 튕겨내는 기능 구현 예정
+
 // 리스트 들어가는 공간
 const listContainer = document.querySelector("#list-container");
 // 상품 관리 버튼
 const itemBtn = document.querySelector("#items-btn__management");
+// 모달창
+const itemAddBox = document.querySelector("#modal-container");
+// 카테고리 목록 불러옴
+const categories = (await Api.get("/api/categories/all")).data;
+
 // 버튼에 이벤트 넣기
 itemBtn.addEventListener("click", clickedItem);
 
 // 상품조회 이벤트
-async function clickedItem() {
-  // 화면 초기화 (모달창)
-  const itemAddBox = document.querySelector("#modal-container");
+async function clickedItem(e) {
+  // 모달창 띄워져 있다면 없애기
   itemAddBox.innerHTML = "";
   // 사이드바 카테고리 하단에 추가 있다면 삭제
   const categoryBtn_add = document.querySelector("#category-btn__add");
@@ -18,9 +23,156 @@ async function clickedItem() {
     categoryBtn_add.parentElement.removeChild(categoryBtn_add);
   }
 
-  // --------------------------------------------------------------
-  // 상품추가
-  // 카테고리 하단에 없다면 넣기
+  // 상품추가 버튼 생성
+  addItemBtn();
+
+  // 표 상단 만들기
+  listContainer.innerHTML = `
+  <div>
+    <table> 
+      <thead>
+        <tr>
+          <th id="itemsCategory">
+            <p>카테고리</p>
+            <select id="itemsCategorySelecter">
+              <option id="all">전체보기</option>
+            </select>
+          </th>
+          <th>이름</th>
+          <th>가격</th>
+          <th>이미지</th>
+          <th>생성날짜</th>
+          <th>누적판매량</th>
+          <th>판매상태</th>
+          <th>상세내용</th>
+        </tr>
+      </thead>
+      <tbody id="itemsBody">
+      </tbody>
+    </table>
+  </div>
+  `;
+
+  // 카테고리 셀렉터 구현
+  makeCategorySelecter();
+
+  // 전체 상품 리스트 출력
+  makeItemsList("전체보기");
+}
+
+async function makeCategorySelecter() {
+  const itemsCategorySelecter = document.querySelector(
+    "#itemsCategorySelecter"
+  );
+
+  console.log(categories);
+  // option에 카테고리 + 미설정 넣음
+  categories.forEach((category) => {
+    let option = document.createElement("option");
+    option.innerText = category.name;
+    itemsCategorySelecter.appendChild(option);
+  });
+
+  let noOption = document.createElement("option");
+  noOption.innerText = "미설정";
+  itemsCategorySelecter.appendChild(noOption);
+
+  // 이벤트리스너 넣음
+  itemsCategorySelecter.addEventListener("change", async () => {
+    const pickCategoryName = itemsCategorySelecter.value;
+    makeItemsList(pickCategoryName);
+  });
+  // 클릭하면 해당 카테고리 값의 데이터 return
+  // makeIemsList에 data 넘겨줌
+}
+
+// 상품리스트 출력 함수
+async function makeItemsList(categoryName) {
+  // 리스트가 들어갈 표의 body
+  const itemsBody = document.querySelector("#itemsBody");
+  // 상품정보리스트 받아오기
+  let data = null;
+  // 카테고리에 맞춰 데이터 받아오기
+  if (categoryName === "전체보기") {
+    data = await Api.get("/api/items/admin");
+  } else if (categoryName === "미설정") {
+    data = await Api.get("/api/items/affiliation");
+  } else {
+    let categoryIndex = null;
+    // 카테고리 목록에서 해당 카테고리의 인덱스 찾기
+    categories.forEach((category) => {
+      if (category.name === categoryName) {
+        categoryIndex = category.index;
+        return;
+      }
+    });
+    console.log("요청카테고리:", categoryName, categoryIndex);
+    data =
+      await Api.get(`/api/categories?name=${categoryName}&index=${categoryIndex}
+`);
+  }
+
+  // 상품 리스트 초기화
+  itemsBody.innerText = "";
+  // 상품 리스트 출력하기
+  for (let i = 0; i < data.data.length; i++) {
+    const itemData = data.data[i];
+    // 한 행 생성
+    const itemsBody_row = document.createElement("tr");
+    itemsBody_row.id = itemData._id;
+
+    // 행 안에 이름,카테고리,가격,이미지,생성날짜,판매량 추가
+    itemsBody_row.innerHTML = `
+    <td>${itemData.category}</td>
+    <td>${itemData.name}</td>
+    <td>${itemData.price}</td>
+    <td>
+      <img src=${itemData.imageUrl} alt="${itemData.name} 사진" width="70"/>
+    </td>
+    <td>${itemData.createdAt.slice(0, 10)}</td>
+    <td>${itemData.sales}</td>
+    `;
+    // 조건부 판매상태 출력: 판매량이 있는데 삭제 요청하면, 판매중 / 판매량 없으면 바로 삭제
+    if (itemData.onSale) {
+      itemsBody_row.innerHTML += "<td>판매중</td>";
+    } else {
+      itemsBody_row.innerHTML += "<td>판매중지</td>";
+    }
+
+    // 상세내용 출력
+    itemsBody_row.innerHTML += `
+    <td>${itemData.itemDetail}</td>
+    `;
+
+    // 조건부 버튼 구현: 게시상태에 따라 달라짐
+    if (itemData.onSale) {
+      // 펀매중이면 수정,삭제
+      itemsBody_row.innerHTML += `
+      <td id="${itemData._id}">
+        <button class="itemTableBody_row_modifyBtn">상품수정</button>
+        <button class="itemTableBody_row_delBtn">상품삭제</button>
+      </td>`;
+    } else {
+      // 판매중단이면 수정,판매시작
+      itemsBody_row.innerHTML += `
+      <td id="${itemData._id}">
+        <button class="itemTableBody_row_modifyBtn">상품수정</button>
+        <button class="itemTableBody_row_restartBtn">판매시작</button>
+      </td>`;
+    }
+    itemsBody.appendChild(itemsBody_row);
+  }
+
+  // 상품 삭제 버튼
+  delItem();
+  // 상품 판매시작 버튼
+  restartSaleItem();
+  // 상품 수정 버튼
+  modifyItem();
+}
+
+// 상품추가 버튼 생성,실행 함수
+function addItemBtn() {
   if (!document.querySelector("#items-btn__add")) {
     // 버튼의 부모 불러오기
     const itemsBtnParent = document.querySelector("#items-btn");
@@ -114,7 +266,7 @@ async function clickedItem() {
 
         alert("추가 완료했습니다");
         itemAddBox.innerHTML = "";
-        clickedItem();
+        clickedItem("전체보기");
       });
 
       // 취소 버튼
@@ -126,97 +278,27 @@ async function clickedItem() {
       });
     });
   }
-  // 표 상단 만들기
-  listContainer.innerHTML = `
-  <div>
-    <table> 
-      <thead>
-        <tr>
-          <th>이름</th>
-          <th>카테고리</th>
-          <th>가격</th>
-          <th>이미지</th>
-          <th>생성날짜</th>
-          <th>누적판매량</th>
-          <th>판매상태</th>
-          <th>상세내용</th>
-        </tr>
-      </thead>
-      <tbody id="itemsBody">
-      </tbody>
-    </table>
-  </div>
-  `;
+}
 
-  // 상품정보리스트 받아오기
-  const data = await Api.get("/api/items/admin");
-  // 리스트가 들어갈 표의 body
-  const itemsBody = document.querySelector("#itemsBody");
-
-  // 상품 리스트 출력하기
-  for (let i = 0; i < data.data.length; i++) {
-    const itemData = data.data[i];
-    // 한 행 생성
-    const itemsBody_row = document.createElement("tr");
-    itemsBody_row.id = itemData._id;
-
-    // 행 안에 이름,카테고리,가격,이미지,생성날짜,판매량 추가
-    itemsBody_row.innerHTML = `
-    <td>${itemData.name}</td>
-    <td>${itemData.category}</td>
-    <td>${itemData.price}</td>
-    <td>
-      <img src=${itemData.imageUrl} alt="${itemData.name} 사진" width="70"/>
-    </td>
-    <td>${itemData.createdAt.slice(0, 10)}</td>
-    <td>${itemData.sales}</td>
-    `;
-    // 조건부 판매상태 출력: 판매량이 있는데 삭제 요청하면, 판매중 / 판매량 없으면 바로 삭제
-    if (itemData.onSale) {
-      itemsBody_row.innerHTML += "<td>판매중</td>";
-    } else {
-      itemsBody_row.innerHTML += "<td>판매중지</td>";
-    }
-
-    // 상세내용 출력
-    itemsBody_row.innerHTML += `
-    <td>${itemData.itemDetail}</td>
-    `;
-
-    // 조건부 버튼 구현: 게시상태에 따라 달라짐
-    if (itemData.onSale) {
-      // 펀매중이면 수정,삭제
-      itemsBody_row.innerHTML += `
-      <td id="${itemData._id}">
-        <button class="itemTableBody_row_modifyBtn">상품수정</button>
-        <button class="itemTableBody_row_delBtn">상품삭제</button>
-      </td>`;
-    } else {
-      // 판매중단이면 수정,판매시작
-      itemsBody_row.innerHTML += `
-      <td id="${itemData._id}">
-        <button class="itemTableBody_row_modifyBtn">상품수정</button>
-        <button class="itemTableBody_row_restartBtn">판매시작</button>
-      </td>`;
-    }
-    itemsBody.appendChild(itemsBody_row);
-  }
-
-  // 상품 삭제 버튼
+// 상품 삭제 버튼
+function delItem() {
   const itemTableBody_row_delBtns = document.querySelectorAll(
     ".itemTableBody_row_delBtn"
   );
   // 각 버튼에 이벤트리스너 적용
   itemTableBody_row_delBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
+      console.log("삭제 클릭");
       const id = btn.parentElement.id;
       const res = await Api.delete(`/api/items/${id}`);
       alert(res.msg);
       clickedItem();
     });
   });
+}
 
-  // 상품 판매시작 버튼
+// 상품 판매시작 버튼
+function restartSaleItem() {
   const itemTableBody_row_restartBtns = document.querySelectorAll(
     ".itemTableBody_row_restartBtn"
   );
@@ -236,7 +318,10 @@ async function clickedItem() {
       clickedItem();
     });
   });
+}
 
+// 상품 수정 버튼
+function modifyItem() {
   // 상품 수정 버튼
   // 리스트 하단에 상세정보칸 나와서 수정가능
   const itemTableBody_row_modifyBtns = document.querySelectorAll(

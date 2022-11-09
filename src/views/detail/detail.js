@@ -133,7 +133,7 @@ cartBtn.addEventListener("click", function () {
   console.log(salseCount.innerText);
   saveData(salseCount, "items");
   const moveTocart = confirm(
-    "상품이 장바구에 담겼습니다.\n장바구니로 이동하시겠습니까?"
+    "상품이 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?"
   );
   if (moveTocart === true) {
     window.location.href = "/cart";

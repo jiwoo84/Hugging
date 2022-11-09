@@ -7,6 +7,7 @@ const productContainer = document.querySelector(".productContainer");
 const orderPrice=document.querySelector(".totalPrice");
 const purchaseBtn=document.querySelector(".purchase");
 const deliveryMessage = document.querySelector(".deliveryMsg");
+const couponSelect = document.querySelector(".couponSelect");
 
 let items = [];
 let totalPrice = 0;
@@ -14,10 +15,21 @@ getDataFromApi();
 
 async function getDataFromApi() {
     const user = await Api.get("/api/users","mypage");
+    const coupons = await Api.get("/api/coupons",`${user.data._id}`);
+    const {couponId,createAt,discount,owner}  = coupons;
+    const couponName = coupons.name;
+
     const {name,address,phoneNumber} = user.data;
     renderUserComponent(name,address,phoneNumber);
     renderProductComponent(localStorage.getItem("storeName"));
-    
+    renderCouponComponent(couponName,discount,createAt);
+}
+
+function renderCouponComponent(couponName,discount,createAt){
+    const option = document.createElement("option");
+    option.setAttribute("value",discount);
+    option.innerText = `${couponName}  ${discount}% 할인  ${createAt}까지`
+    couponSelect.appendChild(option);
 }
 
 function getTotalPrice(key,storeName){
@@ -157,5 +169,12 @@ purchaseBtn.addEventListener("click", async()=>{
     alert("주문이 완료되었습니다.");
 
     window.location.href="/";
+});
+
+couponSelect.addEventListener("change", () =>{
+    let discount = couponSelect.options[couponSelect.selectedIndex].value;
+    console.log(discount);
+    totalPrice = totalPrice * (100-Number(discount))* 0.01
+    orderPrice.innerText = `${totalPrice}원`;
 });
 

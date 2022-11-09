@@ -129,17 +129,6 @@ function isExist(data, objStore) {
 
 //carBtn listener
 cartBtn.addEventListener("click", function () {
-<<<<<<< HEAD
-  console.log(salseCount);
-  console.log(salseCount.innerText);
-  saveData(salseCount, "items");
-  const moveTocart = confirm(
-    "상품이 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?"
-  );
-  if (moveTocart === true) {
-    window.location.href = "/cart";
-  }
-=======
     console.log(salseCount);
     console.log(salseCount.innerText);
     saveData(salseCount,"items");
@@ -147,7 +136,6 @@ cartBtn.addEventListener("click", function () {
     if (moveTocart === true) {
         window.location.href = "/cart";
     }
->>>>>>> a25e596a5240673f39ea9b5048470af6cf0c4178
 });
 
 //buyNowBtn listener

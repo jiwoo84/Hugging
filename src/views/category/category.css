@@ -40,3 +40,29 @@ h4,
   padding-left: 5px;
   color: brown;
 }
+
+#pageHtml {
+  text-align: center;
+  border: 1px solid #ccc;
+  border-right: 0;
+}
+
+#pageHtml li {
+  text-align: center;
+}
+
+#pageHtml li.on {
+  background: #eda712;
+}
+
+#pageHtml li.on a {
+  color: #fff;
+}
+
+#pageHtml li a {
+  display: block;
+  font-size: 14px;
+  padding: 9px 12px;
+  border-right: solid 1px #ccc;
+  box-sizing: border-box;
+}

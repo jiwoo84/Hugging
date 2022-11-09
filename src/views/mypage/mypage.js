@@ -5,12 +5,19 @@ const messageBox__totalPayAmount = document.querySelector(
   ".message-box__totalPayAmount"
 );
 const messageBox__grade = document.querySelector(".message-box__grade");
+const messageBox__coupon = document.querySelector(".message-box__coupon");
 
 window.addEventListener("load", getUserdata);
 
 // 환영메세지 넣기
 async function getUserdata() {
   const user = await Api.get("/api/users/mypage");
+  
+  const coupons = await Api.get("/api/coupons",`${user.data._id}`);
+  const {couponId,createAt,discount,name,owner}  = coupons;
+  console.log(coupons.length);
+  //배열로 받기
+  
 
   const username = user.name;
   const totalPayAmount = user.data.totalPayAmount;
@@ -18,6 +25,9 @@ async function getUserdata() {
   // 환영 메세지 넣기
   welcomeMessage.dataset.id = user.data._id;
   welcomeMessage.innerText = `${username}님 반갑습니다!`;
+
+  //사용가능한 쿠폰 -장
+  messageBox__coupon.innerText = `사용가능한 쿠폰은 ${coupons.length}장 입니다.`;
 
   // 총구매금액 넣기
   messageBox__totalPayAmount.innerText = `총 구매 금액은 ${totalPayAmount}원 입니다`;

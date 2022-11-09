@@ -70,7 +70,6 @@ async function makeCategorySelecter() {
     "#itemsCategorySelecter"
   );
 
-  console.log(categories);
   // option에 카테고리 + 미설정 넣음
   categories.forEach((category) => {
     let option = document.createElement("option");
@@ -258,7 +257,6 @@ function modifyItem() {
         if (!/[0-9]/.test(price)) {
           return alert("가격에 숫자를 입력해주세요");
         }
-        console.log(id);
         // 추가 요청 보내기
         const res = await fetch(
           `/api/items?findItemId=${id}&name=${name}&category=${category}&price=${price}&itemDetail=${detail}&onSale=${undefined}`,
@@ -283,11 +281,9 @@ function modifyItem() {
               return;
             }
           }
-          alert(msg);
           return;
         }
-
-        alert(res.msg);
+        alert("수정했습니다");
         modalBox.innerHTML = "";
         makeItemsList("전체보기");
       });

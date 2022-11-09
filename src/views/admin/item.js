@@ -255,10 +255,10 @@ function modifyItem() {
         if (!/[0-9]/.test(price)) {
           return alert("가격에 숫자를 입력해주세요");
         }
-        console.log(id);
+
         // 추가 요청 보내기
         const res = await fetch(
-          `/api/items/${id}?name=${name}&category=${category}&price=${price}&itemDetail=${detail}&onSale=${undefined}`,
+          `/api/items/${id}/?name=${name}&category=${category}&price=${price}&itemDetail=${detail}&onSale=${undefined}`,
           {
             method: "patch",
             headers: {

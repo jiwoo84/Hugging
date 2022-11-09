@@ -1,10 +1,12 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+// import { send } from "../../config/email";
 import { Coupon, Order, User } from "../db";
 class OrderService {
   // 본 파일의 맨 아래에서, new orderService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor() {}
   async newOrder(data) {
+    console.log("주문하기 서비스 진입");
     const newOrder = await Order.create(data);
     await User.updateOne(
       { _id: data.buyer },
@@ -25,10 +27,31 @@ class OrderService {
       console.log(
         "제발 내가 찾는게 맞아라 제발 부탁이야: " + findUser.ownCoupons
       );
+      console.log(
+        "제발 내가 찾는게 맞아라 제발 부탁이야 유저 맞제?: " + findUser.id
+      );
       //유저의 ownCoupons와 해당 쿠폰 지우기
-      // await User.deleteOne({ ownCoupons: findUser.ownCoupons }); 이건 나중에 수정해보자
+      await User.updateOne(
+        { _id: findUser.id },
+        { $unset: { ownCoupons: findUser.ownCoupons } }
+      );
       await Coupon.deleteOne({ _id: data.couponId });
     }
+    // console.log("이메일로보내기 직전");
+    // // 형석님 수고하셨네요 ㅋㅋ
+    // // 이메일 발송 추가합니당
+    // console.log("이메일로 보냄 : ", sumUser.email);
+    // const mailInfo = {
+    //   from: "speaker1403@naver.com",
+    //   to: sumUser.email,
+    //   subject: "[Hugging] 결제완료  ",
+    //   text: `<h2>주문해주셔서 감사합니다.</h2>
+    //   <p>결제하신내역입니다.</p>
+    //   ${newOrder}`,
+    // };
+    // // send 는 config에 있는 것임.
+    // const sent = send(mailInfo);
+    // console.log(sent);
     return newOrder;
   }
 

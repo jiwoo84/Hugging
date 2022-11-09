@@ -1,38 +1,111 @@
 import express from "express";
 import is from "@sindresorhus/is";
+import jwt from "jsonwebtoken";
 // 폴더에서 import하면, 자동으로 폴더의 index.js에서 가져옴
 import { loginRequired } from "../middlewares";
-import { couponService, userService } from "../services";
+import { userService } from "../services";
 import { itemService } from "../services/item-service";
-
+// import { send } from "../../config/email";
 const userRouter = express();
 // jwt 검증만 하는 라우터
 userRouter.get("/authority", (req, res) => {
   console.log("jwt검증 라우터에 오신걸 환영합니다!!");
   const userToken = req.headers["authorization"]?.split(" ")[1];
+  console.log(userToken);
   if (!userToken) {
     return res.status(400).json({
       status: 200,
       msg: "토큰이 없어요, 이 창구는 권한 및 로그인 체크하는 곳입니다.\n토큰발급후 시도해주세요",
     });
   }
+  const secretKey = process.env.JWT_SECRET_KEY;
+  const jwtDecoded = jwt.verify(userToken, secretKey, (err, data) => {
+    if (err) {
+      console.log("액세스토큰이 유효하지 않음!");
+      return "액세스토큰 유효하지않음!";
+    }
+    return data;
+  });
+  console.log(jwtDecoded);
+  const { role, sosial } = jwtDecoded;
+  return res.status(200).json({
+    status: 200,
+    authority: `${role}`,
+    sosial: `${sosial}`,
+  });
+});
+
+// 리프레쉬 토큰으로 토큰재발급
+userRouter.post("/refresh", async (req, res, next) => {
+  const reciveRt = req.body.refreshToken;
+  console.log("받은 RT ", req.body);
+  const secretKey = process.env.JWT_SECRET_KEY;
+  // RT 검증
+  console.log("RT 검증에서 막히나?");
   try {
-    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
-    const jwtDecoded = jwt.verify(userToken, secretKey);
-    const { role, sosial } = jwtDecoded;
-    return res.status(200).json({
-      status: 200,
-      authority: `${role}`,
-      sosial: `${sosial}`,
+    const verified = jwt.verify(reciveRt, secretKey, (err, payload) => {
+      console.log("데러 뱉기 전 ");
+      if (err) {
+        return false;
+      }
+      // 검증완료시 같은 payload로 토큰 두개 재발급.
+      const returnAt = jwt.sign(
+        { userId: payload.userId, role: payload.role },
+        secretKey,
+        { expiresIn: 60 }
+      );
+      const returnRt = jwt.sign(
+        { userId: payload.userId, role: payload.role },
+        secretKey,
+        { expiresIn: 60 * 60 * 24 }
+      );
+      console.log("뱉기직전");
+      return { returnAt, returnRt, payload };
     });
-  } catch (error) {
-    res.status(403).json({
-      result: "forbidden-approach",
-      msg: "정상적인 토큰이 아닙니다.",
+    console.log("verified 값 : ", verified);
+    if (!verified) {
+      return res.status(400).json({
+        msg: "토큰오류",
+      });
+    }
+    const accessToken = verified.returnAt;
+    const refreshToken = verified.returnRt;
+    const userId = verified.payload.userId;
+    console.log("리프레쉬 수정중");
+    //  변수두개 설정하여 가독성 ++
+    // RT 데이터 수정작업임
+    // 해당유저가 이 리프레쉬 토큰을 가지고 있는지 검증도 해야함
+    await userService.refresh(userId, refreshToken, reciveRt);
+    return res.status(201).json({
+      msg: "AT 재발급",
+      token: accessToken,
+      refreshToken,
     });
-    return;
+  } catch (err) {
+    console.log("리프레쉬 수정중 오류발생");
+    next(err);
   }
 });
+
+// userRouter.get("/email", async (req, res, next) => {
+//   const toEmail = req.query.toEmail;
+//   const random = (min, max) => {
+//     let result = Math.floor(Math.random() * (max - min + 1)) + min;
+//     return result;
+//   };
+//   const number = random(111111, 999999);
+//   const mailInfo = {
+//     from: "speaker1403@naver.com",
+//     to: toEmail,
+//     subject: "[Hugging] 인증번호 발송 ",
+//     text: `${number} 를 입력해주세요.`,
+//   };
+//   const b = send(mailInfo);
+//   return res.status(203).json({
+//     msg: "전송",
+//     zz: b,
+//   });
+// });
 
 // 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
 userRouter.post("/join", async (req, res, next) => {
@@ -83,21 +156,29 @@ userRouter.post("/login", async function (req, res, next) {
     console.log(req.body);
     // 어드민 로그인
     if (email === "admin@hugging.com" && password === "123123123") {
-      const adminToken = await userService.adminLogin({ email, password });
+      const { token, refreshToken } = await userService.adminLogin({
+        email,
+        password,
+      });
       return res.status(200).json({
         status: 200,
         msg: "관리자 계정 로그인",
-        accessToken: adminToken,
+        token,
+        refreshToken,
       });
     }
     // req (request) 에서 데이터 가져오기
 
-    // 로그인 진행 (로그인 성공 시 jwt 토큰을 프론트에 보내 줌)
-    const userToken = await userService.getUserToken({ email, password });
+    // 로그인 진행 (로그인 성공 시 AT , RT 보내줌)
+    const { token, refreshToken } = await userService.getUserToken({
+      email,
+      password,
+    });
 
     // jwt 토큰을 프론트에 보냄 (jwt 토큰은, 문자열임)
     res.status(200).json({
-      accessToken: userToken,
+      token,
+      refreshToken,
     });
   } catch (error) {
     next(error);

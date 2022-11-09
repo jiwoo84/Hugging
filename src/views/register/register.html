@@ -61,7 +61,7 @@
   </head>
   <body>
     <script>
-      if (sessionStorage.getItem("loggedIn") === "true") {
+      if (localStorage.getItem("loggedIn") === "true") {
         loadHTML("../public/header/loggedInHeader.html");
       } else {
         loadHTML("../public/header/header.html");
@@ -162,7 +162,6 @@
         <div class="field">
           <div class="control">
             <input class="input" id="address1Input" type="text" />
-
           </div>
         </div>
         <div class="field">
@@ -179,6 +178,5 @@
     <script>
       loadHTML("../public/footer/footer.html");
     </script>
-
   </body>
 </html>

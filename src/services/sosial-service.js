@@ -71,8 +71,15 @@ class SosialService {
     const password = "123123123";
     const user = await User.findOne({ email });
     if (user) {
-      const token = await userService.getUserToken({ email, password });
-      return { msg: "기존 사용자, 로그인 완료", accessToken: token };
+      const { token, refreshToken } = await userService.getUserToken({
+        email,
+        password,
+      });
+      return {
+        msg: "기존 사용자, 로그인 완료zz",
+        token,
+        refreshToken,
+      };
     }
     // 해당 이메일로 가입한 유저가 없을 경우
     else {
@@ -116,8 +123,10 @@ class SosialService {
       if (joinSeccess) {
         console.log("✅ 카카오데이터로 회원가입 완료!");
         const loginData = { email: joinSeccess.email, password: "123123123" };
-        const token = await userService.getUserToken(loginData);
-        return { msg: "카카오 회원가입 및 로그인 완료", accessToken: token };
+        const { token, refreshToken } = await userService.getUserToken(
+          loginData
+        );
+        return { msg: "카카오 회원가입 및 로그인 완료", token, refreshToken };
       }
     }
   }

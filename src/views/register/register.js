@@ -1,6 +1,6 @@
 import * as Api from "/api.js";
 import { validateEmail } from "/useful-functions.js";
-import {findAddress} from "./findAddress.js";
+import { findAddress } from "./findAddress.js";
 
 // 요소(element), input 혹은 상수
 const fullNameInput = document.querySelector("#fullNameInput");
@@ -8,11 +8,11 @@ const emailInput = document.querySelector("#emailInput");
 const passwordInput = document.querySelector("#passwordInput");
 const passwordConfirmInput = document.querySelector("#passwordConfirmInput");
 const phoneNumberInput = document.querySelector("#phoneNumberInput");
-const postalCodeInput = document.querySelector('#postalCodeInput');
-const address1Input = document.querySelector('#address1Input');
-const address2Input = document.querySelector('#address2Input');
-const findAddressBtn = document.querySelector('#findAddressBtn');
-const submitButton = document.querySelector('#submitButton');
+const postalCodeInput = document.querySelector("#postalCodeInput");
+const address1Input = document.querySelector("#address1Input");
+const address2Input = document.querySelector("#address2Input");
+const findAddressBtn = document.querySelector("#findAddressBtn");
+const submitButton = document.querySelector("#submitButton");
 
 addAllElements();
 addAllEvents();
@@ -40,7 +40,7 @@ async function handleSubmit(e) {
   const address2 = address2Input.value;
 
   const address = `${address1} ${address2}`;
-  
+
   // 잘 입력했는지 확인
   const isFullNameValid = name.length >= 2;
   const isEmailValid = validateEmail(email);
@@ -53,7 +53,7 @@ async function handleSubmit(e) {
   const phoneNum = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
   const isphoneNumber = phoneNum.test(phoneNumber);
   // 주소
-  if(!postalCode || !address2Input.value) {
+  if (!postalCode || !address2Input.value) {
     return alert("배송지 정보를 모두 입력해 주세요.");
   }
 

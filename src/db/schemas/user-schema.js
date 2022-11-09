@@ -36,8 +36,11 @@ const UserSchema = new Schema({
   sosial: { type: Boolean, default: false },
   // 총 결재 금액
   totalPayAmount: { type: Number, default: 0 },
-  //
+  // 가지고있는 댓글들   ** 아이템을 참조하고있음!!
   ownComments: [{ type: Schema.Types.ObjectId, ref: "Item" }],
+  // 리프레쉬토큰
+  refreshToken: String,
+  // 쿠폰
   ownCoupons: [{ type: Schema.Types.ObjectId, ref: "Coupon" }],
 });
 

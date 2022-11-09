@@ -47,6 +47,12 @@ categoryRouter.get("/all", async (req, res, next) => {
 categoryRouter.get("/", async (req, res, next) => {
   console.log("카테고리하나조회 라우터에 오신걸 환영합니다!!");
   let { name, index } = req.query;
+  const page = Number(req.query.page || 1);
+  const perPage = Number(req.query.perPage || 9);
+
+  console.log("page와 perPage : " + page, perPage);
+  console.log(typeof page);
+  console.log(typeof perPage);
   index = index.slice(0, -1);
   if (!name || !index) {
     return res.status(400).json({
@@ -58,11 +64,17 @@ categoryRouter.get("/", async (req, res, next) => {
     const categoriesItems = await categoryService.categoriesItems({
       name,
       index,
+      page,
+      perPage,
     });
+
     return res.status(200).json({
       status: 200,
       msg: `${name}이름의 카테고리 리스트`,
-      data: categoriesItems,
+      data: categoriesItems.resultArr,
+      page: page,
+      perPage: perPage,
+      totalPage: categoriesItems.totalPage,
     });
   } catch (err) {
     next(err);

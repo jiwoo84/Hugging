@@ -43,7 +43,9 @@ class CategoryService {
     const alreadyindex = await Category.findOne({ index });
     // 입력값중 이미 존재하는게 있을경우 예외처리
     console.log("여기가문젠가");
-    if (alreadyName || alreadyindex) {
+    if (name === currentName) {
+      console.log("카테고리명은 안바꿈");
+    } else if (alreadyName || alreadyindex) {
       throw new Error("이미 존재하는 이름, 또는 인덱스값입니다.");
     }
     // 기존 카테고리 이름으로 찾은후 업데이트

@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { loginRequired } from "../middlewares";
 import { userService } from "../services";
 import { itemService } from "../services/item-service";
-// import { send } from "../../config/email";
+// import { send } from "../email";
 const userRouter = express();
 // jwt 검증만 하는 라우터
 userRouter.get("/authority", (req, res) => {

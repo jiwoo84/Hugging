@@ -60,10 +60,10 @@
 
   <body>
     <div class="splashContainer"></div>
-    
+
     <!-- 헤더 삽입 -->
     <script>
-      if (sessionStorage.getItem("loggedIn") === "true") {
+      if (localStorage.getItem("loggedIn") === "true") {
         loadHTML("../public/header/loggedInHeader.html");
       } else {
         loadHTML("../public/header/header.html");
@@ -157,6 +157,5 @@
     <script>
       loadHTML("../public/footer/footer.html");
     </script>
-
   </body>
 </html>

@@ -12,12 +12,14 @@ window.addEventListener("load", getUserdata);
 // 환영메세지 넣기
 async function getUserdata() {
   const user = await Api.get("/api/users/mypage");
-  
+  if (!user) {
+    window.location.reload();
+  }
+
   const coupons = await Api.get("/api/coupons",`${user.data._id}`);
   const {couponId,createAt,discount,name,owner}  = coupons;
-  console.log(coupons.length);
+  // console.log(coupons.length);
   //배열로 받기
-  
 
   const username = user.name;
   const totalPayAmount = user.data.totalPayAmount;
@@ -26,11 +28,9 @@ async function getUserdata() {
   welcomeMessage.dataset.id = user.data._id;
   welcomeMessage.innerText = `${username}님 반갑습니다!`;
 
-  //사용가능한 쿠폰 -장
-  messageBox__coupon.innerText = `사용가능한 쿠폰은 ${coupons.length}장 입니다.`;
-
   // 총구매금액 넣기
-  messageBox__totalPayAmount.innerText = `총 구매 금액은 ${totalPayAmount}원 입니다`;
+  // messageBox__totalPayAmount.innerText = `총 구매 금액은 ${totalPayAmount}원 입니다`;
+  
   // 등급 넣기
   const grade = (await Api.get("/api/users/grades")).level;
   messageBox__grade.innerText = `구매 등급은 ${grade}입니다`;

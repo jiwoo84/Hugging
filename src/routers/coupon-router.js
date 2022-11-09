@@ -20,11 +20,7 @@ couponRouter.get("/:id", loginRequired, async (req, res, next) => {
     const couponList = await couponService.getCouponList(findId);
 
     res.status(201).json({
-      couponId: couponList.id,
-      name: couponList.name,
-      discount: couponList.discount,
-      owner: couponList.id,
-      createAt: couponList.createdAt,
+      couponList,
     });
   } catch (err) {
     next(err);

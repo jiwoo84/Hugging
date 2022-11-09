@@ -25,8 +25,14 @@ class OrderService {
       console.log(
         "제발 내가 찾는게 맞아라 제발 부탁이야: " + findUser.ownCoupons
       );
+      console.log(
+        "제발 내가 찾는게 맞아라 제발 부탁이야 유저 맞제?: " + findUser.id
+      );
       //유저의 ownCoupons와 해당 쿠폰 지우기
-      // await User.deleteOne({ ownCoupons: findUser.ownCoupons }); 이건 나중에 수정해보자
+      await User.updateOne(
+        { _id: findUser.id },
+        { $unset: { ownCoupons: findUser.ownCoupons } }
+      );
       await Coupon.deleteOne({ _id: data.couponId });
     }
     return newOrder;

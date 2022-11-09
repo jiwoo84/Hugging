@@ -44,7 +44,8 @@ sosialRouter.post("/kakao", async (req, res, next) => {
     const result = await sosialService.kakaoFinish(access_token); // {msg : , accessToken:""}}
     return res.status(201).json({
       msg: result.msg,
-      accessToken: result.accessToken,
+      token: result.token,
+      refreshToken: result.refreshToken,
     });
   } catch (err) {
     next(err);

@@ -4,14 +4,15 @@ import * as Api from "/api.js";
 const listContainer = document.querySelector("#list-container");
 // 주문 관리 버튼
 const orderBtn = document.querySelector("#order-btn");
+// 모달창
+const modalBox = document.querySelector("#modal-container");
 
-// 버튼에 이벤트 넣기
 orderBtn.addEventListener("click", clickedOrder);
 
-// 주문 조회 버튼
+// *******************************************************************
+// 주문 조회 클릭
 async function clickedOrder() {
   // 화면 초기화
-  const modalBox = document.querySelector("#modal-container");
   listContainer.innerHTML = "";
   modalBox.innerHTML = "";
 
@@ -25,6 +26,12 @@ async function clickedOrder() {
     itemsBtn_add.parentElement.removeChild(itemsBtn_add);
   }
 
+  makeOrderList();
+}
+
+// *******************************************************************
+// 리스트 출력 함수
+async function makeOrderList() {
   // 주문 리스트 데이터 받아오기
   const data = (await Api.get("/api/orders")).data;
 
@@ -90,12 +97,12 @@ async function clickedOrder() {
 
     if (data[i].수정 === "수정가능") {
       orderBox_btn.innerHTML = `
-      <button class="orderBox_btn_delBtn">주문삭제</button>
-      <label>배송상태변경</label>
-      <select class="orderBox_btn_select">
-      <option>배송준비중</option>
-      <option>배송중</option>
-      <option>배송완료</option>
+        <button class="orderBox_btn_delBtn">주문삭제</button>
+        <label>배송상태변경</label>
+        <select class="orderBox_btn_select">
+          <option>배송준비중</option>
+          <option>배송중</option>
+          <option>배송완료</option>
         </select> 
         `;
     } else {
@@ -110,7 +117,17 @@ async function clickedOrder() {
     listContainer.appendChild(orderBox);
   }
 
-  // 주문삭제 버튼에 이벤트 추가
+  // 주문 삭제 버튼 이벤트 추가
+  delOrder();
+
+  // 배송 상태 변경 이벤트 추가
+  changeShippingState();
+}
+
+// *******************************************************************
+// 주문 삭제 구현 함수
+function delOrder() {
+  // 주문삭제 버튼
   const orderBox_btn_delBtns = document.querySelectorAll(
     ".orderBox_btn_delBtn"
   );
@@ -126,12 +143,15 @@ async function clickedOrder() {
       clickedOrder();
     });
   });
+}
 
-  // 배송상태 변경 (select) 이벤트동작 추가
+// *******************************************************************
+// 배송상태 변경 구현 함수
+function changeShippingState() {
+  // 배송상태 변경
   const orderBox_btn_selects = document.querySelectorAll(
     ".orderBox_btn_select"
   );
-
   orderBox_btn_selects.forEach((select) => {
     select.addEventListener("change", async () => {
       const id = select.parentElement.id;

@@ -87,7 +87,7 @@ class UserService {
     const token = jwt.sign(
       { userId: user._id, role: user.role, sosial: user.sosial },
       secretKey,
-      { expiresIn: 10 }
+      { expiresIn: 60 }
     );
     const refreshToken = jwt.sign(
       { userId: user._id, role: user.role, sosial: user.sosial },
@@ -130,7 +130,7 @@ class UserService {
       });
     }
     const token = jwt.sign({ userId: admin._id, role: "admin" }, secretKey, {
-      expiresIn: 60 * 60,
+      expiresIn: 60,
     });
     const refreshToken = jwt.sign(
       { userId: admin._id, role: "admin" },

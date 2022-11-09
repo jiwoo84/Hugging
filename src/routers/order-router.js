@@ -1,6 +1,7 @@
 import express from "express";
 import { loginRequired } from "../middlewares/login-required";
 import { orderService } from "../services";
+// import { send } from "../../config/email";
 const orderRouter = express();
 
 // 주문 하기
@@ -25,6 +26,7 @@ orderRouter.post("/", loginRequired, async (req, res, next) => {
     console.log("만들기직전");
     const newOrder = await orderService.newOrder(data);
     console.log("만들어짐 ㅋㅋ");
+
     return res.status(201).json({
       stauts: 201,
       msg: "ㅋㅋ 만들어짐",

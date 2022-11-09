@@ -24,15 +24,18 @@ class OrderService {
     console.log("find orderList!  data :", data);
     // 토큰에 관리자가 있다면 data 에 관리자가 들어옴
     if (data === "admin") {
+      console.log("어디야 대체0");
       const orders = await Order.find({}) // 현재까지 주문한 모든 목록
         .populate("items.id")
         .populate("buyer");
       let result = [];
       for (let i = 0; i < orders.length; i++) {
+        console.log("어디야 대체1");
         let obj = {}; // json형태로 반환하려고 만든것
         let itemsArr = []; // 상품목록을 깔끔하게 넣으려고
         //
         for (let r = 0; r < orders[i].items.length; r++) {
+          console.log("어디야 대체2");
           // i번째 주문의 items의 길이.
           itemsArr.push({
             상품: orders[i].items[r].id.name,
@@ -54,6 +57,7 @@ class OrderService {
         };
         result.push(obj);
       }
+
       return result;
     }
     // 관리자가 아니라면 데이터에는 id가 들어오게 된다

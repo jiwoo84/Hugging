@@ -14,8 +14,9 @@ const kakao_finish = async () => {
   console.log("피니시 시작!!");
   const body = { access_token };
   const result = await Api.post(`/api/sosial/kakao`, body);
-  sessionStorage.setItem("token", result.accessToken);
-  sessionStorage.setItem("loggedIn", "true");
+  localStorage.setItem("token", result.accessToken);
+  localStorage.setItem("refreshToken", result.refreshToken);
+  localStorage.setItem("loggedIn", "true");
   localStorage.removeItem("sosial");
   sessionStorage.removeItem("access_token");
   alert("카카오 로그인 완료");

@@ -14,7 +14,11 @@ let totalPrice = 0;
 getDataFromApi();
 
 async function getDataFromApi() {
-  const user = await Api.get("/api/users", "mypage");
+  const user = await Api.get("/api/users/mypage");
+  if (!user) {
+    window.location.reload();
+  }
+  console.log(user);
   const coupons = await Api.get("/api/coupons", `${user.data._id}`);
   const { couponId, createAt, discount, owner } = coupons;
   const couponName = coupons.name;

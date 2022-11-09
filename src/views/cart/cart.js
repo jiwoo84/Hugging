@@ -248,7 +248,7 @@ purchaseBtn.addEventListener("click",function(){
         alert("상품을 선택하세요.");
         return ;
     }
-    if (sessionStorage.getItem("loggedIn") === "true" ) {
+    if (localStorage.getItem("loggedIn") === "true" ) {
         localStorage.setItem("storeName","items");
         localStorage.setItem("keys",getCheckboxValue());
         location.href = "/order";

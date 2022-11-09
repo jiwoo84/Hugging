@@ -87,7 +87,7 @@ class UserService {
     const token = jwt.sign(
       { userId: user._id, role: user.role, sosial: user.sosial },
       secretKey,
-      { expiresIn: 60 }
+      { expiresIn: 60 * 60 }
     );
     const refreshToken = jwt.sign(
       { userId: user._id, role: user.role, sosial: user.sosial },
@@ -130,13 +130,14 @@ class UserService {
       });
     }
     const token = jwt.sign({ userId: admin._id, role: "admin" }, secretKey, {
-      expiresIn: 60,
+      expiresIn: 60 * 60,
     });
     const refreshToken = jwt.sign(
       { userId: admin._id, role: "admin" },
       secretKey,
       { expiresIn: 60 * 60 * 24 }
     );
+    await User.updateOne({ email }, { refreshToken });
     return { refreshToken, token };
   }
 

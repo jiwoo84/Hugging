@@ -37,35 +37,43 @@ class OrderService {
       );
       await Coupon.deleteOne({ _id: data.couponId });
     }
-    // console.log("이메일로보내기 직전");
-    // // 형석님 수고하셨네요 ㅋㅋ
-    // // 이메일 발송 추가합니당
-    // console.log("이메일로 보냄 : ", sumUser.email);
-    // const mailInfo = {
-    //   from: "speaker1403@naver.com",
-    //   to: sumUser.email,
-    //   subject: "[Hugging] 결제완료  ",
-    //   text: `<h2>주문해주셔서 감사합니다.</h2>
-    //   <p>결제하신내역입니다.</p>
-    //   ${newOrder}`,
-    // };
-    // // send 는 config에 있는 것임.
-    // const sent = send(mailInfo);
-    // console.log(sent);
+    console.log("이메일로보내기 직전");
+    // 형석님 수고하셨네요 ㅋㅋ
+    // 이메일 발송 추가합니당
+    console.log("이메일로 보냄 : ", sumUser.email);
+    //     const mailInfo = {
+    //       from: "speaker1403@naver.com",
+    //       to: sumUser.email,
+    //       subject: "[Hugging] 결제완료  ",
+    //       text: `주문해주셔서 감사합니다.
+    //       결제하신내역입니다.
+    //       -------------------------
+    //       요청사항 : ${newOrder.deliveryMsg}
+    //       결제방법 : ${newOrder.payMethod}
+    //       총 결제금액 : ${newOrder.totalPrice}
+    //       총 ${newOrder.items.length}개 구매하셨습니다.
+
+    //       감사합니다.
+    // `,
+    //     };
+    //     // send 는 config에 있는 것임.
+    //     const sent = send(mailInfo);
+    //     console.log(sent);
     return newOrder;
   }
 
   async getOrderList(data) {
     console.log("find orderList!  data :", data);
     // 토큰에 관리자가 있다면 data 에 관리자가 들어옴
+    // await Order.deleteMany({});
     if (data === "admin") {
-      console.log("어디야 대체0");
+      console.log("어디가 문제?");
       const orders = await Order.find({}) // 현재까지 주문한 모든 목록
         .populate("items.id")
         .populate("buyer");
       let result = [];
       for (let i = 0; i < orders.length; i++) {
-        console.log("어디야 대체1");
+        console.log("어디가 문제포문임 여긴?");
         let obj = {}; // json형태로 반환하려고 만든것
         let itemsArr = []; // 상품목록을 깔끔하게 넣으려고
         //
@@ -76,6 +84,7 @@ class OrderService {
             상품: orders[i].items[r].id.name,
             개수: orders[i].items[r].count,
           });
+          console.log("이상해");
         }
         obj = {
           상품목록: itemsArr,
@@ -91,6 +100,7 @@ class OrderService {
           요청사항: orders[i].deliveryMsg,
         };
         result.push(obj);
+        console.log("리절트", obj);
       }
 
       return result;

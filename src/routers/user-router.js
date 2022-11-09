@@ -14,7 +14,7 @@ userRouter.get("/authority", (req, res) => {
   console.log(userToken);
   if (!userToken) {
     return res.status(400).json({
-      status: 200,
+      status: 400,
       msg: "토큰이 없어요, 이 창구는 권한 및 로그인 체크하는 곳입니다.\n토큰발급후 시도해주세요",
     });
   }
@@ -22,7 +22,7 @@ userRouter.get("/authority", (req, res) => {
   const jwtDecoded = jwt.verify(userToken, secretKey, (err, data) => {
     if (err) {
       console.log("액세스토큰이 유효하지 않음!");
-      return "액세스토큰 유효하지않음!";
+      return res.status(400).json({ msg: "정상적인 토큰이 아닙니다." });
     }
     return data;
   });
@@ -52,7 +52,7 @@ userRouter.post("/refresh", async (req, res, next) => {
       const returnAt = jwt.sign(
         { userId: payload.userId, role: payload.role },
         secretKey,
-        { expiresIn: 60 }
+        { expiresIn: 60 * 60 }
       );
       const returnRt = jwt.sign(
         { userId: payload.userId, role: payload.role },

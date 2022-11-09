@@ -69,29 +69,32 @@ class UserService {
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+    const secretKey = process.env.JWT_SECRET_KEY;
 
     // AT, RT 를 만들어 리턴함
     const token = jwt.sign(
       { userId: user._id, role: user.role, sosial: user.sosial },
       secretKey,
-      { expiresIn: 30 }
+      { expiresIn: 10 }
     );
     const refreshToken = jwt.sign(
       { userId: user._id, role: user.role, sosial: user.sosial },
       secretKey,
-      { expiresIn: 60 }
+      { expiresIn: 30 }
     );
+    console.log("로그인 : AT, RT : ", token, refreshToken);
     // 리프레쉬 토큰을 유저정보에 넣음
-    user.update({ refreshToken });
-    user.save();
+    await User.findByIdAndUpdate(user._id, { refreshToken });
     return { token, refreshToken };
   }
+
   // RT 재발급
   async refresh(_id, refreshToken, reciveRt) {
-    const security = await User.findById(_id);
-    // 요청한 사람의 RT인지 검증
-    if (security.refreshToken === reciveRt) {
+    console.log("수정중");
+    const security = await User.findOne({ refreshToken: reciveRt });
+    console.log("기존 RT   = ", security.refreshToken);
+    console.log("새로운 RT   = ", reciveRt);
+    if (security.refreshToken !== reciveRt) {
       throw new Error("해당 RT는 당신소유가 아니잖아!!");
     }
     await User.findByIdAndUpdate(_id, { refreshToken });

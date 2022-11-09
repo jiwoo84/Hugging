@@ -11,7 +11,9 @@ window.addEventListener("load", getUserdata);
 // 환영메세지 넣기
 async function getUserdata() {
   const user = await Api.get("/api/users/mypage");
-
+  if (!user) {
+    window.location.reload();
+  }
   const username = user.name;
   const totalPayAmount = user.data.totalPayAmount;
 

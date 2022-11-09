@@ -37,34 +37,52 @@ userRouter.get("/authority", (req, res) => {
 
 // 리프레쉬 토큰으로 토큰재발급
 userRouter.post("/refresh", async (req, res, next) => {
-  const { reciveRt } = req.body;
+  const reciveRt = req.body.refreshToken;
+  console.log("받은 RT ", req.body);
   const secretKey = process.env.JWT_SECRET_KEY;
   // RT 검증
-  const verified = jwt.verify(reciveRt, secretKey, (err, payload) => {
-    if (err) {
-      throw new Error("토큰만료 - 로그인을 다시 해주세요.");
-    }
-
-    // 검증완료시 같은 payload로 토큰 두개 재발급.
-    const returnAt = jwt.sign(payload, secretKey, { expiresIn: 30 });
-    const returnRt = jwt.sign(payload, secretKey, { expiresIn: 60 });
-    return { returnAt, returnRt, payload };
-  });
+  console.log("RT 검증에서 막히나?");
   try {
-    console.log("리프레쉬 수정중");
-    //  변수두개 설정하여 가독성 ++
+    const verified = jwt.verify(reciveRt, secretKey, (err, payload) => {
+      console.log("데러 뱉기 전 ");
+      if (err) {
+        return false;
+      }
+      // 검증완료시 같은 payload로 토큰 두개 재발급.
+      const returnAt = jwt.sign(
+        { userId: payload.userId, role: payload.role },
+        secretKey,
+        { expiresIn: 10 }
+      );
+      const returnRt = jwt.sign(
+        { userId: payload.userId, role: payload.role },
+        secretKey,
+        { expiresIn: 30 }
+      );
+      console.log("뱉기직전");
+      return { returnAt, returnRt, payload };
+    });
+    console.log("verified 값 : ", verified);
+    if (!verified) {
+      return res.status(400).json({
+        msg: "토큰오류",
+      });
+    }
     const accessToken = verified.returnAt;
     const refreshToken = verified.returnRt;
+    const userId = verified.payload.userId;
+    console.log("리프레쉬 수정중");
+    //  변수두개 설정하여 가독성 ++
     // RT 데이터 수정작업임
     // 해당유저가 이 리프레쉬 토큰을 가지고 있는지 검증도 해야함
-    await userService.refresh(verified.payload.userId, refreshToken, reciveRt);
+    await userService.refresh(userId, refreshToken, reciveRt);
     return res.status(201).json({
       msg: "AT 재발급",
-      accessToken,
+      token: accessToken,
       refreshToken,
     });
   } catch (err) {
-    console.log("리프레쉬 수정중 오류발생", err);
+    console.log("리프레쉬 수정중 오류발생");
     next(err);
   }
 });
@@ -125,7 +143,7 @@ userRouter.post("/login", async function (req, res, next) {
       return res.status(200).json({
         status: 200,
         msg: "관리자 계정 로그인",
-        accessToken: token,
+        token,
         refreshToken,
       });
     }

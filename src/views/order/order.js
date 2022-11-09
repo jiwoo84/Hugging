@@ -18,22 +18,26 @@ async function getDataFromApi() {
     if (!user) {
         window.location.reload();
     }
-    console.log(user);
-    const coupons = await Api.get("/api/coupons",`${user.data._id}`);
-    const {couponId,createAt,discount,owner}  = coupons;
-    const couponName = coupons.name;
+
+    const coupon = await Api.get("/api/coupons",`${user.data._id}`);
+    const coupons = coupon.couponList;
+    
 
     const {name,address,phoneNumber} = user.data;
     renderUserComponent(name,address,phoneNumber);
     renderProductComponent(localStorage.getItem("storeName"));
-    renderCouponComponent(couponName,discount,createAt);
+    renderCouponComponent(coupons);
 }
 
-function renderCouponComponent(couponName,discount,createAt){
-    const option = document.createElement("option");
-    option.setAttribute("value",discount);
-    option.innerText = `${couponName}  ${discount}% 할인  ${createAt}까지`
-    couponSelect.appendChild(option);
+function renderCouponComponent(coupons){
+    coupons.forEach( coupon =>{
+        const option = document.createElement("option");
+        option.setAttribute("value",coupon.discount);
+        option.setAttribute("id",coupon._id);
+        option.innerText = `${coupon.name}  ${coupon.discount}% 할인  ${coupon.createdAt}까지`
+        couponSelect.appendChild(option);
+        console.log(option);
+    });
 }
 
 function getTotalPrice(key,storeName){
@@ -144,7 +148,9 @@ purchaseBtn.addEventListener("click", async()=>{
     //indexeddb에서 -> 상품데이터 가져오고 배열형태로
     //총금액
     const storeName =  localStorage.getItem("storeName");
-    const user = await Api.get("/api/users","mypage");
+    const user = await Api.get("/api/users/mypage");
+    const couponId = couponSelect.options[couponSelect.selectedIndex].id;
+
     const {name,address,phoneNumber} = user.data;
     const deliveryMsg = (deliveryMessage.options[deliveryMessage.selectedIndex].innerText);
     const card = document.querySelector('input[name="radio"]').checked;
@@ -155,7 +161,7 @@ purchaseBtn.addEventListener("click", async()=>{
         payMethod = "무통장입금";
     }
 
-    const postData = {name,address,phoneNumber,deliveryMsg,items,payMethod,totalPrice}
+    const postData = {name,address,phoneNumber,deliveryMsg,items,payMethod,totalPrice,couponId}
     console.log(postData);
     await Api.post("/api/orders/", postData);
 

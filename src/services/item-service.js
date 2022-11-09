@@ -37,15 +37,9 @@ class ItemService {
 
   // newItems와 bestItems 를 리턴하는 함수
   async homeFindItems() {
-    // await User.deleteMany({});
-    // await Category.deleteMany({});
-    // await Item.deleteMany({});
-    // await Coupon.deleteMany({});
-    // await Comment.deleteMany({});
-    // await Order.deleteMany({});
     const bestItems = await Item.find({ onSale: true })
       .sort({ sales: -1 })
-      .limit(8);
+      .limit(9);
     const newItems = await Item.find({ onSale: true })
       .sort({ createdAt: -1 })
       .limit(3);

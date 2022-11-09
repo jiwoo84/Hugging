@@ -5,7 +5,7 @@ const messageBox__totalPayAmount = document.querySelector(
   ".message-box__totalPayAmount"
 );
 const messageBox__grade = document.querySelector(".message-box__grade");
-const messageBox__coupon = document.querySelector(".message-box__coupon");
+const loadCouponModal = document.querySelector("#loadCouponModal");
 
 window.addEventListener("load", getUserdata);
 
@@ -28,7 +28,7 @@ async function getUserdata() {
   welcomeMessage.dataset.id = user.data._id;
   welcomeMessage.innerText = `${username}님 반갑습니다!`;
 
-  messageBox__coupon.innerHTML = `사용가능 쿠폰 <a href="loginModal">${coupons.couponList.length}</a>장`;
+  loadCouponModal.innerHTML = `사용가능 쿠폰 ${coupons.couponList.length}장`;
 
   // 총구매금액 넣기
   messageBox__totalPayAmount.innerText = `총 구매 금액은 ${totalPayAmount}원 입니다`;

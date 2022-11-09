@@ -33,8 +33,12 @@ async function clickedOrder() {
 // 리스트 출력 함수
 async function makeOrderList() {
   // 주문 리스트 데이터 받아오기
-  const data = (await Api.get("/api/orders")).data;
-
+  let data;
+  try {
+    data = (await Api.get("/api/orders")).data;
+  } catch (err) {
+    window.location.reload();
+  }
   //한 사람의 주문정보 넣기
   for (let i = 0; i < data.length; i++) {
     const orderBox = document.createElement("div");

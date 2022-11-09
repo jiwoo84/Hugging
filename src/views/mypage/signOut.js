@@ -64,7 +64,9 @@ const submitFrom = async (e) => {
     const body = { accept: document.getElementById("signout_accept").value };
     const res = await Api.delete("/api/users", "", body);
     console.log(res);
-    sessionStorage.clear();
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
     alert("그동안 감사했습니다.");
     window.location.href = "/";
     return;

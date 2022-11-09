@@ -92,13 +92,14 @@ categoryRouter.patch("/", loginRequired, async (req, res, next) => {
     });
   }
   try {
-    const updateCategory = categoryService.updateCategory({
+    const updateCategory = await categoryService.updateCategory({
       name,
       index,
       currentName,
     });
+    console.log(updateCategory);
     return res.status(201).json({
-      msg: "카테고리 변겅에 성공하였습니다.",
+      msg: updateCategory,
     });
   } catch (err) {
     next(err);
@@ -117,7 +118,10 @@ categoryRouter.delete("/", loginRequired, async (req, res, next) => {
   }
 
   try {
-    const deleteCategory = categoryService.deleteCategory({ index, name });
+    const deleteCategory = await categoryService.deleteCategory({
+      index,
+      name,
+    });
     return res.status(201).json({
       msg: "카테고리가 정상적으로 삭제되었습니다.",
     });

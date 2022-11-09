@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { User } from "../db";
+import { Coupon, User } from "../db";
+import { couponRouter } from "../routers";
 
 class UserService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
@@ -33,7 +34,18 @@ class UserService {
     // db에 저장
     // 일반적인 가입
     const createdNewUser = await User.create(newUserInfo);
-    console.log(createdNewUser);
+
+    //첫회원가입쿠폰 추가
+    const createFirstcoupon = await Coupon.create({
+      name: "첫 회원가입 기념 쿠폰",
+      discount: 10,
+      owner: createdNewUser.id,
+    });
+    console.log("아따 여기 쿠폰 발급됐다 아인교" + createFirstcoupon);
+    const pushFristCoupon = await User.findByIdAndUpdate(
+      { _id: createFirstcoupon.owner },
+      { $push: { ownCoupons: createFirstcoupon.id } }
+    );
     const login = this.getUserToken({ email, password });
     return login;
   }

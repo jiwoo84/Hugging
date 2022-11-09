@@ -128,14 +128,16 @@ class UserService {
         phoneNumber: "010-0000-0000",
         role: "admin",
       });
-      const token = jwt.sign(
-        { userId: newAdmin._id, role: "admin" },
-        secretKey
-      );
-      return token;
     }
-    const token = jwt.sign({ userId: admin._id, role: "admin" }, secretKey);
-    return token;
+    const token = jwt.sign({ userId: admin._id, role: "admin" }, secretKey, {
+      expiresIn: 60 * 60,
+    });
+    const refreshToken = jwt.sign(
+      { userId: admin._id, role: "admin" },
+      secretKey,
+      { expiresIn: 60 * 60 * 24 }
+    );
+    return { refreshToken, token };
   }
 
   // 사용자 목록을 받음.

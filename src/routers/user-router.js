@@ -3,7 +3,7 @@ import is from "@sindresorhus/is";
 import jwt from "jsonwebtoken";
 // 폴더에서 import하면, 자동으로 폴더의 index.js에서 가져옴
 import { loginRequired } from "../middlewares";
-import { couponService, userService } from "../services";
+import { userService } from "../services";
 import { itemService } from "../services/item-service";
 
 const userRouter = express();
@@ -78,7 +78,7 @@ userRouter.post("/refresh", async (req, res, next) => {
     await userService.refresh(userId, refreshToken, reciveRt);
     return res.status(201).json({
       msg: "AT 재발급",
-      token: accessToken,
+      token,
       refreshToken,
     });
   } catch (err) {

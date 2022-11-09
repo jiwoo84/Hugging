@@ -268,18 +268,6 @@ function modifyItem() {
           }
         );
 
-        // const res = await Api.patch(
-        //   `
-        // /api/items/?findItemId=${id}&
-        // name=${name}&
-        // category=${category}&
-        // price=${price}&
-        // itemDetail=${detail}&
-        // onSale=${undefined}`,
-        //   "",
-        //   { zz: "zz" }
-        // );
-
         alert(res.msg);
         modalBox.innerHTML = "";
         makeItemsList("전체보기");

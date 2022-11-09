@@ -22,10 +22,10 @@ class CategoryService {
     const checkName = await Category.findOne({ name });
     const checkIndex = await Category.findOne({ index });
     if (checkName) {
-      throw new Error("이미 존재하는 카테고리 이름");
+      throw new Error("이미 존재하는 카테고리 이름입니다");
     }
     if (checkIndex) {
-      throw new Error("이미 존재하는 카테고리 인덱스");
+      throw new Error("이미 존재하는 카테고리 인덱스입니다");
     }
     // 새로운 카테고리 생성, name:name. items:위에서 만든 arr
     const newCategory = await Category.create({

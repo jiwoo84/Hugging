@@ -7,11 +7,15 @@ class OrderService {
   constructor() {}
   async newOrder(data) {
     console.log("주문하기 서비스 진입");
+    console.log("주문하기 서비스 진입1");
     const newOrder = await Order.create(data);
+
+    console.log("1");
     await User.updateOne(
       { _id: data.buyer },
       { $push: { orders: newOrder._id } }
     );
+    console.log("2");
     const sumUser = await User.findById({ _id: data.buyer });
     const SumTotalPrice =
       Number(sumUser.totalPayAmount) + Number(newOrder.totalPrice);
@@ -19,8 +23,13 @@ class OrderService {
       { _id: sumUser.id },
       { totalPayAmount: SumTotalPrice }
     );
+    console.log("3");
     // 사용한 쿠폰 삭제
-    if (data.couponId !== undefined || data.couponId !== "none") {
+    console.log(data.couponId);
+    if (data.couponId === undefined || data.couponId === "none") {
+      console.log("컨틴뉴~");
+    } else {
+      console.log("이건 실행이 되면 안됌");
       //여기서 data.couponId는 쿠폰의 id값을 의미한다.
       const findcoupon = await Coupon.findOne({ id: data.couponId });
       const findUser = await User.findById(findcoupon.owner);
@@ -31,11 +40,13 @@ class OrderService {
         "제발 내가 찾는게 맞아라 제발 부탁이야 유저 맞제?: " + findUser.id
       );
       //유저의 ownCoupons와 해당 쿠폰 지우기
-      await User.updateOne(
-        { _id: findUser.id },
-        { $unset: { ownCoupons: findUser.ownCoupons } }
-      );
-      await Coupon.deleteOne({ _id: data.couponId });
+      if (findUser.ownCoupons) {
+        await User.updateOne(
+          { _id: findUser.id },
+          { $unset: { ownCoupons: findUser.ownCoupons } }
+        );
+        await Coupon.deleteOne({ _id: data.couponId });
+      }
     }
     console.log("이메일로보내기 직전");
     // 형석님 수고하셨네요 ㅋㅋ

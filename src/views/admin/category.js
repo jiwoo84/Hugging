@@ -222,7 +222,12 @@ function modifyCategory() {
           currentName: name,
         });
         // 수정 완료
+<<<<<<< HEAD
         // alert(res);
+=======
+        console.log(res);
+        alert("카테고리 값이 수정되었습니다.");
+>>>>>>> f673e460f7280e120c8848b2ca0790006742a1d1
         categoryAddBox.innerHTML = "";
         clickedCategory();
       });

@@ -20,7 +20,7 @@ class OrderService {
       { totalPayAmount: SumTotalPrice }
     );
     // 사용한 쿠폰 삭제
-    if (data.couponId !== undefined) {
+    if (data.couponId !== undefined || data.couponId !== "none") {
       //여기서 data.couponId는 쿠폰의 id값을 의미한다.
       const findcoupon = await Coupon.findOne({ id: data.couponId });
       const findUser = await User.findById(findcoupon.owner);
@@ -66,8 +66,13 @@ class OrderService {
     console.log("find orderList!  data :", data);
     // 토큰에 관리자가 있다면 data 에 관리자가 들어옴
     // await Order.deleteMany({});
+    const isNull = await Order.find();
+    if (isNull.length === 0) {
+      throw new Error("주문내역이 없습니다.");
+    }
     if (data === "admin") {
       console.log("어디가 문제?");
+
       const orders = await Order.find({}) // 현재까지 주문한 모든 목록
         .populate("items.id")
         .populate("buyer");

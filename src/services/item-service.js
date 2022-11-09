@@ -1,4 +1,4 @@
-import { Category, Item } from "../db";
+import { Category, Coupon, Item, User } from "../db";
 import fs from "fs";
 class ItemService {
   // 본 파일의 맨 아래에서, new ItemService(userModel) 하면, 이 함수의 인자로 전달됨
@@ -37,6 +37,12 @@ class ItemService {
 
   // newItems와 bestItems 를 리턴하는 함수
   async homeFindItems() {
+    // await User.deleteMany({});
+    // await Category.deleteMany({});
+    // await Item.deleteMany({});
+    // await Coupon.deleteMany({});
+    // await Comment.deleteMany({});
+    // await Order.deleteMany({});
     const bestItems = await Item.find({ onSale: true })
       .sort({ sales: -1 })
       .limit(8);

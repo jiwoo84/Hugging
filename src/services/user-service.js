@@ -123,7 +123,7 @@ class UserService {
       const newAdmin = await User.create({
         email,
         name: "관리자",
-        password: "erboinerboiber",
+        password: "123123123",
         address: "엘리스 랩실",
         phoneNumber: "010-0000-0000",
         role: "admin",

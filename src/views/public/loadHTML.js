@@ -21,15 +21,19 @@ const logout = () => {
   window.location.href = "/";
 };
 const mypage = async () => {
-  window.location.href = "/mypage";
   const res = await fetch("/api/users/mypage", {
     method: "get",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   const json = await res.json();
   const url = json.url;
-  console.log(url);
+  console.log(url === undefined);
+  if (url === undefined) {
+    window.location.href = "/mypage";
+    return;
+  }
+  window.location.href = url;
 };

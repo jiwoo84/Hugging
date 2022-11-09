@@ -52,7 +52,7 @@ userRouter.post("/refresh", async (req, res, next) => {
       const returnAt = jwt.sign(
         { userId: payload.userId, role: payload.role },
         secretKey,
-        { expiresIn: 10 }
+        { expiresIn: 60 * 60 }
       );
       const returnRt = jwt.sign(
         { userId: payload.userId, role: payload.role },

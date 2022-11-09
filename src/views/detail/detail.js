@@ -12,7 +12,6 @@ const minusBtn = document.querySelector(".minus");
 const salseCount = document.querySelector(".salseCount");
 const text = document.querySelector("#text");
 const btnSave = document.querySelector(".Save");
-// 하단 작성 밑에 버튼의 부모 불러오기
 const content_bntBox = document.querySelector(".content_bntBox");
 const btnEdit = document.querySelector(".Edit");
 
@@ -42,7 +41,6 @@ minusBtn.addEventListener("click", () => {
 // 상세페이지 데이터 get api
 async function getDataFromApi() {
   console.log("id : " + localStorage.getItem("itemDetail"));
-  // itemId = localStorage.getItem("itemDetail");
   const res = await Api.get(
     "/api/items",
     `${localStorage.getItem("itemDetail")}`
@@ -53,7 +51,7 @@ async function getDataFromApi() {
   id = _id;
   itemname.innerHTML = name;
   itemcategory.innerHTML = category;
-  itemprice.innerHTML = price;
+  itemprice.innerHTML = `${price} 원`;
   itemimg.src = imageUrl;
   details.innerHTML = itemDetail;
 }
@@ -158,7 +156,6 @@ buyNowBtn.addEventListener("click", function () {
 
 //리뷰 렌더링
 async function showReview(아이템아이디) {
-  console.log("랜더링 재시작");
   // 이전 데이터 삭제(안하면 이전 데이터가 계속 쌓임)
   reviewList.innerHTML = "";
 
@@ -166,12 +163,7 @@ async function showReview(아이템아이디) {
   text.value = "";
 
   const reviewData = await Api.get(`/api/comments/${아이템아이디}`);
-  console.log("reviewData :", reviewData.ownCmt);
-  console.log(
-    `localStorage.getItem( "itemDetail") : `,
-    localStorage.getItem("itemDetail")
-  );
-  console.log("reviewData.ownCmt :", reviewData.ownCmt);
+
   const grandMomDiv = document.createElement("div");
   grandMomDiv.setAttribute("id", reviewData.ownCmt);
 
@@ -179,27 +171,24 @@ async function showReview(아이템아이디) {
     //리뷰 렌더링
     // 이전 데이터 삭제
     reviewList.innerHTML = "";
-    // 상품식별: owncmt / 작성자식별: cmtId
+    // 댓글작성자주인(0개/1개): owncmt / 댓글작성자id(여러개): cmtId
     const momDiv = document.createElement("div");
     momDiv.setAttribute("class", "momDiv");
     const reviewDiv = document.createElement("div");
     reviewDiv.setAttribute("class", "reviewDiv");
     reviewDiv.innerHTML = `
-      <p class="reviewDiv_name">${reviewData.data[i].name} :</p>
+      <p class="reviewDiv_name">${reviewData.data[i].name}</p>
       <p class="reviewDiv_text">${reviewData.data[i].text}</p>
     `;
     const dateDiv = document.createElement("div");
     dateDiv.setAttribute("class", "dateDiv");
     let rawDate = reviewData.data[i].createdAt;
-    // console.log(rawDate);
-    // let date = new Date(rawDate);
-    // console.log(date);
-    // console.log(typeof date);
-    // let Date = date.toLocaleString();
-    // console.log(Date);
-    dateDiv.textContent = rawDate;
+    let date = Date.parse(rawDate);
+    let result = new Date(date);
+    result = result.toString();
+    let resultDate = result.slice(0, 25);
+    dateDiv.textContent = `${resultDate}`;
 
-    // btnDiv.appendChild(btnEdit);
     momDiv.appendChild(reviewDiv);
     momDiv.appendChild(dateDiv);
 
@@ -313,21 +302,3 @@ async function editRv(commentId, beforeText) {
     }
   });
 }
-
-// // 댓글 수정
-// btnEdit.addEventListener("click", async (e) => {
-//   e.preventDefault();
-//   // 댓글 수정 확인
-//   if (confirm(`댓글을 수정하시겠습니까?`)) {
-//     const review = text.value;
-//     if (review.length >= 5) {
-//       const res = await Api.patch("/api/comments", "", {
-//         fixText: review,
-//         commentId: localStorage.getItem("reviewId"),
-//       });
-//       showReview(localStorage.getItem("itemDetail"));
-//     } else {
-//       return alert("댓글을 5자이상 작성해주세요");
-//     }
-//   }
-// });

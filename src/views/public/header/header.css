@@ -6,12 +6,12 @@ body {
   padding: 0;
   background-color: #eae9e6;
 }
-a:link{
-  color:#4a4a4a;
+a:link {
+  color: #4a4a4a;
   text-decoration: none;
 }
-a:visited{
-  color:#4a4a4a;
+a:visited {
+  color: #4a4a4a;
   text-decoration: none;
 }
 .header {
@@ -25,7 +25,7 @@ a:visited{
   width: 100%;
   margin-top: 50px;
 }
-.navbarItem{
+.navbarItem {
   padding: 10px;
 }
 #navbar {
@@ -53,6 +53,13 @@ a:visited{
   position: absolute;
   top: 210px;
   left: 20px;
+}
+.navbar-item {
+  width: 150px;
+}
+.navbar-item:hover {
+  background: #9f8170;
+  cursor: pointer;
 }
 #categoryMom p {
   font-size: 25px;

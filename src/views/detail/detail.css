@@ -3,18 +3,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 600px;
+  padding: 0px;
 }
 .imgUrl {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 600px;
 }
 .imageUrl {
-  width: 256px;
-  height: 256px;
+  width: 600px;
+  height: 400px;
   /* object-fit: scale-down; */
 }
-.totalInfo,
+.category {
+  font-weight: 600;
+  color: brown;
+}
+.totalInfo {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+.detailInfo {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  margin: 15px;
+}
 .deliveryInfo {
   display: flex;
   flex-direction: column;
@@ -24,16 +41,63 @@
   flex-direction: column;
   flex-grow: 1;
 }
+.minus,
+.plus {
+  padding: 0px 6px;
+  margin: 0px 3px;
+}
+.price {
+  font-weight: 600;
+  color: blueviolet;
+}
+.finalInfo {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0px;
+}
 .priceInfo,
-.finalInfo,
 .count,
 .sellInfo {
   display: flex;
   flex-direction: row;
+}
+.moveTocart,
+.buyNow {
+  padding: 10px;
+  margin: 5px;
+  margin-right: 0px;
 }
 .orderInfo {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   flex-grow: 1;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+.reviewDiv_name {
+  font-size: 20px;
+  font-weight: 600;
+}
+.dateDiv {
+  font-size: 15px;
+  color: gray;
+}
+.btnedit,
+.btndelete {
+  margin: 5px;
+}
+.momDiv {
+  border: 2px dashed black;
+  margin: 10px;
+  border-style: dashed;
+}
+.content_bntBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 10px;
 }

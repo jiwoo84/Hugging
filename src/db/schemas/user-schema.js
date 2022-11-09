@@ -40,6 +40,8 @@ const UserSchema = new Schema({
   ownComments: [{ type: Schema.Types.ObjectId, ref: "Item" }],
   // 리프레쉬토큰
   refreshToken: String,
+  // 쿠폰
+  ownCoupons: [{ type: Schema.Types.ObjectId, ref: "Coupon" }],
 });
 
 // export const User = model("User", UserSchema);

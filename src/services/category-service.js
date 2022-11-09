@@ -39,7 +39,13 @@ class CategoryService {
   // ***************************** 여기가 업뎃입니다 형석님 *******************************
   async updateCategory(data) {
     const { name, index, currentName } = data;
-
+    const alreadyName = await Category.findOne({ name });
+    const alreadyindex = await Category.findOne({ index });
+    // 입력값중 이미 존재하는게 있을경우 예외처리
+    console.log("여기가문젠가");
+    if (alreadyName || alreadyindex) {
+      throw new Error("이미 존재하는 이름, 또는 인덱스값입니다.");
+    }
     // 기존 카테고리 이름으로 찾은후 업데이트
     const fixedCategory = await Category.updateOne(
       { name: currentName },
@@ -63,19 +69,28 @@ class CategoryService {
 
   //해당 카테고리 아이템 조회
   async categoriesItems(data) {
-    const { name, index } = data;
+    console.log("카테고리 하나 조회 비즈니스로직 진입");
+    const { name, index, page, perPage } = data;
+    console.log("비즈니스로직에서 콘솔 : " + name, index, page, perPage);
     const result = await Category.findOne({
       name,
       index,
-    }).populate("items");
+    })
+      .populate("items")
+      .sort({ createdAt: -1 })
+      .skip(perPage * (page - 1))
+      .limit(perPage);
+
+    const total = result.items.length;
+    const totalPage = Math.ceil(total / perPage);
     let resultArr = [];
     for (let i = 0; i < result.items.length; i++) {
       let obj = {};
       obj = result.items[i];
       resultArr.push(obj);
     }
-    console.log(resultArr);
-    return resultArr;
+    // console.log(resultArr);
+    return { resultArr, totalPage };
   }
 
   //해당 카테고리 삭제하고 카테고리에 속해있던 아이템의 카테고리속성 ""로 만듬

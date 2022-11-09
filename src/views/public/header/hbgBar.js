@@ -9,7 +9,7 @@ const categoryUserInfo__grade = document.querySelector(
 );
 
 // 로그인시에만 상단 사용자정보 불러옴
-if (sessionStorage.getItem("loggedIn") === "true") {
+if (localStorage.getItem("loggedIn") === "true") {
   ShowUserInfo();
 }
 ShowNavBar();

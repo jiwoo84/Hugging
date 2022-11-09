@@ -14,7 +14,9 @@ function loadHTML(file) {
 
 const logoutBtn = document.querySelector("#logout");
 const logout = () => {
-  sessionStorage.clear();
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("token");
+  localStorage.removeItem("loggedIn");
   alert("로그아웃 완료");
   window.location.href = "/";
 };
@@ -23,11 +25,15 @@ const mypage = async () => {
     method: "get",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
   const json = await res.json();
   const url = json.url;
-  console.log(url);
+  console.log(url === undefined);
+  if (url === undefined) {
+    window.location.href = "/mypage";
+    return;
+  }
   window.location.href = url;
 };

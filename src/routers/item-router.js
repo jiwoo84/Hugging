@@ -133,37 +133,58 @@ itemRouter.get("/affiliation", loginRequired, async (req, res, next) => {
 });
 
 //관리자 상품 수정
-itemRouter.patch("/:id", loginRequired, async (req, res, next) => {
-  console.log("관리자 상품수정 라우터에 오신걸 환영합니다!!");
-  const findItemId = req.params.id;
-  const { currentRole } = req;
-  const { name, category, price, imageUrl, itemDetail, onSale } = req.body;
-  if (currentRole !== "admin") {
-    return res.status(400).json({
-      status: 400,
-      msg: "잘못된 접근입니다. (관리자가 아닙니다)",
-    });
-  }
+itemRouter.patch(
+  "/:id",
+  loginRequired,
+  namingItem,
+  itemImg.single("itemAddbox_imgInput"),
+  async (req, res, next) => {
+    console.log("관리자 상품수정 라우터에 오신걸 환영합니다!!");
+    const findItemId = req.params.id;
+    const { currentRole } = req;
+    const { name, category, itemDetail, imageUrl } = req.query;
+    let { price } = req.query;
+    price = Number(price);
+    const onSale = false;
+    let fixImgUrl = "";
+    // 만약 들어온 파일이 있다면,
+    if (req.file) {
+      console.log(req.file);
+      fixImgUrl = `${MY_DOMAIN}${req.file.path}`;
+      console.log("fixImgUrl : ", fixImgUrl);
+    }
+    if (currentRole !== "admin") {
+      return res.status(400).json({
+        status: 400,
+        msg: "잘못된 접근입니다. (관리자가 아닙니다)",
+      });
+    }
 
-  try {
-    const toUpdate = {
-      ...(name && { name }),
-      ...(category && { category }),
-      ...(price && { price }),
-      ...(imageUrl && { imageUrl }),
-      ...(itemDetail && { itemDetail }),
-      ...(onSale && { onSale }),
-    };
+    try {
+      const toUpdate = {
+        ...(name && { name }),
+        ...(category && { category }),
+        ...(price && { price }),
+        ...(imageUrl && { imageUrl }),
+        ...(itemDetail && { itemDetail }),
+        ...(onSale && { onSale }),
+      };
+      console.log(toUpdate);
 
-    const updateItem = await itemService.updateItem(findItemId, toUpdate);
-    return res.status(201).json({
-      status: 201,
-      msg: "상품이 정상적으로 변경 되었습니다.",
-    });
-  } catch (err) {
-    next(err);
+      const updateItem = await itemService.updateItem(
+        findItemId,
+        toUpdate,
+        fixImgUrl
+      );
+      return res.status(201).json({
+        status: 201,
+        msg: "상품이 정상적으로 변경 되었습니다.",
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 //상품 상세 페이지 라우팅
 itemRouter.get("/:id", async (req, res, next) => {

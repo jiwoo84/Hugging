@@ -397,11 +397,27 @@ function addItemBtn() {
         {
           method: "post",
           headers: {
-            authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           // body: imgFormData,
         }
       );
+      if (!res.ok) {
+        const errorContent = await res.json();
+        const { msg } = errorContent;
+        // 만약 AT가 만료되었다는 에러라면 발급후 재요청 해야함
+        if (msg === "정상적인 토큰이 아닙니다.") {
+          const refreshed = await Api.refresh(
+            localStorage.getItem("refreshToken")
+          );
+          if (refreshed) {
+            alert("다시 시도해주세요");
+            return;
+          }
+        }
+        alert(msg);
+        return;
+      }
 
       alert("추가 완료했습니다");
       modalBox.innerHTML = "";

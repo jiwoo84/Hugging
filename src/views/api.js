@@ -179,7 +179,7 @@ async function del(endpoint, params = "", data = {}) {
       // refresh 함수는 true , 또는 로그인창화면을 리턴한다
       const refreshToken = await refresh(localStorage.getItem("refreshToken"));
       if (refreshToken) {
-        await del(apiUrl, data);
+        await del(apiUrl, params, data);
         return;
       }
     }

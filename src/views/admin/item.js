@@ -298,8 +298,8 @@ function modifyItem() {
         //   "",
         //   { zz: "zz" }
         // );
-
-        alert(res.msg);
+        const result = await res.json();
+        alert(result.msg);
         modalBox.innerHTML = "";
         makeItemsList("전체보기");
       });
@@ -411,15 +411,16 @@ function addItemBtn() {
             localStorage.getItem("refreshToken")
           );
           if (refreshed) {
-            alert("다시 시도해주세요");
+            alert("요청이 만료되어 다시 로그인합니다");
+            window.location.reload();
             return;
           }
         }
         alert(msg);
         return;
       }
-
-      alert("추가 완료했습니다");
+      const result = await res.json();
+      alert(result.msg);
       modalBox.innerHTML = "";
       makeItemsList("전체보기");
     });

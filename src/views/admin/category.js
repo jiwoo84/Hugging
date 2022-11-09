@@ -70,12 +70,11 @@ async function clickedCategory() {
           return alert(`인덱스는 알파벳으로 시작해야합니다. ex) a200, b300`);
         }
         // 검사를 통과했으면 요청 보냄
-        const res = await categoryPost("/api/categories", {
+        const res = await Api.post("/api/categories", {
           name: addName,
           index: addIndex,
         });
-
-        alert(res.msg);
+        alert("추가 완료!");
         // 모달창 없애기
         categoryAddBox.innerHTML = "";
         clickedCategory();
@@ -188,7 +187,8 @@ async function clickedCategory() {
           currentName: name,
         });
         // 수정 완료
-        alert(res.msg);
+        console.log(res);
+        alert(res);
         categoryAddBox.innerHTML = "";
         clickedCategory();
       });
@@ -221,7 +221,7 @@ async function categoryPost(endpoint, data) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     body: bodyData,
   });

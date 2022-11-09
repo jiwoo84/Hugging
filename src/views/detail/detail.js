@@ -12,11 +12,11 @@ const minusBtn = document.querySelector(".minus");
 const salseCount = document.querySelector(".salseCount");
 const text = document.querySelector("#text");
 const btnSave = document.querySelector(".Save");
+// 하단 작성 밑에 버튼의 부모 불러오기
+const content_bntBox = document.querySelector(".content_bntBox");
 const btnEdit = document.querySelector(".Edit");
 
 let id;
-// let itemId;
-let delReviewId;
 
 getDataFromApi();
 showReview(localStorage.getItem("itemDetail"));
@@ -129,7 +129,6 @@ function isExist(data, objStore) {
 
 //carBtn listener
 cartBtn.addEventListener("click", function () {
-<<<<<<< HEAD
   console.log(salseCount);
   console.log(salseCount.innerText);
   saveData(salseCount, "items");
@@ -139,15 +138,6 @@ cartBtn.addEventListener("click", function () {
   if (moveTocart === true) {
     window.location.href = "/cart";
   }
-=======
-    console.log(salseCount);
-    console.log(salseCount.innerText);
-    saveData(salseCount,"items");
-    const moveTocart = confirm("상품이 장바구에 담겼습니다.\n장바구니로 이동하시겠습니까?");
-    if (moveTocart === true) {
-        window.location.href = "/cart";
-    }
->>>>>>> a25e596a5240673f39ea9b5048470af6cf0c4178
 });
 
 //buyNowBtn listener
@@ -166,48 +156,41 @@ buyNowBtn.addEventListener("click", function () {
   alert("로그인을 먼저 해주세요.");
 });
 
-//리뷰 작성
-btnSave.addEventListener("click", async (e) => {
-  e.preventDefault();
-  const review = text.value;
-  console.log(review);
-  // 5글자 이상 글자 수 검사
-  if (review.length < 5) {
-    return alert("리뷰를 5글자 이상 작성해주세요");
-  }
-  // 검사를 통과했으면 요청 보냄
-  const res = await Api.post("/api/comments", {
-    text: review,
-    itemId: localStorage.getItem("itemDetail"),
-  });
-  // 작성 후 작성창 닫기
-  const hidden = document.getElementById("text");
-  hidden.style.display = "none";
-  // 작성 후 다시 렌더링
-  showReview(localStorage.getItem("itemDetail"));
-  // save 창 막기
-  btnSave.addEventListener("click", async (e) => {
-    e.preventDefault();
-    alert(`댓글이 작성되었습니다.`);
-  });
-});
-
-//리뷰 확인
+//리뷰 렌더링
 async function showReview(아이템아이디) {
+  console.log("랜더링 재시작");
+  // 이전 데이터 삭제(안하면 이전 데이터가 계속 쌓임)
+  reviewList.innerHTML = "";
+
+  // 입력창 비우기
+  text.value = "";
+
   const reviewData = await Api.get(`/api/comments/${아이템아이디}`);
-  console.log(reviewData);
+  console.log("reviewData :", reviewData.ownCmt);
+  console.log(
+    `localStorage.getItem( "itemDetail") : `,
+    localStorage.getItem("itemDetail")
+  );
+  console.log("reviewData.ownCmt :", reviewData.ownCmt);
+  const grandMomDiv = document.createElement("div");
+  grandMomDiv.setAttribute("id", reviewData.ownCmt);
+
   for (let i = 0; i < reviewData.data.length; i++) {
     //리뷰 렌더링
+    // 이전 데이터 삭제
+    reviewList.innerHTML = "";
+    // 상품식별: owncmt / 작성자식별: cmtId
     const momDiv = document.createElement("div");
     momDiv.setAttribute("class", "momDiv");
     const reviewDiv = document.createElement("div");
     reviewDiv.setAttribute("class", "reviewDiv");
-    reviewDiv.textContent = `${reviewData.data[i].name}: ${reviewData.data[i].text}`;
-    // reviewDiv.textContent = `${reviewData.data[i].name} : ${reviewData.data[i].text}`;
+    reviewDiv.innerHTML = `
+      <p class="reviewDiv_name">${reviewData.data[i].name} :</p>
+      <p class="reviewDiv_text">${reviewData.data[i].text}</p>
+    `;
     const dateDiv = document.createElement("div");
     dateDiv.setAttribute("class", "dateDiv");
     let rawDate = reviewData.data[i].createdAt;
-    // itemId = 아이디 가져오기
     // console.log(rawDate);
     // let date = new Date(rawDate);
     // console.log(date);
@@ -216,87 +199,135 @@ async function showReview(아이템아이디) {
     // console.log(Date);
     dateDiv.textContent = rawDate;
 
-    const btnDiv = document.createElement("div");
-    btnDiv.setAttribute("class", "btnDiv");
-    const btnEdit = document.createElement("button");
-    // btnEdit.setAttribute("class", "btnedit");
-    // btnEdit.textContent = "수정";
-    const btnDelete = document.createElement("button");
-    btnDelete.setAttribute("class", "btndelete");
-    btnDelete.textContent = "삭제";
-
-    // //수정버튼 이벤트리스너
-    // btnEdit.addEventListener("click", () =>
-    //   editRv(text.value, localStorage.getItem("reviewId"))
-    // );
-    //삭제버튼 리뷰아이디 잘못 넣는 중
-    //삭제버튼 이벤트리스너
-    btnDelete.addEventListener("click", () =>
-      deleteRv(
-        localStorage.getItem("itemDetail"),
-        localStorage.getItem("reviewId")
-      )
-    );
-
     // btnDiv.appendChild(btnEdit);
-    btnDiv.appendChild(btnDelete);
-    momDiv.appendChild(btnDiv);
     momDiv.appendChild(reviewDiv);
     momDiv.appendChild(dateDiv);
-    reviewList.appendChild(momDiv);
+
+    // 조건부 버튼 구현: 내가 적은 댓글에만 버튼 생성
+    const ownCmt = reviewData.ownCmt;
+
+    if (ownCmt !== "" && ownCmt === reviewData.data[i].cmtId) {
+      const btnDiv = document.createElement("div");
+      btnDiv.setAttribute("class", "btnDiv");
+      btnDiv.setAttribute("id", reviewData.data[i].cmtId);
+      const btnEdit = document.createElement("button");
+      btnEdit.setAttribute("class", "btnedit");
+      btnEdit.textContent = "수정";
+      const btnDelete = document.createElement("button");
+      btnDelete.setAttribute("class", "btndelete");
+      btnDelete.textContent = "삭제";
+
+      //수정버튼 이벤트리스너
+      btnEdit.addEventListener("click", (e) => {
+        e.preventDefault();
+        const currentMomDiv = btnEdit.parentElement.parentElement;
+        const currenReviewDiv = currentMomDiv.querySelector(".reviewDiv_text");
+        const beforeModifyText = currenReviewDiv.innerText;
+        editRv(reviewData.ownCmt, beforeModifyText);
+      });
+      //삭제버튼 이벤트리스너
+      btnDelete.addEventListener("click", () =>
+        deleteRv(id, reviewData.data[i].cmtId)
+      );
+
+      btnDiv.appendChild(btnEdit);
+      btnDiv.appendChild(btnDelete);
+      momDiv.appendChild(btnDiv);
+    }
+
+    grandMomDiv.appendChild(momDiv);
   }
+  reviewList.appendChild(grandMomDiv);
+
+  makeBtnSave();
+}
+
+//리뷰 작성 완료
+function makeBtnSave() {
+  content_bntBox.innerHTML = `
+  <button class="btnSave">저장</button>
+  `;
+  const btnSave = document.querySelector(".btnSave");
+
+  btnSave.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const review = text.value;
+    // 5글자 이상 글자 수 검사
+    if (review.length < 5) {
+      return alert("리뷰를 5글자 이상 작성해주세요");
+    }
+    // 검사를 통과했으면 요청 보냄
+    const res = await Api.post("/api/comments", {
+      text: review,
+      itemId: localStorage.getItem("itemDetail"),
+    });
+    // 작성 후 다시 렌더링
+    showReview(localStorage.getItem("itemDetail"));
+    text.value = "";
+
+    // save 창 막기
+    btnSave.addEventListener("click", async (e) => {
+      e.preventDefault();
+    });
+    return alert(res.msg);
+  });
 }
 
 // 댓글 삭제
 async function deleteRv(itemId, commentId) {
   if (confirm(`댓글을 삭제하시겠습니까?`)) {
-    console.log(localStorage.getItem("reviewId"));
-    console.log(localStorage.getItem("itemDetail"));
     const res = await Api.delete("/api/comments", "", {
       itemId,
       commentId,
     });
-    // 이전 데이터 삭제(안하면 이전 데이터가 계속 쌓임)
-    while (reviewList.hasChildNodes()) {
-      reviewList.removeChild(reviewList.firstChild);
-    }
+    // 이전 데이터 삭제
+    reviewList.innerHTML = "";
     showReview(localStorage.getItem("itemDetail"));
-    return;
+    return alert(res.msg);
   } else {
     return false;
   }
 }
-
 // 댓글 수정
-btnEdit.addEventListener("click", async (e) => {
-  e.preventDefault();
-  // 댓글 수정 확인
-  if (confirm(`댓글을 수정하시겠습니까?`)) {
-    const review = text.value;
-    if (review.length >= 5) {
-      const res = await Api.patch("/api/comments", "", {
-        fixText: review,
-        commentId: localStorage.getItem("reviewId"),
+async function editRv(commentId, beforeText) {
+  // 빈 칸에 수정 전 내용 넣기
+  text.value = beforeText;
+  // 버튼을 수정완료로 변경
+  content_bntBox.innerHTML = `
+    <button class="content_bntBox_done">수정완료</button>
+    `;
+  const content_bntBox_done = document.querySelector(".content_bntBox_done");
+
+  content_bntBox_done.addEventListener("click", async () => {
+    let fixText = text.value;
+    if (fixText.length >= 5) {
+      const editReview = await Api.patch("/api/comments", "", {
+        fixText,
+        commentId,
+        id,
       });
+      alert("수정이 완료되었습니다");
       showReview(localStorage.getItem("itemDetail"));
     } else {
       return alert("댓글을 5자이상 작성해주세요");
     }
-  }
-});
+  });
+}
 
-// async function editRv(fixText, commentId) {
+// // 댓글 수정
+// btnEdit.addEventListener("click", async (e) => {
+//   e.preventDefault();
 //   // 댓글 수정 확인
-//   if (fixText.length >= 5) {
-//     const editReview = await Api.patch("/api/comments", "", {
-//       fixText,
-//       commentId,
-//     });
-//     showReview(localStorage.getItem("itemDetail"));
-//   } else {
-//     return alert("댓글을 5자이상 작성해주세요");
+//   if (confirm(`댓글을 수정하시겠습니까?`)) {
+//     const review = text.value;
+//     if (review.length >= 5) {
+//       const res = await Api.patch("/api/comments", "", {
+//         fixText: review,
+//         commentId: localStorage.getItem("reviewId"),
+//       });
+//       showReview(localStorage.getItem("itemDetail"));
+//     } else {
+//       return alert("댓글을 5자이상 작성해주세요");
+//     }
 //   }
-// }
-// // ownCmts 배열로 가진 댓글들을 담아서 보내줄거임 -> 얘를 가지고 Array.includes(cmtId) 있으면 true, flase
-// 렌더링에서 저 조건을 해서 true면 버튼 생성하는 로직 생성
-// 아니면 그냥 냅둠
+// });

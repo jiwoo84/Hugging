@@ -10,7 +10,7 @@ itemRouter.post(
   "/",
   loginRequired,
   namingItem,
-  itemImg.single("itemAddbox_imgInput"),
+  itemImg.single("modalBox_imgInput"),
   async (req, res, next) => {
     console.log("상품추가 라우터에 오신걸 환영합니다!!");
     const data = req.query;
@@ -134,15 +134,15 @@ itemRouter.get("/affiliation", loginRequired, async (req, res, next) => {
 
 //관리자 상품 수정
 itemRouter.patch(
-  "/:id",
+  "/",
   loginRequired,
   namingItem,
-  itemImg.single("itemAddbox_imgInput"),
+  itemImg.single("modalBox_imgInput"),
   async (req, res, next) => {
     console.log("관리자 상품수정 라우터에 오신걸 환영합니다!!");
-    const findItemId = req.params.id;
+    // const findItemId = req.params.id;
     const { currentRole } = req;
-    const { name, category, itemDetail, imageUrl } = req.query;
+    const { findItemId, name, category, itemDetail, imageUrl } = req.query;
     let { price } = req.query;
     price = Number(price);
     const onSale = false;
@@ -169,6 +169,7 @@ itemRouter.patch(
         ...(itemDetail && { itemDetail }),
         ...(onSale && { onSale }),
       };
+      console.log("이미지유알엘", imageUrl);
       console.log(toUpdate);
 
       const updateItem = await itemService.updateItem(

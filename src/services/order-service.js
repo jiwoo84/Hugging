@@ -78,7 +78,7 @@ class OrderService {
         let itemsArr = []; // 상품목록을 깔끔하게 넣으려고
         //
         for (let r = 0; r < orders[i].items.length; r++) {
-          console.log("2차원 ?");
+          console.log("어디야 대체2");
           // i번째 주문의 items의 길이.
           itemsArr.push({
             상품: orders[i].items[r].id.name,
@@ -102,6 +102,7 @@ class OrderService {
         result.push(obj);
         console.log("리절트", obj);
       }
+
       return result;
     }
     // 관리자가 아니라면 데이터에는 id가 들어오게 된다

@@ -92,7 +92,7 @@ class UserService {
     const refreshToken = jwt.sign(
       { userId: user._id, role: user.role, sosial: user.sosial },
       secretKey,
-      { expiresIn: 30 }
+      { expiresIn: 60 * 60 * 24 }
     );
     console.log("로그인 : AT, RT : ", token, refreshToken);
     // 리프레쉬 토큰을 유저정보에 넣음

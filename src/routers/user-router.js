@@ -57,7 +57,7 @@ userRouter.post("/refresh", async (req, res, next) => {
       const returnRt = jwt.sign(
         { userId: payload.userId, role: payload.role },
         secretKey,
-        { expiresIn: 30 }
+        { expiresIn: 60 * 60 * 24 }
       );
       console.log("뱉기직전");
       return { returnAt, returnRt, payload };

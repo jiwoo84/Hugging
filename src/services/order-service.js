@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-// import { send } from "../../config/email";
+import { send } from "../email";
 import { Coupon, Order, User } from "../db";
 class OrderService {
   // 본 파일의 맨 아래에서, new orderService(userModel) 하면, 이 함수의 인자로 전달됨
@@ -41,24 +41,24 @@ class OrderService {
     // 형석님 수고하셨네요 ㅋㅋ
     // 이메일 발송 추가합니당
     console.log("이메일로 보냄 : ", sumUser.email);
-    //     const mailInfo = {
-    //       from: "speaker1403@naver.com",
-    //       to: sumUser.email,
-    //       subject: "[Hugging] 결제완료  ",
-    //       text: `주문해주셔서 감사합니다.
-    //       결제하신내역입니다.
-    //       -------------------------
-    //       요청사항 : ${newOrder.deliveryMsg}
-    //       결제방법 : ${newOrder.payMethod}
-    //       총 결제금액 : ${newOrder.totalPrice}
-    //       총 ${newOrder.items.length}개 구매하셨습니다.
+    const mailInfo = {
+      from: "jinytree1403@naver.com",
+      to: sumUser.email,
+      subject: "[Hugging] 결제완료  ",
+      text: `주문해주셔서 감사합니다.
+          결제하신내역입니다.
+          -------------------------
+          요청사항 : ${newOrder.deliveryMsg}
+          결제방법 : ${newOrder.payMethod}
+          총 결제금액 : ${newOrder.totalPrice}
+          총 ${newOrder.items.length}개 구매하셨습니다.
 
-    //       감사합니다.
-    // `,
-    //     };
-    //     // send 는 config에 있는 것임.
-    //     const sent = send(mailInfo);
-    //     console.log(sent);
+          감사합니다.
+    `,
+    };
+    // send 는 config에 있는 것임.
+    const sent = send(mailInfo);
+    console.log(sent);
     return newOrder;
   }
 
@@ -112,10 +112,12 @@ class OrderService {
         .populate("buyer");
       let result = [];
       for (let i = 0; i < orders.length; i++) {
+        console.log("포문 돌아감");
         let obj = {}; // json형태로 반환하려고 만든것
         let itemsArr = []; // 상품목록을 깔끔하게 넣으려고
         //
         for (let r = 0; r < orders[i].items.length; r++) {
+          console.log("2포문 돌아감");
           // i번째 주문의 items의 길이.
           itemsArr.push({
             상품: orders[i].items[r].id.name,
@@ -139,6 +141,7 @@ class OrderService {
         };
         result.push(obj);
       }
+      console.log(result);
       return result;
     }
   }

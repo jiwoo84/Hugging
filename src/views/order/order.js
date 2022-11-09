@@ -14,26 +14,30 @@ let totalPrice = 0;
 getDataFromApi();
 
 async function getDataFromApi() {
-  const user = await Api.get("/api/users/mypage");
-  if (!user) {
-    window.location.reload();
-  }
-  console.log(user);
-  const coupons = await Api.get("/api/coupons", `${user.data._id}`);
-  const { couponId, createAt, discount, owner } = coupons;
-  const couponName = coupons.name;
+    const user = await Api.get("/api/users/mypage");
+    if (!user) {
+        window.location.reload();
+    }
 
-  const { name, address, phoneNumber } = user.data;
-  renderUserComponent(name, address, phoneNumber);
-  renderProductComponent(localStorage.getItem("storeName"));
-  renderCouponComponent(couponName, discount, createAt);
+    const coupon = await Api.get("/api/coupons",`${user.data._id}`);
+    const coupons = coupon.couponList;
+    
+
+    const {name,address,phoneNumber} = user.data;
+    renderUserComponent(name,address,phoneNumber);
+    renderProductComponent(localStorage.getItem("storeName"));
+    renderCouponComponent(coupons);
 }
 
-function renderCouponComponent(couponName, discount, createAt) {
-  const option = document.createElement("option");
-  option.setAttribute("value", discount);
-  option.innerText = `${couponName}  ${discount}% 할인  ${createAt}까지`;
-  couponSelect.appendChild(option);
+function renderCouponComponent(coupons){
+    coupons.forEach( coupon =>{
+        const option = document.createElement("option");
+        option.setAttribute("value",coupon.discount);
+        option.setAttribute("id",coupon._id);
+        option.innerText = `${coupon.name}  ${coupon.discount}% 할인  ${coupon.createdAt}까지`
+        couponSelect.appendChild(option);
+        console.log(option);
+    });
 }
 
 function getTotalPrice(key, storeName) {
@@ -141,33 +145,26 @@ moveToCartBtn.addEventListener("click", () => {
   window.location.href = "/cart";
 });
 
-purchaseBtn.addEventListener("click", async () => {
-  //indexeddb에서 -> 상품데이터 가져오고 배열형태로
-  //총금액
-  const storeName = localStorage.getItem("storeName");
-  const user = await Api.get("/api/users", "mypage");
-  const { name, address, phoneNumber } = user.data;
-  const deliveryMsg =
-    deliveryMessage.options[deliveryMessage.selectedIndex].innerText;
-  const card = document.querySelector('input[name="radio"]').checked;
-  let payMethod;
-  if (card) {
-    payMethod = "카드결제";
-  } else {
-    payMethod = "무통장입금";
-  }
+purchaseBtn.addEventListener("click", async()=>{
+    //indexeddb에서 -> 상품데이터 가져오고 배열형태로
+    //총금액
+    const storeName =  localStorage.getItem("storeName");
+    const user = await Api.get("/api/users/mypage");
+    const couponId = couponSelect.options[couponSelect.selectedIndex].id;
 
-  const postData = {
-    name,
-    address,
-    phoneNumber,
-    deliveryMsg,
-    items,
-    payMethod,
-    totalPrice,
-  };
-  console.log(postData);
-  await Api.post("/api/orders/", postData);
+    const {name,address,phoneNumber} = user.data;
+    const deliveryMsg = (deliveryMessage.options[deliveryMessage.selectedIndex].innerText);
+    const card = document.querySelector('input[name="radio"]').checked;
+    let payMethod;
+    if(card){
+        payMethod = "카드결제";
+    }else{
+        payMethod = "무통장입금";
+    }
+
+    const postData = {name,address,phoneNumber,deliveryMsg,items,payMethod,totalPrice,couponId}
+    console.log(postData);
+    await Api.post("/api/orders/", postData);
 
   //주문완료후 indexedDB 비우기
   const request = window.indexedDB.open("cart");

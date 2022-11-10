@@ -8,7 +8,7 @@ const modal = async () => {
     }
     const coupons = await Api.get("/api/coupons",`${user.data._id}`);
     const couponList = coupons.couponList;
-    console.log(couponList);
+
     while (list_mom.hasChildNodes()) {
         list_mom.removeChild(list_mom.firstChild);
     }
@@ -24,8 +24,6 @@ const modal = async () => {
             form.innerHTML += `${name}  ${discount}%할인  ${createdAt}까지 사용가능`;
         });
     }
-
-    console.log(form);
     list_mom.appendChild(form);
 };
 

@@ -11,7 +11,7 @@ getDataFromApi();
 
 async function getDataFromApi() {
   const data = await Api.get("/api/items");
-  // data = [ [{...},{...}...{...}:8개] , [{...}{}{}:3개] ]
+  // data = [ [{...},{...}...{...}:9개] , [{...}{}{}:3개] ]
   const { bestItems, newItems } = data;
 
   bestContainer.appendChild(draw(bestItems, "bestItem"));
@@ -60,9 +60,7 @@ function createDB() {
 function attachBtn() {
   const detailToBtns = document.querySelectorAll(".bestItem");
   const newItemToBtns = document.querySelectorAll(".newItem");
-
-  console.log(detailToBtns);
-
+  
   detailToBtns.forEach((detailToBtn) => {
     detailToBtn.addEventListener("click", () => {
       const id = detailToBtn.id;

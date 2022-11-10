@@ -73,9 +73,7 @@ function getIdxedDBValues() {
                         if (cursor) {
                             const value = objStore.get(cursor.key);         
                             value.onsuccess = (e)=> {
-                                console.log(value.result.price);
                                 totalPrice += value.result.price*value.result.sales; 
-                                
                                 //6. 상품추가 렌더링 실행
                                 main.insertAdjacentHTML("beforeend",createPost(value.result,cursor.key));
                                 // 7. 각 상품에 대한 수량변경 버튼 추가
@@ -153,11 +151,9 @@ function attachBtn(key){
     });
     checkbox.addEventListener("change" ,()=>{
         const productPrice = container.querySelector(".productPrice");
-        console.log(        productPrice.innerText.split(" ")[2]);
         const price = convertToNumber(productPrice.innerText.split(" ")[2]);
 
         if ( checkbox.checked === true){
-            console.log(price);
             totalPrice += price;
             getTotalPrice();
         }

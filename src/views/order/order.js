@@ -38,7 +38,6 @@ function renderCouponComponent(coupons){
         option.setAttribute("id",coupon._id);
         option.innerText = `${coupon.name}  ${coupon.discount}% 할인  ${coupon.createdAt}까지`
         couponSelect.appendChild(option);
-        console.log(option);
     });
 }
 

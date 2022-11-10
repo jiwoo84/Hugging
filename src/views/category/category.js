@@ -13,7 +13,6 @@ ShowNavBar();
 async function showItemFromSidebar() {
   const name = localStorage.getItem("catetoryName");
   const index = localStorage.getItem("catetoryIndex");
-  console.log("catetoryName : " + localStorage.getItem("catetoryName"));
   //아이템 렌더링
   showFuction(name, index);
 }
@@ -32,7 +31,6 @@ async function ShowNavBar() {
     navigationBar.appendChild(categoryDiv);
     //div 만들고 이벤트리스너 만들기
     categoryDiv.addEventListener("click", () => {
-      console.log(navName,navIdx);
       showFuction(navName, navIdx);
     });
   }
@@ -182,7 +180,6 @@ async function showFuction(카테고리이름, 인덱스) {
     `/api`,`categories?name=${카테고리이름}&index=${인덱스} &page=${Currentpage}&perPage=9`
   );
   //data는 각 카테고리의 전체 목록리스트
-  console.log(categoryItem);
   const {page,perPage,totalPage} = categoryItem;
   totalData =  categoryItem.data;
 

@@ -1,3 +1,8 @@
+.login-form-container{
+  height: auto;
+  min-height: 100%;
+}
+
 .title {
   font-size: 40px;
   margin-top: 60px;

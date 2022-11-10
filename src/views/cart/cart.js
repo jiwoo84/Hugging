@@ -25,9 +25,9 @@ function createPost(item,key) {
             <p class="name">${item.name}</p>
             <p class="category">${item.category}</p>
             <p class="price">${item.price.toLocaleString('ko-KR')}원</p>
-            <button class="minus">-</button>
+            <button class="minus button">-</button>
             <span class="quantity">${item.sales}</span>
-            <button class ="plus">+</button>
+            <button class ="plus button">+</button>
             <p class="productPrice">금액합계 : ${addCommas(priceSum)}원</p>
         </div>
     </div>

@@ -43,3 +43,9 @@ body {
   flex-direction: row;
   justify-content: space-between;
 }
+#findAddressBtn, #send__email{
+  border:solid 1px lightgray;
+}
+.button.is-primary{
+  background-color:#978676;
+}

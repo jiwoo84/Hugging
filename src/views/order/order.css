@@ -88,27 +88,28 @@ html,body{
     padding-left:20px;
 }
 .cardOrcashContainer{
-    padding: 0px 30px;
+    padding-left: 30px;
     display: flex;
+    
     border-radius: 15px;
     background-color: #fff;
     margin: 10px auto;
     height: 50px;
     width: 90%;
+
+    padding: 10px 0px 10px 30px;
 }
 .cardOrcashBtnGroup{
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    float: right;
 }
 .cardOrcashBtn{
     display: flex;
     justify-content: flex-end;
 }
 label{
-
-    width: 150px;
+    width: 120px;
 }
 .purchase, .moveToCart{
     display: block;
@@ -124,6 +125,13 @@ label{
 
     font-size: 20px;
     font-weight: bold;
+}
+.purchase{
+    background-color:#725c46;
+    color:#fff;
+}
+.moveToCart{
+    border : 1px lightgray solid;
 }
 .productTitle, .priceTitle, .cardOrcashTitle{
     width: 150px;
@@ -148,4 +156,10 @@ label{
     margin-top: 10px;
     font-size: 20px;
     font-weight: normal;
+}
+select , option{
+    font-family: 'MaruBuri-Regular';
+}
+button{
+    font-family: 'MaruBuri-Regular';
 }

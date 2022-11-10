@@ -31,6 +31,7 @@ async function ShowNavBar() {
     navigationBar.appendChild(categoryDiv);
     //div 만들고 이벤트리스너 만들기
     categoryDiv.addEventListener("click", () => {
+      console.log(navName,navIdx);
       showFuction(navName, navIdx);
     });
   }
@@ -46,7 +47,6 @@ function paging(page,perPage,totalPage,totalData){
   if (totalPage < pageCount){
     pageCount = totalPage;
   }
-  console.log("pageCount:",pageCount);
 
   // 페이지 그룹
   let pageGroup = Math.ceil( page / pageCount);
@@ -118,12 +118,11 @@ function paging(page,perPage,totalPage,totalData){
 
 
 function displayData(page,perPage){
-
-  if( totalData.length <perPage){
-    perPage= totalData.length;
+  let len = totalData.length;
+  if(len <perPage){
+    perPage = len;
   }
-
-  for (let i = (page-1)*perPage; i < (page-1)* perPage + perPage; i++) {
+  for (let i = (page-1)*perPage; i <  (( len < (page-1)* perPage + perPage ) ? len:  (page-1)* perPage + perPage); i++) {
     // item 렌더링
     // 큰 div
     const momDiv = document.createElement("div");
@@ -174,6 +173,10 @@ async function showFuction(카테고리이름, 인덱스) {
   while (postItems.hasChildNodes()) {
     postItems.removeChild(postItems.firstChild);
   }
+  while ( pageHtml.hasChildNodes()){
+    pageHtml.removeChild( pageHtml.firstChild );       
+  }
+  Currentpage = 1;
   const categoryItem = await Api.get(
     `/api`,`categories?name=${카테고리이름}&index=${인덱스} &page=${Currentpage}&perPage=9`
   );
@@ -181,10 +184,8 @@ async function showFuction(카테고리이름, 인덱스) {
   console.log(categoryItem);
   const {page,perPage,totalPage} = categoryItem;
   totalData =  categoryItem.data;
-  while ( postItems.hasChildNodes() )
-  {
-    postItems.removeChild( postItems.firstChild );       
-  }
+
   displayData(page,perPage,totalData);
   paging(page,perPage,totalPage,totalData);
+
 }

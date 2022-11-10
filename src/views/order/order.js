@@ -161,7 +161,7 @@ purchaseBtn.addEventListener("click", async()=>{
     }else{
         payMethod = "무통장입금";
     }
-
+    totalPrice = Number(orderPrice.innerText.split(/,|원/).join(""));
     const postData = {name,address,phoneNumber,deliveryMsg,items,payMethod,totalPrice,couponId}
     console.log(postData);
     await Api.post("/api/orders/", postData);
@@ -185,8 +185,8 @@ purchaseBtn.addEventListener("click", async()=>{
 });
 
 couponSelect.addEventListener("change", () => {
-  let discount = couponSelect.options[couponSelect.selectedIndex].value;
-  console.log(discount);
-  totalPrice = totalPrice * (100 - Number(discount)) * 0.01;
-  orderPrice.innerText = `${totalPrice}원`;
+  const discount = couponSelect.options[couponSelect.selectedIndex].value;
+  const couponPrice =  Math.ceil(totalPrice * (100 - Number(discount)) * 0.01);
+
+  orderPrice.innerText = `${couponPrice.toLocaleString('ko-KR')}원`;
 });

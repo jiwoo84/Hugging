@@ -80,7 +80,6 @@ orderRouter.patch("/", loginRequired, async (req, res, next) => {
       try {
         console.log("ORDER: 관리자 취소");
         await orderService.orderCancel({ id, currentRole });
-        await orderService.subTotalPayAmount(id);
         return res.status(200).json({
           status: 200,
           msg: "관리자취소",

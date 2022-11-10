@@ -93,12 +93,17 @@ class OrderService {
         //
         for (let r = 0; r < orders[i].items.length; r++) {
           // i번째 주문의 items의 길이.
-          itemsArr.push({
-            상품: orders[i].items[r].id.name,
-            개수: orders[i].items[r].count,
-          });
+          console.log("여기서 에러가??");
+          // console.log(orders[i].items);
+          console.log(orders[i]._id);
+          if (orders[i].items)
+            itemsArr.push({
+              상품: orders[i].items[r].id.name,
+              개수: orders[i].items[r].count,
+            });
         }
         console.log("obj 생성직전");
+        console.log("현재 바이어 존재여부", !orders[i].buyer === false);
         if (!orders[i].buyer) {
           obj = {
             상품목록: itemsArr,
@@ -114,6 +119,8 @@ class OrderService {
             요청사항: orders[i].deliveryMsg,
           };
         } else {
+          console.log("현재 바이어 존재여부", !orders[i].buyer === false);
+
           obj = {
             상품목록: itemsArr,
             주문번호: orders[i]._id,
@@ -185,7 +192,12 @@ class OrderService {
       // 요청받은 주문번호가 수정가능한 상태인지 체크
       const statusCheck = await Order.findById({ _id: id });
       if (statusCheck.orderStatus === "수정가능") {
-        await Order.updateMany(
+        const findUser = await Order.findById(id);
+        //삭제된 회원의 총구매금액을 수정할필요는 없음
+        if (findUser.buyer._id.length > 2) {
+          subTotalPayAmount(id);
+        }
+        await Order.updateOne(
           { _id: id },
           {
             deliveryStatus: "관리자에 의한 주문취소",

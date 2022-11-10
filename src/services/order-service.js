@@ -99,9 +99,11 @@ class OrderService {
     return newOrder;
   }
 
-  async getOrderList(data) {
+  async getOrderList(data, page) {
     // await Order.deleteMany({});
     console.log("find orderList!  data :", data);
+    console.log("page = ", page);
+    const perPage = 6;
     // 토큰에 관리자가 있다면 data 에 관리자가 들어옴
     // await Order.deleteMany({});
     const isNull = await Order.find();
@@ -109,9 +111,15 @@ class OrderService {
       throw new Error("주문내역이 없습니다.");
     }
     if (data === "admin") {
+      const total = await Order.countDocuments({});
       const orders = await Order.find({}) // 현재까지 주문한 모든 목록
         .populate("items.id")
-        .populate("buyer");
+        .populate("buyer")
+        .sort({ createdAt: -1 })
+        .skip(perPage * (page - 1))
+        .limit(perPage);
+
+      const totalPage = Math.ceil(total / perPage);
       let result = [];
       for (let i = 0; i < orders.length; i++) {
         let obj = {}; // json형태로 반환하려고 만든것
@@ -121,7 +129,7 @@ class OrderService {
           // i번째 주문의 items의 길이.
           console.log("여기서 에러가??");
           // console.log(orders[i].items);
-          console.log(orders[i]._id);
+          // console.log(orders[i]._id);
           if (orders[i].items)
             itemsArr.push({
               상품: orders[i].items[r].id.name,
@@ -162,11 +170,11 @@ class OrderService {
           };
         }
         result.push(obj);
-        console.log(obj);
+        // console.log(obj);
         console.log("obj 생성완료");
       }
 
-      return result;
+      return { totalPage, result };
     }
     // 관리자가 아니라면 데이터에는 id가 들어오게 된다
     else {

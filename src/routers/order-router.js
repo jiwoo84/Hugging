@@ -43,13 +43,22 @@ orderRouter.get("/", loginRequired, async (req, res, next) => {
   // JWT 에서 디코딩한 id와 권한 값
   console.log("주문목록조회 라우터에 오신걸 환영합니다.");
   const { currentUserId, currentRole } = req;
+  const { page } = req.query;
+  let realPage = 1;
+  if (page !== undefined) {
+    realPage = Number(page.slice(0, -1));
+  }
+  // console.log(page.slice(0,-1));
+
+  // const realpage = page.slice(0, -1);
   try {
     if (currentRole === "admin") {
-      const orders = await orderService.getOrderList("admin"); //=>
+      const orders = await orderService.getOrderList("admin", Number(realPage)); //=>
       return res.status(200).json({
         stauts: 200,
         msg: "관리자용으로 보여주겠음",
-        data: orders,
+        totalPage: orders.totalPage,
+        data: orders.result,
       });
     } else if (currentRole === "user") {
       const id = currentUserId;
@@ -57,7 +66,7 @@ orderRouter.get("/", loginRequired, async (req, res, next) => {
       return res.status(200).json({
         stauts: 200,
         msg: "해당 유저것만 보여주겠음",
-        data: orders,
+        data: orders.result,
       });
     }
   } catch (err) {

@@ -80,7 +80,7 @@ function createPost(item, key) {
             <p class ="name">${item.name}</p>
             <p class ="category">${item.category}</p>
             <br>
-            <p class="price">${item.price}원</p>
+            <p class="price">${addCommas(item.price)}원</p>
             <p class="quantity">${item.sales}개</p>
             <br>
             <p class="itemsPrice">${addCommas(priceSum)}원</p>

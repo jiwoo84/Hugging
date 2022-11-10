@@ -49,7 +49,7 @@ const find_order = async () => {
   const clicked_title = document.getElementById("clicked_title");
   const clicked_descript = document.getElementById("clicked_descript");
   clicked_title.textContent = "주문 조회";
-  clicked_descript.textContent = "구매내역";
+  clicked_descript.textContent = "";
   // 아래 반복문은 초기화의 기능. 수정,탈퇴 form 이 나올땐 주문목록은 삭제되어야 함.
   while (list_mom.hasChildNodes()) {
     list_mom.removeChild(list_mom.firstChild);
@@ -82,10 +82,13 @@ const find_order = async () => {
     const list_span_totalPrice = document.createElement("span");
     const list_deliveryMsg = document.createElement("p");
     const list_orderId = document.createElement("span");
+    const DATE = list.data[i].주문날짜;
     list_items.textContent = `${data[i].상품목록[0].상품} 외 ${
       data[i].상품목록.length - 1
     }개`;
-    list_span_totalPrice.textContent = `결제 금액 : ${data[i].총금액} 원 |  ${list.data[i].주문날짜}`;
+    list_span_totalPrice.textContent = `결제 금액 : ${
+      data[i].총금액
+    } 원 |  ${DATE.slice(0, 10)} | ${DATE.slice(11, 19)}`;
     list_deliveryMsg.textContent = `요청사항 : ${data[i].요청사항}`;
     list_orderId.textContent = `주문번호 : ${data[i].주문번호}`;
 
@@ -106,7 +109,8 @@ const find_order = async () => {
     // 주문수정 가능할시 삭제버튼 추가
     if (data[i].수정 === "수정가능") {
       const delBtn = document.createElement("button");
-      delBtn.id = data[i]._id;
+      delBtn.id = "delBtn";
+      delBtn.className = "button";
       delBtn.textContent = "주문취소";
       delBtn.addEventListener("click", async () => {
         const body = { id: data[i].주문번호, reson: "고객취소" };

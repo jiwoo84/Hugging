@@ -19,18 +19,20 @@ async function createForm() {
   form.id = "signOut_form";
   form.className = "signOut_form";
   form.innerHTML = `
-    <small>'탈퇴' 입력후 제출</small>
+    <p class="modal_title">탈퇴하기</p>
+    <p class="modal_description">'탈퇴' 입력후 제출</p>
     <input
         type="text"
         id="signout_accept"
+        class="input"
         placeholder="'탈퇴'입력"
     />
  
     <br>
     <br>
     <div>
-    <button id="signout_btn">탈퇴하기</button>
-    <button id="canCel">취소</button>
+    <button id="signout_btn" class="button">탈퇴하기</button>
+    <button id="canCel" class="button">취소</button>
     </div>
     `;
 

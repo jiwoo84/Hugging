@@ -23,7 +23,7 @@ body {
 .container_title {
   font-size: 35px;
   font-weight: bold;
-  color: #725c46;
+  color: var(--darkBrown);
   text-align: center;
   margin: 10px auto;
   height: 80px;
@@ -32,7 +32,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 40px auto;
+  margin: 40px auto 80px auto;
 }
 #user__data {
   width: 80%;
@@ -65,62 +65,207 @@ body {
 .message-box p {
   margin-bottom: 20px;
 }
-/*쿠폰버튼*/
 
+/*하단 버튼 부모*/
 .buttons {
   display: flex;
   flex-direction: row;
   margin: 20px;
 }
-.order_img {
-  width: 70px;
-  height: 70px;
+
+/* 하단 버튼들 */
+#findOrder,
+#userEdit,
+#signOut {
+  width: 150px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+  background-color: var(--brown);
 }
+
+/* 하단 타이틀 */
+#clicked_title {
+  margin: 30px auto;
+  color: var(--darkBrown);
+  font-weight: bold;
+  font-size: 25px;
+  text-align: center;
+}
+
+/* 쿠폰 div */
+#coupon_div {
+  border: solid 1px var(--brown);
+  border-radius: 5px;
+  padding: 10px 15px 10px 15px;
+  margin-bottom: 10px;
+}
+
+/* 주문 조회 */
 .list_son {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 15px;
-  border: solid 0.5px black;
+  border: solid 0.5px var(--brown);
+  border-radius: 5px;
+  padding: 20px;
   align-items: center;
+}
+.order_img {
+  width: 80px;
 }
 .list_div_info {
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row; */
   align-items: center;
 }
 .list_div_info_div {
-  padding-left: 20px;
+  padding: 0 20px 0 20px;
   display: flex;
   flex-direction: column;
 }
+.list_div_info_div * {
+  margin-bottom: 5px;
+}
+.list_div_info_div p:first-child {
+  font-weight: bold;
+}
+
 .list_div_status {
   padding-right: 10px;
   text-align: center;
   display: flex;
   flex-direction: column;
 }
-#findOrder,
-#userEditBox,
-#signOut {
-  width: 150px;
-  margin-left: 10px;
-  margin-right: 10px;
-  font-size: 18px;
+#delBtn {
+  border-color: var(--brown);
+  padding: 5px;
+  margin-top: 5px;
+  font-size: 12px;
 }
 
 /* 폼*/
 .signOut_form {
   display: flex;
   flex-direction: column;
-  background-color: lightblue;
+  width: 600px;
+  height: 40%;
+  background-color: var(--back);
   padding: 50px 20px;
   border-radius: 15px;
+  border: solid 2px var(--brown);
 }
 .holder_center {
   position: absolute;
-  top: 30%;
-  left: 40%;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   animation: hide 1;
   z-index: 3;
+}
+
+/* ************************************************************ */
+/* 정보수정 */
+.modal_title {
+  font-size: 25px;
+  font-weight: bold;
+  color: var(--darkBrown);
+}
+
+/* 전체 폼 */
+#userEdit_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  /* text-align: center; */
+}
+
+/* 제목 밑 설명 */
+.modal_description {
+  font-size: 15px;
+  margin: 10px 0 20px 0;
+}
+/* 하단의 입력칸들 */
+#userEdit_inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#nameBox,
+#passwordBox,
+#phoneNumberBox,
+#addressBox_div1,
+#addressBox_div2 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+/* 이름, 비밀번호 등 항목 */
+#nameBox > p,
+#passwordBox > p,
+#phoneNumberBox > p,
+#addressBox_div1 > p {
+  font-weight: bold;
+  width: 80px;
+}
+
+#nameBox > input,
+#passwordBox > input,
+#phoneNumberBox > input,
+#addressBox_div1 > input {
+  width: 200px;
+}
+#addressBox_div1 > input {
+  width: 350px;
+}
+
+/* 주소입력창 */
+#addressBox_div2 {
+  margin-left: 80px;
+}
+/* 주소변경버튼 */
+#addressBox_changeBtn {
+  margin-left: 5px;
+}
+
+#checkPassword {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+#checkPassword_title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#currentPassword {
+  width: 300px;
+}
+
+#userEdit_btns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#userEdit_btns button {
+  background-color: var(--brown);
+  margin-right: 5px;
+}
+
+/* ********************************************************* */
+/* 탈퇴 */
+#signOut_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* 탈퇴input */
+#signout_accept {
+  width: 200px;
 }

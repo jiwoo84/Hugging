@@ -23,60 +23,72 @@ async function createEditForm() {
   form.id = "userEdit_form";
   form.className = "signOut_form";
   form.innerHTML = `
-    <h1>정보 수정</h1>
-    <small>빈칸 제출시 해당값은 수정되지 않습니다</small>
-    <div id="nameBox">
-      <p>이름</p>
-      <input
-        type="text"
-        id="name"
-        placeholder="${user.data.name}"
-      />
-    </div>
-    <div id="passwordBox">
-      <p>비밀번호</p>
-      <input
-        type="password"
-        id="password"
-        placeholder="변경될 비밀번호"
-      />
-    </div>
-    <div id="phoneNumberBox">
-    <p>전화번호</p>
-      <input
-        type="text"
-        id="phoneNumber"
-        placeholder="${user.data.phoneNumber}"
-      />
-    </div>
-    <p>주소</p>
-    <div id="addressBox">
-      <input
-        type="text"
-        id="addressInput1"
-        placeholder="${user.data.address}"
-      />
-      <input
-        type="text"
-        id="addressInput2"
-      />
-      <button id="addressBox_changeBtn">주소 변경</button>
-    </div>
-    <br>
-    
-    <p>비밀번호 확인</p>
-    <small>수정을 위해 기존 비밀번호를 입력하세요</small>
-    <input
-        type="password"
-        id="currentPassword"
-        placeholder="소셜가입고객은 미입력"
-    />
+    <p class="modal_title">정보 수정</p>
+    <p class="modal_description">빈칸 제출시 해당값은 수정되지 않습니다</p>
+    <div id="userEdit_inputs">
+      <div id="nameBox">
+        <p>이름</p>
+        <input
+          type="text"
+          id="name"
+          class="input"
+          placeholder="${user.data.name}"
+        />
+      </div>
+      <div id="passwordBox">
+        <p>비밀번호</p>
+        <input
+          type="password"
+          id="password"
+          class="input"
+          placeholder="변경될 비밀번호"
+        />
+      </div>
+      <div id="phoneNumberBox">
+      <p>전화번호</p>
+        <input
+          type="text"
+          id="phoneNumber"
+          class="input"
+          placeholder="${user.data.phoneNumber}"
+        />
+      </div>
+      <div id="addressBox">
+        <div id="addressBox_div1">
+          <p>주소</p>
+            <input
+              type="text"
+              id="addressInput1"
+              class="input"
+              placeholder="${user.data.address}"
+            />
+          </div>
+          <div id="addressBox_div2">
+            <input
+            type="text"
+            id="addressInput2"
+            class="input"
+            />
+            <button id="addressBox_changeBtn" class="button">주소 변경</button>
+        </div>
+      </div>
+      <br>
+      <div id="checkPassword">
+        <p id="checkPassword_title">비밀번호 확인</p>
+        <p class="modal_description">수정을 위해 기존 비밀번호를 입력하세요</p>
+        <input
+            type="password"
+            id="currentPassword"
+            class="input"
+            placeholder="소셜가입고객은 미입력"
+        />
+      </div>
 
-    <br>
-    <br>
-    <div>
-      <button id="modifyDoneBtn">수정완료</button>
-      <button id="canCel">취소</button>
+      <br>
+      <div id="userEdit_btns">
+        <button id="modifyDoneBtn" class="button is-dark">수정완료</button>
+        <button id="canCel" class="button is-dark">취소</button>
+      </div>
     </div>
     `;
 

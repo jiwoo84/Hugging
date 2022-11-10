@@ -1,4 +1,6 @@
 import * as Api from "/api.js";
+import { addCommas } from "/useful-functions.js";
+import { convertToNumber } from "/useful-functions.js";
 
 const orderedMan = document.querySelector(".orderedMan");
 const orderedAdress = document.querySelector(".orderedAdress");
@@ -36,7 +38,6 @@ function renderCouponComponent(coupons){
         option.setAttribute("id",coupon._id);
         option.innerText = `${coupon.name}  ${coupon.discount}% 할인  ${coupon.createdAt}까지`
         couponSelect.appendChild(option);
-        console.log(option);
     });
 }
 
@@ -44,14 +45,14 @@ function getTotalPrice(key, storeName) {
   if (storeName === "items") {
     //장바구니에서 결제창
     totalPrice = localStorage.getItem("TotalPrice");
-    orderPrice.innerText = `${totalPrice.toLocaleString('ko-KR')}원`;
+    orderPrice.innerText = `${addCommas(totalPrice)}원`;
     return;
   }
   //바로구매로 결제창( 한 종류의 상품 )
   const container = document.getElementById(`${key}`);
   const productPrice = container.querySelector(".itemsPrice");
-  totalPrice = parseInt(productPrice.innerText.split(":")[1]);
-  orderPrice.innerText = `${totalPrice.toLocaleString('ko-KR')}원`;
+  totalPrice = convertToNumber(productPrice.innerText);
+  orderPrice.innerText = `${addCommas(totalPrice)}원`;
 }
 
 function renderUserComponent(name, address, phoneNumber) {
@@ -82,7 +83,7 @@ function createPost(item, key) {
             <p class="price">${item.price}원</p>
             <p class="quantity">${item.sales}개</p>
             <br>
-            <p class="itemsPrice">금액합계 : ${priceSum}</p>
+            <p class="itemsPrice">${addCommas(priceSum)}원</p>
         </div>
     </div>
     `;
@@ -161,7 +162,7 @@ purchaseBtn.addEventListener("click", async()=>{
     }else{
         payMethod = "무통장입금";
     }
-    totalPrice = Number(orderPrice.innerText.split(/,|원/).join(""));
+    totalPrice = convertToNumber(orderPrice.innerText);
     const postData = {name,address,phoneNumber,deliveryMsg,items,payMethod,totalPrice,couponId}
     console.log(postData);
     await Api.post("/api/orders/", postData);

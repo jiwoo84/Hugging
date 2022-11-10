@@ -41,10 +41,16 @@
   flex-direction: column;
   flex-grow: 1;
 }
-.minus,
-.plus {
-  padding: 0px 6px;
+.minus {
+  padding: 0px 13px;
   margin: 0px 3px;
+}
+.plus {
+  padding: 0px 10px;
+  margin: 0px 3px;
+}
+.salseCount {
+  padding: 0px 10px;
 }
 .price {
   font-weight: 600;

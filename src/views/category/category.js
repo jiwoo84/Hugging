@@ -1,9 +1,11 @@
 import * as Api from "../api.js";
+import { addCommas } from "/useful-functions.js";
 
 const navigationBar = document.querySelector(".navbar-start");
 const postItems = document.querySelector(".postItems");
 const pageHtml = document.querySelector("#pageHtml");
-
+let totalData;
+let Currentpage = 1;
 showItemFromSidebar();
 ShowNavBar();
 
@@ -11,7 +13,6 @@ ShowNavBar();
 async function showItemFromSidebar() {
   const name = localStorage.getItem("catetoryName");
   const index = localStorage.getItem("catetoryIndex");
-  console.log("catetoryName : " + localStorage.getItem("catetoryName"));
   //아이템 렌더링
   showFuction(name, index);
 }
@@ -35,30 +36,21 @@ async function ShowNavBar() {
   }
 }
 
-function paging(page,perPage,totalPage){
-  //page = 1이라고 하자. 현재페이지
-  //totalPage = 10이라고 하자
+function paging(page,perPage,totalPage,totalData){
 
   //페이징에 나타낼 페이지 수
-  let pageCount = 5; 
+  let pageCount = 3; 
 
   // 총 페이지수가 페이징에 나타낼 페이지 수 보다 작다면
   // 페이지에 나타낼 페이지 수는 총 페이지수와 같다.
-  // ex 총페이지수 : 5, 페이지에 나타낼 페이지수 : 10  => 1 ~ 5
-  // ex 총페이지수 : 10, 페이지에 나타낼 페이지수 : 5  => 1 ~ 5, 6 ~ 10
   if (totalPage < pageCount){
     pageCount = totalPage;
   }
 
-  // 1 ~ 5
   // 페이지 그룹
-  // 현재 페이지 1이라면 1/5의 올림은 = 1(1번그룹)
-  // 6 ~10 page = 2번그룹
   let pageGroup = Math.ceil( page / pageCount);
 
   // 화면에 보여질 마지막 페이지 번호
-  // 1 * 5 = 5 (1번그룸)
-  // 2 * 5 = 10 (2번그룸)
   let last = pageGroup * pageCount; 
 
   // 총 페이지수가 마지막으로 보여줄 페이지넘버보다 작다면
@@ -68,27 +60,15 @@ function paging(page,perPage,totalPage){
   }
 
   //첫번째 페이지 번호
-  // first = 5 -(5-1) = 1 (1번그룹)
-  //       = 10 -(5-1) = 6 (2번그룹)
   let first = last - (pageCount-1);
+
   let next = last + 1;
   let prev = first - 1;
 
   //이전버튼
   if (prev > 0) {
     pageHtml.innerHTML += `<li><a href="#" id="prev"> 이전 </a></li>`;
-    //페이징번호 클릭 이벤트
-    const prevBtn = pageHtml.querySelector("#prev");
-    prevBtn.addEventListener("click",()=>{
-      //페이징 표시 재호출
-      page = prev;
-      console.log(page);
-      paging(page,totalPage);
-      //아이템 목록 표시 재호출
-      displayData(page, perPage);
-    });
   }
-
 
   //페이징 번호 표시
   for (let i = first; i <= last; i++) {
@@ -103,53 +83,71 @@ function paging(page,perPage,totalPage){
   //이후버튼
   if (last < totalPage) {
     pageHtml.innerHTML += `<li><a href="#" id="next"> 다음 </a></li>`;
-    //페이징번호 클릭 이벤트
-    const nextBtn = pageHtml.querySelector("#prev");
-    nextBtn.addEventListener("click",()=>{
-      //페이징 표시 재호출
-      page = next;
-      console.log(page);
-      paging(page,totalPage);
-      //아이템 목록 표시 재호출
-      displayData(page, perPage);
-    });
   }
+
+  //페이징 번호 클릭 이벤트 
+  pageHtml.querySelectorAll("li a").forEach( li =>{
+    li.addEventListener("click", async function() {
+
+      while ( postItems.hasChildNodes() )
+      {
+        postItems.removeChild( postItems.firstChild );       
+      }      
+      while ( pageHtml.hasChildNodes() )
+      {
+        pageHtml.removeChild( pageHtml.firstChild );       
+      }
+
+      if (li.id==="next"){
+        Currentpage = next;
+      }
+      else if(li.id==="prev"){
+        Currentpage = prev;
+      }
+      else{
+        Currentpage = Number(li.id);
+      }
+      //페이징 표시 재호출
+      paging(Currentpage,perPage,totalPage);
+      //글 목록 표시 재호출
+      displayData(Currentpage,perPage);
+    });
+  });
 }
 
 
-function displayData(page,perPage,data){
-
-  if( data.length <perPage){
-    perPage= data.length;
+function displayData(page,perPage){
+  let len = totalData.length;
+  if(len <perPage){
+    perPage = len;
   }
-
-  for (let i = (page-1)*perPage; i < (page-1)* perPage + perPage; i++) {
+  for (let i = (page-1)*perPage; i <  (( len < (page-1)* perPage + perPage ) ? len:  (page-1)* perPage + perPage); i++) {
     // item 렌더링
     // 큰 div
     const momDiv = document.createElement("div");
     momDiv.setAttribute("class", "momDiv");
-    momDiv.setAttribute("id",data[i]._id) ;
+    momDiv.setAttribute("id",totalData[i]._id) ;
     //작은 div(이미지+이름),
     const sonDiv = document.createElement("div");
     sonDiv.setAttribute("class", "sonDiv");
     const img = document.createElement("img");
     img.id = "imgId";
-    img.src = data[i].imageUrl;
-    img.alt = data[i].name;
+    img.src = totalData[i].imageUrl;
+    img.alt = totalData[i].name;
     const nameDiv = document.createElement("div");
     nameDiv.setAttribute("class", "nameDiv");
-    nameDiv.textContent = data[i].name;
+    nameDiv.textContent = totalData[i].name;
     //가격|카테고리이름 div
     const detailDiv = document.createElement("div");
     detailDiv.setAttribute("class", "detailDiv");
     const priceDiv = document.createElement("div");
     priceDiv.setAttribute("class", "priceDiv");
-    priceDiv.textContent =data[i].price;
+    priceDiv.textContent = addCommas(totalData[i].price)+"원";
     const stick = document.createElement("h4");
     stick.textContent = "|";
     const detailCategory = document.createElement("div");
     detailCategory.setAttribute("class", "detailCategory");
-    detailCategory.textContent = data[i].category;
+    detailCategory.textContent = totalData[i].category;
 
     detailDiv.appendChild(priceDiv);
     detailDiv.appendChild(stick);
@@ -174,13 +172,18 @@ async function showFuction(카테고리이름, 인덱스) {
   while (postItems.hasChildNodes()) {
     postItems.removeChild(postItems.firstChild);
   }
+  while ( pageHtml.hasChildNodes()){
+    pageHtml.removeChild( pageHtml.firstChild );       
+  }
+  Currentpage = 1;
   const categoryItem = await Api.get(
-    `/api`,`categories?name=${카테고리이름}&index=${인덱스} &page=1&perPage=9`
+    `/api`,`categories?name=${카테고리이름}&index=${인덱스} &page=${Currentpage}&perPage=9`
   );
   //data는 각 카테고리의 전체 목록리스트
-  console.log(categoryItem);
-  const {data,page,perPage,totalPage} = categoryItem;
-  
-  displayData(page,perPage,data);
-  paging(page,perPage,totalPage);
+  const {page,perPage,totalPage} = categoryItem;
+  totalData =  categoryItem.data;
+
+  displayData(page,perPage,totalData);
+  paging(page,perPage,totalPage,totalData);
+
 }

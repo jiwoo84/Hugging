@@ -1,5 +1,6 @@
 import * as Api from "../api.js";
 import { addCommas } from "/useful-functions.js";
+import { convertToNumber } from "/useful-functions.js";
 
 const cartBtn = document.querySelector(".moveTocart");
 const itemname = document.querySelector(".itemName");
@@ -69,9 +70,9 @@ function saveData(salseCount, storeName) {
       id: id,
       name: itemname.innerHTML,
       category: itemcategory.innerHTML,
-      price: parseInt(itemprice.innerHTML),
+      price: convertToNumber(itemprice.innerHTML),
       img: itemimg.src,
-      sales: parseInt(salseCount.innerText),
+      sales: convertToNumber(salseCount.innerText),
     };
 
     request.onupgradeneeded = function () {
@@ -128,8 +129,7 @@ function isExist(data, objStore) {
 
 //carBtn listener
 cartBtn.addEventListener("click", function () {
-  console.log(salseCount);
-  console.log(salseCount.innerText);
+
   saveData(salseCount, "items");
   const moveTocart = confirm(
     "상품이 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?"

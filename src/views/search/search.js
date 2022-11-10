@@ -10,7 +10,7 @@ searchSubmit.addEventListener("click",async(e)=>{
         searchResult.removeChild( searchResult.firstChild );       
     }
     const searchWord = document.querySelector(".search__text");
-    console.log(searchWord.value);
+
     const {data} =  await Api.get("/api/items",`search?word=${searchWord.value}`);
     data.forEach( item =>{
         const product =  document.createElement("div");

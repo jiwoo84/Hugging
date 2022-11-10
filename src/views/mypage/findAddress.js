@@ -1,8 +1,5 @@
-const postalCodeInput = document.querySelector("#postalCodeInput");
-const address1Input = document.querySelector("#address1Input");
-const address2Input = document.querySelector("#address2Input");
-
-function findAddress() {
+export function findAddress() {
+  console.log(addressInput1, addressInput2);
   new daum.Postcode({
     oncomplete: function (data) {
       let addr = "";
@@ -25,14 +22,12 @@ function findAddress() {
         if (extraAddr !== "") {
           extraAddr = " (" + extraAddr + ")";
         }
+      } else {
       }
 
-      postalCodeInput.value = data.zonecode;
-      address1Input.value = `${addr} ${extraAddr}`;
-      address2Input.placeholder = "상세 주소를 입력해 주세요.";
-      address2Input.focus();
+      addressInput1.value = `(${data.zonecode}) ${addr} ${extraAddr}`;
+      addressInput2.placeholder = "상세 주소를 입력해 주세요.";
+      addressInput2.focus();
     },
   }).open({ autoClose: true });
 }
-
-export { findAddress };

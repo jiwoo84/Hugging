@@ -18,21 +18,23 @@ html,body{
     width: 500px;
     height: 45px;;
     font-size: 18px;
+    font-family: 'MaruBuri-Regular';
+    border: 0.2px solid lightgray;
 }
 .search__result{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 35px;
-    margin : 0 20vw;
+    padding-left: 70px;
+    padding-right: 70px;
 }
 .card{
-    /* display: flex;
-    flex-direction: row; */
-    padding: 40px;
     text-align: center;
     background-color: #fff;
     width: 400px;
     height:400px;
+    margin:auto;
+    padding: 40px;
 }
 .name{
     font-size: 25px;
@@ -51,4 +53,7 @@ html,body{
 }
 .search__submit{
     font-size: 18px;
+}
+button{
+    font-family: 'MaruBuri-Regular';
 }

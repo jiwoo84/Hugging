@@ -3,10 +3,10 @@ import * as Api from "/api.js";
 const searchSubmit= document.querySelector(".search__submit");
 const searchResult = document.querySelector(".search__result");
 
-searchSubmit.addEventListener("click",async(e)=>{
 
-    while ( searchResult.hasChildNodes() )
-    {
+async function search(e){
+    e.preventDefault();
+    while ( searchResult.hasChildNodes()){
         searchResult.removeChild( searchResult.firstChild );       
     }
     const searchWord = document.querySelector(".search__text");
@@ -25,15 +25,15 @@ searchSubmit.addEventListener("click",async(e)=>{
         </div>`;
         searchResult.appendChild(product);
         moveTodetailBtn(item._id);
-
     });
-});
+}
+
+searchSubmit.addEventListener("click",search);
 
 // 상품의 이미지 클릭하면 상세페이지로 이동
 function moveTodetailBtn(key){
     const container = document.getElementById(`${key}`);
-    const imgTag = container.querySelector(".productImg");
-    imgTag.addEventListener("click", ()=>{
+    container.addEventListener("click", ()=>{
         localStorage.setItem("itemDetail",key);
         location.href = "/detail";
     });

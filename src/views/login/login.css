@@ -16,7 +16,9 @@
 }
 
 .login-form-box {
-  width: 30rem;
+  width: 40rem;
+  height: 30rem;
+  padding: 30px;
 }
 
 .login-form-box .title {
@@ -26,7 +28,23 @@
 .login-form-box .button {
   font-weight: bold;
 }
+
 #submitKaKaoButton {
-  background: url(./kakao_long.png) no-repeat;
-  background-size: 440px 40px;
+  background: url(./kakao_logo.png);
+  background-size: 600px 70px;
+}
+.label{
+  font-size: 20px;
+}
+.field{ 
+  margin: 20px;
+}
+#submitButton{
+  margin-top: 60px;
+  height: 50px;
+  background-color:#978676 ;
+  font-size: 20px;
+}
+.button{
+  font-family: 'MaruBuri-Regular';;
 }

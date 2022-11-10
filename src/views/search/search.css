@@ -18,6 +18,8 @@ html,body{
     width: 500px;
     height: 45px;;
     font-size: 18px;
+    font-family: 'MaruBuri-Regular';
+    border: 0.2px solid lightgray;
 }
 .search__result{
     display: grid;
@@ -51,4 +53,7 @@ html,body{
 }
 .search__submit{
     font-size: 18px;
+}
+button{
+    font-family: 'MaruBuri-Regular';
 }

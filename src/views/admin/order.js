@@ -39,6 +39,7 @@ async function makeOrderList() {
   } catch (err) {
     window.location.reload();
   }
+  console.log(data);
   //한 사람의 주문정보 넣기
   for (let i = 0; i < data.length; i++) {
     const orderBox = document.createElement("div");
@@ -86,12 +87,19 @@ async function makeOrderList() {
     // 주문자 정보
     const orderBox_user = document.createElement("div");
 
-    orderBox_user.innerHTML = `
-    <p>${data[i].구매자이름}</p>
-    <p>${data[i].구매자이메일}</p>
-    <p>${data[i].전화번호}</p>
-    <p>${data[i].주소}</p>
-    `;
+    // 탈퇴한 유저 처리
+    if (data[i].구매자이름 === "탈퇴한유저") {
+      orderBox_user.innerHTML = `
+        <p>${data[i].구매자이름}</p>
+      `;
+    } else {
+      orderBox_user.innerHTML = `
+        <p>${data[i].구매자이름}</p>
+        <p>${data[i].구매자이메일}</p>
+        <p>${data[i].전화번호}</p>
+        <p>${data[i].주소}</p>
+      `;
+    }
 
     // --------------------------------------------------------
     // 주문삭제,발송완료 버튼

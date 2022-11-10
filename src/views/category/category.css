@@ -42,9 +42,9 @@ h4,
 }
 
 #pageHtml {
+  display: flex;
+  justify-content: center;
   text-align: center;
-  border: 1px solid #ccc;
-  border-right: 0;
 }
 
 #pageHtml li {
@@ -52,17 +52,18 @@ h4,
 }
 
 #pageHtml li.on {
-  background: #eda712;
+  background: #afa998;
 }
 
 #pageHtml li.on a {
   color: #fff;
+  border: solid 1px #ccc;
 }
 
 #pageHtml li a {
   display: block;
   font-size: 14px;
   padding: 9px 12px;
-  border-right: solid 1px #ccc;
+  border: solid 1px #ccc;
   box-sizing: border-box;
 }

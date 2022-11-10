@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { send } from "../email";
-import { Coupon, Order, User } from "../db";
+import { Coupon, Item, Order, User } from "../db";
 class OrderService {
   // 본 파일의 맨 아래에서, new orderService(userModel) 하면, 이 함수의 인자로 전달됨
   constructor() {}
@@ -216,6 +216,22 @@ class OrderService {
     await Order.updateMany({ _id: id }, { deliveryStatus: reson });
     // 만약 배송상태가 배송완료라면, 더이상 수정할수 없게 만듬.
     if (reson === "배송완료") {
+      const findOrder = await Order.findById(id);
+
+      console.log("내가 찍은 아이디로 일단 주문을 가져와: " + findOrder.items);
+      for (let i = 0; i < findOrder.items.length; i++) {
+        console.log("배송완료 포문 진입");
+        console.log("안에 포문 찍히는 아이디" + findOrder.items[i].id);
+        console.log("안에 포문 찍히는 카운트" + findOrder.items[i].count);
+        const findItem = await Item.findById({ _id: findOrder.items[i].id });
+        let findSales = findItem.sales;
+        let result = findSales + findOrder.items[i].count;
+        await Item.findByIdAndUpdate(
+          { _id: findOrder.items[i].id },
+          { sales: result }
+        );
+      }
+      console.log("배송완료 포문 끝");
       await Order.updateMany({ _id: id }, { orderStatus: "수정불가" });
       //
     }

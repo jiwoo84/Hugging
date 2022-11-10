@@ -1,4 +1,5 @@
 import * as Api from "../api.js";
+import { addCommas } from "/useful-functions.js";
 
 const navigationBar = document.querySelector(".navbar-start");
 const postItems = document.querySelector(".postItems");
@@ -143,7 +144,7 @@ function displayData(page,perPage){
     detailDiv.setAttribute("class", "detailDiv");
     const priceDiv = document.createElement("div");
     priceDiv.setAttribute("class", "priceDiv");
-    priceDiv.textContent =totalData[i].price;
+    priceDiv.textContent = addCommas(totalData[i].price)+"원";
     const stick = document.createElement("h4");
     stick.textContent = "|";
     const detailCategory = document.createElement("div");

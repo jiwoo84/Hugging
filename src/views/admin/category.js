@@ -24,6 +24,12 @@ async function clickedCategory() {
     itemsBtn_add.innerText = "";
   }
 
+  // 주문관리의 페이지 있다면 지우기
+  const page_list = document.querySelector("#page_list");
+  if (page_list.innerHTML !== "") {
+    page_list.innerHTML = "";
+  }
+
   // 카테고리 추가 버튼 (없다면)넣기
   if (document.querySelector("#category-btn__add").innerText === "") {
     addCategory();

@@ -26,8 +26,17 @@ async function clickedOrder() {
   if (itemsBtn_add.innerText !== "") {
     itemsBtn_add.innerText = "";
   }
-  pagenation();
+
+  if (page_list.innerHTML === "") {
+    pagenation();
+  }
+
   makeOrderList("1");
+
+  // 비동기인 pagenation 이후에 처리 위해서 이렇게함
+  setTimeout(() => {
+    makePageBold(1);
+  }, 100);
 }
 
 // *******************************************************************
@@ -45,6 +54,7 @@ async function pagenation() {
       page.addEventListener("click", () => {
         listContainer.innerHTML = ``;
         console.log(`난 ${i}를 누를거야`);
+        makePageBold(i);
         makeOrderList(`${i}`);
       });
       page_list.appendChild(page);
@@ -52,6 +62,20 @@ async function pagenation() {
   } catch (err) {
     alert(err);
   }
+}
+
+// 클릭한 페이지 표시하는 함수
+function makePageBold(num) {
+  console.log("볼드실행");
+  let pages = Array.from(page_list.children);
+  console.log("여기페이지", pages);
+  pages.forEach((page) => {
+    if (+page.innerText === num) {
+      page.className = "page_list_currentClick";
+    } else {
+      page.className = "";
+    }
+  });
 }
 
 // *******************************************************************
@@ -135,13 +159,13 @@ async function makeOrderList(page) {
 
     if (data[i].수정 === "수정가능") {
       orderBox_btn.innerHTML = `
-        <button class="orderBox_btn_delBtn">주문삭제</button>
-        <label>배송상태변경</label>
-        <select class="orderBox_btn_select">
-          <option>배송준비중</option>
-          <option>배송중</option>
-          <option>배송완료</option>
-        </select> 
+      <label>배송상태변경</label>
+      <select class="orderBox_btn_select">
+      <option>배송준비중</option>
+      <option>배송중</option>
+      <option>배송완료</option>
+      </select> 
+      <button class="orderBox_btn_delBtn button is-dark">주문삭제</button>
         `;
     } else {
       orderBox_btn.innerHTML = "";

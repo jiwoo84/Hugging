@@ -23,6 +23,11 @@ async function clickedItem(e) {
   if (categoryBtn_add.innerText !== "") {
     categoryBtn_add.innerText = "";
   }
+  // 주문관리의 페이지 있다면 지우기
+  const page_list = document.querySelector("#page_list");
+  if (page_list.innerHTML !== "") {
+    page_list.innerHTML = "";
+  }
 
   // 상품추가 버튼 생성
   if (document.querySelector("#items-btn__add").innerText === "") {

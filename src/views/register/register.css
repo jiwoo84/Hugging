@@ -26,3 +26,20 @@ body {
   border-color: #00d1b2;
   box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
 }
+
+#send__email{
+  border: 1px solid gray;  
+  cursor: pointer;
+}
+#auth__email{
+  width: 70%;
+}
+.hidden{
+  display: none;
+}
+.email__box{
+  padding: 4px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

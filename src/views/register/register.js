@@ -13,6 +13,7 @@ const address1Input = document.querySelector("#address1Input");
 const address2Input = document.querySelector("#address2Input");
 const findAddressBtn = document.querySelector("#findAddressBtn");
 const submitButton = document.querySelector("#submitButton");
+let auth = false;
 
 addAllElements();
 addAllEvents();
@@ -80,18 +81,73 @@ async function handleSubmit(e) {
   if (!postalCode || !address2Input.value) {
     return alert("배송지 정보를 모두 입력해 주세요.");
   }
+  if (auth === false) {
+    return alert("이메일 인증을 완료해주세요");
+  }
   // 회원가입 api 요청
   try {
     const data = { name, email, password, phoneNumber, postalCode, address };
 
-    await Api.post("/api/users/join", data);
+    const join = await Api.post("/api/users/join", data);
+    localStorage.setItem("token", join.token);
+    localStorage.setItem("token", join.refreshToken);
+    localStorage.setItem("loggedIn", "true");
 
     alert(`정상적으로 회원가입되었습니다.`);
 
     // 로그인 페이지 이동
-    window.location.href = "/login";
+    // ** 수정 = 자동로그인이 되니깐 홈으로보내
+    window.location.href = "/";
   } catch (err) {
     console.error(err.stack);
     alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
   }
 }
+
+const sendBtn = document.getElementById("send__email");
+let timer;
+const sendEmail = async () => {
+  sendBtn.removeEventListener("click", sendEmail);
+  sendBtn.addEventListener("click", authEmail);
+  const userEmail = emailInput.value;
+  alert(`${userEmail}로 인증번호를 전송했습니다.\n2분안에 인증해주세요!`);
+  const auth_Emil = document.getElementById("auth__email");
+  auth_Emil.className = "";
+  sendBtn.textContent = "인증하기";
+  console.log(userEmail);
+  const authSend = await Api.get(`/api/users/email?toEmail=${userEmail}`);
+  // 지금은 브라우저 세션에 저장하지만, 추후 서버-레디스 등 을 이용하여 처리할것
+  console.log(authSend);
+  sessionStorage.setItem("auth", authSend.data);
+
+  timer = setTimeout(() => {
+    sessionStorage.removeItem(auth);
+    alert("이메일 인증시간이 초과되었습니다!");
+    sendBtn.textContent = "인증번호 보내기";
+    auth_Emil.className = "hidden";
+    sendBtn.removeEventListener("click", authEmail);
+    sendBtn.addEventListener("click", sendEmail);
+  }, 60 * 2 * 1000); // 2분안에 인증완료 해야함
+};
+
+const authEmail = () => {
+  const auth_Emil = document.getElementById("auth__email");
+  if (auth_Emil.value === sessionStorage.getItem("auth")) {
+    auth_Emil.className = "hidden";
+    sendBtn.textContent = "인증완료";
+    alert("인증완료!");
+    sendBtn.removeEventListener("click", authEmail);
+    sessionStorage.removeItem("auth");
+    auth = true;
+    clearTimeout(timer);
+    return;
+  }
+  alert("인증에 실패했습니다.");
+  sessionStorage.removeItem("auth");
+  sendBtn.textContent = "인증번호 보내기";
+  auth_Emil.className = "hidden";
+  sendBtn.removeEventListener("click", authEmail);
+  sendBtn.addEventListener("click", sendEmail);
+  clearTimeout(timer);
+};
+sendBtn.addEventListener("click", sendEmail);

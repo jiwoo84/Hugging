@@ -1,4 +1,5 @@
 import * as Api from "../api.js";
+import { addCommas } from "/useful-functions.js";
 
 const cartBtn = document.querySelector(".moveTocart");
 const itemname = document.querySelector(".itemName");
@@ -51,7 +52,7 @@ async function getDataFromApi() {
   id = _id;
   itemname.innerHTML = name;
   itemcategory.innerHTML = category;
-  itemprice.innerHTML = `${price} 원`;
+  itemprice.innerHTML = `${addCommas(price)} 원`;
   itemimg.src = imageUrl;
   details.innerHTML = itemDetail;
 }
@@ -200,10 +201,10 @@ async function showReview(아이템아이디) {
       btnDiv.setAttribute("class", "btnDiv");
       btnDiv.setAttribute("id", reviewData.data[i].cmtId);
       const btnEdit = document.createElement("button");
-      btnEdit.setAttribute("class", "btnedit");
+      btnEdit.setAttribute("class", "btnedit button is-success is-light");
       btnEdit.textContent = "수정";
       const btnDelete = document.createElement("button");
-      btnDelete.setAttribute("class", "btndelete");
+      btnDelete.setAttribute("class", "btndelete button is-danger is-light");
       btnDelete.textContent = "삭제";
 
       //수정버튼 이벤트리스너
@@ -234,7 +235,7 @@ async function showReview(아이템아이디) {
 //리뷰 작성 완료
 function makeBtnSave() {
   content_bntBox.innerHTML = `
-  <button class="btnSave">저장</button>
+  <button class="btnSave button is-link is-light">저장</button>
   `;
   const btnSave = document.querySelector(".btnSave");
 
@@ -283,7 +284,7 @@ async function editRv(commentId, beforeText) {
   text.value = beforeText;
   // 버튼을 수정완료로 변경
   content_bntBox.innerHTML = `
-    <button class="content_bntBox_done">수정완료</button>
+    <button class="content_bntBox_done button is-success is-light">수정완료</button>
     `;
   const content_bntBox_done = document.querySelector(".content_bntBox_done");
 

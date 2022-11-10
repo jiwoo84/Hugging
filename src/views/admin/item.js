@@ -383,7 +383,7 @@ function addItemBtn() {
           headers: {
             authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          // body: imgFormData,
+          body: imgFormData,
         }
       );
       if (!res.ok) {

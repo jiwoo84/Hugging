@@ -9,14 +9,15 @@ class OrderService {
     console.log("주문하기 서비스 진입");
     console.log("주문하기 서비스 진입1");
     const newOrder = await Order.create(data);
-
     console.log("1");
     await User.updateOne(
       { _id: data.buyer },
       { $push: { orders: newOrder._id } }
     );
     console.log("2");
-    const sumUser = await User.findById({ _id: data.buyer });
+    const sumUser = await User.findById({ _id: data.buyer }).populate(
+      "ownCoupons"
+    );
     const SumTotalPrice =
       Number(sumUser.totalPayAmount) + Number(newOrder.totalPrice);
     await User.updateOne(
@@ -26,33 +27,42 @@ class OrderService {
     console.log("3");
     // 사용한 쿠폰 삭제
     console.log(data.couponId);
+    // 사용할 쿠폰이 없다면 pass
     if (data.couponId === undefined || data.couponId === "none") {
       console.log("컨틴뉴~");
-    } else {
-      console.log("이건 실행이 되면 안됌");
+    }
+    // 사용할 쿠폰이 있다면 업데이트하는 로직
+    else if (data.couponId) {
+      console.log("쿠폰을 받아왔을때 실행");
       //여기서 data.couponId는 쿠폰의 id값을 의미한다.
       const findcoupon = await Coupon.findOne({ id: data.couponId });
-      const findUser = await User.findById(findcoupon.owner);
-      console.log(
-        "제발 내가 찾는게 맞아라 제발 부탁이야: " + findUser.ownCoupons
-      );
-      console.log(
-        "제발 내가 찾는게 맞아라 제발 부탁이야 유저 맞제?: " + findUser.id
-      );
-      //유저의 ownCoupons와 해당 쿠폰 지우기
-      if (findUser.ownCoupons) {
+      const findUser = await User.findById(data.buyer).populate("ownCoupons");
+      console.log("유저정보", findUser.ownCoupons);
+      if (findcoupon) {
+        //유저의 ownCoupons와 해당 쿠폰 지우기
+        console.log("??");
+        console.log(
+          "제발 내가 찾는게 맞아라 제발 부탁이야: " + findUser.ownCoupons
+        );
+        console.log(
+          "제발 내가 찾는게 맞아라 제발 부탁이야 유저 맞제?: " + findUser.id
+        );
         await User.updateOne(
           { _id: findUser.id },
-          { $unset: { ownCoupons: findUser.ownCoupons } }
+          { $pull: { ownCoupons: findUser.ownCoupons } }
         );
         await Coupon.deleteOne({ _id: data.couponId });
+      } else {
+        throw new Error("유효하지 않은 쿠폰입니다.");
       }
     }
+
+    // 결제처리 모두 마친후, 이메일로 발송
     console.log("이메일로보내기 직전");
     // 형석님 수고하셨네요 ㅋㅋ
     // 이메일 발송 추가합니당
     console.log("이메일로 보냄 : ", sumUser.email);
-    const mailInfo = {
+    const sendClient = {
       from: "jinytree1403@naver.com",
       to: sumUser.email,
       subject: "[Hugging] 결제완료  ",
@@ -63,13 +73,29 @@ class OrderService {
           결제방법 : ${newOrder.payMethod}
           총 결제금액 : ${newOrder.totalPrice}
           총 ${newOrder.items.length}개 구매하셨습니다.
+          결제 일시 : ${newOrder.createdAt}
 
           감사합니다.
     `,
     };
+    const sendAdmin = {
+      from: "jinytree1403@naver.com",
+      to: "jinytree1403@naver.com",
+      subject: "[Hugging] 결제완료  ",
+      text: `${sumUser.name}님이 주문한 내역입니다.
+          -------------------------
+          요청사항 : ${newOrder.deliveryMsg}
+          결제방법 : ${newOrder.payMethod}
+          총 결제금액 : ${newOrder.totalPrice}
+          총 ${newOrder.items.length}개 구매하셨습니다.
+          결제 일시 : ${newOrder.createdAt}
+
+    `,
+    };
     // send 는 config에 있는 것임.
-    const sent = send(mailInfo);
-    console.log(sent);
+    // 관리자와 고객 모두에게 이메일 발송
+    send(sendClient);
+    send(sendAdmin);
     return newOrder;
   }
 

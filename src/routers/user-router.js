@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { loginRequired } from "../middlewares";
 import { userService } from "../services";
 import { itemService } from "../services/item-service";
-// import { send } from "../email";
+import { send } from "../email";
 const userRouter = express();
 // jwt 검증만 하는 라우터
 userRouter.get("/authority", (req, res) => {
@@ -87,25 +87,30 @@ userRouter.post("/refresh", async (req, res, next) => {
   }
 });
 
-// userRouter.get("/email", async (req, res, next) => {
-//   const toEmail = req.query.toEmail;
-//   const random = (min, max) => {
-//     let result = Math.floor(Math.random() * (max - min + 1)) + min;
-//     return result;
-//   };
-//   const number = random(111111, 999999);
-//   const mailInfo = {
-//     from: "speaker1403@naver.com",
-//     to: toEmail,
-//     subject: "[Hugging] 인증번호 발송 ",
-//     text: `${number} 를 입력해주세요.`,
-//   };
-//   const b = send(mailInfo);
-//   return res.status(203).json({
-//     msg: "전송",
-//     zz: b,
-//   });
-// });
+userRouter.get("/email", async (req, res, next) => {
+  console.log("이메일 푸쉬 라우터");
+  const toEmail = req.query.toEmail;
+  console.log(toEmail);
+  const random = (min, max) => {
+    let result = Math.floor(Math.random() * (max - min + 1)) + min;
+    return result;
+  };
+  const number = random(111111, 999999);
+  const mailInfo = {
+    from: "jinytree1403@naver.com",
+    to: toEmail.slice(0, -1),
+    subject: "[Hugging] 인증번호 발송 ",
+    text: `      
+    Hugging 회원가입 인증번호
+    
+    인증번호 입력란에 ${number} 를 입력해주세요.`,
+  };
+  send(mailInfo);
+  return res.status(203).json({
+    msg: "전송완료",
+    data: number,
+  });
+});
 
 // 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
 userRouter.post("/join", async (req, res, next) => {
@@ -135,7 +140,8 @@ userRouter.post("/join", async (req, res, next) => {
     res.status(201).json({
       status: 201,
       msg: "회원가입 성공!",
-      accessToken: newUser,
+      token: newUser.token,
+      refreshToken: newUser.refreshToken,
     });
   } catch (error) {
     next(error);

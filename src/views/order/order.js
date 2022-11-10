@@ -44,14 +44,14 @@ function getTotalPrice(key, storeName) {
   if (storeName === "items") {
     //장바구니에서 결제창
     totalPrice = localStorage.getItem("TotalPrice");
-    orderPrice.innerText = `${totalPrice}원`;
+    orderPrice.innerText = `${totalPrice.toLocaleString('ko-KR')}원`;
     return;
   }
   //바로구매로 결제창( 한 종류의 상품 )
   const container = document.getElementById(`${key}`);
   const productPrice = container.querySelector(".itemsPrice");
   totalPrice = parseInt(productPrice.innerText.split(":")[1]);
-  orderPrice.innerText = `${totalPrice}원`;
+  orderPrice.innerText = `${totalPrice.toLocaleString('ko-KR')}원`;
 }
 
 function renderUserComponent(name, address, phoneNumber) {
@@ -161,7 +161,7 @@ purchaseBtn.addEventListener("click", async()=>{
     }else{
         payMethod = "무통장입금";
     }
-
+    totalPrice = Number(orderPrice.innerText.split(/,|원/).join(""));
     const postData = {name,address,phoneNumber,deliveryMsg,items,payMethod,totalPrice,couponId}
     console.log(postData);
     await Api.post("/api/orders/", postData);
@@ -185,8 +185,8 @@ purchaseBtn.addEventListener("click", async()=>{
 });
 
 couponSelect.addEventListener("change", () => {
-  let discount = couponSelect.options[couponSelect.selectedIndex].value;
-  console.log(discount);
-  totalPrice = totalPrice * (100 - Number(discount)) * 0.01;
-  orderPrice.innerText = `${totalPrice}원`;
+  const discount = couponSelect.options[couponSelect.selectedIndex].value;
+  const couponPrice =  Math.ceil(totalPrice * (100 - Number(discount)) * 0.01);
+
+  orderPrice.innerText = `${couponPrice.toLocaleString('ko-KR')}원`;
 });

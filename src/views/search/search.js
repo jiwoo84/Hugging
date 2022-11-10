@@ -20,7 +20,7 @@ searchSubmit.addEventListener("click",async(e)=>{
             <div class="productInfo">
                 <p class="name">${item.name}</p>
                 <p class="category">${item.category}</p>
-                <p class="price">${item.price}</p>
+                <p class="price">${item.price.toLocaleString('ko-KR')}원</p>
             </div>
         </div>`;
         searchResult.appendChild(product);

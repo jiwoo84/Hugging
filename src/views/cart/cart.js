@@ -1,9 +1,13 @@
+import { addCommas } from "/useful-functions.js";
+import { convertToNumber } from "/useful-functions.js";
+
 const main = document.querySelector(".main");
 const init = document.querySelector(".init-msg");
 const clearbtns = document.querySelector(".clear-btn-container");
 const clearAllBtn = document.querySelector(".clear-all");
 const clearSelectBtn = document.querySelector(".clear-select");
 const purchaseBtn = document.querySelector(".moveTopurchase");
+
 
 let totalPrice =0;
 
@@ -24,7 +28,7 @@ function createPost(item,key) {
             <button class="minus">-</button>
             <span class="quantity">${item.sales}</span>
             <button class ="plus">+</button>
-            <p class="productPrice">금액합계 : ${priceSum}</p>
+            <p class="productPrice">금액합계 : ${addCommas(priceSum)}원</p>
         </div>
     </div>
     `;
@@ -69,6 +73,7 @@ function getIdxedDBValues() {
                         if (cursor) {
                             const value = objStore.get(cursor.key);         
                             value.onsuccess = (e)=> {
+                                console.log(value.result.price);
                                 totalPrice += value.result.price*value.result.sales; 
                                 
                                 //6. 상품추가 렌더링 실행
@@ -100,7 +105,7 @@ function setTotalPrice(){
 //결제버튼 텍스트
 function getTotalPrice(){ //1
     // totalPrice += productPrice;
-    const msg = `${totalPrice.toLocaleString('ko-KR')}원 결제하기`;
+    const msg = `${addCommas(totalPrice)}원 결제하기`;
     purchaseBtn.value = msg;
     setTotalPrice();
 }
@@ -148,15 +153,16 @@ function attachBtn(key){
     });
     checkbox.addEventListener("change" ,()=>{
         const productPrice = container.querySelector(".productPrice");
-        const price = productPrice.innerText.split(":")[1].trim();
+        console.log(        productPrice.innerText.split(" ")[2]);
+        const price = convertToNumber(productPrice.innerText.split(" ")[2]);
 
         if ( checkbox.checked === true){
             console.log(price);
-            totalPrice += Number(price);
+            totalPrice += price;
             getTotalPrice();
         }
         else{
-            totalPrice -= Number(price);
+            totalPrice -= price;
             getTotalPrice();
         }
     });

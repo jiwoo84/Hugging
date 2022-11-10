@@ -1,15 +1,16 @@
-html,body{
-  margin:0;
-  padding:0;
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
-.title{
+.title {
   font-size: 40px;
   font-weight: bold;
   text-align: center;
   margin: 10px auto;
   height: 80px;
 }
-.container{
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,18 +21,20 @@ html,body{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin:20px; 
+  margin: 20px;
 }
 .welcome-message {
   height: 40px;
   text-align: center;
   font-size: 20px;
 }
-.message-box{
+.message-box {
   height: 150px;
   border-radius: 15px;
 }
-.message-box__coupon, .message-box__totalPayAmount, .message-box__grade{
+.message-box__coupon,
+.message-box__totalPayAmount,
+.message-box__grade {
   font-size: 18px;
 }
 .buttons {
@@ -39,11 +42,11 @@ html,body{
   flex-direction: row;
   margin: 20px;
 }
-.order_img{
+.order_img {
   width: 70px;
   height: 70px;
 }
-.list_son{
+.list_son {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -51,42 +54,43 @@ html,body{
   border: solid 0.5px black;
   align-items: center;
 }
-.list_div_info{
+.list_div_info {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-.list_div_info_div{
+.list_div_info_div {
   padding-left: 20px;
   display: flex;
   flex-direction: column;
 }
-.list_div_status{
+.list_div_status {
   padding-right: 10px;
   text-align: center;
   display: flex;
   flex-direction: column;
 }
-#findOrder, #userEdit, #signOut{
+#findOrder,
+#userEditBox,
+#signOut {
   width: 150px;
   margin-left: 10px;
   margin-right: 10px;
   font-size: 18px;
 }
 
-
 /* 폼*/
-.signOut_form{
+.signOut_form {
   display: flex;
   flex-direction: column;
   background-color: lightblue;
   padding: 50px 20px;
   border-radius: 15px;
 }
-.holder_center{
+.holder_center {
   position: absolute;
-  top:30%;
-  left:40%;
-  animation: hide 1 ;
+  top: 30%;
+  left: 40%;
+  animation: hide 1;
   z-index: 3;
 }

@@ -10,8 +10,9 @@ const createForm = async () => {
   list_mom.className = "holder_center";
   const clicked_title = document.getElementById("clicked_title");
   const clicked_descript = document.getElementById("clicked_descript");
-  clicked_title.textContent = "회원탈퇴";
-  clicked_descript.textContent = "회원탈퇴 제출 폼";
+  clicked_title.textContent = "";
+  clicked_descript.textContent = "";
+
   const form = document.createElement("form");
   form.id = "signOut_form";
   form.className = "signOut_form";
@@ -50,10 +51,6 @@ function canCel() {
     }
   }, 1);
   list_mom.className = "";
-  const clicked_title = document.getElementById("clicked_title");
-  const clicked_descript = document.getElementById("clicked_descript");
-  clicked_title.textContent = "";
-  clicked_descript.textContent = "";
 }
 
 const submitFrom = async (e) => {

@@ -39,7 +39,7 @@ async function handleSubmit(e) {
   const address1 = address1Input.value;
   const address2 = address2Input.value;
 
-  const address = `${address1} ${address2}`;
+  const address = `(${postalCode})${address1} ${address2}`;
 
   // 잘 입력했는지 확인
   const isFullNameValid = name.length >= 2;
@@ -82,7 +82,7 @@ async function handleSubmit(e) {
 
   // 회원가입 api 요청
   try {
-    const data = { name, email, password, phoneNumber, postalCode, address };
+    const data = { name, email, password, phoneNumber, address };
 
     await Api.post("/api/users/join", data);
 

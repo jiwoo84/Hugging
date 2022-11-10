@@ -147,8 +147,10 @@ moveToCartBtn.addEventListener("click", () => {
 });
 
 purchaseBtn.addEventListener("click", async()=>{
-    //indexeddb에서 -> 상품데이터 가져오고 배열형태로
-    //총금액
+  //indexeddb에서 -> 상품데이터 가져오고 배열형태로
+  //총금액
+  if (window.confirm("구매하시겠습니까?")) {
+
     const storeName =  localStorage.getItem("storeName");
     const user = await Api.get("/api/users/mypage");
     const couponId = couponSelect.options[couponSelect.selectedIndex].id;
@@ -167,22 +169,23 @@ purchaseBtn.addEventListener("click", async()=>{
     console.log(postData);
     await Api.post("/api/orders/", postData);
 
-  //주문완료후 indexedDB 비우기
-  const request = window.indexedDB.open("cart");
-  request.onerror = (e) => console.log(e.target.errorCode);
-  request.onsuccess = (e) => {
-    const db = request.result;
-    const objStore = db
-      .transaction(`${storeName}`, "readwrite")
-      .objectStore(`${storeName}`);
-    const objStoreRequest = objStore.clear();
-    objStoreRequest.onsuccess = (e) => {
-      console.log("cleared");
+    //주문완료후 indexedDB 비우기
+    const request = window.indexedDB.open("cart");
+    request.onerror = (e) => console.log(e.target.errorCode);
+    request.onsuccess = (e) => {
+      const db = request.result;
+      const objStore = db
+        .transaction(`${storeName}`, "readwrite")
+        .objectStore(`${storeName}`);
+      const objStoreRequest = objStore.clear();
+      objStoreRequest.onsuccess = (e) => {
+        console.log("cleared");
+      };
     };
-  };
-  alert("주문이 완료되었습니다.");
+    alert("주문이 완료되었습니다.");
 
-  window.location.href = "/";
+    window.location.href = "/";
+  }
 });
 
 couponSelect.addEventListener("change", () => {

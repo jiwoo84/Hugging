@@ -16,8 +16,8 @@ async function getUserdata() {
     window.location.reload();
   }
 
-  const coupons = await Api.get("/api/coupons",`${user.data._id}`);
-  const {couponId,createAt,discount,name,owner}  = coupons.couponList;
+  const coupons = await Api.get("/api/coupons", `${user.data._id}`);
+  const { couponId, createAt, discount, name, owner } = coupons.couponList;
   // console.log(coupons.length);
   // 배열로 받기
 
@@ -32,12 +32,10 @@ async function getUserdata() {
 
   // 총구매금액 넣기
   messageBox__totalPayAmount.innerText = `총 구매 금액은 ${totalPayAmount}원 입니다`;
-  
+
   // 등급 넣기
   const grade = (await Api.get("/api/users/grades")).level;
   messageBox__grade.innerText = `구매 등급은 ${grade}입니다`;
-
-  
 }
 
 const findOrder = document.getElementById("findOrder");
@@ -45,12 +43,13 @@ const findOrder = document.getElementById("findOrder");
 // api 요청후 해당 여러 요소 생성후 데이터 주입,
 // 모두 주입후 최상위 div에 append 시킴
 const find_order = async () => {
+  // list_mom 이 최상위 div, 이 공간이 주문목록이 들어오는곳
+  const list_mom = document.getElementById("list_mom");
+  list_mom.className = "orderList";
   const clicked_title = document.getElementById("clicked_title");
   const clicked_descript = document.getElementById("clicked_descript");
   clicked_title.textContent = "주문 조회";
   clicked_descript.textContent = "구매내역";
-  // list_mom 이 최상위 div, 이 공간이 주문목록이 들어오는곳
-  const list_mom = document.getElementById("list_mom");
   // 아래 반복문은 초기화의 기능. 수정,탈퇴 form 이 나올땐 주문목록은 삭제되어야 함.
   while (list_mom.hasChildNodes()) {
     list_mom.removeChild(list_mom.firstChild);
@@ -83,7 +82,7 @@ const find_order = async () => {
     const list_span_totalPrice = document.createElement("span");
     const list_deliveryMsg = document.createElement("p");
     const list_orderId = document.createElement("span");
-    list_items.textContent = `${data[i].상품목록[0].상품}외 ${
+    list_items.textContent = `${data[i].상품목록[0].상품} 외 ${
       data[i].상품목록.length - 1
     }개`;
     list_span_totalPrice.textContent = `결제 금액 : ${data[i].총금액} 원 |  ${list.data[i].주문날짜}`;

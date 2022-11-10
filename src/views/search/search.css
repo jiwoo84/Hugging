@@ -25,16 +25,16 @@ html,body{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 35px;
-    margin : 0 20vw;
+    padding-left: 70px;
+    padding-right: 70px;
 }
 .card{
-    /* display: flex;
-    flex-direction: row; */
-    padding: 40px;
     text-align: center;
     background-color: #fff;
     width: 400px;
     height:400px;
+    margin:auto;
+    padding: 40px;
 }
 .name{
     font-size: 25px;

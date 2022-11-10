@@ -27,10 +27,13 @@ html,body{
 .viewProduct{
     margin-top: 15px;
     margin-bottom: 80px;
+    border: 1px solid lightgray;
 }
 .moveTopurchase{
+    color:white;   
     margin-top: 80px;
     margin-bottom: 15px;
+    background-color: #725c46;
 }
 
 .card{
@@ -85,7 +88,6 @@ html,body{
     float:right;
     width: 100px;
     font-size: 18px;
+    border: 1px solid lightgray;
 }
-button{
-    border: 1px black solid;
-}
+

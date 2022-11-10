@@ -1,10 +1,17 @@
+@font-face {
+  font-family: 'MaruBuri-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 html,
 body {
+  font-family: 'MaruBuri-Regular';
   flex-direction: column;
   align-items: center;
   margin: 0;
   padding: 0;
-  background-color: #eae9e6;
+  background-color: #f6f4f0;
 }
 a:link {
   color: #4a4a4a;
@@ -37,8 +44,7 @@ a:visited {
 }
 
 #offcanvasScrolling {
-  background-color: rgb(159, 132, 115);
-  /* color: #bbbbbb; */
+  background-color: #978676;
   color: black;
 }
 #categoryUserInfo {
@@ -48,7 +54,6 @@ a:visited {
   font-size: 20px;
   font-weight: bolder;
 }
-
 #categoryMom {
   position: absolute;
   top: 210px;
@@ -58,7 +63,7 @@ a:visited {
   width: 150px;
 }
 .navbar-item:hover {
-  background: #9f8170;
+  background: #a69484;
   cursor: pointer;
 }
 #categoryMom p {
@@ -74,7 +79,7 @@ a:visited {
   font-size: 20px;
   font-weight: 600;
   padding: 5px 0;
-  color: #705d57;
+  color: black;
 }
 .title-text {
   font-size: 100px;

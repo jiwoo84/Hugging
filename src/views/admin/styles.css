@@ -1,3 +1,5 @@
+@import "../variable.css";
+
 html,
 body {
   margin: 0;
@@ -8,10 +10,12 @@ main {
   height: auto;
   min-height: 100%;
 }
+
 #admin-title {
   font-size: 30px;
   font-weight: 600;
-  margin: 20px 0 20px 20px;
+  margin: 30px 0 50px 20px;
+  color: var(--darkBrown);
 }
 
 #main-container {
@@ -26,31 +30,41 @@ main {
   margin-left: 20px;
 }
 
-#side-bar > div {
-  margin-bottom: 10px;
-  height: 60px;
+#order-btn,
+#items-btn,
+#category-btn {
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--darkBrown);
+  margin-bottom: 20px;
+  height: 80px;
 }
 
 #list-container {
   margin: 0 30px 0 30px;
   width: 100%;
 }
+
+/* 주문 관리 */
+/* 큰 박스 */
 .orderBox {
   display: flex;
   justify-content: space-between;
-  background-color: rgb(230, 228, 228);
-  margin-bottom: 10px;
-  width: 100%;
+  /* margin-bottom: 10px; */
+  padding: 10px;
+  border: solid 1px var(--brown);
+  max-width: 1000px;
 }
-
+/* 작은 박스들 */
 .orderBox_order,
-.orderBox_btn {
-  width: 33%;
+.orderBox_user {
+  width: 20%;
 }
 
 .orderBox_btn {
   display: flex;
   flex-direction: column;
+  width: ;
 }
 
 table,
@@ -94,4 +108,26 @@ tfoot {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
+}
+
+/* 페이지네이션 */
+.hidden {
+  display: none;
+}
+#page_list {
+  position: absolute;
+  top: 300px;
+  left: 250px;
+  display: flex;
+  flex-direction: row;
+}
+#page_list div {
+  padding: 9px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+#page_list div:hover {
+  padding: 9px;
+  margin-left: 5px;
+  background-color: gray;
 }

@@ -20,12 +20,12 @@ async function clickedItem(e) {
   modalBox.innerHTML = "";
   // 사이드바 카테고리 하단에 추가 있다면 삭제
   const categoryBtn_add = document.querySelector("#category-btn__add");
-  if (categoryBtn_add) {
-    categoryBtn_add.parentElement.removeChild(categoryBtn_add);
+  if (categoryBtn_add.innerText !== "") {
+    categoryBtn_add.innerText = "";
   }
 
   // 상품추가 버튼 생성
-  if (!document.querySelector("#items-btn__add")) {
+  if (document.querySelector("#items-btn__add").innerText === "") {
     addItemBtn();
   }
 
@@ -307,8 +307,7 @@ function addItemBtn() {
   // 버튼의 부모 불러오기
   const itemsBtnParent = document.querySelector("#items-btn");
   //추가할 버튼 생성
-  const itemsBtn_add = document.createElement("div");
-  itemsBtn_add.id = "items-btn__add";
+  const itemsBtn_add = document.querySelector("#items-btn__add");
   itemsBtn_add.innerText = "상품 추가";
   // 버튼을 부모에 추가
   itemsBtnParent.appendChild(itemsBtn_add);

@@ -20,12 +20,12 @@ async function clickedCategory() {
   // 사이드바: 상품관리 하단에 버튼 있다면 지우기
   const itemsBtn_add = document.querySelector("#items-btn__add");
 
-  if (itemsBtn_add) {
-    itemsBtn_add.parentElement.removeChild(itemsBtn_add);
+  if (itemsBtn_add.innerText !== "") {
+    itemsBtn_add.innerText = "";
   }
 
   // 카테고리 추가 버튼 (없다면)넣기
-  if (!document.querySelector("#category-btn__add")) {
+  if (document.querySelector("#category-btn__add").innerText === "") {
     addCategory();
   }
 
@@ -54,8 +54,7 @@ function addCategory() {
   // 버튼의 부모 불러오기
   const categoryBtnParent = document.querySelector("#category-btn");
   //추가할 버튼 생성
-  const categoryBtn_add = document.createElement("div");
-  categoryBtn_add.id = "category-btn__add";
+  const categoryBtn_add = document.querySelector("#category-btn__add");
   categoryBtn_add.innerText = "카테고리 추가";
   // 버튼을 부모에 추가
   categoryBtnParent.appendChild(categoryBtn_add);

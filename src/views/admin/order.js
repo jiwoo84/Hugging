@@ -6,6 +6,7 @@ const listContainer = document.querySelector("#list-container");
 const orderBtn = document.querySelector("#order-btn");
 // 모달창
 const modalBox = document.querySelector("#modal-container");
+const page_list = document.querySelector("#page_list");
 
 orderBtn.addEventListener("click", clickedOrder);
 
@@ -19,23 +20,47 @@ async function clickedOrder() {
   // 상품관리, 카테고리관리 하단에 버튼 있다면 지우기
   const categoryBtn_add = document.querySelector("#category-btn__add");
   const itemsBtn_add = document.querySelector("#items-btn__add");
-  if (categoryBtn_add) {
-    categoryBtn_add.parentElement.removeChild(categoryBtn_add);
+  if (categoryBtn_add.innerText !== "") {
+    categoryBtn_add.innerText = "";
   }
-  if (itemsBtn_add) {
-    itemsBtn_add.parentElement.removeChild(itemsBtn_add);
+  if (itemsBtn_add.innerText !== "") {
+    itemsBtn_add.innerText = "";
   }
+  pagenation();
+  makeOrderList("1");
+}
 
-  makeOrderList();
+// *******************************************************************
+// 페이지네이션 함수
+async function pagenation() {
+  try {
+    const totalPage = await Api.get("/api/orders");
+    console.log("실행?");
+    page_list.className = "";
+    console.log(totalPage.totalPage);
+    for (let i = 1; i <= totalPage.totalPage; i++) {
+      console.log(`page의 텍스트는 ${i}`);
+      const page = document.createElement("div");
+      page.textContent = i;
+      page.addEventListener("click", () => {
+        listContainer.innerHTML = ``;
+        console.log(`난 ${i}를 누를거야`);
+        makeOrderList(`${i}`);
+      });
+      page_list.appendChild(page);
+    }
+  } catch (err) {
+    alert(err);
+  }
 }
 
 // *******************************************************************
 // 리스트 출력 함수
-async function makeOrderList() {
+async function makeOrderList(page) {
   // 주문 리스트 데이터 받아오기
   let data;
   try {
-    data = (await Api.get("/api/orders")).data;
+    data = (await Api.get(`/api/orders?page=${page}`)).data;
   } catch (err) {
     window.location.reload();
   }
@@ -43,7 +68,7 @@ async function makeOrderList() {
   //한 사람의 주문정보 넣기
   for (let i = 0; i < data.length; i++) {
     const orderBox = document.createElement("div");
-    orderBox.className = "orderBox";
+    orderBox.className = "orderBox box";
 
     // ------------------------------------------------
     // orderBox = orderBox_order + orderBox_user + orderBox_btn
@@ -57,9 +82,9 @@ async function makeOrderList() {
 
     //날짜랑 시간 분리해서 출력
     orderBox_order_date.innerHTML = `
-        <p>주문 일자: ${DATE.slice(0, 10)}</p>
-        <p>주문 시간: ${DATE.slice(11, 19)}</p>
-        <p>주문 번호: ${data[i].주문번호}</p>
+        <p><b>주문 일자:</b> ${DATE.slice(0, 10)}</p>
+        <p><b>주문 시간:</b> ${DATE.slice(11, 19)}</p>
+        <p><b>주문 번호:</b> ${data[i].주문번호}</p>
     `;
 
     // 주문상품,개수
@@ -72,7 +97,7 @@ async function makeOrderList() {
 
     // 배송상태
     const orderBox_order_shippingState = document.createElement("p");
-    orderBox_order_shippingState.innerText = data[i].배송상태;
+    orderBox_order_shippingState.innerHTML = `<b>${data[i].배송상태}</b>`;
 
     // 요청메세지(배송메시지)
     const orderBox_order_shippingMsg = document.createElement("p");
@@ -86,6 +111,7 @@ async function makeOrderList() {
     // -------------------------------------------------------
     // 주문자 정보
     const orderBox_user = document.createElement("div");
+    orderBox_user.className = "orderBox_user";
 
     // 탈퇴한 유저 처리
     if (data[i].구매자이름 === "탈퇴한유저") {

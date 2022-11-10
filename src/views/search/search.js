@@ -4,6 +4,11 @@ const searchSubmit= document.querySelector(".search__submit");
 const searchResult = document.querySelector(".search__result");
 
 searchSubmit.addEventListener("click",async(e)=>{
+
+    while ( searchResult.hasChildNodes() )
+    {
+        searchResult.removeChild( searchResult.firstChild );       
+    }
     const searchWord = document.querySelector(".search__text");
     console.log(searchWord.value);
     const {data} =  await Api.get("/api/items",`search?word=${searchWord.value}`);

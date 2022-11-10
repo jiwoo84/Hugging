@@ -74,6 +74,7 @@ class OrderService {
   }
 
   async getOrderList(data) {
+    // await Order.deleteMany({});
     console.log("find orderList!  data :", data);
     // 토큰에 관리자가 있다면 data 에 관리자가 들어옴
     // await Order.deleteMany({});
@@ -82,41 +83,54 @@ class OrderService {
       throw new Error("주문내역이 없습니다.");
     }
     if (data === "admin") {
-      console.log("어디가 문제?");
-
       const orders = await Order.find({}) // 현재까지 주문한 모든 목록
         .populate("items.id")
         .populate("buyer");
       let result = [];
       for (let i = 0; i < orders.length; i++) {
-        console.log("어디가 문제포문임 여긴?");
         let obj = {}; // json형태로 반환하려고 만든것
         let itemsArr = []; // 상품목록을 깔끔하게 넣으려고
         //
         for (let r = 0; r < orders[i].items.length; r++) {
-          console.log("어디야 대체2");
           // i번째 주문의 items의 길이.
           itemsArr.push({
             상품: orders[i].items[r].id.name,
             개수: orders[i].items[r].count,
           });
-          console.log("이상해");
         }
-        obj = {
-          상품목록: itemsArr,
-          주문번호: orders[i]._id,
-          주문날짜: orders[i].createdAt,
-          주문시간: orders[i].createdAt,
-          배송상태: orders[i].deliveryStatus,
-          구매자이름: orders[i].buyer.name,
-          구매자이메일: orders[i].buyer.email,
-          전화번호: orders[i].buyer.phoneNumber,
-          주소: orders[i].buyer.address,
-          수정: orders[i].orderStatus,
-          요청사항: orders[i].deliveryMsg,
-        };
+        console.log("obj 생성직전");
+        if (!orders[i].buyer) {
+          obj = {
+            상품목록: itemsArr,
+            주문번호: orders[i]._id,
+            주문날짜: orders[i].createdAt,
+            주문시간: orders[i].createdAt,
+            배송상태: orders[i].deliveryStatus,
+            구매자이름: "탈퇴한유저",
+            구매자이메일: "탈퇴한유저",
+            전화번호: "탈퇴한유저",
+            주소: "탈퇴한유저",
+            수정: orders[i].orderStatus,
+            요청사항: orders[i].deliveryMsg,
+          };
+        } else {
+          obj = {
+            상품목록: itemsArr,
+            주문번호: orders[i]._id,
+            주문날짜: orders[i].createdAt,
+            주문시간: orders[i].createdAt,
+            배송상태: orders[i].deliveryStatus,
+            구매자이름: orders[i].buyer.name,
+            구매자이메일: orders[i].buyer.email,
+            전화번호: orders[i].buyer.phoneNumber,
+            주소: orders[i].buyer.address,
+            수정: orders[i].orderStatus,
+            요청사항: orders[i].deliveryMsg,
+          };
+        }
         result.push(obj);
-        console.log("리절트", obj);
+        console.log(obj);
+        console.log("obj 생성완료");
       }
 
       return result;

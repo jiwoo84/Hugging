@@ -8,7 +8,7 @@ const itemBtn = document.querySelector("#items-btn__management");
 // 모달창
 const modalBox = document.querySelector("#modal-container");
 // 카테고리 목록 불러옴
-const categories = (await Api.get("/api/categories/all")).data;
+let categories = (await Api.get("/api/categories/all")).data;
 
 // 버튼에 이벤트 넣기
 itemBtn.addEventListener("click", clickedItem);
@@ -65,10 +65,14 @@ async function clickedItem(e) {
 
 // *******************************************************************
 // 카테고리 셀렉트 생성, 구현
+
 async function makeCategorySelecter() {
   const itemsCategorySelecter = document.querySelector(
     "#itemsCategorySelecter"
   );
+
+  // 카테고리 데이터 새로고침 (카테고리 추가하고 넘어왔을 시 대비)
+  categories = (await Api.get("/api/categories/all")).data;
 
   // option에 카테고리 + 미설정 넣음
   categories.forEach((category) => {

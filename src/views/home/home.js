@@ -28,7 +28,7 @@ function draw(Items, className) {
       <img src="${Items[i].imageUrl}">
       <h3>${Items[i].name}</h3>
       <div>
-        <p>${Items[i].price} 원 </p>
+        <p>${(Items[i].price).toLocaleString('ko-KR')} 원 </p>
         <h4> | </h4>
         <small>  ${Items[i].category}</small>
       </div>

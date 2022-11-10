@@ -44,14 +44,14 @@ function getTotalPrice(key, storeName) {
   if (storeName === "items") {
     //장바구니에서 결제창
     totalPrice = localStorage.getItem("TotalPrice");
-    orderPrice.innerText = `${totalPrice}원`;
+    orderPrice.innerText = `${totalPrice.toLocaleString('ko-KR')}원`;
     return;
   }
   //바로구매로 결제창( 한 종류의 상품 )
   const container = document.getElementById(`${key}`);
   const productPrice = container.querySelector(".itemsPrice");
   totalPrice = parseInt(productPrice.innerText.split(":")[1]);
-  orderPrice.innerText = `${totalPrice}원`;
+  orderPrice.innerText = `${totalPrice.toLocaleString('ko-KR')}원`;
 }
 
 function renderUserComponent(name, address, phoneNumber) {

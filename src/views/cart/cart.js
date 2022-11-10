@@ -20,7 +20,7 @@ function createPost(item,key) {
             <input type="checkbox" name="${key}" class="checkbox" checked>
             <p class="name">${item.name}</p>
             <p class="category">${item.category}</p>
-            <p class="price">${item.price}</p>
+            <p class="price">${item.price.toLocaleString('ko-KR')}원</p>
             <button class="minus">-</button>
             <span class="quantity">${item.sales}</span>
             <button class ="plus">+</button>
@@ -100,7 +100,7 @@ function setTotalPrice(){
 //결제버튼 텍스트
 function getTotalPrice(){ //1
     // totalPrice += productPrice;
-    const msg = `${totalPrice}원 결제하기`;
+    const msg = `${totalPrice.toLocaleString('ko-KR')}원 결제하기`;
     purchaseBtn.value = msg;
     setTotalPrice();
 }

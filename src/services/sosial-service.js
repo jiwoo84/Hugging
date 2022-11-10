@@ -1,5 +1,5 @@
 import axios from "axios";
-import { User } from "../db";
+import { Coupon, User } from "../db";
 import { userService } from "./user-service";
 import bcrypt from "bcrypt";
 class SosialService {
@@ -120,6 +120,17 @@ class SosialService {
         password: hashedPassword,
       };
       const joinSeccess = await User.create(userInfo);
+      //첫회원가입쿠폰 추가
+      const createFirstcoupon = await Coupon.create({
+        name: "첫 회원가입 기념 쿠폰",
+        discount: 10,
+        owner: joinSeccess._id,
+      });
+      console.log("아따 여기 쿠폰 발급됐다 아인교" + createFirstcoupon);
+      const pushFristCoupon = await User.findByIdAndUpdate(
+        { _id: joinSeccess._id },
+        { $push: { ownCoupons: createFirstcoupon._id } }
+      );
       if (joinSeccess) {
         console.log("✅ 카카오데이터로 회원가입 완료!");
         const loginData = { email: joinSeccess.email, password: "123123123" };

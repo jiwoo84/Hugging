@@ -129,7 +129,6 @@ function isExist(data, objStore) {
 
 //carBtn listener
 cartBtn.addEventListener("click", function () {
-
   saveData(salseCount, "items");
   const moveTocart = confirm(
     "상품이 장바구니에 담겼습니다.\n장바구니로 이동하시겠습니까?"
@@ -201,10 +200,10 @@ async function showReview(아이템아이디) {
       btnDiv.setAttribute("class", "btnDiv");
       btnDiv.setAttribute("id", reviewData.data[i].cmtId);
       const btnEdit = document.createElement("button");
-      btnEdit.setAttribute("class", "btnedit button is-success is-light");
+      btnEdit.setAttribute("class", "btnedit");
       btnEdit.textContent = "수정";
       const btnDelete = document.createElement("button");
-      btnDelete.setAttribute("class", "btndelete button is-danger is-light");
+      btnDelete.setAttribute("class", "btndelete");
       btnDelete.textContent = "삭제";
 
       //수정버튼 이벤트리스너
@@ -235,7 +234,7 @@ async function showReview(아이템아이디) {
 //리뷰 작성 완료
 function makeBtnSave() {
   content_bntBox.innerHTML = `
-  <button class="btnSave button is-link is-light">저장</button>
+  <button class="btnSave">저장</button>
   `;
   const btnSave = document.querySelector(".btnSave");
 
@@ -284,7 +283,7 @@ async function editRv(commentId, beforeText) {
   text.value = beforeText;
   // 버튼을 수정완료로 변경
   content_bntBox.innerHTML = `
-    <button class="content_bntBox_done button is-success is-light">수정완료</button>
+    <button class="content_bntBox_done">수정완료</button>
     `;
   const content_bntBox_done = document.querySelector(".content_bntBox_done");
 

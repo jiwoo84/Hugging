@@ -1,3 +1,20 @@
+@font-face {
+  font-family: "MaruBuri-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+html,
+body {
+  font-family: "MaruBuri-Regular";
+  margin: 0;
+  padding: 0;
+}
+main {
+  height: auto;
+  min-height: 100%;
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -19,7 +36,7 @@
 }
 .category {
   font-weight: 600;
-  color: brown;
+  color: #725c46;
 }
 .totalInfo {
   display: flex;
@@ -54,14 +71,16 @@
 }
 .price {
   font-weight: 600;
-  color: blueviolet;
 }
 .finalInfo {
   display: flex;
   flex-direction: row;
   margin: 10px 0px;
 }
-.priceInfo,
+.priceInfo {
+  display: flex;
+  flex-direction: row;
+}
 .count,
 .sellInfo {
   display: flex;
@@ -89,6 +108,9 @@
   flex-direction: column;
   width: 600px;
 }
+.message {
+  background-color: white;
+}
 .reviewDiv_name {
   font-size: 20px;
   font-weight: 600;
@@ -102,14 +124,33 @@
   margin: 5px;
 }
 .momDiv {
-  border: 0px;
-  border-bottom: 2px dashed grey;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #978676;
+  border-radius: 5px;
+  padding: 5px;
   margin: 10px;
-  border-style: dashed;
 }
 .content_bntBox {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   margin: 10px;
+}
+.btnSave {
+  background: #978676;
+  border: 0px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.btnDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.btnedit,
+.btndelete {
+  border: 2px solid #978676;
+  padding: 5px 10px;
+  border-radius: 5px;
 }

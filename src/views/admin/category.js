@@ -37,7 +37,7 @@ async function clickedCategory() {
 
   // 리스트 테이블 헤더 넣기
   listContainer.innerHTML = `
-    <table>
+    <table class="table is-striped categoryTable">
       <thead>
         <tr>
           <th>카테고리명</th>
@@ -70,12 +70,18 @@ function addCategory() {
     categoryAddBox.innerHTML = `
     <div id="modal-container__inner">
       <p id="modalTitle">카테고리 추가</p>
-          <p>카테고리명</p>
-          <input id="categoryAddBox_nameInput"/>
-          <p>인덱스</p>
-          <input id="categoryAddBox_indexInput"/>
-          <button id="categoryAddBox_addBtn">추가완료</button>
-          <button id="categoryAddBox_cancelBtn">취소</button>
+      <div id="categoryAddBox_name">
+        <p>이름</p>
+        <input id="categoryAddBox_nameInput"/>
+      </div>
+      <div id="categoryAddBox_index">
+        <p>인덱스</p>
+        <input id="categoryAddBox_indexInput"/>
+      </div>
+      <div id="categoryAddBox_btns">
+        <button id="categoryAddBox_addBtn" class="button is-dark">추가완료</button>
+        <button id="categoryAddBox_cancelBtn" class="button is-dark">취소</button>
+      </div>
       </div>
     `;
 
@@ -148,8 +154,8 @@ async function makeCategoryList() {
         <td class="categoryBody_row_indexContent">${data.index}</td>
         <td class="categoryBody_row_cntContent">${categoryProductsCnt}</td>
         <td class="categoryBody_row_btns">
-          <button class="categoryBody_row_btns_modify">수정</button>
-          <button class="categoryBody_row_btns_del">삭제</button>
+          <button class="categoryBody_row_btns_modify button is-dark">수정</button>
+          <button class="categoryBody_row_btns_del button is-dark">삭제</button>
         </td>
       </tr>
     `;
@@ -200,18 +206,24 @@ function modifyCategory() {
       categoryAddBox.innerHTML = `
         <div id="modal-container__inner">
         <p id="modalTitle">카테고리 수정</p>
+        <div id="categoryAddBox_name">
           <p>카테고리명</p>
           <input id="categoryAddBox_nameInput" value="${name}" />
+        </div>
+        <div id="categoryAddBox_index">
           <p>인덱스</p>
           <input id="categoryAddBox_indexInput" value="${index}" />
-          <button class="categoryAddBox_doneBtn">수정완료</button>
-          <button class="categoryAddBox_cancelBtn">취소</button>
+        </div>
+        <div id="categoryAddBox_btns">
+          <button id="categoryAddBox_doneBtn" class="button is-dark">수정완료</button>
+          <button id="categoryAddBox_cancelBtn" class=" button is-dark">취소</button>
+        </div>
         </div>
       `;
 
       // 수정완료 버튼 이벤트
       const categoryAddBox_doneBtn = document.querySelector(
-        ".categoryAddBox_doneBtn"
+        "#categoryAddBox_doneBtn"
       );
 
       categoryAddBox_doneBtn.addEventListener("click", async () => {
@@ -244,7 +256,7 @@ function modifyCategory() {
 
       // 취소 버튼
       const categoryAddBox_cancelBtn = document.querySelector(
-        ".categoryAddBox_cancelBtn"
+        "#categoryAddBox_cancelBtn"
       );
       categoryAddBox_cancelBtn.addEventListener("click", () => {
         console.log("취소누름");

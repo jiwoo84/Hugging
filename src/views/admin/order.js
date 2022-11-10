@@ -36,7 +36,7 @@ async function clickedOrder() {
   // 비동기인 pagenation 이후에 처리 위해서 이렇게함
   setTimeout(() => {
     makePageBold(1);
-  }, 100);
+  }, 150);
 }
 
 // *******************************************************************
@@ -44,16 +44,16 @@ async function clickedOrder() {
 async function pagenation() {
   try {
     const totalPage = await Api.get("/api/orders");
-    console.log("실행?");
+    // console.log("실행?");
     page_list.className = "";
     console.log(totalPage.totalPage);
     for (let i = 1; i <= totalPage.totalPage; i++) {
-      console.log(`page의 텍스트는 ${i}`);
+      // console.log(`page의 텍스트는 ${i}`);
       const page = document.createElement("div");
       page.textContent = i;
       page.addEventListener("click", () => {
         listContainer.innerHTML = ``;
-        console.log(`난 ${i}를 누를거야`);
+        // console.log(`난 ${i}를 누를거야`);
         makePageBold(i);
         makeOrderList(`${i}`);
       });
@@ -68,7 +68,6 @@ async function pagenation() {
 function makePageBold(num) {
   console.log("볼드실행");
   let pages = Array.from(page_list.children);
-  console.log("여기페이지", pages);
   pages.forEach((page) => {
     if (+page.innerText === num) {
       page.className = "page_list_currentClick";
@@ -88,7 +87,7 @@ async function makeOrderList(page) {
   } catch (err) {
     window.location.reload();
   }
-  console.log(data);
+  // console.log(data);
   //한 사람의 주문정보 넣기
   for (let i = 0; i < data.length; i++) {
     const orderBox = document.createElement("div");

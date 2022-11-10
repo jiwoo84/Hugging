@@ -37,7 +37,7 @@ async function clickedItem(e) {
   // 표 상단 만들기
   listContainer.innerHTML = `
   <div>
-    <table> 
+    <table class="productTabel table is-striped"> 
       <thead>
         <tr>
           <th id="itemsCategory">
@@ -166,8 +166,8 @@ async function makeItemsList(categoryName) {
       // 펀매중이면 수정,삭제
       itemsBody_row.innerHTML += `
       <td id="${itemData._id}">
-        <button class="itemTableBody_row_modifyBtn">상품수정</button>
-        <button class="itemTableBody_row_delBtn">상품삭제</button>
+        <button class="itemTableBody_row_modifyBtn button is-dark">상품수정</button>
+        <button class="itemTableBody_row_delBtn button is-dark">상품삭제</button>
       </td>`;
     } else {
       // 판매중단이면 수정,판매시작
@@ -203,18 +203,28 @@ function modifyItem() {
       modalBox.innerHTML = `
       <form id="modal-container__inner" enctype="multipart/form-data">
         <p id="modalTitle">상품 수정</p>
+        <div id="modalBox-name">
           <p>상품명</p>
           <input id="modalBox_nameInput" value="${itemData.name}"/>
+        </div>
+        <div id="modalBox-category">
           <p>카테고리</p>
           <select id="modalBox_categorySelect" value="${itemData.category}"></select>
+        </div>
+        <div id="modalBox-price">
           <p>가격</p>
           <input id="modalBox_priceInput" value="${itemData.price}"/>
+        </div>
+        <div id="modalBox-img">
           <p>이미지</p>
           <input type="file" id="modalBox_imgInput" name="modalBox_imgInput" accept="image/*" />
-          <p>상세설명</p>
-          <input id="modalBox_detailInput" value="${itemData.itemDetail}"/>
-          <input type="submit" id="modalBox_doneBtn"></input>
-          <button id="modalBox_cancelBtn">취소</button>
+        </div>
+        <p id="modalBox-detail_title">상세설명</p>
+        <input id="modalBox_detailInput" value="${itemData.itemDetail}"/>
+        <div id="modalBox_btns">
+          <input type="submit" id="modalBox_doneBtn" class="button is-dark" value="수정 완료"></input>
+          <button id="modalBox_cancelBtn" class="button is-dark">취소</button>
+        </div>
       </form>
     `;
 
@@ -321,18 +331,28 @@ function addItemBtn() {
     modalBox.innerHTML = `
       <form id="modal-container__inner" enctype="multipart/form-data">
         <p id="modalTitle">상품 추가</p>
-          <p>상품명</p>
-          <input id="modalBox_nameInput"/>
+        <div id="modalBox-category">
           <p>카테고리</p>
           <select id="modalBox_categorySelect"></select>
-          <p>가격</p>
-          <input id="modalBox_priceInput"/>
-          <p>이미지</p>
-          <input type="file" id="modalBox_imgInput" name="modalBox_imgInput" accept="image/*" />
-          <p>상세설명</p>
+        </div>
+          <div id="modalBox-name">
+            <p>상품명</p>
+            <input id="modalBox_nameInput"/>
+          </div>
+          <div id="modalBox-price">
+            <p>가격</p>
+            <input id="modalBox_priceInput"/>
+          </div>
+          <div id="modalBox-img">
+            <p>이미지</p>
+            <input type="file" id="modalBox_imgInput" name="modalBox_imgInput" accept="image/*" />
+          </div>
+          <p id="modalBox-detail_title">상세설명</p>
           <input id="modalBox_detailInput"/>
-          <input type="submit" id="modalBox_doneBtn"></input>
-          <button id="modalBox_cancelBtn">취소</button>
+          <div id="modalBox_btns">
+            <input type="submit" value="추가하기" id="modalBox_doneBtn" class="button is-dark"></input>
+            <button id="modalBox_cancelBtn" class="button is-dark">취소</button>
+          </div>
       </form>
     `;
 

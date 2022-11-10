@@ -9,6 +9,7 @@ body {
 main {
   height: auto;
   min-height: 100%;
+  margin-bottom: 100px;
 }
 
 #admin-title {
@@ -86,18 +87,6 @@ main {
   font-size: 12px;
 }
 
-table,
-td,
-th {
-  border: 1px solid #333;
-}
-
-thead,
-tfoot {
-  background-color: rgb(219, 207, 190);
-  color: #fff;
-}
-
 #productsListBox {
   margin-bottom: 20px;
 }
@@ -106,27 +95,9 @@ tfoot {
   height: 40%;
 } */
 
-#modal-container__inner {
-  position: absolute;
-  background-color: rgb(195, 228, 238);
-  padding: 100px;
-  border-radius: 20px;
-  border: #333 solid;
-  top: 30%;
-  left: 20%;
-  animation: hide 1;
-  z-index: 3;
-}
-
 #catefory-btn__add {
   border: 0;
   outline: 0;
-}
-
-#modalTitle {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
 }
 
 /* 페이지네이션 */
@@ -158,3 +129,110 @@ tfoot {
   margin-left: 5px;
   background-color: gray;
 }
+
+/* ********************************************************** */
+/* 상품관리 */
+.productTabel {
+  min-width: 1000px;
+}
+
+.itemTableBody_row_modifyBtn,
+.itemTableBody_row_delBtn {
+  font-size: 12px;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+/* ************************************************************** */
+/* 카테고리 */
+.categoryTable {
+  width: 400px;
+}
+
+.categoryBody_row_btns_modify,
+.categoryBody_row_btns_del {
+  font-size: 12px;
+  padding: 5px;
+  margin-right: 3px;
+}
+
+/* ************************************************************* */
+/* 상품추가 모달창 */
+#modal-container__inner {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: hide 1;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  background-color: var(--back);
+  padding: 30px 100px;
+  border-radius: 15px;
+  border: solid 2px var(--brown);
+}
+
+#modalTitle {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  color: var(--darkBrown);
+}
+
+#modal-container__inner > div {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+#modal-container__inner > div > p,
+#modalBox-detail_title {
+  width: 100px;
+  font-size: 18px;
+}
+
+#modalBox_detailInput {
+  height: 100px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+/* 제출, 취소 버튼 */
+#modalBox_doneBtn,
+#modalBox_cancelBtn {
+  width: 100px;
+  margin-right: 5px;
+}
+
+#modalBox_btns {
+  display: flex;
+  justify-content: center;
+}
+
+/* 카테고리 추가 모달창 */
+#categoryAddBox_name,
+#categoryAddBox_index,
+#categoryAddBox_btns {
+  display: flex;
+}
+
+#categoryAddBox_btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#categoryAddBox_addBtn,
+#categoryAddBox_doneBtn,
+#categoryAddBox_cancelBtn,
+#modalBox_doneBtn,
+#modalBox_cancelBtn {
+  width: 100px;
+  margin-right: 5px;
+  background-color: var(--brown);
+}
+
+/* ************************************************************* */
+/* 상품 수정 */

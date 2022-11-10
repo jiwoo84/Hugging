@@ -69,10 +69,10 @@
     </script>
     <h1 class="search">검색하기</h1>
     <br />
-    <div class="search__form">
-      <input class="search__text" placeholder="상품명으로 검색하기" />
+    <form class="search__form">
+      <input class="search__text" onkeyup="if(window.event.keyCode==13){search()}" placeholder="상품명으로 검색하기"/>
       <button class="search__submit button">검색하기</button>
-    </div>
+    </form>
 
     <div class="search__result"></div>
     <script>

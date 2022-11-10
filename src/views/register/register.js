@@ -100,7 +100,6 @@ async function handleSubmit(e) {
     window.location.href = "/";
   } catch (err) {
     console.error(err.stack);
-    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
   }
 }
 
@@ -123,16 +122,16 @@ const sendEmail = async () => {
   timer = setTimeout(() => {
     sessionStorage.removeItem(auth);
     alert("이메일 인증시간이 초과되었습니다!");
-    sendBtn.textContent = "인증번호 보내기";
+    sendBtn.textContent = "이메일인증";
     auth_Emil.className = "hidden";
     sendBtn.removeEventListener("click", authEmail);
     sendBtn.addEventListener("click", sendEmail);
-  }, 60 * 2 * 1000); // 2분안에 인증완료 해야함
+  }, 1000 * 60 * 2); // 2분안에 인증완료 해야함
 };
 
 const authEmail = () => {
   const auth_Emil = document.getElementById("auth__email");
-  if (auth_Emil.value === sessionStorage.getItem("auth")) {
+  if (auth_Emil.value.replace(/ /g, "") === sessionStorage.getItem("auth")) {
     auth_Emil.className = "hidden";
     sendBtn.textContent = "인증완료";
     alert("인증완료!");
@@ -144,7 +143,7 @@ const authEmail = () => {
   }
   alert("인증에 실패했습니다.");
   sessionStorage.removeItem("auth");
-  sendBtn.textContent = "인증번호 보내기";
+  sendBtn.textContent = "이메일인증";
   auth_Emil.className = "hidden";
   sendBtn.removeEventListener("click", authEmail);
   sendBtn.addEventListener("click", sendEmail);

@@ -61,6 +61,11 @@
   display: flex;
   flex-direction: row;
 }
+.count {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 .moveTocart,
 .buyNow {
   padding: 10px;
@@ -91,7 +96,8 @@
   margin: 5px;
 }
 .momDiv {
-  border: 2px dashed black;
+  border: 0px;
+  border-bottom: 2px dashed grey;
   margin: 10px;
   border-style: dashed;
 }

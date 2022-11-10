@@ -50,12 +50,10 @@ async function handleSubmit(e) {
   const spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
   const isPasswordSame = password === passwordConfirm;
   //폰번호
-  const phoneNum = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
+  const phoneNum = /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}$/;
   const isphoneNumber = phoneNum.test(phoneNumber);
+  console.log(!isphoneNumber);
   // 주소
-  if (!postalCode || !address2Input.value) {
-    return alert("배송지 정보를 모두 입력해 주세요.");
-  }
 
   if (!isFullNameValid) {
     return alert("이름은 2글자 이상 입력해주세요.");
@@ -79,7 +77,9 @@ async function handleSubmit(e) {
   if (!isphoneNumber) {
     return alert("핸드폰 번호를 확인 해주세요.");
   }
-
+  if (!postalCode || !address2Input.value) {
+    return alert("배송지 정보를 모두 입력해 주세요.");
+  }
   // 회원가입 api 요청
   try {
     const data = { name, email, password, phoneNumber, postalCode, address };

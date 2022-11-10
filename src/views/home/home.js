@@ -1,4 +1,5 @@
 import * as Api from "/api.js";
+import { addCommas } from "/useful-functions.js";
 
 const bestContainer = document.querySelector(".bestContainer");
 const newContainer = document.querySelector(".newContainer");
@@ -28,7 +29,11 @@ function draw(Items, className) {
       <img src="${Items[i].imageUrl}">
       <h3>${Items[i].name}</h3>
       <div>
+<<<<<<< HEAD
+        <p>${addCommas(Items[i].price)} 원 </p>
+=======
         <p>${(Items[i].price).toLocaleString('ko-KR')} 원 </p>
+>>>>>>> 52c3a37d1d81d4a490ce59dc634f74c464c719bd
         <h4> | </h4>
         <small>  ${Items[i].category}</small>
       </div>

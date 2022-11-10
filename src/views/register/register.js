@@ -40,7 +40,7 @@ async function handleSubmit(e) {
   const address1 = address1Input.value;
   const address2 = address2Input.value;
 
-  const address = `(${postalCode})${address1} ${address2}`;
+  const address = `(${postalCode}) ${address1} ${address2}`;
 
   // 잘 입력했는지 확인
   const isFullNameValid = name.length >= 2;

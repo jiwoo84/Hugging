@@ -36,6 +36,7 @@ async function clickedCategory() {
         <tr>
           <th>카테고리명</th>
           <th>인덱스</th>
+          <th>상품 개수</th>
         </tr>
       </thead>
       <tbody id="categoryBody">
@@ -124,23 +125,30 @@ function addCategory() {
 // *******************************************************************
 // 카테고리 리스트 출력
 async function makeCategoryList() {
-  const datas = (await Api.get("/api/categories/all")).data;
+  // 모든 카테고리 불러옴
+  const categories = (await Api.get("/api/categories/all")).data;
+  // 리스트가 들어갈 공간
   const categoryBody = document.querySelector("#categoryBody");
 
   // 각 행에 정보 넣어주기
-  datas.forEach((data) => {
+  for (let data of categories) {
+    // 해당 카테고리에 속한 자료 가져옴
+    const categoryProductsCnt = (
+      await Api.get(`/api/categories?name=${data.name}&index=${data.index}`)
+    ).data.length;
+
     categoryBody.innerHTML += `
       <tr id=${data.index} class=${data.name}>
         <td class="categoryBody_row_nameContent">${data.name}</td>
         <td class="categoryBody_row_indexContent">${data.index}</td>
+        <td class="categoryBody_row_cntContent">${categoryProductsCnt}</td>
         <td class="categoryBody_row_btns">
           <button class="categoryBody_row_btns_modify">수정</button>
           <button class="categoryBody_row_btns_del">삭제</button>
         </td>
       </tr>
     `;
-  });
-
+  }
   // 삭제 버튼 구현
   delCategory();
 
@@ -155,6 +163,7 @@ function delCategory() {
     ".categoryBody_row_btns_del"
   );
 
+  console.log("버튼들:", categoryBody_row_btns_dels);
   categoryBody_row_btns_dels.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const index = btn.parentElement.parentElement.id;

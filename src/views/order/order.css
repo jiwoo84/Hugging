@@ -32,8 +32,9 @@ html,body{
     padding-bottom:20px;
 }
 .orderedAdress{
-    height: 60px;
+    height: 100px;
     border-radius: 15px;
+    margin-bottom: 20px;
 }
 .orderedAdressTitle, .deliveryMsgTitle, .couponTitle{
     padding:10px 0;
@@ -49,8 +50,6 @@ html,body{
     font-size: 18px;
     margin-bottom: 20px;
     padding-bottom: 20px;
-    display: flex;
-    justify-content: flex-start;
 }
 .card{
     display: flex;

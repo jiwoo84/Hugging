@@ -1,11 +1,29 @@
+@import "../variable.css";
+
+@font-face {
+  font-family: "MaruBuri-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 html,
 body {
+  font-family: "MaruBuri-Regular";
   margin: 0;
   padding: 0;
 }
-.title {
-  font-size: 40px;
+
+.container {
+  height: auto;
+  min-height: 100%;
+}
+
+.container_title {
+  font-size: 35px;
   font-weight: bold;
+  color: #725c46;
   text-align: center;
   margin: 10px auto;
   height: 80px;
@@ -29,14 +47,26 @@ body {
   font-size: 20px;
 }
 .message-box {
-  height: 150px;
+  height: 180px;
   border-radius: 15px;
+  display: flex;
 }
+
 .message-box__coupon,
 .message-box__totalPayAmount,
 .message-box__grade {
   font-size: 18px;
 }
+
+#loadCouponModal {
+  border-color: var(--brown);
+}
+
+.message-box p {
+  margin-bottom: 20px;
+}
+/*쿠폰버튼*/
+
 .buttons {
   display: flex;
   flex-direction: row;

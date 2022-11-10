@@ -14,6 +14,13 @@ main {
   height: auto;
   min-height: 100%;
 }
+.bigContainer {
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .carousel-inner {
   height: 600px;
 }
@@ -28,16 +35,25 @@ main {
   font-size: xx-large;
   margin: 20px;
 }
-.containerLayout {
+/* .containerLayout {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 35px;
+} */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-
+.containerLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 80px;
+}
 /* 홈 그리드 레이아웃 */
 .containerLayout div img {
-  width: 256px;
-  height: 256px;
+  width: 300px;
+  height: 300px;
   padding: 5px 5px;
 }
 .containerLayout div {
@@ -46,21 +62,25 @@ main {
   flex-direction: column;
   align-items: center;
 }
+/* 이름 가격 카테고리 */
 .containerLayout div div {
   display: flex;
   flex-direction: row;
   align-items: baseline;
 }
+/* 제목 */
 .containerLayout div h3 {
   font-size: large;
   padding-top: 10px;
   font-weight: bolder;
 }
+/* //카테고리 */
 .containerLayout div small {
   padding-left: 5px;
   color: #725c46;
   font-weight: 600;
 }
+/* 가격 */
 .containerLayout div p {
   padding-right: 5px;
   font-weight: 600;

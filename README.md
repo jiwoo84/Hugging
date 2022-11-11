@@ -129,7 +129,7 @@
 
 <br />
 
-### 1-3. 페이지 별 화면
+<!-- ### 1-3. 페이지 별 화면
 
 |                                              |                                              |
 | -------------------------------------------- | -------------------------------------------- |
@@ -138,9 +138,9 @@
 | ![image](https://i.ibb.co/RpYN379/image.png) |                                              |
 | 로그인 페이지                                | 앞으로 추가할 페이지                         |
 
-<br />
+<br /> -->
 
-## 2. 기술 스택
+<!-- ## 2. 기술 스택
 
 ![image](https://i.ibb.co/N34mXzy/image.png)
 
@@ -158,7 +158,7 @@
 - **Express** (nodemon, babel-node로 실행됩니다.)
 - Mongodb, Mongoose
 - cors
-- 이외
+- 이외 -->
 
 ## 3. 인프라 구조
 
@@ -176,7 +176,11 @@
 
 | 이름   | 담당 업무 |
 | ------ | --------- |
-| 엘리스 | 팀장/개발 |
+| 허혜실 | 팀장/FE   |
+| 곽지우 | FE        |
+| 박지혜 | FE        |
+| 손형석 | BE        |
+| 이진희 | BE        |
 
 <br />
 
@@ -185,7 +189,7 @@
 1. 레포지토리를 클론하고자 하는 디렉토리에서 아래 명령어를 수행
 
 ```bash
-git clone <레포지토리 주소>
+git clone https://kdt-gitlab.elice.io/sw_track/class_03/web_project/team24/hugging.git
 ```
 
 2. 클론한 디렉토리에서 backend 디렉토리로 들어가 아래 명령어를 통해 backend에서 필요한 module 설치
@@ -197,17 +201,20 @@ npm install
 3. backend에서 필요한 `.env` 설정
 
 ```bash
-MONGODB_URL=<몽고DB URL>
+MONGODB_URL = "mongodb+srv://hyeongseok:sk95774949@simple-board-cluster.lmdzbhe.mongodb.net/?retryWrites=true&w=majority"
+JWT_SECRET_KEY = "sdfkdsfdks234324324fdfsdfasdc234d56gv"
+KAKAO_KEY = "b31d49b6f0bf75da1049dab201b9f2b1"
+KAKAO_REDIRECT = "http://localhost:5000/sosial"
+KAKAO_SECRET="L4soeSogvXh8kyLQIJO7k9ZEAxrSwUtl"
+
+MY_DOMAIN = "http://localhost:5000/"
 PORT=5000
-JWT_SECERT_KEY=<랜덤 문자열>
+SEND_MAILID = "네이버 메일"
+SEND_MAILID_PW = "네이버 패스워드"
+SEND_MAILID_PORT = "587"
+
+## 단, 메일설정에서 보내기 허가가 되어있어야함.
 ```
-
-앱을 테스트하고 싶은 경우 다음의 몽고DB URL을 이용하세요.
-
-- mongodb+srv://elice:W8RsZsSX2Xs1ydE4@cluster0.4gz9ij3.mongodb.net/?retryWrites=true&w=majority
-
-단, 해당 URL은 READ만 가능하며 회원 가입을 하거나 상품 정보를 추가하는 등의 동작은 할 수 없습니다. <br>
-주어진 URL은 테스트 용이므로 실제 개발을 할 때는 해당 URL을 사용하지 않고, 반드시 직접 설치한 몽고DB의 URL을 사용하시기를 바랍니다.
 
 4. express 앱을 실행
 
@@ -225,13 +232,6 @@ npm start
 
 ## 7. FAQ
 
-<details><summary>1. 배포된 페이지는 어디에서 확인할 수 있나요?</summary>
-
-  <p>
-    프로젝트 기본 코드는 따로 배포하지 않았습니다, 레포지토리를 클론하여 직접 실행해보세요.
-  </p>
-
-</details>
 <details><summary>2. env 파일이 보이지 않습니다.</summary>
 
   <p>

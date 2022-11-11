@@ -6,48 +6,42 @@
     <title>Hugging</title>
     <!-- 햄버거바 넣기 -->
     <script src="../public/header/hbgBar.js" type="module" defer></script>
+    <script src="./findPw.js" type="module" defer></script>
     <!-- 아이콘 -->
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="../public/img/Hugging-favicon.png"
-    />
+      href="../public/img/Hugging-favicon.png" />
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&display=swap"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
     <!-- bootstrap-->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-      crossorigin="anonymous"
-    />
+      crossorigin="anonymous" />
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
       integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
       integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous"></script>
     <!-- bulma css 관련 -->
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
-    />
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
     <!-- 폰트 어썸: 아이콘 -->
     <script
       defer
       src="https://kit.fontawesome.com/9daa42bcef.js"
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous"></script>
 
     <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="login.css" />
@@ -78,8 +72,7 @@
                 id="emailInput"
                 type="email"
                 placeholder="abc@example.com"
-                autocomplete="on"
-              />
+                autocomplete="on" />
             </div>
           </div>
 
@@ -91,10 +84,11 @@
                 id="passwordInput"
                 type="password"
                 placeholder="********"
-                autocomplete="on"
-              />
+                autocomplete="on" />
             </div>
           </div>
+
+          <div id="findPw">비밀번호 찾기</div>
 
           <button class="button is-info is-fullwidth" id="submitButton">
             로그인하기
@@ -106,6 +100,18 @@
             <p id="kakaoLoginBtn_name">&nbsp&nbsp카카오톡 로그인</p>
           </button>
         </form>
+      </div>
+      <div class="hidden" id="findpw_box">
+        <div id="findwPwForm"></div>
+        <div id="emailAuth"></div>
+        <div class="hidden" id="autnNum">
+          <input id="authEmail" placeholder="인증번호 입력" />
+          <button id="authEmailBtn">인증하기</button>
+        </div>
+        <div class="hidden" id="newPw">
+          <input id="newpwInput" placeholder="새로운 비밀번호 입력" />
+          <button id="newpwSubmit">변경</button>
+        </div>
       </div>
     </main>
     <script>

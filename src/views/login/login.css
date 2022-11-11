@@ -36,7 +36,7 @@
 }
 .login-form-box {
   width: 40rem;
-  height: 30rem;
+  height: 35rem;
   padding: 30px;
 }
 .login-form-box .title {
@@ -57,4 +57,23 @@
 }
 .button {
   font-family: "MaruBuri-Regular";
+}
+
+.hidden {
+  display: none;
+}
+#findPw {
+  cursor: pointer;
+}
+#findpw_box {
+  position: absolute;
+  z-index: 10;
+  background-color: #86786c;
+  padding: 20px;
+  border-radius: 15px;
+  top: 70%;
+  left: 35%;
+}
+#findwPwForm h2 {
+  padding: 0 0 40px 0;
 }

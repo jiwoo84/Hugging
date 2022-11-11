@@ -34,6 +34,9 @@ main div div nav div div {
   margin-bottom: 10px;
   font-size: larger;
 }
+.navbarCategory {
+  margin: 20px;
+}
 
 /* 큰 컨테이너 */
 .containerBox {
@@ -42,17 +45,30 @@ main div div nav div div {
   justify-content: center;
   padding: 10px;
 }
+
 /* 아이템 그리드 레이아웃 */
 .postItems {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 80px;
+  grid-gap: 50px;
+  overflow: hidden;
 }
-.postItems div div img {
+/* 마우스 hover */
+.imgBox {
   width: 300px;
   height: 300px;
-  padding: 5px;
-  padding-bottom: 10px;
+  margin: 0px auto;
+  overflow: hidden;
+}
+.postItems div div div img {
+  width: 300px;
+  height: 300px;
+  max-width: 100%;
+  max-height: 100%;
+  transition: all 0.2s linear;
+}
+.postItems div div div img:hover {
+  transform: scale(1.2);
 }
 .postItems div div {
   cursor: pointer;
@@ -60,10 +76,15 @@ main div div nav div div {
   flex-direction: column;
   align-items: center;
 }
+.navbar-Item:hover {
+  background: #a69484;
+  cursor: pointer;
+}
 /* 제목 */
 .nameDiv {
   font-size: large;
   font-weight: bolder;
+  margin-top: 10px;
 }
 #detail-div {
   display: flex;

@@ -36,11 +36,6 @@ main {
   font-size: xx-large;
   margin: 20px;
 }
-/* .containerLayout {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 35px;
-} */
 .container {
   display: flex;
   flex-direction: column;
@@ -49,19 +44,31 @@ main {
 .containerLayout {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 80px;
+  grid-gap: 50px;
 }
 /* 홈 그리드 레이아웃 */
-.containerLayout div img {
+.containerLayout div div img {
   width: 300px;
   height: 300px;
-  padding: 5px 5px;
+  max-width: 100%;
+  max-height: 100%;
+  transition: all 0.2s linear;
+}
+.containerLayout div img:hover {
+  transform: scale(1.2);
 }
 .containerLayout div {
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+/* 마우스 hover */
+.imgBox {
+  width: 300px;
+  height: 300px;
+  margin: 0px auto;
+  overflow: hidden;
 }
 /* 이름 가격 카테고리 */
 .containerLayout div div {
@@ -102,7 +109,6 @@ main {
   animation: splash 1s 0.5s ease-in;
   animation-fill-mode: forwards;
 }
-
 @keyframes splash {
   0% {
     opacity: 1;

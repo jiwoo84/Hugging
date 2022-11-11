@@ -216,6 +216,25 @@ class UserService {
     const findUser = await User.findById({ _id: data });
     return findUser.totalPayAmount;
   }
+
+  async findEmail(email) {
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error("해당이메일로 가입한 유저가 없습니다,");
+    }
+    return user.email;
+  }
+
+  async fixPw(email, newPw) {
+    console.log("router에서 받아온 이메일과 pw ", email, newPw);
+    const hashedPassword = await bcrypt.hash(newPw, 10);
+
+    const fix = await User.findOneAndUpdate(
+      { email },
+      { password: hashedPassword }
+    );
+    return true;
+  }
 }
 
 const userService = new UserService();

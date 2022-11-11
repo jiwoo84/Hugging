@@ -1,3 +1,5 @@
+@import "../variable.css";
+
 @font-face {
   font-family: "MaruBuri-Regular";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff")
@@ -22,6 +24,7 @@ main {
   justify-content: center;
   width: 600px;
   padding: 0px;
+  margin-top: 20px;
 }
 .imgUrl {
   display: flex;
@@ -111,6 +114,9 @@ main {
   display: flex;
   flex-direction: column;
   width: 600px;
+  margin-top: 30px;
+  border-top: solid 1px var(--brown);
+  padding-top: 20px;
 }
 .message {
   background-color: white;

@@ -1,5 +1,4 @@
-
-@import "../variable.css"; 
+@import "../variable.css";
 .footer-custom {
   position: relative;
   margin-top: 80px;
@@ -36,5 +35,10 @@
 }
 .footer__cs-center-box__breaktime {
   font-size: 13px;
+  margin-top: 5px;
+}
+
+#copyRightMsg {
+  font-size: 12px;
   margin-top: 5px;
 }

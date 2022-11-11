@@ -120,7 +120,7 @@ async function makeItemsList(categoryName) {
         return;
       }
     });
-    console.log("요청카테고리:", categoryName, categoryIndex);
+    // console.log("요청카테고리:", categoryName, categoryIndex);
     data =
       await Api.get(`/api/categories?name=${categoryName}&index=${categoryIndex}
 `);
@@ -454,7 +454,7 @@ function delItem() {
   // 각 버튼에 이벤트리스너 적용
   itemTableBody_row_delBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
-      console.log("삭제 클릭");
+      // console.log("삭제 클릭");
       const id = btn.parentElement.id;
       const res = await Api.delete(`/api/items/${id}`);
       alert(res.msg);

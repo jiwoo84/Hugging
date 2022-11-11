@@ -174,7 +174,6 @@ function delCategory() {
     ".categoryBody_row_btns_del"
   );
 
-  console.log("버튼들:", categoryBody_row_btns_dels);
   categoryBody_row_btns_dels.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const index = btn.parentElement.parentElement.id;
@@ -248,7 +247,6 @@ function modifyCategory() {
           currentName: name,
         });
         // 수정 완료
-        console.log(res);
         alert("수정되었습니다.");
         categoryAddBox.innerHTML = "";
         clickedCategory();
@@ -259,7 +257,6 @@ function modifyCategory() {
         "#categoryAddBox_cancelBtn"
       );
       categoryAddBox_cancelBtn.addEventListener("click", () => {
-        console.log("취소누름");
         clickedCategory();
       });
     });
@@ -276,8 +273,8 @@ async function categoryPost(endpoint, data) {
   // 예시: {name: "Kim"} => {"name": "Kim"}
 
   const bodyData = JSON.stringify(data);
-  console.log(`%cPOST 요청: ${apiUrl}`, "color: #296aba;");
-  console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
+  // console.log(`%cPOST 요청: ${apiUrl}`, "color: #296aba;");
+  // console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
 
   const res = await fetch(apiUrl, {
     method: "POST",

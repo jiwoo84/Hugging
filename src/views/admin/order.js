@@ -46,7 +46,7 @@ async function pagenation() {
     const totalPage = await Api.get("/api/orders");
     // console.log("실행?");
     page_list.className = "";
-    console.log(totalPage.totalPage);
+    // console.log(totalPage.totalPage);
     for (let i = 1; i <= totalPage.totalPage; i++) {
       // console.log(`page의 텍스트는 ${i}`);
       const page = document.createElement("div");
@@ -66,7 +66,6 @@ async function pagenation() {
 
 // 클릭한 페이지 표시하는 함수
 function makePageBold(num) {
-  console.log("볼드실행");
   let pages = Array.from(page_list.children);
   pages.forEach((page) => {
     if (+page.innerText === num) {

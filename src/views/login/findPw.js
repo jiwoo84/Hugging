@@ -51,6 +51,7 @@ const email_auth = async () => {
       `${sessionStorage.getItem("emailAuth")}`,
       { newPw: newpwInput.value }
     );
+    alert("비밀번호가 변경되었습니다.");
     findpw_box.className = "hidden";
     autnNum.className = "hidden";
     newPw.className = "hidden";

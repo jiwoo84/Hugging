@@ -171,7 +171,7 @@ async function showReview(아이템아이디) {
     //리뷰 렌더링
     // 이전 데이터 삭제
     reviewList.innerHTML = "";
-    // 댓글작성자주인(0개/1개): owncmt / 댓글작성자id(여러개): cmtId
+    // 댓글작성자주인(0개/1개): owncmt / 댓글작성자id(여러개): cmtId.
     const momDiv = document.createElement("div");
     momDiv.setAttribute("class", "momDiv");
     const reviewDiv = document.createElement("div");

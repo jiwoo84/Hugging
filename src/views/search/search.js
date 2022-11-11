@@ -3,15 +3,20 @@ import * as Api from "/api.js";
 const searchSubmit= document.querySelector(".search__submit");
 const searchResult = document.querySelector(".search__result");
 
-
+// 검색함수
 async function search(e){
     e.preventDefault();
+
+    // 검색 결과내역 지우기
     while ( searchResult.hasChildNodes()){
         searchResult.removeChild( searchResult.firstChild );       
     }
     const searchWord = document.querySelector(".search__text");
 
+    // 검색 결과 받아오기
     const {data} =  await Api.get("/api/items",`search?word=${searchWord.value}`);
+    
+    // 검색결과 renderging
     data.forEach( item =>{
         const product =  document.createElement("div");
         product.innerHTML = `
@@ -28,9 +33,7 @@ async function search(e){
     });
 }
 
-searchSubmit.addEventListener("click",search);
-
-// 상품의 이미지 클릭하면 상세페이지로 이동
+// 상품을 클릭하면 상세페이지로 이동
 function moveTodetailBtn(key){
     const container = document.getElementById(`${key}`);
     container.addEventListener("click", ()=>{
@@ -38,3 +41,5 @@ function moveTodetailBtn(key){
         location.href = "/detail";
     });
 }
+
+searchSubmit.addEventListener("click",search);

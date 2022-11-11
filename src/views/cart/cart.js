@@ -15,7 +15,7 @@ getIdxedDBValues();
 
 
 // rendering
-function createPost(item,key) {
+function createCard(item,key) {
     const priceSum = item.price*item.sales;
     return `
     <div id="${key}" class = "card">
@@ -75,12 +75,12 @@ function getIdxedDBValues() {
                             value.onsuccess = (e)=> {
                                 totalPrice += value.result.price*value.result.sales; 
                                 //6. 상품추가 렌더링 실행
-                                main.insertAdjacentHTML("beforeend",createPost(value.result,cursor.key));
+                                main.insertAdjacentHTML("beforeend",createCard(value.result,cursor.key));
                                 // 7. 각 상품에 대한 수량변경 버튼 추가
                                 attachBtn(value.result.id);
                                 // 상품상세페이지로 이동버튼
                                 moveTodetailBtn(value.result.id);
-                                // 결제금액
+                                // 결제버튼 텍스트 업데이트
                                 getTotalPrice();
                             }
                             // 8. cursor로 순회
@@ -101,8 +101,7 @@ function setTotalPrice(){
 }
 
 //결제버튼 텍스트
-function getTotalPrice(){ //1
-    // totalPrice += productPrice;
+function getTotalPrice(){ 
     const msg = `${addCommas(totalPrice)}원 결제하기`;
     purchaseBtn.value = msg;
     setTotalPrice();
@@ -118,8 +117,6 @@ function getCheckboxValue(){
     });
     return keys;
 }
-
-
 
 // 상품의 이미지 클릭하면 상세페이지로 이동
 function moveTodetailBtn(key){
@@ -235,7 +232,8 @@ clearSelectBtn.addEventListener("click",function(){
         const keys = getCheckboxValue();
         
         keys.forEach((key)=>{
-            const objStoreRequest = objStore.delete(key);       // 3. 삭제하기 
+            // 3. 삭제하기 
+            const objStoreRequest = objStore.delete(key);      
             objStoreRequest.onsuccess =(e)=> {
                 console.log("deleted");
             }

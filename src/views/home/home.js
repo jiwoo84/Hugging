@@ -11,16 +11,16 @@ getDataFromApi();
 
 async function getDataFromApi() {
   const data = await Api.get("/api/items");
-  // data = [ [{...},{...}...{...}:9개] , [{...}{}{}:3개] ]
+  // 베스트와 신상품 데이터 get
   const { bestItems, newItems } = data;
 
-  bestContainer.appendChild(draw(bestItems, "bestItem"));
-  newContainer.appendChild(draw(newItems, "newItem"));
+  bestContainer.appendChild(createCard(bestItems, "bestItem"));
+  newContainer.appendChild(createCard(newItems, "newItem"));
 
   attachBtn();
 }
-
-function draw(Items, className) {
+// renderging
+function createCard(Items, className) {
   const card = document.createElement("div");
   card.setAttribute("class", "containerLayout");
   for (let i = 0; i < Items.length; i++) {
@@ -41,6 +41,7 @@ function draw(Items, className) {
   return card;
 }
 
+//indexedDB 생성
 function createDB() {
   if (window.indexedDB) {
     const databaseName = "cart";
@@ -79,7 +80,7 @@ function attachBtn() {
     });
   });
 }
-
+//스플래시 이미지
 window.onload = function enterCheck() {
   if (sessionStorage.getItem("enterIn") !== "show") {
     const splashImg = document.createElement("img");
@@ -92,5 +93,4 @@ window.onload = function enterCheck() {
     }, 1500);
     return;
   }
-  splashContainer.removeChild(splashImg);
 };

@@ -42,7 +42,7 @@ async function handleSubmit(e) {
   const isEmailValid = validateEmail(email);
   const isPasswordValid = password.length >= 4;
 
-  if (!isEmailValid || !isPasswordValid) {
+  if (!isPasswordValid) {
     return alert("이메일과 비멀번호를 확인해주세요.");
   }
 

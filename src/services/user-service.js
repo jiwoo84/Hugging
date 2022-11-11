@@ -53,7 +53,7 @@ class UserService {
   async getUserToken(loginInfo) {
     // 객체 destructuring
     const { email, password } = loginInfo;
-
+    console.log(loginInfo);
     // 우선 해당 이메일의 사용자 정보가  db에 존재하는지 확인
     const user = await User.findOne({ email });
     if (!user) {
@@ -72,6 +72,7 @@ class UserService {
       password,
       correctPasswordHash
     );
+    console.log("해쉬 패스워드 일치여부 ", isPasswordCorrect);
 
     if (!isPasswordCorrect) {
       throw new Error(
@@ -173,7 +174,6 @@ class UserService {
       currentPassword,
       correctPasswordHash
     );
-
     //소셜로그인 대상자라면 현재비밀번호는 중요하지않음, 통과
     if (sosial === true) {
       console.log("소셜로그인 대상자임, 통과");

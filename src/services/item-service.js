@@ -164,6 +164,11 @@ class ItemService {
     // console.log(`1.${total}\n2.${items}\n3.${totalPage}`);
     return { page, perPage, items, totalPage };
   }
+
+  async onSale(_id, status) {
+    await Item.findByIdAndUpdate(_id, { onSale: status });
+    return true;
+  }
 }
 
 const itemService = new ItemService();

@@ -100,6 +100,7 @@ commentRouter.get("/:id", async (req, res, next) => {
   if (!itemId) {
     throw new Error("아이템 id 값을 다시 가져오시게");
   }
+  console.log("하기직전");
   try {
     const { commentOwners, ownCmt } = await commentService.getAll({
       userId,

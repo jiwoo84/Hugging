@@ -149,7 +149,7 @@ itemRouter.patch(
     let { price } = req.query;
     price = Number(price);
     const onSale = false;
-    let fixImgUrl = "";
+    let fixImgUrl = null;
     // 만약 들어온 파일이 있다면,
     if (req.file) {
       console.log(req.file);
@@ -226,6 +226,24 @@ itemRouter.delete("/:id", loginRequired, async (req, res, next) => {
   return res.status(400).json({
     msg: "잘못된 접근입니다. (관리자가 아닙니다)",
   });
+});
+
+itemRouter.patch("/:id", loginRequired, async (req, res, next) => {
+  const { currentRole } = req;
+  const itemId = req.params.id;
+  const { onSale } = req.body;
+  if (currentRole !== "admin") {
+    throw new Error("관리자만 접근 가능합니다.");
+  }
+  try {
+    await itemService.onSale(itemId, onSale);
+    return res.status(200).json({
+      status: 200,
+      msg: "상품판매가 시작되었습니다.",
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 export { itemRouter };

@@ -12,7 +12,7 @@
 
 #### 해외 유명 가구 전문 쇼핑몰입니다. 제품 등록, 장바구니 추가, 주문하기 등 쇼핑몰의 핵심 서비스를 구현합니다.
 
-<details><summary>기술스택
+<details><summary>기술스택</summary>
 
 **프론트엔드**
 
@@ -29,7 +29,7 @@
 <img src="https://img.shields.io/badge/NGINX-009639?style=flat-square&logo=NGINX&logoColor=white"/>
 <img src="https://img.shields.io/badge/PM2-2B037A?style=flat-square&logo=PM2&logoColor=white"/>
 
-</summary></details><br />
+</details><br />
 
 **배포링크**
 

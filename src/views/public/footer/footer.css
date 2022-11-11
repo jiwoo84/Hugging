@@ -1,6 +1,6 @@
 .footer-custom {
   position: relative;
-  margin-top: 30px;
+  margin-top: 80px;
   padding: 30px 25px 30px 25px;
   background-color: #978676;
   width: 100%;
@@ -10,17 +10,17 @@
   justify-content: space-evenly;
 }
 .footer__company-box__title {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 40px;
   font-weight: 700;
 }
 .footer__company-box__copyright {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   margin-top: 10px;
   font-size: 12px;
 }
 .footer__title {
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", serif;
   font-size: 25px;
   font-weight: 700;
 }

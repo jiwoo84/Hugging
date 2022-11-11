@@ -6,6 +6,7 @@
     <title>Hugging</title>
     <!-- 햄버거바 넣기 -->
     <script src="../public/header/hbgBar.js" type="module" defer></script>
+    <script src="./findPw.js" type="module" defer></script>
     <!-- 아이콘 -->
     <link
       rel="icon"
@@ -87,10 +88,7 @@
             </div>
           </div>
 
-          <div id="findPw">
-            비밀번호 찾기
-            <div id="findwPwForm"></div>
-          </div>
+          <div id="findPw">비밀번호 찾기</div>
 
           <button class="button is-info is-fullwidth" id="submitButton">
             로그인하기
@@ -102,6 +100,18 @@
             <p id="kakaoLoginBtn_name">&nbsp&nbsp카카오톡 로그인</p>
           </button>
         </form>
+      </div>
+      <div class="hidden" id="findpw_box">
+        <div id="findwPwForm"></div>
+        <div id="emailAuth"></div>
+        <div class="hidden" id="autnNum">
+          <input id="authEmail" placeholder="인증번호 입력" />
+          <button id="authEmailBtn">인증하기</button>
+        </div>
+        <div class="hidden" id="newPw">
+          <input id="newpwInput" placeholder="새로운 비밀번호 입력" />
+          <button id="newpwSubmit">변경</button>
+        </div>
       </div>
     </main>
     <script>

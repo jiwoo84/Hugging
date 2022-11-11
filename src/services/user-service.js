@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { Coupon, User } from "../db";
+import { Coupon, User, Comment } from "../db";
 import { couponRouter } from "../routers";
 
 class UserService {
@@ -200,7 +200,14 @@ class UserService {
   }
 
   async userDelete(_id) {
-    await User.findByIdAndDelete(_id);
+    const user = await User.findByIdAndDelete(_id);
+    console.log(user);
+    const userId = user._id;
+    // 쿠폰, 댓글에서 유저id로 등록되어있는 doc 삭제
+    console.log("쿠폰삭제중");
+    await Coupon.deleteMany({ owner: userId });
+    console.log("댓글삭제중");
+    await Comment.deleteMany({ owner: userId });
     console.log("유저가 떠났읍니다..");
     return "유저가 떠났읍니다..";
   }

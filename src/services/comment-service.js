@@ -33,9 +33,11 @@ class CommentService {
   // 상품에 추가된 댓글 보기
   async getAll(id) {
     // item.commets 를 찾음
+    console.log("라우터에서 받아온 값 ", id);
     const _id = id.itemId;
     const { userId } = id;
     const comments = (await Item.findById(_id).populate("comments")).comments;
+    console.log(comments);
     console.log("포문 돌아감@@");
     let ownCmt = "";
     try {

@@ -66,7 +66,7 @@ orderRouter.get("/", loginRequired, async (req, res, next) => {
       return res.status(200).json({
         stauts: 200,
         msg: "해당 유저것만 보여주겠음",
-        data: orders.result,
+        data: orders,
       });
     }
   } catch (err) {

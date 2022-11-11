@@ -186,7 +186,7 @@ async function showReview(아이템아이디) {
     let date = Date.parse(rawDate);
     let result = new Date(date);
     result = result.toString();
-    let resultDate = result.slice(0, 25);
+    let resultDate = result.slice(0, 21);
     dateDiv.textContent = `${resultDate}`;
 
     momDiv.appendChild(reviewDiv);

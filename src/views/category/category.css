@@ -34,6 +34,9 @@ main div div nav div div {
   margin-bottom: 10px;
   font-size: larger;
 }
+.navbarCategory {
+  margin: 20px;
+}
 
 /* 큰 컨테이너 */
 .containerBox {

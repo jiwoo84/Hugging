@@ -2,7 +2,7 @@
 
 <div>
 
-<img alt="쇼핑-데모 로고" src="https://i.ibb.co/xSZHxmy/image.png">
+<img alt="쇼핑-데모 " src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F713449c6-a342-4a30-b22e-67e23e5330f8%2FUntitled.png?table=block&id=bfad3519-7f5a-4b66-b4b7-5ab581c02b93&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=2000&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2">
 
 </div>
 <img src ="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fea69ef50-1b49-4bed-b23d-90dc5d28591f%2FUntitled.png?table=block&id=5a1f67c2-d498-4a43-b7cd-aede8feb5239&spaceId=beaa8bbc-f504-4c20-b220-9fc699f70e12&width=1850&userId=14cc2ef3-04b9-41f7-9991-3bf06bfcb033&cache=v2">
@@ -12,7 +12,7 @@
 
 #### 해외 유명 가구 전문 쇼핑몰입니다. 제품 등록, 장바구니 추가, 주문하기 등 쇼핑몰의 핵심 서비스를 구현합니다.
 
-<details><summary>기술스택</summary></details><br />
+<details><summary>기술스택
 
 **프론트엔드**
 
@@ -25,27 +25,57 @@
 <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=Node.js&logoColor=white"/>
 <img src="https://img.shields.io/badge/express-000000?style=flat-square&logo=express&logoColor=white"/>
 <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white"/>
-<img src="https://img.shields.io/badge/Amazon S3-569A31?style=flat-square&logo=Amazon S3&logoColor=white"/>
-<img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=Redis&logoColor=white"/>
+
 <img src="https://img.shields.io/badge/NGINX-009639?style=flat-square&logo=NGINX&logoColor=white"/>
 <img src="https://img.shields.io/badge/PM2-2B037A?style=flat-square&logo=PM2&logoColor=white"/>
 
+</summary></details><br />
+
 **배포링크**
+
+### https://jinytree.shop
 
 **시연 영상 유튜브에 올리고 링크 추가?**
 
 ## 2. 서비스 주요 기능 설명
 
+### 2-1 로그인
+
+<p>소셜로그인 및 회원가입</p>
+<p>비밀번호 찾기 및 수정</p>
+<p>JWT refreshToken 을 이용한 인증 인가</p>
+
+### 2-2 회원가입
+
+<p>이메일 인증으로 사용자가 매우 많은 id를 소유할 수 없게함.</p>
+<p>주소 api도입으로 간결한 주소입력</p>
+
+### 2-3 회원
+
+<p>관리자와 일반사용자를 구분하여 페이지 변환</p>
+<p>보유 쿠폰 열람가능</p>
+<p>주문목록 열람 및 수정가능</p>
+<p>회원정보변경 및 탈퇴 가능</p>
+<p>등급확인 가능 </p>
+
+<p>장바구니에 담아 구매할수 있다.</p>
+<p></p>
+<p></p>
+<p></p>
+
+### 2-4 상품
+
 <br />
 
 ### 1-1. API 문서
 
-### https://documenter.getpostman.com/view/23952739/2s847JrX6f
+### https://www.notion.so/elice/API-7dc294fdb2064d5bbdc2a82dd769a02d
 
 <br>
 
 ### 1-2. 데모 영상
 
+<!--
 <details><summary>사용자 회원가입, 로그인</summary>
 
 ![image](https://user-images.githubusercontent.com/91174156/172159634-1e105633-9948-464e-a540-5429200a1353.gif)
@@ -95,7 +125,7 @@
 1. 화면녹화 -> 유튜브 업로드 -> 유튜브 링크 삽입
 2. 화면움짤녹화 -> 움짤삽입 (https://www.screentogif.com/ 활용가능)
 
-</details>
+</details> -->
 
 <br />
 

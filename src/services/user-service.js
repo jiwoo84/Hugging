@@ -228,11 +228,13 @@ class UserService {
   async fixPw(email, newPw) {
     console.log("router에서 받아온 이메일과 pw ", email, newPw);
     const hashedPassword = await bcrypt.hash(newPw, 10);
-
+    console.log("입력비번 ", newPw);
+    console.log("해쉬비번 ", hashedPassword);
     const fix = await User.findOneAndUpdate(
       { email },
       { password: hashedPassword }
     );
+    console.log(await User.findOne({ email }));
     return true;
   }
 }

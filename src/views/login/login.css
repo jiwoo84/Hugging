@@ -1,10 +1,11 @@
+@import "../variable.css"; 
 .main {
   height: auto;
   min-height: 100%;
 }
 .button.is-info {
   font-size: 20px;
-  background-color:#978676 ;
+  background-color:var(--brown) ;
 }
 .button.is-info:hover {
   background-color:#86786c ;
@@ -12,12 +13,12 @@
 .button#submitKaKaoButton {
   background: url("./kakao_logo.png") no-repeat;
   background-size: 600px 70px;
-
 }
 .title {
-  font-size: 40px;
+  font-size: 35px;
   margin-top: 60px;
   text-align: center;
+  color: var(--darkBrown);
 }
 .login-form-container {
   display: flex;

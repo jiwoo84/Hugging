@@ -1,13 +1,16 @@
+@import "../variable.css"; 
+
 html,body{
     margin:0;
     padding:0;
 }
 .cart{
     display: block;
-    font-size: 40px;
+    font-size: 35px;
+    color: var(--darkBrown);
     font-weight: bold;
     text-align: center;
-    margin: 60px auto 0px auto; 
+    margin: 60px auto 0px auto;
 }
 .moveTopurchase, .viewProduct{
     display: block;
@@ -90,4 +93,9 @@ html,body{
     font-size: 18px;
     border: 1px solid lightgray;
 }
-
+.moveTopurchase:hover{
+    background-color:#86786c ;
+}
+.minus, .plus{
+    font-weight: bold;
+}

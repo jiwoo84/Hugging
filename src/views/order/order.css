@@ -132,6 +132,9 @@ label{
 .moveToCart{
     border : 1px lightgray solid;
 }
+.purchase:hover{
+    background-color: #86786c;
+}
 .productTitle, .priceTitle, .cardOrcashTitle{
     width: 150px;
     font-weight: bold;

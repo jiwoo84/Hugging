@@ -22,6 +22,7 @@ html,body{
     font-size: 18px;
     font-family: 'MaruBuri-Regular';
     border: 0.2px solid lightgray;
+    padding-left:15px;
 }
 .search__result{
     display: grid;

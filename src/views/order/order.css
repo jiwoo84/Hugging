@@ -1,13 +1,16 @@
+@import "../variable.css"; 
+
 html,body{
     margin:0;
     padding:0;
 }
-#order{
+.order{
     display: block;
-    font-size: 40px;
+    font-size: 35px;
     font-weight: bold;
     text-align: center;
-    margin: 60px auto 60px auto; 
+    margin: 60px auto; 
+    color : var(--darkBrown);
 }
 .orderedMan{
     background-color: #fff;
@@ -126,7 +129,7 @@ label{
     font-weight: bold;
 }
 .purchase{
-    background-color:#725c46;
+    background-color: var(--darkBrown);
     color:#fff;
 }
 .moveToCart{

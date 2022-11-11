@@ -26,7 +26,9 @@ function draw(Items, className) {
   for (let i = 0; i < Items.length; i++) {
     card.innerHTML += `
     <div id="${Items[i]._id}" class="${className}">
-      <img src="${Items[i].imageUrl}">
+      <div class="imgBox">
+        <img src="${Items[i].imageUrl}">
+      </div>
       <h3>${Items[i].name}</h3>
       <div>
         <p>${addCommas(Items[i].price)} 원 </p>
@@ -60,7 +62,7 @@ function createDB() {
 function attachBtn() {
   const detailToBtns = document.querySelectorAll(".bestItem");
   const newItemToBtns = document.querySelectorAll(".newItem");
-  
+
   detailToBtns.forEach((detailToBtn) => {
     detailToBtn.addEventListener("click", () => {
       const id = detailToBtn.id;

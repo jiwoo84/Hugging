@@ -132,6 +132,8 @@ function displayData(page, perPage) {
     //작은 div(이미지+이름),
     const sonDiv = document.createElement("div");
     sonDiv.setAttribute("class", "sonDiv");
+    const imgBox = document.createElement("div");
+    imgBox.setAttribute("class", "imgBox");
     const img = document.createElement("img");
     img.id = "imgId";
     img.src = totalData[i].imageUrl;
@@ -154,7 +156,8 @@ function displayData(page, perPage) {
     detailDiv.appendChild(priceDiv);
     detailDiv.appendChild(stick);
     detailDiv.appendChild(detailCategory);
-    sonDiv.appendChild(img);
+    imgBox.appendChild(img);
+    sonDiv.appendChild(imgBox);
     sonDiv.appendChild(nameDiv);
     sonDiv.appendChild(detailDiv);
     momDiv.appendChild(sonDiv);

@@ -1,4 +1,4 @@
-main {
+.main {
   height: auto;
   min-height: 100%;
 }
@@ -11,12 +11,13 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* height: 85vh; */
+  margin-top: 80px;
+  margin-bottom: 120px;
 }
 .register-user-form-box {
   width: 640px;
-  height: 850px;
-
+  height: 1050px;
+  padding: 40px 30px;
 }
 .register-user-form-box .title {
   text-align: center;
@@ -49,9 +50,23 @@ main {
 }
 .button.is-primary{
   background-color:#978676;  
-  margin-top: 40px;
   font-size: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
+.field:not(:last-child) {
+  margin-bottom: 30px;
+}
+
 .button{
   font-family: 'MaruBuri-Regular';
+}
+.label{
+  font-size: 20px;
+}
+.button.is-primary.is-hovered, .button.is-primary:hover {
+  background-color: #86786c ;
+}
+.help{
+  font-size: 14px;
 }

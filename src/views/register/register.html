@@ -69,123 +69,124 @@
         loadHTML("../public/header/header.html");
       }
     </script>
-    <main>
-    <h1 class="title">회원가입</h1>
-    <!-- 회원가입 폼(Form) -->
-    <div class="register-user-form-container">
-      <div class="box register-user-form-box" id="registerUserForm">
-        <!-- <p class="title is-5 has-text-primary">회원가입</p> -->
-        <div class="field">
-          <label class="label" for="fullNameInput">이름</label>
-          <div class="control">
-            <input
-              class="input"
-              id="fullNameInput"
-              type="text"
-              placeholder="엘리스"
-              autocomplete="on"
-            />
+    <main class="main">
+      <h1 class="title">회원가입</h1>
+      <!-- 회원가입 폼(Form) -->
+      <div class="register-user-form-container">
+        <div class="box register-user-form-box" id="registerUserForm">
+          <!-- <p class="title is-5 has-text-primary">회원가입</p> -->
+          <div class="field">
+            <label class="label" for="fullNameInput">이름</label>
+            <div class="control">
+              <input
+                class="input"
+                id="fullNameInput"
+                type="text"
+                placeholder="엘리스"
+                autocomplete="on"
+              />
+            </div>
           </div>
-        </div>
 
-        <div class="field">
-          <label class="label" for="emailInput">이메일</label>
-          <div class="control">
-            <input
-              class="input"
-              id="emailInput"
-              type="email"
-              placeholder="abc@example.com"
-              autocomplete="on"
-            />
+          <div class="field">
+            <label class="label" for="emailInput">이메일</label>
+            <div class="control">
+              <input
+                class="input"
+                id="emailInput"
+                type="email"
+                placeholder="abc@example.com"
+                autocomplete="on"
+              />
+            </div>
+            <div class="email__box">
+              <button id="send__email" class="button">이메일인증</button>
+              <input
+                id="auth__email"
+                class="hidden"
+                placeholder="인증번호를 입력하세요"
+              />
+            </div>
           </div>
-          <div class="email__box">
-            <button id="send__email" class="button">이메일인증</button>
-            <input
-              id="auth__email"
-              class="hidden"
-              placeholder="인증번호를 입력하세요"
-            />
-          </div>
-        </div>
 
-        <div class="field">
-          <label class="label" for="passwordInput">비밀번호</label>
-          <div class="control">
-            <input
-              class="input"
-              id="passwordInput"
-              type="password"
-              placeholder="********"
-              autocomplete="off"
-            />
-            <p class="help">
-              영문,숫자, 특수문자를 혼합하여 8자리 이상 입력해주세요.
-            </p>
+          <div class="field">
+            <label class="label" for="passwordInput">비밀번호</label>
+            <div class="control">
+              <input
+                class="input"
+                id="passwordInput"
+                type="password"
+                placeholder="********"
+                autocomplete="off"
+              />
+              <p class="help">
+                영문,숫자, 특수문자를 혼합하여 8자리 이상 입력해주세요.
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div class="field mb-5">
-          <label class="label" for="passwordConfirmInput">비밀번호 확인</label>
-          <div class="control">
-            <input
-              class="input"
-              id="passwordConfirmInput"
-              type="password"
-              placeholder="********"
-              autocomplete="off"
-            />
+          <div class="field mb-5">
+            <label class="label" for="passwordConfirmInput">비밀번호 확인</label>
+            <div class="control">
+              <input
+                class="input"
+                id="passwordConfirmInput"
+                type="password"
+                placeholder="********"
+                autocomplete="off"
+              />
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <div class="field-label"></div>
-          <div class="field-body">
-            <div class="field is-expanded">
-              <label class="label" for="phoneNumberInput">전화번호</label>
-              <div class="field has-addons">
-                <p class="control">
-                  <a class="button is-static"> +82 </a>
-                </p>
-                <p class="control is-expanded">
-                  <input
-                    class="input"
-                    id="phoneNumberInput"
-                    type="tel"
-                    placeholder="010-1234-1234"
-                  />
-                </p>
+          <div class="field">
+            <div class="field-label"></div>
+            <div class="field-body">
+              <div class="field is-expanded">
+                <label class="label" for="phoneNumberInput">전화번호</label>
+                <div class="field has-addons">
+                  <p class="control">
+                    <a class="button is-static"> +82 </a>
+                  </p>
+                  <p class="control is-expanded">
+                    <input
+                      class="input"
+                      id="phoneNumberInput"
+                      type="tel"
+                      placeholder="010-1234-1234"
+                    />
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="field">
-          <label class="label">주소</label>
-          <div class="control">
-            <input
-              class="input"
-              id="postalCodeInput"
-              type="text"
-              placeholder="주소 찾기를 눌러주세요"
-            />
+          <div class="field">
+            <label class="label">주소</label>
+            <div class="control">
+              <input
+                class="input"
+                id="postalCodeInput"
+                type="text"
+                placeholder="주소 찾기를 눌러주세요"
+              />
+            </div>
+            <button id="findAddressBtn" class="button">주소 찾기</button>
           </div>
-          <button id="findAddressBtn" class="button">주소 찾기</button>
-        </div>
-        <div class="field">
-          <div class="control">
-            <input class="input" id="address1Input" type="text" />
+          <div class="field">
+            <div class="control">
+              <input class="input" id="address1Input" type="text" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input" id="address2Input" type="text" />
+            </div>
+          </div>
+          <div class="submitButtonContainer">
+            <button class="button is-primary is-fullwidth" id="submitButton">
+              회원가입하기
+            </button>
           </div>
         </div>
-        <div class="field">
-          <div class="control">
-            <input class="input" id="address2Input" type="text" />
-          </div>
-        </div>
-
-        <button class="button is-primary is-fullwidth" id="submitButton">
-          회원가입하기
-        </button>
       </div>
-    </div>
     </main>
     <script>
       loadHTML("../public/footer/footer.html");

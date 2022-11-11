@@ -155,6 +155,13 @@ main {
   margin-top: 5px;
 }
 
+/* 판매시작버튼 */
+.itemTableBody_row_restartBtn {
+  font-size: 12px;
+  padding: 5px;
+  margin-top: 5px;
+}
+
 /* ************************************************************** */
 /* 카테고리 */
 .categoryTable {

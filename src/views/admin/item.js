@@ -173,8 +173,8 @@ async function makeItemsList(categoryName) {
       // 판매중단이면 수정,판매시작
       itemsBody_row.innerHTML += `
       <td id="${itemData._id}">
-        <button class="itemTableBody_row_modifyBtn">상품수정</button>
-        <button class="itemTableBody_row_restartBtn">판매시작</button>
+        <button class="itemTableBody_row_modifyBtn button is-dark">상품수정</button>
+        <button class="itemTableBody_row_restartBtn button is-dark">판매시작</button>
       </td>`;
     }
     itemsBody.appendChild(itemsBody_row);

@@ -9,13 +9,6 @@ mongoose.connect(DB_URL);
 const db = mongoose.connection;
 
 db.on("connected", async () => {
-  await User.create({
-    email: "a@a.a",
-    password: "123123123",
-    address: "엘리스 랩실 죽돌이",
-    phoneNumber: "010-0000-0000",
-    name: "엘리스죽돌이",
-  });
   console.log("정상적으로 MongoDB 서버에 연결되었습니다.  " + DB_URL);
 });
 db.on("error", (error) =>

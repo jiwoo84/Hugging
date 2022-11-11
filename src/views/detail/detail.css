@@ -57,6 +57,7 @@ main {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin-top: 10px;
 }
 .minus {
   padding: 0px 13px;
@@ -76,6 +77,9 @@ main {
   display: flex;
   flex-direction: row;
   margin: 10px 0px;
+}
+.deliveryInfo span:nth-child(2) {
+  margin-bottom: 5px;
 }
 .priceInfo {
   display: flex;

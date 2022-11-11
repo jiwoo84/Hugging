@@ -1,8 +1,4 @@
 import mongoose from "mongoose";
-import { Category } from "./models/category-model";
-import { Item } from "./models/item-model";
-import { Order } from "./models/order-model";
-import { User } from "./models/user-model";
 
 const DB_URL =
   process.env.MONGODB_URL ||

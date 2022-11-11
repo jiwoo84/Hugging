@@ -354,4 +354,54 @@ userRouter.get("/grades", loginRequired, async (req, res, next) => {
   }
 });
 
+userRouter.post("/email", async (req, res, next) => {
+  const { email } = req.body;
+  console.log(req.body);
+  if (!email) {
+    return res.status(400).json({
+      msg: "이메일을 입력해주세요",
+    });
+  }
+  try {
+    const result = await userService.findEmail(email);
+    const random = (min, max) => {
+      let result = Math.floor(Math.random() * (max - min + 1)) + min;
+      return result;
+    };
+    const number = random(111111, 999999);
+    const mailInfo = {
+      from: "jinytree1403@naver.com",
+      to: email,
+      subject: "[Hugging] 인증번호 발송 ",
+      text: `      
+    Hugging 비밀번호 찾기
+    
+    인증번호 입력란에 ${number} 를 입력해주세요.`,
+    };
+    send(mailInfo);
+    return res.status(200).json({
+      status: 200,
+      msg: `${result} 로 인증번호를 보냈습니다.`,
+      data: result,
+      auth: number,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+userRouter.patch("/:email", async (req, res, next) => {
+  const { email } = req.params;
+  const { newPw } = req.body;
+  console.log(email);
+  try {
+    await userService.fixPw(email, newPw);
+    return res.status(200).json({
+      msg: "비밀번호 변경에 성공했습니다.",
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export { userRouter };

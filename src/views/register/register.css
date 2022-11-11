@@ -28,7 +28,7 @@
   font-weight: bold;
 }
 .register-user-form-box .input:focus {
-  border-color: #725c46;
+  border-color: var(--darkBrown);
 }
 
 #send__email{

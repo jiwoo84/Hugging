@@ -1,7 +1,7 @@
 // api 로 GET 요청 (/endpoint/params 형태로 요청함)
 async function get(endpoint, params = "") {
   const apiUrl = `${endpoint}/${params}`;
-  console.log(`%cGET 요청: ${apiUrl} `, "color: #a25cd1;");
+  // console.log(`%cGET 요청: ${apiUrl} `, "color: #a25cd1;");
 
   const res = await fetch(apiUrl, {
     // JWT 토큰을 헤더에 담아 백엔드 서버에 보냄.
@@ -14,14 +14,13 @@ async function get(endpoint, params = "") {
   if (!res.ok) {
     const errorContent = await res.json();
     const { msg } = errorContent;
-    console.log(msg);
+    // console.log(msg);
     // 만약 AT가 만료되었다는 에러라면 발급후 재요청 해야함
     if (msg === "정상적인 토큰이 아닙니다.") {
-      console.log("토큰 재발급후 재요청할 url : ", apiUrl.slice(0, -1));
+      // console.log("토큰 재발급후 재요청할 url : ", apiUrl.slice(0, -1));
       // refresh 함수는 true , 또는 로그인창화면을 리턴한다
       const refreshToken = await refresh(localStorage.getItem("refreshToken"));
       if (refreshToken) {
-        console.log();
         await get(endpoint, params);
         return;
       }
@@ -30,15 +29,15 @@ async function get(endpoint, params = "") {
     throw new Error(msg);
   }
   const result = await res.json();
-  console.log(result);
+  // console.log(result);
   return result;
 }
 
 // 토큰 검증실패시 재발급을 위한 api
 async function refresh(rt) {
-  console.log("들어왔어 리프레쉬!");
+  // console.log("들어왔어 리프레쉬!");
   const data = JSON.stringify({ refreshToken: rt });
-  console.log(data);
+  // console.log(data);
   const refresh = await fetch("/api/users/refresh", {
     method: "Post",
     body: data,
@@ -50,17 +49,17 @@ async function refresh(rt) {
   // RT 마저 만료되었다면 로그인창으로 보냄
   // 요건 잘됨
   if (!refresh.ok) {
-    console.log("에러냐 ?");
+    // console.log("에러냐 ?");
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     return (window.location.href = "/login");
   }
   // 토큰 교체
-  console.log("토큰교체");
-  console.log(result);
-  console.log(result.token);
-  console.log(result.refreshToken);
+  // console.log("토큰교체");
+  // console.log(result);
+  // console.log(result.token);
+  // console.log(result.refreshToken);
   localStorage.setItem("token", result.token);
   localStorage.setItem("refreshToken", result.refreshToken);
   return true;
@@ -74,8 +73,8 @@ async function post(endpoint, data) {
   // 예시: {name: "Kim"} => {"name": "Kim"}
 
   const bodyData = JSON.stringify(data);
-  console.log(`%cPOST 요청: ${apiUrl}`, "color: #296aba;");
-  console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
+  // console.log(`%cPOST 요청: ${apiUrl}`, "color: #296aba;");
+  // console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
 
   const res = await fetch(apiUrl, {
     method: "POST",
@@ -90,10 +89,10 @@ async function post(endpoint, data) {
   if (!res.ok) {
     const errorContent = await res.json();
     const { msg } = errorContent;
-    console.log(msg);
+    // console.log(msg);
     // 만약 AT가 만료되었다는 에러라면 발급후 재요청 해야함
     if (msg === "정상적인 토큰이 아닙니다.") {
-      console.log("토큰 재발급후 재요청할 url : ", apiUrl.slice(0, -1));
+      // console.log("토큰 재발급후 재요청할 url : ", apiUrl.slice(0, -1));
       // refresh 함수는 true , 또는 로그인창화면을 리턴한다
       const refreshToken = await refresh(localStorage.getItem("refreshToken"));
       if (refreshToken) {
@@ -116,8 +115,8 @@ async function patch(endpoint, params = "", data) {
   // JSON.stringify 함수: Javascript 객체를 JSON 형태로 변환함.
   // 예시: {name: "Kim"} => {"name": "Kim"}
   const bodyData = JSON.stringify(data);
-  console.log(`%cPATCH 요청: ${apiUrl}`, "color: #059c4b;");
-  console.log(`%cPATCH 요청 데이터: ${bodyData}`, "color: #059c4b;");
+  // console.log(`%cPATCH 요청: ${apiUrl}`, "color: #059c4b;");
+  // console.log(`%cPATCH 요청 데이터: ${bodyData}`, "color: #059c4b;");
 
   const res = await fetch(apiUrl, {
     method: "PATCH",
@@ -132,10 +131,10 @@ async function patch(endpoint, params = "", data) {
   if (!res.ok) {
     const errorContent = await res.json();
     const { msg } = errorContent;
-    console.log(msg);
+    // console.log(msg);
     // 만약 AT가 만료되었다는 에러라면 발급후 재요청 해야함
     if (msg === "정상적인 토큰이 아닙니다.") {
-      console.log("토큰 재발급후 재요청할 url : ", apiUrl.slice(0, -1));
+      // console.log("토큰 재발급후 재요청할 url : ", apiUrl.slice(0, -1));
       // refresh 함수는 true , 또는 로그인창화면을 리턴한다
       const refreshToken = await refresh(localStorage.getItem("refreshToken"));
       if (refreshToken) {
@@ -156,8 +155,8 @@ async function del(endpoint, params = "", data = {}) {
   const apiUrl = `${endpoint}/${params}`;
   const bodyData = JSON.stringify(data);
 
-  console.log(`DELETE 요청 ${apiUrl}`);
-  console.log(`DELETE 요청 데이터: ${bodyData}`);
+  // console.log(`DELETE 요청 ${apiUrl}`);
+  // console.log(`DELETE 요청 데이터: ${bodyData}`);
 
   const res = await fetch(apiUrl, {
     method: "DELETE",
@@ -172,10 +171,10 @@ async function del(endpoint, params = "", data = {}) {
   if (!res.ok) {
     const errorContent = await res.json();
     const { msg } = errorContent;
-    console.log(msg);
+    // console.log(msg);
     // 만약 AT가 만료되었다는 에러라면 발급후 재요청 해야함
     if (msg === "정상적인 토큰이 아닙니다.") {
-      console.log("토큰 재발급후 재요청할 url : ", apiUrl);
+      // console.log("토큰 재발급후 재요청할 url : ", apiUrl);
       // refresh 함수는 true , 또는 로그인창화면을 리턴한다
       const refreshToken = await refresh(localStorage.getItem("refreshToken"));
       if (refreshToken) {

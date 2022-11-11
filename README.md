@@ -12,6 +12,8 @@
 
 #### 해외 유명 가구 전문 쇼핑몰입니다. 제품 등록, 장바구니 추가, 주문하기 등 쇼핑몰의 핵심 서비스를 구현합니다.
 
+#### 비싼돈을 주더라도 감각적인 디자인을 구매하고싶은 사람들을 위한 사이트.
+
 <details><summary>기술스택</summary>
 
 **프론트엔드**
@@ -36,6 +38,14 @@
 ### https://jinytree.shop
 
 **시연 영상 유튜브에 올리고 링크 추가?**
+
+### 1-1. API 문서
+
+### https://www.notion.so/elice/API-7dc294fdb2064d5bbdc2a82dd769a02d
+
+<br>
+
+### 1-2. 데모 영상
 
 ## 2. 서비스 주요 기능 설명
 
@@ -66,14 +76,6 @@
 ### 2-4 상품
 
 <br />
-
-### 1-1. API 문서
-
-### https://www.notion.so/elice/API-7dc294fdb2064d5bbdc2a82dd769a02d
-
-<br>
-
-### 1-2. 데모 영상
 
 <!--
 <details><summary>사용자 회원가입, 로그인</summary>

@@ -130,7 +130,9 @@ class OrderService {
           console.log("여기서 에러가??");
           // console.log(orders[i].items);
           // console.log(orders[i]._id);
-          if (orders[i].items)
+          console.log(orders[i].items[r]);
+          // 상품삭제시 이부분 id 를 못읽어옴. 예외처리
+          if (orders[i].items[r].id !== null)
             itemsArr.push({
               상품: orders[i].items[r].id.name,
               개수: orders[i].items[r].count,

@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { User } from "../db";
+import { Coupon, User, Comment } from "../db";
+import { couponRouter } from "../routers";
 
 class UserService {
   // 본 파일의 맨 아래에서, new UserService(userModel) 하면, 이 함수의 인자로 전달됨
@@ -22,7 +23,6 @@ class UserService {
 
     // 우선 비밀번호 해쉬화(암호화)
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("여ㅑ기?");
     const newUserInfo = {
       name,
       email,
@@ -33,15 +33,27 @@ class UserService {
     // db에 저장
     // 일반적인 가입
     const createdNewUser = await User.create(newUserInfo);
-    console.log(createdNewUser);
-    return createdNewUser;
+
+    //첫회원가입쿠폰 추가
+    const createFirstcoupon = await Coupon.create({
+      name: "첫 회원가입 기념 쿠폰",
+      discount: 10,
+      owner: createdNewUser.id,
+    });
+    console.log("아따 여기 쿠폰 발급됐다 아인교" + createFirstcoupon);
+    const pushFristCoupon = await User.findByIdAndUpdate(
+      { _id: createFirstcoupon.owner },
+      { $push: { ownCoupons: createFirstcoupon.id } }
+    );
+    const login = this.getUserToken({ email, password });
+    return login;
   }
 
   // 로그인
   async getUserToken(loginInfo) {
     // 객체 destructuring
     const { email, password } = loginInfo;
-
+    console.log(loginInfo);
     // 우선 해당 이메일의 사용자 정보가  db에 존재하는지 확인
     const user = await User.findOne({ email });
     if (!user) {
@@ -60,6 +72,7 @@ class UserService {
       password,
       correctPasswordHash
     );
+    console.log("해쉬 패스워드 일치여부 ", isPasswordCorrect);
 
     if (!isPasswordCorrect) {
       throw new Error(
@@ -68,15 +81,37 @@ class UserService {
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+    const secretKey = process.env.JWT_SECRET_KEY;
 
-    // 2개 프로퍼티를 jwt 토큰에 담음
+    // AT, RT 를 만들어 리턴함
     const token = jwt.sign(
       { userId: user._id, role: user.role, sosial: user.sosial },
-      secretKey
+      secretKey,
+      { expiresIn: 60 * 60 }
     );
+    const refreshToken = jwt.sign(
+      { userId: user._id, role: user.role, sosial: user.sosial },
+      secretKey,
+      { expiresIn: 60 * 60 * 24 }
+    );
+    console.log("로그인 : AT, RT : ", token, refreshToken);
+    // 리프레쉬 토큰을 유저정보에 넣음
+    await User.findByIdAndUpdate(user._id, { refreshToken });
+    return { token, refreshToken };
+  }
 
-    return token;
+  // RT 재발급
+  async refresh(_id, refreshToken, reciveRt) {
+    console.log("수정중");
+    const security = await User.findOne({ refreshToken: reciveRt });
+    console.log("기존 RT   = ", security.refreshToken);
+    console.log("새로운 RT   = ", reciveRt);
+    if (security.refreshToken !== reciveRt) {
+      throw new Error("해당 RT는 당신소유가 아니잖아!!");
+    }
+    await User.findByIdAndUpdate(_id, { refreshToken });
+    console.log("JWT RT 재발급수정완료!");
+    return;
   }
 
   // 관리자 로그인
@@ -88,19 +123,22 @@ class UserService {
       const newAdmin = await User.create({
         email,
         name: "관리자",
-        password: "erboinerboiber",
+        password: "123123123",
         address: "엘리스 랩실",
         phoneNumber: "010-0000-0000",
         role: "admin",
       });
-      const token = jwt.sign(
-        { userId: newAdmin._id, role: "admin" },
-        secretKey
-      );
-      return token;
     }
-    const token = jwt.sign({ userId: admin._id, role: "admin" }, secretKey);
-    return token;
+    const token = jwt.sign({ userId: admin._id, role: "admin" }, secretKey, {
+      expiresIn: 60 * 60,
+    });
+    const refreshToken = jwt.sign(
+      { userId: admin._id, role: "admin" },
+      secretKey,
+      { expiresIn: 60 * 60 * 24 }
+    );
+    await User.updateOne({ email }, { refreshToken });
+    return { refreshToken, token };
   }
 
   // 사용자 목록을 받음.
@@ -136,7 +174,6 @@ class UserService {
       currentPassword,
       correctPasswordHash
     );
-
     //소셜로그인 대상자라면 현재비밀번호는 중요하지않음, 통과
     if (sosial === true) {
       console.log("소셜로그인 대상자임, 통과");
@@ -158,15 +195,47 @@ class UserService {
     }
 
     // 업데이트 진행
-    const updateUser = await User.updateMany({ userId }, toUpdate);
-
+    const updateUser = await User.updateOne({ _id: userId }, toUpdate);
     return updateUser;
   }
 
   async userDelete(_id) {
-    await User.findByIdAndDelete(_id);
+    const user = await User.findByIdAndDelete(_id);
+    console.log(user);
+    const userId = user._id;
+    // 쿠폰, 댓글에서 유저id로 등록되어있는 doc 삭제
+    console.log("쿠폰삭제중");
+    await Coupon.deleteMany({ owner: userId });
+    console.log("댓글삭제중");
+    await Comment.deleteMany({ owner: userId });
     console.log("유저가 떠났읍니다..");
     return "유저가 떠났읍니다..";
+  }
+
+  async classification(data) {
+    const findUser = await User.findById({ _id: data });
+    return findUser.totalPayAmount;
+  }
+
+  async findEmail(email) {
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error("해당이메일로 가입한 유저가 없습니다,");
+    }
+    return user.email;
+  }
+
+  async fixPw(email, newPw) {
+    console.log("router에서 받아온 이메일과 pw ", email, newPw);
+    const hashedPassword = await bcrypt.hash(newPw, 10);
+    console.log("입력비번 ", newPw);
+    console.log("해쉬비번 ", hashedPassword);
+    const fix = await User.findOneAndUpdate(
+      { email },
+      { password: hashedPassword }
+    );
+    console.log(await User.findOne({ email }));
+    return true;
   }
 }
 

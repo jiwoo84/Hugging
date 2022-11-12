@@ -4,12 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hugging</title>
+    <!-- 햄버거바 -->
+    <script src="../public/header/hbgBar.js" type="module" defer></script>
     <!-- 아이콘 -->
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="/elice-rabbit-favicon.png"
+      href="../public/img/Hugging-favicon.png"
+    />
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&display=swap"
+      rel="stylesheet"
     />
     <!-- bootstrap-->
     <link
@@ -50,9 +59,11 @@
   </head>
 
   <body>
+    <div class="splashContainer"></div>
+
     <!-- 헤더 삽입 -->
     <script>
-      if (sessionStorage.getItem("loggedIn") === "true") {
+      if (localStorage.getItem("loggedIn") === "true") {
         loadHTML("../public/header/loggedInHeader.html");
       } else {
         loadHTML("../public/header/header.html");
@@ -90,23 +101,23 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img
-              src="../public/furnitureImg.jpg"
+              src="../public/img/homeImg1.jpg"
               class="d-block w-100"
-              alt="furnitureImg"
+              alt="homeImg"
             />
           </div>
           <div class="carousel-item">
             <img
-              src="../public/furnitureImg.jpg"
+              src="../public/img/homeImg2.jpg"
               class="d-block w-100"
-              alt="furnitureImg"
+              alt="homeImg"
             />
           </div>
           <div class="carousel-item">
             <img
-              src="../public/furnitureImg.jpg"
+              src="../public/img/homeImg3.jpg"
               class="d-block w-100"
-              alt="furnitureImg"
+              alt="homeImg"
             />
           </div>
         </div>
@@ -130,24 +141,19 @@
         </button>
       </div>
 
-      <div class="container">
-        <h2 class="bestTitle">best</h2>
-        <div class="bestContainer">
-          <!-- <card></card> -->
-        </div>
-        <button class="moreBtn">more</button>
-        <hr />
-        <h2 class="newTitle">new</h2>
-        <div class="newContainer">
-          <!-- <card></card> -->
+      <div class="bigContainer">
+        <div class="container">
+          <h2 class="bestTitle">best</h2>
+          <div class="bestContainer">
+            <!-- <card></card> -->
+          </div>
+          <hr />
+          <h2 class="newTitle">new</h2>
+          <div class="newContainer">
+            <!-- <card></card> -->
+          </div>
         </div>
       </div>
-
-      <!-- <script>
-        function move(id){
-          console.log(id);
-        }
-      </script> -->
     </main>
     <script>
       loadHTML("../public/footer/footer.html");

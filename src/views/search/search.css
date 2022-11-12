@@ -1,0 +1,62 @@
+@import "../variable.css"; 
+html,body{
+    margin:0;
+    padding:0;
+}
+.search{
+    display: block;
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+    margin: 60px auto 0px auto; 
+    color: var(--darkBrown);
+}
+.search__form{
+    display: flex;
+    justify-content: center;
+    margin: 50px auto;
+}
+.search__text{
+    width: 500px;
+    height: 45px;;
+    font-size: 18px;
+    font-family: 'MaruBuri-Regular';
+    border: 0.2px solid lightgray;
+    padding-left:15px;
+}
+.search__result{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 35px;
+    padding-left: 70px;
+    padding-right: 70px;
+}
+.card{
+    text-align: center;
+    background-color: #fff;
+    width: 400px;
+    height:400px;
+    margin:auto;
+    padding: 40px;
+}
+.name{
+    font-size: 25px;
+    font-weight:bold;
+}
+.price{
+    font-size: 20px;
+}
+.productImg{
+    margin: auto ;
+    width: 200px;
+    height: 200px;
+}
+.productInfo{
+    padding:20px;
+}
+.search__submit{
+    font-size: 18px;
+}
+button{
+    font-family: 'MaruBuri-Regular';
+}

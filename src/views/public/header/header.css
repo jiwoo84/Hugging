@@ -1,59 +1,106 @@
+@import "../../variable.css";
+@font-face {
+  font-family: "MaruBuri-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 html,
 body {
+  font-family: "MaruBuri-Regular";
   flex-direction: column;
   align-items: center;
   margin: 0;
   padding: 0;
-  background-color: #BBBBBB;
+  background-color: #f6f4f0;
+}
+a:link {
+  color: #4a4a4a;
+  text-decoration: none;
+}
+a:visited {
+  color: #4a4a4a;
+  text-decoration: none;
 }
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 .navbar-container {
   display: flex;
   justify-content: flex-end;
   width: 100%;
   margin-top: 50px;
 }
-
+.navbarItem {
+  padding: 10px;
+}
 #navbar {
-  width: 300px;
+  width: 450px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  font-size: 18px;
 }
 
-#offcanvasScrolling{
-  background-color:rgb(39, 57, 125) ;
-  color: #BBBBBB;
+#offcanvasScrolling {
+  background-color: #978676;
+  color: black;
 }
-#category_mom{
-  position:absolute;
-  top: 150px;
+#categoryUserInfo {
+  position: absolute;
+  top: 130px;
+  left: 20px;
+  font-size: 20px;
+  font-weight: bolder;
+}
+#categoryMom {
+  position: absolute;
+  top: 210px;
   left: 20px;
 }
-#category_mom p{
-  font-size: 25px;
+.navbar-item {
+  width: 150px;
+}
+.navbar-item:hover {
+  background: #a69484;
+  cursor: pointer;
+}
+#categoryMom p {
+  font-size: 27px;
   font-weight: bolder;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  border-bottom: solid 1px gray;
-  margin-bottom: 15px;
+  width: 300px;
+  border-bottom: solid 1px black;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
-#category_mom li{
-  font-size: 20px;
+#categoryMom li {
+  font-size: 23px;
   font-weight: 600;
   padding: 5px 0;
+  color: black;
+  margin-bottom: 20px;
+}
+
+#categoryUserInfo__welcomeMsg,
+#categoryUserInfo__grade {
+  color: var(--back);
+  margin-bottom: 10px;
 }
 .title-text {
   font-size: 100px;
+  font-family: "Cinzel", serif;
 }
-
-#toggleBtn{
+.title-container {
+  margin-top: 40px;
+}
+#toggleBtn {
   position: absolute;
   top: 10px;
   left: 10px;

@@ -10,9 +10,11 @@
 
   <nav class="navbar-container">
     <ul id="navbar">
-      <li>검색</li>
-      <li><a id="logout" , onclick="logout()">로그아웃</a></li>
-      <li>
+      <li class="navbarItem"><a href="/search">검색</a></li>
+      <li class="navbarItem">
+        <a id="logout" , onclick="logout()">로그아웃</a>
+      </li>
+      <li class="navbarItem">
         <a href="/cart" aria-current="page">
           <span class="icon">
             <i class="fas fa-cart-shopping"></i>
@@ -20,13 +22,15 @@
           <span>장바구니</span>
         </a>
       </li>
+      <li class="navbarItem">
+        <div id="header__profile">
+          <a onclick="mypage()">
+            마이페이지
+            <img id="header__profile_img" />
+          </a>
+        </div>
+      </li>
     </ul>
-    <div id="header__profile">
-      <a onclick="mypage()">
-        마이페이지
-        <img id="header__profile_img" />
-      </a>
-    </div>
   </nav>
   <a
     id="toggleBtn"
@@ -55,13 +59,15 @@
         <i class="fa-solid fa-bars"></i>
       </a>
     </div>
+    <!--사용자 정보-->
+    <div id="categoryUserInfo">
+      <p id="categoryUserInfo__welcomeMsg"></p>
+      <p id="categoryUserInfo__grade"></p>
+    </div>
     <!-- 아래 DIV에 카테고리리스트 불러오기 -->
-    <div id="category_mom">
+    <div id="categoryMom">
       <p>카테고리</p>
-      <li>요기에</li>
-      <li>요런식으로</li>
-      <li>요런식으로</li>
-      <li>요런식으로</li>
+      <!-- <li >카테고리리스트</li> -->
     </div>
   </div>
 </header>

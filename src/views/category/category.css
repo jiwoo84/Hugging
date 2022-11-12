@@ -1,13 +1,137 @@
-.postItems {
-  display: grid;
-  padding: 10px;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: minmax(150px, auto);
-  grid-gap: 10px;
+@font-face {
+  font-family: "MaruBuri-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+html,
+body {
+  font-family: "MaruBuri-Regular";
+  margin: 0;
+  padding: 0;
+}
+main {
+  height: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#imgId {
+main div div nav {
+  display: flex;
+  justify-content: center;
+}
+main div div nav div {
+  display: flex;
+  flex-direction: row;
+}
+main div div nav div div {
+  background-color: #978676;
+  color: white;
+  padding: 10px 40px;
+  margin-bottom: 10px;
+  font-size: larger;
+}
+.navbarCategory {
+  margin: 40px;
+  margin-bottom: 60px;
+}
+
+/* 큰 컨테이너 */
+.containerBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+}
+
+/* 아이템 그리드 레이아웃 */
+.postItems {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 120px;
+  overflow: hidden;
+}
+/* 마우스 hover */
+.imgBox {
   width: 300px;
-  height: 150px;
-  object-fit: scale-down;
+  height: 300px;
+  margin: 0px auto;
+  overflow: hidden;
+}
+.postItems div div div img {
+  width: 300px;
+  height: 300px;
+  max-width: 100%;
+  max-height: 100%;
+  transition: all 0.2s linear;
+}
+.sonDiv {
+  width: 300px;
+}
+.postItems div div div img:hover {
+  transform: scale(1.2);
+}
+.postItems div div {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.navbar-Item:hover {
+  background: #a69484;
+  cursor: pointer;
+}
+/* 제목 */
+.nameDiv {
+  font-size: large;
+  font-weight: bolder;
+  margin-top: 10px;
+}
+#detail-div {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+/* 가격(.postItems div div div div) */
+.priceDiv {
+  padding-right: 5px;
+  font-weight: 600;
+  font-size: 1em;
+}
+.detailCategory {
+  padding-left: 5px;
+  color: #725c46;
+  font-weight: 600;
+  font-size: 0.875em;
+}
+
+#pageHtml {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 30px;
+}
+
+#pageHtml li {
+  text-align: center;
+}
+
+#pageHtml li.on {
+  background: #afa998;
+}
+
+#pageHtml li.on a {
+  color: #fff;
+  border: solid 1px #ccc;
+}
+
+#pageHtml li a {
+  display: block;
+  font-size: 14px;
+  padding: 9px 12px;
+  border: solid 1px #ccc;
+  box-sizing: border-box;
 }

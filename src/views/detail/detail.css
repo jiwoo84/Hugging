@@ -1,14 +1,57 @@
+@import "../variable.css";
+
+@font-face {
+  font-family: "MaruBuri-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+html,
+body {
+  font-family: "MaruBuri-Regular";
+  margin: 0;
+  padding: 0;
+}
+main {
+  height: auto;
+  min-height: 100%;
+}
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 600px;
+  padding: 0px;
+  margin-top: 20px;
 }
-.imgurl {
+.imgUrl {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 600px;
 }
-.totalInfo,
+.imageUrl {
+  width: 600px;
+  height: 400px;
+  /* object-fit: scale-down; */
+}
+.category {
+  font-weight: 600;
+  color: #725c46;
+}
+.totalInfo {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+.detailInfo {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  margin: 15px;
+}
 .deliveryInfo {
   display: flex;
   flex-direction: column;
@@ -17,17 +60,108 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin-top: 10px;
 }
-.priceInfo,
-.finalInfo,
+.minus {
+  padding: 0px 13px;
+  margin: 0px 3px;
+}
+.plus {
+  padding: 0px 10px;
+  margin: 0px 3px;
+}
+.salseCount {
+  padding: 0px 10px;
+}
+.price {
+  font-weight: 600;
+}
+.finalInfo {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0px;
+}
+.deliveryInfo span:nth-child(2) {
+  margin-bottom: 5px;
+}
+.priceInfo {
+  display: flex;
+  flex-direction: row;
+}
 .count,
 .sellInfo {
   display: flex;
   flex-direction: row;
+}
+.count {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.moveTocart,
+.buyNow {
+  padding: 10px;
+  margin: 5px;
+  margin-right: 0px;
 }
 .orderInfo {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   flex-grow: 1;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  margin-top: 30px;
+  border-top: solid 1px var(--brown);
+  padding-top: 20px;
+}
+.message {
+  background-color: white;
+}
+.reviewDiv_name {
+  font-size: 20px;
+  font-weight: 600;
+}
+.dateDiv {
+  font-size: 15px;
+  color: gray;
+}
+.btnedit,
+.btndelete {
+  margin: 5px;
+}
+.momDiv {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #978676;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 10px;
+}
+.content_bntBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 10px;
+}
+.btnSave {
+  background: #978676;
+  border: 0px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.btnDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.btnedit,
+.btndelete,
+.content_bntBox_done {
+  border: 2px solid #978676;
+  padding: 5px 10px;
+  border-radius: 5px;
 }

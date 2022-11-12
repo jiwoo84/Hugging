@@ -1,15 +1,41 @@
 import * as Api from "/api.js";
 
 const welcomeMessage = document.querySelector("#welcome-message");
+const messageBox__totalPayAmount = document.querySelector(
+  ".message-box__totalPayAmount"
+);
+const messageBox__grade = document.querySelector(".message-box__grade");
+const loadCouponModal = document.querySelector("#loadCouponModal");
 
-window.addEventListener("load", getName);
+window.addEventListener("load", getUserdata);
 
-async function getName() {
+// 환영메세지 넣기
+async function getUserdata() {
   const user = await Api.get("/api/users/mypage");
+  if (!user) {
+    window.location.reload();
+  }
+
+  const coupons = await Api.get("/api/coupons", `${user.data._id}`);
+  const { couponId, createAt, discount, name, owner } = coupons.couponList;
+  // console.log(coupons.length);
+  // 배열로 받기
 
   const username = user.name;
+  const totalPayAmount = user.data.totalPayAmount;
+
+  // 환영 메세지 넣기
   welcomeMessage.dataset.id = user.data._id;
-  welcomeMessage.innerText = `${username}님 반갑습니다`;
+  welcomeMessage.innerText = `${username}님 반갑습니다!`;
+
+  loadCouponModal.innerHTML = `사용가능 쿠폰 ${coupons.couponList.length}장`;
+
+  // 총구매금액 넣기
+  messageBox__totalPayAmount.innerText = `총 구매 금액은 ${totalPayAmount}원 입니다`;
+
+  // 등급 넣기
+  const grade = (await Api.get("/api/users/grades")).level;
+  messageBox__grade.innerText = `구매 등급은 ${grade}입니다`;
 }
 
 const findOrder = document.getElementById("findOrder");
@@ -17,12 +43,13 @@ const findOrder = document.getElementById("findOrder");
 // api 요청후 해당 여러 요소 생성후 데이터 주입,
 // 모두 주입후 최상위 div에 append 시킴
 const find_order = async () => {
+  // list_mom 이 최상위 div, 이 공간이 주문목록이 들어오는곳
+  const list_mom = document.getElementById("list_mom");
+  list_mom.className = "orderList";
   const clicked_title = document.getElementById("clicked_title");
   const clicked_descript = document.getElementById("clicked_descript");
   clicked_title.textContent = "주문 조회";
-  clicked_descript.textContent = "구매내역";
-  // list_mom 이 최상위 div, 이 공간이 주문목록이 들어오는곳
-  const list_mom = document.getElementById("list_mom");
+  clicked_descript.textContent = "";
   // 아래 반복문은 초기화의 기능. 수정,탈퇴 form 이 나올땐 주문목록은 삭제되어야 함.
   while (list_mom.hasChildNodes()) {
     list_mom.removeChild(list_mom.firstChild);
@@ -32,8 +59,9 @@ const find_order = async () => {
   const list = await Api.get("/api/orders");
   // 코드를 조금 간결하게 해보려고 변수에 넣음
   const data = list.data;
+  console.log("구매내역", data);
   // 만약 사용자가 구매한적이 없다면 최상위 div의 innerText를 바꾸고 함수종료
-  if (data.length === 0) {
+  if (data === undefined) {
     list_mom.textContent = "구매한 적이 없어요";
     return;
   }
@@ -55,10 +83,13 @@ const find_order = async () => {
     const list_span_totalPrice = document.createElement("span");
     const list_deliveryMsg = document.createElement("p");
     const list_orderId = document.createElement("span");
-    list_items.textContent = `${data[i].상품목록[0].상품}외 ${
+    const DATE = list.data[i].주문날짜;
+    list_items.textContent = `${data[i].상품목록[0].상품} 외 ${
       data[i].상품목록.length - 1
     }개`;
-    list_span_totalPrice.textContent = `결제 금액 : ${data[i].총금액} 원 |  ${list.data[i].주문날짜}`;
+    list_span_totalPrice.textContent = `결제 금액 : ${
+      data[i].총금액
+    } 원 |  ${DATE.slice(0, 10)} | ${DATE.slice(11, 19)}`;
     list_deliveryMsg.textContent = `요청사항 : ${data[i].요청사항}`;
     list_orderId.textContent = `주문번호 : ${data[i].주문번호}`;
 
@@ -79,7 +110,8 @@ const find_order = async () => {
     // 주문수정 가능할시 삭제버튼 추가
     if (data[i].수정 === "수정가능") {
       const delBtn = document.createElement("button");
-      delBtn.id = data[i]._id;
+      delBtn.id = "delBtn";
+      delBtn.className = "button";
       delBtn.textContent = "주문취소";
       delBtn.addEventListener("click", async () => {
         const body = { id: data[i].주문번호, reson: "고객취소" };

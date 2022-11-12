@@ -20,7 +20,7 @@ export const addCommas = (n) => {
 // 13,000원, 2개 등의 문자열에서 쉼표, 글자 등 제외 후 숫자만 뺴냄
 // 예시: 13,000원 -> 13000, 20,000개 -> 20000
 export const convertToNumber = (string) => {
-  return parseInt(string.replace(/(,|개|원)/g, ""));
+  return parseInt(string.replace(/(,|개|원|:)/g, ""));
 };
 
 // ms만큼 기다리게 함.

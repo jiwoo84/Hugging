@@ -1,0 +1,257 @@
+@import "../variable.css";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  height: auto;
+  min-height: 100%;
+  margin-bottom: 100px;
+}
+
+#admin-title {
+  font-size: 30px;
+  font-weight: 600;
+  margin: 30px 0 50px 20px;
+  color: var(--darkBrown);
+}
+
+#main-container {
+  display: flex;
+  height: 100%;
+}
+
+#list-container_startMsg {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 100px;
+}
+#list-container_startMsg > div:first-child {
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+#side-bar {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  margin-left: 20px;
+  min-width: 100px;
+}
+
+#order-btn,
+#items-btn,
+#category-btn {
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--darkBrown);
+  margin-bottom: 20px;
+  height: 80px;
+}
+
+#list-container {
+  margin: 0 30px 0 30px;
+  width: 100%;
+}
+
+/* 주문 관리 */
+/* 큰 박스 */
+.orderBox {
+  display: flex;
+  justify-content: space-between;
+  /* margin-bottom: 10px; */
+  padding: 10px;
+  border: solid 1px var(--brown);
+  max-width: 1000px;
+  min-width: 600px;
+}
+/* 작은 박스들 */
+.orderBox_order,
+.orderBox_user {
+  width: 40%;
+}
+
+.orderBox_btn {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+}
+
+.orderBox_btn label {
+  color: var(--darkBrown);
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.orderBox_btn_select {
+  width: 110px;
+}
+
+.orderBox_btn_delBtn {
+  margin-top: 10px;
+  color: var(--darkBrown);
+  width: 80px;
+  font-size: 12px;
+}
+
+#productsListBox {
+  margin-bottom: 20px;
+}
+
+/* #productDetailBox {
+  height: 40%;
+} */
+
+#catefory-btn__add {
+  border: 0;
+  outline: 0;
+}
+
+/* 페이지네이션 */
+.hidden {
+  display: none;
+}
+#page_list {
+  position: absolute;
+  top: 320px;
+  left: 350px;
+  display: flex;
+  flex-direction: row;
+}
+#page_list div {
+  padding: 9px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+#page_list div:hover {
+  padding: 9px;
+  margin-left: 5px;
+  background-color: gray;
+}
+
+/* 클릭한 숫자 */
+.page_list_currentClick {
+  font-weight: bold;
+  padding: 9px;
+  margin-left: 5px;
+  background-color: gray;
+}
+
+/* ********************************************************** */
+/* 상품관리 */
+.productTabel {
+  min-width: 1000px;
+}
+
+.itemTableBody_row_modifyBtn,
+.itemTableBody_row_delBtn {
+  font-size: 12px;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+/* 판매시작버튼 */
+.itemTableBody_row_restartBtn {
+  font-size: 12px;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+/* ************************************************************** */
+/* 카테고리 */
+.categoryTable {
+  width: 400px;
+}
+
+.categoryBody_row_btns_modify,
+.categoryBody_row_btns_del {
+  font-size: 12px;
+  padding: 5px;
+  margin-right: 3px;
+}
+
+/* ************************************************************* */
+/* 상품추가 모달창 */
+#modal-container__inner {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: hide 1;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  background-color: var(--back);
+  padding: 30px 100px;
+  border-radius: 15px;
+  border: solid 2px var(--brown);
+}
+
+#modalTitle {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  color: var(--darkBrown);
+}
+
+#modal-container__inner > div {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+#modal-container__inner > div > p,
+#modalBox-detail_title {
+  width: 100px;
+  font-size: 18px;
+}
+
+#modalBox_detailInput {
+  height: 100px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+/* 제출, 취소 버튼 */
+#modalBox_doneBtn,
+#modalBox_cancelBtn {
+  width: 100px;
+  margin-right: 5px;
+}
+
+#modalBox_btns {
+  display: flex;
+  justify-content: center;
+}
+
+/* 카테고리 추가 모달창 */
+#categoryAddBox_name,
+#categoryAddBox_index,
+#categoryAddBox_btns {
+  display: flex;
+}
+
+#categoryAddBox_btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#categoryAddBox_addBtn,
+#categoryAddBox_doneBtn,
+#categoryAddBox_cancelBtn,
+#modalBox_doneBtn,
+#modalBox_cancelBtn {
+  width: 100px;
+  margin-right: 5px;
+  background-color: var(--brown);
+}
+
+/* ************************************************************* */
+/* 상품 수정 */

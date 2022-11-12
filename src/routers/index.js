@@ -7,3 +7,5 @@ export * from "./sosial-router";
 export * from "./item-router";
 export * from "./order-router";
 export * from "./category-router";
+export * from "./comment-router";
+export * from "./coupon-router";

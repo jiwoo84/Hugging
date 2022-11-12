@@ -1,18 +1,79 @@
+@import "../variable.css";
+.main {
+  height: auto;
+  min-height: 100%;
+}
+.button.is-info {
+  font-size: 20px;
+  background-color: var(--brown);
+}
+.button.is-info:hover {
+  background-color: #86786c;
+}
+#submitKaKaoButton {
+  background-color: #fde500;
+  width: 100%;
+  height: 50px;
+}
+#kakaoLoginBtn_icon {
+  color: #1a1a1c;
+}
+#kakaoLoginBtn_name {
+  font-size: 18px;
+}
+.title {
+  font-size: 35px;
+  margin-top: 60px;
+  text-align: center;
+  color: var(--darkBrown);
+}
 .login-form-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 85vh;
+  margin-top: 80px;
+  margin-bottom: 120px;
 }
-
 .login-form-box {
-  width: 30rem;
+  width: 40rem;
+  height: 35rem;
+  padding: 30px;
 }
-
 .login-form-box .title {
   text-align: center;
 }
-
 .login-form-box .button {
   font-weight: bold;
+}
+.label {
+  font-size: 20px;
+}
+.field {
+  margin: 20px;
+}
+#submitButton {
+  margin-top: 60px;
+  height: 50px;
+}
+.button {
+  font-family: "MaruBuri-Regular";
+}
+
+.hidden {
+  display: none;
+}
+#findPw {
+  cursor: pointer;
+}
+#findpw_box {
+  position: absolute;
+  z-index: 10;
+  background-color: #86786c;
+  padding: 20px;
+  border-radius: 15px;
+  top: 70%;
+  left: 35%;
+}
+#findwPwForm h2 {
+  padding: 0 0 40px 0;
 }

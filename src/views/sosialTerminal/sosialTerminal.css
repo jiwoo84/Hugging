@@ -1,25 +1,44 @@
-      .spinnerBox {
-        position: absolute;
-        top: 25%;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+.login-form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 85vh;
+}
 
-      .spinner {
-        animation: spin 2s linear infinite;
-      }
-      .spinner svg {
-        width: 35px;
-        height: 35px;
-      }
+.login-form-box {
+  width: 30rem;
+}
 
-      @keyframes spin {
-        from {
-          transform: rotate(0);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
+.login-form-box .title {
+  text-align: center;
+}
+
+.login-form-box .button {
+  font-weight: bold;
+}
+
+.spinnerBox {
+  position: absolute;
+  top: 25%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  animation: spin 2s linear infinite;
+}
+.spinner svg {
+  width: 35px;
+  height: 35px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

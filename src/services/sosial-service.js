@@ -1,5 +1,5 @@
 import axios from "axios";
-import { User } from "../db";
+import { Coupon, User } from "../db";
 import { userService } from "./user-service";
 import bcrypt from "bcrypt";
 class SosialService {
@@ -48,6 +48,7 @@ class SosialService {
 
     // 해당 변수를 확인해보면 data 안에 access_token 이 있는것을 확인할 수 있다.
     // 해당 access_token 을 적절한 변수명에 저장해준다.
+    console.log("리워드", axiosHTTP);
     const access_token = axiosHTTP.data.access_token;
     return access_token;
 
@@ -70,8 +71,15 @@ class SosialService {
     const password = "123123123";
     const user = await User.findOne({ email });
     if (user) {
-      const token = await userService.getUserToken({ email, password });
-      return { msg: "기존 사용자, 로그인 완료", accessToken: token };
+      const { token, refreshToken } = await userService.getUserToken({
+        email,
+        password,
+      });
+      return {
+        msg: "기존 사용자, 로그인 완료zz",
+        token,
+        refreshToken,
+      };
     }
     // 해당 이메일로 가입한 유저가 없을 경우
     else {
@@ -112,11 +120,24 @@ class SosialService {
         password: hashedPassword,
       };
       const joinSeccess = await User.create(userInfo);
+      //첫회원가입쿠폰 추가
+      const createFirstcoupon = await Coupon.create({
+        name: "첫 회원가입 기념 쿠폰",
+        discount: 10,
+        owner: joinSeccess._id,
+      });
+      console.log("아따 여기 쿠폰 발급됐다 아인교" + createFirstcoupon);
+      const pushFristCoupon = await User.findByIdAndUpdate(
+        { _id: joinSeccess._id },
+        { $push: { ownCoupons: createFirstcoupon._id } }
+      );
       if (joinSeccess) {
         console.log("✅ 카카오데이터로 회원가입 완료!");
         const loginData = { email: joinSeccess.email, password: "123123123" };
-        const token = await userService.getUserToken(loginData);
-        return { msg: "카카오 회원가입 및 로그인 완료", accessToken: token };
+        const { token, refreshToken } = await userService.getUserToken(
+          loginData
+        );
+        return { msg: "카카오 회원가입 및 로그인 완료", token, refreshToken };
       }
     }
   }

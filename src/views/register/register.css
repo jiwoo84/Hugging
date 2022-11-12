@@ -1,23 +1,74 @@
+@import "../variable.css"; 
+.main {
+  height: auto;
+  min-height: 100%;
+}
+.title{
+  font-size: 35px;
+  color: var(--darkBrown);
+  margin-top: 60px;
+  text-align: center;
+}
 .register-user-form-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 85vh;
+  margin-top: 80px;
+  margin-bottom: 120px;
 }
-
 .register-user-form-box {
-  width: 30rem;
+  width: 640px;
+  height: 1050px;
+  padding: 40px 30px;
 }
-
 .register-user-form-box .title {
   text-align: center;
 }
-
 .register-user-form-box .button {
   font-weight: bold;
 }
-
 .register-user-form-box .input:focus {
-  border-color: #00d1b2;
-  box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
+  border-color: var(--darkBrown);
+}
+
+#send__email{
+  border: 1px solid gray;  
+  cursor: pointer;
+}
+#auth__email{
+  width: 70%;
+}
+.hidden{
+  display: none;
+}
+.email__box{
+  padding: 4px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#findAddressBtn, #send__email{
+  border:solid 1px var(--brown);
+}
+.button.is-primary{
+  background-color:var(--brown);
+  font-size: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.field:not(:last-child) {
+  margin-bottom: 30px;
+}
+
+.button{
+  font-family: 'MaruBuri-Regular';
+}
+.label{
+  font-size: 20px;
+}
+.button.is-primary.is-hovered, .button.is-primary:hover {
+  background-color: #86786c ;
+}
+.help{
+  font-size: 14px;
 }

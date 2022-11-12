@@ -19,7 +19,6 @@
 
 * 대상 페르소나: '명품의 가치는 변하지 않는다' 를 믿는 사람들 대상
 
-
 ### ✅ 기술스택
 
 * **프론트엔드**
@@ -37,7 +36,6 @@
   <img src="https://img.shields.io/badge/NGINX-009639?style=flat-square&logo=NGINX&logoColor=white"/>
   <img src="https://img.shields.io/badge/PM2-2B037A?style=flat-square&logo=PM2&logoColor=white"/>
 
-<br>
 
 ### ✅ 배포링크
 ### https://jinytree.shop

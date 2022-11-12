@@ -22,10 +22,9 @@ let id;
 getDataFromApi();
 showReview(localStorage.getItem("itemDetail"));
 
-
 // 상세페이지 데이터 get api
 async function getDataFromApi() {
-  console.log("id : " + localStorage.getItem("itemDetail"));
+  // console.log("id : " + localStorage.getItem("itemDetail"));
   const res = await Api.get(
     "/api/items",
     `${localStorage.getItem("itemDetail")}`
@@ -299,4 +298,3 @@ async function editRv(commentId, beforeText) {
     }
   });
 }
-

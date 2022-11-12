@@ -51,7 +51,7 @@ main div div nav div div {
 .postItems {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 100px;
+  grid-gap: 120px;
   overflow: hidden;
 }
 /* 마우스 hover */

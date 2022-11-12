@@ -49,11 +49,9 @@
 
 #### url
 
-#### 데모 ID : a@a.a PW: 123123123
+* 데모 ID : a@a.a PW: 123123123
 
-<br>
-
-#### 관리자 ID : admin@hugging.com PW: 123123123
+* 관리자 ID : admin@hugging.com PW: 123123123
 
 ## 2. 서비스 주요 기능 설명
 

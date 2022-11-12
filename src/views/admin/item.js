@@ -46,13 +46,13 @@ async function clickedItem(e) {
               <option id="all">전체보기</option>
             </select>
           </th>
-          <th>이름</th>
+          <th id="itemsName">이름</th>
           <th>가격</th>
-          <th>이미지</th>
-          <th>생성날짜</th>
-          <th>누적판매량</th>
-          <th>판매상태</th>
-          <th>상세내용</th>
+          <th id="itemsImg">이미지</th>
+          <th id="itemsDate">생성날짜</th>
+          <th id="itemsSales">누적판매량</th>
+          <th id="itemsSaleState">판매상태</th>
+          <th id="itemsDetail">상세내용</th>
         </tr>
       </thead>
       <tbody id="itemsBody">
@@ -158,7 +158,7 @@ async function makeItemsList(categoryName) {
 
     // 상세내용 출력
     itemsBody_row.innerHTML += `
-    <td>${itemData.itemDetail}</td>
+    <td>${itemData.itemDetail.slice(0, 20)}...</td>
     `;
 
     // 조건부 버튼 구현: 게시상태에 따라 달라짐

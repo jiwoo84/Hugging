@@ -42,7 +42,7 @@
 
 ### 💡 시연영상 링크
 
-### https://www.youtube.com/watch?v=NpSwnrNOl_o
+### https://youtu.be/t5Dc9RnDJao
 
 ### 시연 가능 계정
 

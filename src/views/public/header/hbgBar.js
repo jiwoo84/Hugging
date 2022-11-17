@@ -1,4 +1,4 @@
-import * as Api from "api.js";
+import * as Api from "../../api";
 
 const categoryMom = document.querySelector("#categoryMom");
 const categoryUserInfo__welcomeMsg = document.querySelector(

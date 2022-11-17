@@ -61,7 +61,7 @@ const find_order = async () => {
   const data = list.data;
   console.log("구매내역", data);
   // 만약 사용자가 구매한적이 없다면 최상위 div의 innerText를 바꾸고 함수종료
-  if (data === undefined) {
+  if (data.length === 0) {
     list_mom.textContent = "구매한 적이 없어요";
     return;
   }

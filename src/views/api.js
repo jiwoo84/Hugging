@@ -38,7 +38,7 @@ async function refresh(rt) {
   // console.log("들어왔어 리프레쉬!");
   const data = JSON.stringify({ refreshToken: rt });
   // console.log(data);
-  const refresh = await fetch("/api/users/refresh", {
+  const refresh = await fetch("/hugging/api/users/refresh", {
     method: "Post",
     body: data,
     headers: {
@@ -67,7 +67,7 @@ async function refresh(rt) {
 // api 로 POST 요청 (/endpoint 로, JSON 데이터 형태로 요청함)
 // endpoint : api/user/login
 async function post(endpoint, data) {
-  const apiUrl = "" + endpoint;
+  const apiUrl = endpoint;
 
   // JSON.stringify 함수: Javascript 객체를 JSON 형태로 변환함.
   // 예시: {name: "Kim"} => {"name": "Kim"}

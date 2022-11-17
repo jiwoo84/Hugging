@@ -61,7 +61,7 @@ async function handleSubmit(e) {
     localStorage.setItem("refreshToken", refreshToken);
     localStorage.setItem("loggedIn", "true");
     // 기본 페이지로 이동
-    window.location.href = "/";
+    window.location.href = "/hugging";
     alert(`로그인되었습니다.`);
 
     // 로그인 성공

@@ -111,7 +111,7 @@ function addCategory() {
         return alert(`인덱스는 알파벳으로 시작해야합니다. ex) a200, b300`);
       }
       // 검사를 통과했으면 요청 보냄
-      const res = await categoryPost("/hugging/api/categories", {
+      const res = await categoryPost("/api/categories", {
         name: addName,
         index: addIndex,
       });
@@ -137,7 +137,7 @@ function addCategory() {
 // 카테고리 리스트 출력
 async function makeCategoryList() {
   // 모든 카테고리 불러옴
-  const categories = (await Api.get("/hugging/api/categories/all")).data;
+  const categories = (await Api.get("/api/categories/all")).data;
   // 리스트가 들어갈 공간
   const categoryBody = document.querySelector("#categoryBody");
 
@@ -145,9 +145,7 @@ async function makeCategoryList() {
   for (let data of categories) {
     // 해당 카테고리에 속한 자료 가져옴
     const categoryProductsCnt = (
-      await Api.get(
-        `/hugging/api/categories?name=${data.name}&index=${data.index}`
-      )
+      await Api.get(`/api/categories?name=${data.name}&index=${data.index}`)
     ).data.length;
 
     categoryBody.innerHTML += `
@@ -180,7 +178,7 @@ function delCategory() {
     btn.addEventListener("click", async () => {
       const index = btn.parentElement.parentElement.id;
       const name = btn.parentElement.parentElement.className;
-      const res = await Api.delete("/hugging/api/categories", "", {
+      const res = await Api.delete("/api/categories", "", {
         index: index,
         name: name,
       });
@@ -243,7 +241,7 @@ function modifyCategory() {
           ex) a200, b300`);
         }
 
-        const res = await Api.patch("/hugging/api/categories", "", {
+        const res = await Api.patch("/api/categories", "", {
           name: modifyName,
           index: modifyIndex,
           currentName: name,

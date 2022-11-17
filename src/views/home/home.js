@@ -10,7 +10,7 @@ createDB();
 getDataFromApi();
 
 async function getDataFromApi() {
-  const data = await Api.get("/hugging/api/items");
+  const data = await Api.get("/api/items");
   // 베스트와 신상품 데이터 get
   const { bestItems, newItems } = data;
 

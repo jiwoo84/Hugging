@@ -70,7 +70,7 @@ const submitFrom = async (e) => {
       confirm("정말 탈퇴하시겠습니까?\n탈퇴시 모든 정보는 복구가 불가능합니다.")
     ) {
       const body = { accept: acceptMsg };
-      const res = await Api.delete("/hugging/api/users", "", body);
+      const res = await Api.delete("/api/users", "", body);
       console.log(res);
       localStorage.removeItem("loggedIn");
       localStorage.removeItem("token");

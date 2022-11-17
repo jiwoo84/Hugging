@@ -15,7 +15,7 @@ async function search(e) {
 
   // 검색 결과 받아오기
   const { data } = await Api.get(
-    "/hugging/api/items",
+    "/api/items",
     `search?word=${searchWord.value}`
   );
 

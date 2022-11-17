@@ -1,4 +1,4 @@
-import * as Api from "/api.js";
+import * as Api from "api.js";
 import { addCommas } from "/useful-functions.js";
 import { convertToNumber } from "/useful-functions.js";
 
@@ -17,33 +17,33 @@ let totalPrice = 0;
 getDataFromApi();
 
 async function getDataFromApi() {
-    //mypage api get요청
-    const user = await Api.get("/api/users/mypage");
-    if (!user) {
-        window.location.reload();
-    }
-    //coupon api get요청
-    const coupon = await Api.get("/api/coupons",`${user.data._id}`);
-    const coupons = coupon.couponList;
-    
-    const {name,address,phoneNumber} = user.data;
-    //사용자정보 rendering
-    renderUserComponent(name,address,phoneNumber);
-    //indexed DB에서 상품 데이터에 접근, rendering 호출
-    renderProductComponent(localStorage.getItem("storeName"));
-    //쿠폰 rendering 
-    renderCouponComponent(coupons);
+  //mypage api get요청
+  const user = await Api.get("/api/users/mypage");
+  if (!user) {
+    window.location.reload();
+  }
+  //coupon api get요청
+  const coupon = await Api.get("/api/coupons", `${user.data._id}`);
+  const coupons = coupon.couponList;
+
+  const { name, address, phoneNumber } = user.data;
+  //사용자정보 rendering
+  renderUserComponent(name, address, phoneNumber);
+  //indexed DB에서 상품 데이터에 접근, rendering 호출
+  renderProductComponent(localStorage.getItem("storeName"));
+  //쿠폰 rendering
+  renderCouponComponent(coupons);
 }
 
-//쿠폰 rendering 
-function renderCouponComponent(coupons){
-    coupons.forEach( coupon => {
-        const option = document.createElement("option");
-        option.setAttribute("value",coupon.discount);
-        option.setAttribute("id",coupon._id);
-        option.innerText = `${coupon.name}  ${coupon.discount}% 할인  ${coupon.createdAt}까지`
-        couponSelect.appendChild(option);
-    });
+//쿠폰 rendering
+function renderCouponComponent(coupons) {
+  coupons.forEach((coupon) => {
+    const option = document.createElement("option");
+    option.setAttribute("value", coupon.discount);
+    option.setAttribute("id", coupon._id);
+    option.innerText = `${coupon.name}  ${coupon.discount}% 할인  ${coupon.createdAt}까지`;
+    couponSelect.appendChild(option);
+  });
 }
 
 // 장바구니에서 선택한 상품들의 총 결제금액
@@ -109,16 +109,15 @@ function renderProductComponent(storeName) {
       // items 저장소 접근
       // 선택했던 상품들의 id를 split
       const keys = localStorage.getItem("keys").split(",");
-  
+
       const db = request.result;
       const objStore = db
         .transaction(`${storeName}`, "readwrite")
         .objectStore(`${storeName}`);
-      
+
       keys.forEach((key) => {
         const value = objStore.get(key);
         value.onsuccess = (e) => {
-          
           productContainer.insertAdjacentHTML(
             "beforeend",
             createCard(value.result, key)
@@ -127,7 +126,7 @@ function renderProductComponent(storeName) {
           const count = value.result.sales;
           // 주문할 상품의 id와 count(주문개수)를 items배열에 저장
           items.push({ id, count });
-          
+
           getTotalPrice(value.result.id, storeName);
         };
       });
@@ -161,28 +160,37 @@ moveToCartBtn.addEventListener("click", () => {
 
 // 구매 버튼 클릭시 addEventListener
 // 서버로 보낼 데이터 보내기
-purchaseBtn.addEventListener("click", async()=>{
-
+purchaseBtn.addEventListener("click", async () => {
   if (window.confirm("구매하시겠습니까?")) {
-    const storeName =  localStorage.getItem("storeName");
+    const storeName = localStorage.getItem("storeName");
     const user = await Api.get("/api/users/mypage");
     const couponId = couponSelect.options[couponSelect.selectedIndex].id;
 
-    const {name,address,phoneNumber} = user.data;
-    const deliveryMsg = (deliveryMessage.options[deliveryMessage.selectedIndex].innerText);
+    const { name, address, phoneNumber } = user.data;
+    const deliveryMsg =
+      deliveryMessage.options[deliveryMessage.selectedIndex].innerText;
 
     const card = document.querySelector('input[name="radio"]').checked;
     let payMethod;
-    if(card){
-        payMethod = "카드결제";
-    }else{
-        payMethod = "무통장입금";
+    if (card) {
+      payMethod = "카드결제";
+    } else {
+      payMethod = "무통장입금";
     }
 
     totalPrice = convertToNumber(orderPrice.innerText);
 
     // 서버로 보낼 postData
-    const postData = {name,address,phoneNumber,deliveryMsg,items,payMethod,totalPrice,couponId}
+    const postData = {
+      name,
+      address,
+      phoneNumber,
+      deliveryMsg,
+      items,
+      payMethod,
+      totalPrice,
+      couponId,
+    };
     // post요청
     await Api.post("/api/orders/", postData);
 
@@ -211,7 +219,7 @@ couponSelect.addEventListener("change", () => {
   // 선택한 옵션의 value
   const discount = couponSelect.options[couponSelect.selectedIndex].value;
   // 전체금액에서 할인을 적용한 금액
-  const couponedPrice =  Math.ceil(totalPrice * (100 - Number(discount)) * 0.01);
+  const couponedPrice = Math.ceil(totalPrice * (100 - Number(discount)) * 0.01);
 
-  orderPrice.innerText = `${couponedPrice.toLocaleString('ko-KR')}원`;
+  orderPrice.innerText = `${couponedPrice.toLocaleString("ko-KR")}원`;
 });

@@ -1,4 +1,4 @@
-import * as Api from "/api.js";
+import * as Api from "api.js";
 
 const welcomeMessage = document.querySelector("#welcome-message");
 const messageBox__totalPayAmount = document.querySelector(

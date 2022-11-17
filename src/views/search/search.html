@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hugging</title>
     <!-- 햄버거바 넣기 -->
-    <script src="../public/header/hbgBar.js" type="module" defer></script>
+    <script src="public/header/hbgBar.js" type="module" defer></script>
     <!-- 아이콘 -->
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="../public/img/Hugging-favicon.png"
+      href="public/img/Hugging-favicon.png"
     />
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,31 +52,35 @@
 
     <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="search.css" />
-    <link rel="stylesheet" href="../public/header/header.css" />
-    <link rel="stylesheet" href="../public/footer/footer.css" />
+    <link rel="stylesheet" href="public/header/header.css" />
+    <link rel="stylesheet" href="public/footer/footer.css" />
     <script src="./search.js" type="module"></script>
-    <script src="../public/loadHTML.js"></script>
+    <script src="public/loadHTML.js"></script>
   </head>
 
   <body>
     <!-- 헤더 삽입 -->
     <script>
       if (localStorage.getItem("loggedIn") === "true") {
-        loadHTML("../public/header/loggedInHeader.html");
+        loadHTML("public/header/loggedInHeader.html");
       } else {
-        loadHTML("../public/header/header.html");
+        loadHTML("public/header/header.html");
       }
     </script>
     <h1 class="search">검색하기</h1>
     <br />
     <form class="search__form">
-      <input class="search__text" onkeyup="if(window.event.keyCode==13){search()}" placeholder="상품명으로 검색하기"/>
+      <input
+        class="search__text"
+        onkeyup="if(window.event.keyCode==13){search()}"
+        placeholder="상품명으로 검색하기"
+      />
       <button class="search__submit button">검색하기</button>
     </form>
 
     <div class="search__result"></div>
     <script>
-      loadHTML("../public/footer/footer.html");
+      loadHTML("public/footer/footer.html");
     </script>
   </body>
 </html>

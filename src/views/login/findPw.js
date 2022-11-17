@@ -1,4 +1,4 @@
-import * as Api from "/api.js";
+import * as Api from "api.js";
 const findPw = document.getElementById("findPw");
 const findwPwForm = document.getElementById("findwPwForm");
 const findpw_box = document.getElementById("findpw_box");

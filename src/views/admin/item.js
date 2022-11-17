@@ -1,4 +1,4 @@
-import * as Api from "/api.js";
+import * as Api from "api.js";
 // 관리자가 아니라면 튕겨내는 기능 구현 예정
 
 // 리스트 들어가는 공간
@@ -278,7 +278,7 @@ function modifyItem() {
         }
         // 추가 요청 보내기
         const res = await fetch(
-          `/api/items?findItemId=${id}&name=${name}&category=${category}&price=${price}&itemDetail=${detail}&onSale=${undefined}`,
+          `/hugging/api/items?findItemId=${id}&name=${name}&category=${category}&price=${price}&itemDetail=${detail}&onSale=${undefined}`,
           {
             method: "PATCH",
             headers: {
@@ -405,7 +405,7 @@ function addItemBtn() {
 
       // 추가 요청 보내기
       const res = await fetch(
-        `/api/items?name=${name}&category=${category}&price=${price}&itemDetail=${detail}`,
+        `/hugging/api/items?name=${name}&category=${category}&price=${price}&itemDetail=${detail}`,
         {
           method: "post",
           headers: {

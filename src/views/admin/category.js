@@ -1,4 +1,4 @@
-import * as Api from "/api.js";
+import * as Api from "api.js";
 // 관리자가 아니라면 튕겨내는 기능 구현 예정
 
 // 화면이 들어가는 공간
@@ -267,7 +267,7 @@ function modifyCategory() {
 // 카테고리에만 사용하는 api 함수
 // alert으로 에러를 받아야해서 따로 만듬
 async function categoryPost(endpoint, data) {
-  const apiUrl = endpoint;
+  const apiUrl = "hugging" + endpoint;
 
   // JSON.stringify 함수: Javascript 객체를 JSON 형태로 변환함.
   // 예시: {name: "Kim"} => {"name": "Kim"}

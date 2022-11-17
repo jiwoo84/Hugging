@@ -9,7 +9,7 @@
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="../public/img/Hugging-favicon.png"
+      href="public/img/Hugging-favicon.png"
     />
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -50,24 +50,24 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="mypage.css" />
-    <script src="mypage.js" type="module" defer></script>
-    <script src="signOut.js" type="module" defer></script>
-    <script src="userEdit.js" type="module" defer></script>
-    <script src="coupon.js" type="module" defer></script>
-    <script src="../public/header/hbgBar.js" type="module" defer></script>
+    <script src="./mypage.js" type="module" defer></script>
+    <script src="./signOut.js" type="module" defer></script>
+    <script src="./userEdit.js" type="module" defer></script>
+    <script src="./coupon.js" type="module" defer></script>
+    <script src="public/header/hbgBar.js" type="module" defer></script>
     <!-- 헤더 푸터 불러오기 -->
-    <link rel="stylesheet" href="../public/header/header.css" />
-    <link rel="stylesheet" href="../public/footer/footer.css" />
+    <link rel="stylesheet" href="public/header/header.css" />
+    <link rel="stylesheet" href="public/footer/footer.css" />
 
-    <script src="../public/loadHTML.js" type="text/javascript"></script>
+    <script src="public/loadHTML.js" type="text/javascript"></script>
   </head>
   <body>
     <!-- 헤더 삽입 -->
     <script>
       if (localStorage.getItem("loggedIn") === "true") {
-        loadHTML("../public/header/loggedInHeader.html");
+        loadHTML("public/header/loggedInHeader.html");
       } else {
-        loadHTML("../public/header/header.html");
+        loadHTML("public/header/header.html");
       }
     </script>
 
@@ -138,7 +138,7 @@
 
     <!-- footer 삽입-->
     <script>
-      loadHTML("../public/footer/footer.html");
+      loadHTML("public/footer/footer.html");
     </script>
   </body>
 </html>

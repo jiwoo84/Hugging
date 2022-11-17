@@ -1,4 +1,4 @@
-import * as Api from "../api.js";
+import * as Api from "api.js";
 console.log("들어옴~");
 const login__kakao = async () => {
   console.log("카카오 로그인 시작");

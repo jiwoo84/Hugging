@@ -1,4 +1,4 @@
-import * as Api from "../api";
+import * as Api from "../api.js";
 import { addCommas } from "useful-functions.js";
 
 const bestContainer = document.querySelector(".bestContainer");

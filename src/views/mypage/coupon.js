@@ -7,11 +7,11 @@ const modal = async () => {
   clicked_title.textContent = "사용 가능한 쿠폰";
   clicked_descript.textContent = "";
 
-  const user = await Api.get("/hugging/api/users/mypage");
+  const user = await Api.get("/api/users/mypage");
   if (!user) {
     window.location.reload();
   }
-  const coupons = await Api.get("/hugging/api/coupons", `${user.data._id}`);
+  const coupons = await Api.get("/api/coupons", `${user.data._id}`);
   const couponList = coupons.couponList;
 
   while (list_mom.hasChildNodes()) {

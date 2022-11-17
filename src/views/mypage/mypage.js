@@ -11,12 +11,12 @@ window.addEventListener("load", getUserdata);
 
 // 환영메세지 넣기
 async function getUserdata() {
-  const user = await Api.get("/hugging/api/users/mypage");
+  const user = await Api.get("/api/users/mypage");
   if (!user) {
     window.location.reload();
   }
 
-  const coupons = await Api.get("/hugging/api/coupons", `${user.data._id}`);
+  const coupons = await Api.get("/api/coupons", `${user.data._id}`);
   const { couponId, createAt, discount, name, owner } = coupons.couponList;
   // console.log(coupons.length);
   // 배열로 받기
@@ -34,7 +34,7 @@ async function getUserdata() {
   messageBox__totalPayAmount.innerText = `총 구매 금액은 ${totalPayAmount}원 입니다`;
 
   // 등급 넣기
-  const grade = (await Api.get("/hugging/api/users/grades")).level;
+  const grade = (await Api.get("/api/users/grades")).level;
   messageBox__grade.innerText = `구매 등급은 ${grade}입니다`;
 }
 
@@ -56,7 +56,7 @@ const find_order = async () => {
   }
 
   // JWT 토큰에 유저권한이 담겨있으므로, 해당 api 로 요청하면 현재 로그인한 유저의 구매목록을 반환함
-  const list = await Api.get("/hugging/api/orders");
+  const list = await Api.get("/api/orders");
   // 코드를 조금 간결하게 해보려고 변수에 넣음
   const data = list.data;
   console.log("구매내역", data);
@@ -116,7 +116,7 @@ const find_order = async () => {
       delBtn.addEventListener("click", async () => {
         const body = { id: data[i].주문번호, reson: "고객취소" };
         // 취소 api 요청
-        const a = await Api.patch("/hugging/api/orders", "", body);
+        const a = await Api.patch("/api/orders", "", body);
         // 취소함수는  다시 부모 함수를 실행하여 reload 없이 갱신한다.
         find_order();
         alert("주문이 취소되었습니다.");

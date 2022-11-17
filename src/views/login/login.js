@@ -23,7 +23,7 @@ async function handleKaKaoSubmit(e) {
   e.preventDefault();
   try {
     localStorage.setItem("sosial", "kakao");
-    const goUrl = await Api.get("/hugging/api/sosial/kakao");
+    const goUrl = await Api.get("/api/sosial/kakao");
     window.location.href = goUrl.url;
   } catch (err) {
     console.error(err.stack);
@@ -50,7 +50,7 @@ async function handleSubmit(e) {
   try {
     const data = { email, password };
 
-    const result = await Api.post("/hugging/api/users/login", data);
+    const result = await Api.post("/api/users/login", data);
     const token = result.token;
     const refreshToken = result.refreshToken;
     console.log(token);

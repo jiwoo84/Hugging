@@ -18,12 +18,12 @@ getDataFromApi();
 
 async function getDataFromApi() {
   //mypage api get요청
-  const user = await Api.get("/hugging/api/users/mypage");
+  const user = await Api.get("/api/users/mypage");
   if (!user) {
     window.location.reload();
   }
   //coupon api get요청
-  const coupon = await Api.get("/hugging/api/coupons", `${user.data._id}`);
+  const coupon = await Api.get("/api/coupons", `${user.data._id}`);
   const coupons = coupon.couponList;
 
   const { name, address, phoneNumber } = user.data;
@@ -163,7 +163,7 @@ moveToCartBtn.addEventListener("click", () => {
 purchaseBtn.addEventListener("click", async () => {
   if (window.confirm("구매하시겠습니까?")) {
     const storeName = localStorage.getItem("storeName");
-    const user = await Api.get("/hugging/api/users/mypage");
+    const user = await Api.get("/api/users/mypage");
     const couponId = couponSelect.options[couponSelect.selectedIndex].id;
 
     const { name, address, phoneNumber } = user.data;
@@ -192,7 +192,7 @@ purchaseBtn.addEventListener("click", async () => {
       couponId,
     };
     // post요청
-    await Api.post("/hugging/api/orders/", postData);
+    await Api.post("/api/orders/", postData);
 
     //주문완료후 indexedDB 비우기
     const request = window.indexedDB.open("cart");

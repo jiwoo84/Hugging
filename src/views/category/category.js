@@ -20,7 +20,7 @@ async function showItemFromSidebar() {
 
 //카테고리리스트 화면에 렌더링
 async function ShowNavBar() {
-  const data = await Api.get("/hugging/api/categories/all");
+  const data = await Api.get("/api/categories/all");
 
   for (let i = 0; i < data.data.length; i++) {
     const navName = data.data[i].name;

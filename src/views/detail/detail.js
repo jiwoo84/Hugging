@@ -26,7 +26,7 @@ showReview(localStorage.getItem("itemDetail"));
 async function getDataFromApi() {
   // console.log("id : " + localStorage.getItem("itemDetail"));
   const res = await Api.get(
-    "/hugging/api/items",
+    "/api/items",
     `${localStorage.getItem("itemDetail")}`
   );
 
@@ -158,7 +158,7 @@ async function showReview(아이템아이디) {
   // 입력창 비우기
   text.value = "";
 
-  const reviewData = await Api.get(`/hugging/api/comments/${아이템아이디}`);
+  const reviewData = await Api.get(`/api/comments/${아이템아이디}`);
 
   const grandMomDiv = document.createElement("div");
   grandMomDiv.setAttribute("id", reviewData.ownCmt);
@@ -242,7 +242,7 @@ function makeBtnSave() {
       return alert("리뷰를 5글자 이상 작성해주세요");
     }
     // 검사를 통과했으면 요청 보냄
-    const res = await Api.post("/hugging/api/comments", {
+    const res = await Api.post("/api/comments", {
       text: review,
       itemId: localStorage.getItem("itemDetail"),
     });
@@ -261,7 +261,7 @@ function makeBtnSave() {
 // 댓글 삭제
 async function deleteRv(itemId, commentId) {
   if (confirm(`댓글을 삭제하시겠습니까?`)) {
-    const res = await Api.delete("/hugging/api/comments", "", {
+    const res = await Api.delete("/api/comments", "", {
       itemId,
       commentId,
     });
@@ -286,7 +286,7 @@ async function editRv(commentId, beforeText) {
   content_bntBox_done.addEventListener("click", async () => {
     let fixText = text.value;
     if (fixText.length >= 5) {
-      const editReview = await Api.patch("/hugging/api/comments", "", {
+      const editReview = await Api.patch("/api/comments", "", {
         fixText,
         commentId,
         id,

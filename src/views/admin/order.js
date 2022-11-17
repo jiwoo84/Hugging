@@ -43,7 +43,7 @@ async function clickedOrder() {
 // 페이지네이션 함수
 async function pagenation() {
   try {
-    const totalPage = await Api.get("/hugging/api/orders");
+    const totalPage = await Api.get("/api/orders");
     // console.log("실행?");
     page_list.className = "";
     // console.log(totalPage.totalPage);
@@ -82,7 +82,7 @@ async function makeOrderList(page) {
   // 주문 리스트 데이터 받아오기
   let data;
   try {
-    data = (await Api.get(`/hugging/api/orders?page=${page}`)).data;
+    data = (await Api.get(`/api/orders?page=${page}`)).data;
   } catch (err) {
     window.location.reload();
   }
@@ -195,7 +195,7 @@ function delOrder() {
   orderBox_btn_delBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const id = btn.parentElement.id;
-      const res = await Api.patch(`/hugging/api/orders`, "", {
+      const res = await Api.patch(`/api/orders`, "", {
         id: id,
         reson: "orderCancel",
       });
@@ -217,7 +217,7 @@ function changeShippingState() {
       const id = select.parentElement.id;
       // 선택된 배송상태
       const changedState = select.value;
-      await Api.patch("/hugging/api/orders", "", {
+      await Api.patch("/api/orders", "", {
         id: id,
         reson: changedState,
       });

@@ -4,7 +4,7 @@ const login__kakao = async () => {
   console.log("카카오 로그인 시작");
   const code = { code: new URL(window.location.href).searchParams.get("code") };
   console.log(code);
-  const access_token = await Api.post(`/hugging/api/sosial/kakao/oauth`, code);
+  const access_token = await Api.post(`/api/sosial/kakao/oauth`, code);
   console.log(access_token);
   sessionStorage.setItem("access_token", access_token.accessToken);
 };
@@ -13,7 +13,7 @@ const kakao_finish = async () => {
   console.log(access_token);
   console.log("피니시 시작!!");
   const body = { access_token };
-  const result = await Api.post(`/hugging/api/sosial/kakao`, body);
+  const result = await Api.post(`/api/sosial/kakao`, body);
   console.log(result);
   localStorage.setItem("token", result.token);
   localStorage.setItem("refreshToken", result.refreshToken);

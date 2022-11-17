@@ -88,7 +88,7 @@ async function handleSubmit(e) {
   try {
     const data = { name, email, password, phoneNumber, address };
 
-    const join = await Api.post("/api/users/join", data);
+    const join = await Api.post("/hugging/api/users/join", data);
     localStorage.setItem("token", join.token);
     localStorage.setItem("token", join.refreshToken);
     localStorage.setItem("loggedIn", "true");
@@ -114,7 +114,9 @@ const sendEmail = async () => {
   auth_Emil.className = "";
   sendBtn.textContent = "인증하기";
   console.log(userEmail);
-  const authSend = await Api.get(`/api/users/email?toEmail=${userEmail}`);
+  const authSend = await Api.get(
+    `/hugging/api/users/email?toEmail=${userEmail}`
+  );
   // 지금은 브라우저 세션에 저장하지만, 추후 서버-레디스 등 을 이용하여 처리할것
   console.log(authSend);
   sessionStorage.setItem("auth", authSend.data);

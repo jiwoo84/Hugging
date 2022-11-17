@@ -31,7 +31,9 @@ const makeForm = async () => {
 };
 const emailAuth = async () => {
   // 아래로 요청시 data에 true 값이 담겨나옴
-  const auth = await Api.post("/api/users/email", { email: findPwInput.value });
+  const auth = await Api.post("/hugging/api/users/email", {
+    email: findPwInput.value,
+  });
   sessionStorage.setItem("emailAuth", auth.data);
   sessionStorage.setItem("emaulAuthNum", auth.auth);
   alert(auth.msg);
@@ -47,7 +49,7 @@ const email_auth = async () => {
   alert("인증 성공");
   newpwSubmit.addEventListener("click", async () => {
     const aa = await Api.patch(
-      `/api/users`,
+      `/hugging/api/users`,
       `${sessionStorage.getItem("emailAuth")}`,
       { newPw: newpwInput.value }
     );

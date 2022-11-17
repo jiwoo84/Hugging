@@ -21,7 +21,7 @@ const logout = () => {
   window.location.href = "/";
 };
 const mypage = async () => {
-  const res = await fetch("/api/users/mypage", {
+  const res = await fetch("/hugging/api/users/mypage", {
     method: "get",
     headers: {
       "Content-Type": "application/json",

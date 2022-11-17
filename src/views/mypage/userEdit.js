@@ -9,7 +9,7 @@ userEdit.addEventListener("click", createEditForm);
 // 회원탈퇴 폼을 제공해주는 함수
 async function createEditForm() {
   console.log("??왜 들어오지도 못하냐");
-  const user = await Api.get("/api/users/mypage");
+  const user = await Api.get("/hugging/api/users/mypage");
   console.log(user);
 
   list_mom.innerHTML = "";
@@ -138,7 +138,7 @@ const submitFrom = async (e) => {
     password,
     currentPassword,
   };
-  const res = await Api.patch("/api/users", "", body);
+  const res = await Api.patch("/hugging/api/users", "", body);
   if (res.status === 200 && res.msg === "수정완료") {
     alert(`정보 수정 완료!`);
     window.location.reload();

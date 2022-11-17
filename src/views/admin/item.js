@@ -8,7 +8,7 @@ const itemBtn = document.querySelector("#items-btn__management");
 // 모달창
 const modalBox = document.querySelector("#modal-container");
 // 카테고리 목록 불러옴
-let categories = (await Api.get("/api/categories/all")).data;
+let categories = (await Api.get("/hugging/api/categories/all")).data;
 
 // 버튼에 이벤트 넣기
 itemBtn.addEventListener("click", clickedItem);
@@ -77,7 +77,7 @@ async function makeCategorySelecter() {
   );
 
   // 카테고리 데이터 새로고침 (카테고리 추가하고 넘어왔을 시 대비)
-  categories = (await Api.get("/api/categories/all")).data;
+  categories = (await Api.get("/hugging/api/categories/all")).data;
 
   // option에 카테고리 + 미설정 넣음
   categories.forEach((category) => {
@@ -108,9 +108,9 @@ async function makeItemsList(categoryName) {
   let data = null;
   // 카테고리에 맞춰 데이터 받아오기
   if (categoryName === "전체보기") {
-    data = await Api.get("/api/items/admin");
+    data = await Api.get("/hugging/api/items/admin");
   } else if (categoryName === "미설정") {
-    data = await Api.get("/api/items/affiliation");
+    data = await Api.get("/hugging/api/items/affiliation");
   } else {
     let categoryIndex = null;
     // 카테고리 목록에서 해당 카테고리의 인덱스 찾기
@@ -122,7 +122,7 @@ async function makeItemsList(categoryName) {
     });
     // console.log("요청카테고리:", categoryName, categoryIndex);
     data =
-      await Api.get(`/api/categories?name=${categoryName}&index=${categoryIndex}
+      await Api.get(`/hugging/api/categories?name=${categoryName}&index=${categoryIndex}
 `);
   }
 
@@ -199,7 +199,7 @@ function modifyItem() {
   itemTableBody_row_modifyBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const id = btn.parentElement.id;
-      const itemData = (await Api.get(`/api/items/${id}`)).data;
+      const itemData = (await Api.get(`/hugging/api/items/${id}`)).data;
       modalBox.innerHTML = `
       <form id="modal-container__inner" enctype="multipart/form-data">
         <p id="modalTitle">상품 수정</p>
@@ -232,7 +232,7 @@ function modifyItem() {
       const modalBox_categorySelect = document.querySelector(
         "#modalBox_categorySelect"
       );
-      const categories = (await Api.get("/api/categories/all")).data;
+      const categories = (await Api.get("/hugging/api/categories/all")).data;
 
       categories.forEach((category) => {
         modalBox_categorySelect.innerHTML += `
@@ -278,7 +278,7 @@ function modifyItem() {
         }
         // 추가 요청 보내기
         const res = await fetch(
-          `/hugging/api/items?findItemId=${id}&name=${name}&category=${category}&price=${price}&itemDetail=${detail}&onSale=${undefined}`,
+          `/hugging/hugging/api/items?findItemId=${id}&name=${name}&category=${category}&price=${price}&itemDetail=${detail}&onSale=${undefined}`,
           {
             method: "PATCH",
             headers: {
@@ -360,7 +360,7 @@ function addItemBtn() {
     const modalBox_categorySelect = document.querySelector(
       "#modalBox_categorySelect"
     );
-    const categories = (await Api.get("/api/categories/all")).data;
+    const categories = (await Api.get("/hugging/api/categories/all")).data;
 
     categories.forEach((category) => {
       modalBox_categorySelect.innerHTML += `
@@ -405,7 +405,7 @@ function addItemBtn() {
 
       // 추가 요청 보내기
       const res = await fetch(
-        `/hugging/api/items?name=${name}&category=${category}&price=${price}&itemDetail=${detail}`,
+        `/hugging/hugging/api/items?name=${name}&category=${category}&price=${price}&itemDetail=${detail}`,
         {
           method: "post",
           headers: {
@@ -456,7 +456,7 @@ function delItem() {
     btn.addEventListener("click", async () => {
       // console.log("삭제 클릭");
       const id = btn.parentElement.id;
-      const res = await Api.delete(`/api/items/${id}`);
+      const res = await Api.delete(`/hugging/api/items/${id}`);
       alert(res.msg);
       clickedItem();
     });
@@ -473,7 +473,7 @@ function restartSaleItem() {
   itemTableBody_row_restartBtns.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const id = btn.parentElement.id;
-      await Api.patch(`/api/items/${id}`, "", {
+      await Api.patch(`/hugging/api/items/${id}`, "", {
         name: undefined,
         category: undefined,
         price: undefined,

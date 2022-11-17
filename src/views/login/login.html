@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hugging</title>
     <!-- 햄버거바 넣기 -->
-    <script src="/hugging/public/header/hbgBar.js" type="module" defer></script>
+    <script src="public/header/hbgBar.js" type="module" defer></script>
     <script src="./findPw.js" type="module" defer></script>
     <!-- 아이콘 -->
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="/hugging/public/img/Hugging-favicon.png"
+      href="public/img/Hugging-favicon.png"
     />
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -53,17 +53,17 @@
     <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="login.css" />
     <script src="./login.js" type="module" defer></script>
-    <link rel="stylesheet" href="/hugging/public/header/header.css" />
-    <link rel="stylesheet" href="/hugging/public/footer/footer.css" />
-    <script src="/hugging/public/loadHTML.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="public/header/header.css" />
+    <link rel="stylesheet" href="public/footer/footer.css" />
+    <script src="public/loadHTML.js" type="text/javascript"></script>
   </head>
   <body>
     <!-- 헤더 -->
     <script>
       if (localStorage.getItem("loggedIn") === "true") {
-        loadHTML("/hugging/public/header/loggedInHeader.html");
+        loadHTML("public/header/loggedInHeader.html");
       } else {
-        loadHTML("/hugging/public/header/header.html");
+        loadHTML("public/header/header.html");
       }
     </script>
     <main class="main">
@@ -124,7 +124,7 @@
       </div>
     </main>
     <script>
-      loadHTML("/hugging/public/footer/footer.html");
+      loadHTML("public/footer/footer.html");
     </script>
   </body>
 </html>

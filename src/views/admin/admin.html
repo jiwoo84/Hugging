@@ -12,7 +12,7 @@
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="/hugging/public/img/Hugging-favicon.png"
+      href="public/img/Hugging-favicon.png"
     />
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,7 +39,7 @@
       crossorigin="anonymous"
     ></script>
     <!-- 햄버거바 -->
-    <script src="/hugging/public/header/hbgBar.js" type="module" defer></script>
+    <script src="public/header/hbgBar.js" type="module" defer></script>
     <!-- bulma css -->
     <link
       rel="stylesheet"
@@ -58,18 +58,18 @@
     <script src="./category.js" type="module" defer></script>
 
     <!-- 헤더 푸터 불러오기 -->
-    <link rel="stylesheet" href="/hugging/public/header/header.css" />
-    <link rel="stylesheet" href="/hugging/public/footer/footer.css" />
+    <link rel="stylesheet" href="public/header/header.css" />
+    <link rel="stylesheet" href="public/footer/footer.css" />
 
-    <script src="/hugging/public/loadHTML.js" type="text/javascript"></script>
+    <script src="public/loadHTML.js" type="text/javascript"></script>
   </head>
   <body>
     <!-- 헤더 삽입 -->
     <script>
       if (localStorage.getItem("loggedIn") === "true") {
-        loadHTML("/hugging/public/header/loggedInHeader.html");
+        loadHTML("public/header/loggedInHeader.html");
       } else {
-        loadHTML("/hugging/public/header/header.html");
+        loadHTML("public/header/header.html");
       }
     </script>
 
@@ -107,7 +107,7 @@
 
     <!-- footer 삽입-->
     <script>
-      loadHTML("/hugging/public/footer/footer.html");
+      loadHTML("public/footer/footer.html");
     </script>
   </body>
 </html>

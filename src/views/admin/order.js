@@ -1,4 +1,4 @@
-import * as Api from "api.js";
+import * as Api from "/api.js";
 // 관리자가 아니라면 튕겨내는 기능 구현 예정
 // 리스트 들어가는 공간
 const listContainer = document.querySelector("#list-container");

@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hugging</title>
     <!-- 햄버거바 -->
-    <script src="public/header/hbgBar.js" type="module" defer></script>
+    <script src="../public/header/hbgBar.js" type="module" defer></script>
     <!-- 아이콘 -->
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="public/img/Hugging-favicon.png"
+      href="../public/img/Hugging-favicon.png"
     />
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,10 +52,10 @@
 
     <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="home.css" />
-    <link rel="stylesheet" href="public/header/header.css" />
-    <link rel="stylesheet" href="public/footer/footer.css" />
-    <script src="/home/home.js" type="module"></script>
-    <script src="public/loadHTML.js"></script>
+    <link rel="stylesheet" href="../public/header/header.css" />
+    <link rel="stylesheet" href="../public/footer/footer.css" />
+    <script src="./home.js" type="module"></script>
+    <script src="../public/loadHTML.js"></script>
   </head>
 
   <body>
@@ -64,9 +64,9 @@
     <!-- 헤더 삽입 -->
     <script>
       if (localStorage.getItem("loggedIn") === "true") {
-        loadHTML("public/header/loggedInHeader.html");
+        loadHTML("../public/header/loggedInHeader.html");
       } else {
-        loadHTML("public/header/header.html");
+        loadHTML("../public/header/header.html");
       }
     </script>
 
@@ -101,21 +101,21 @@
         <div class="carousel-inner">
           <div class="carousel-item active">
             <img
-              src="public/img/homeImg1.jpg"
+              src="../public/img/homeImg1.jpg"
               class="d-block w-100"
               alt="homeImg"
             />
           </div>
           <div class="carousel-item">
             <img
-              src="public/img/homeImg2.jpg"
+              src="../public/img/homeImg2.jpg"
               class="d-block w-100"
               alt="homeImg"
             />
           </div>
           <div class="carousel-item">
             <img
-              src="public/img/homeImg3.jpg"
+              src="../public/img/homeImg3.jpg"
               class="d-block w-100"
               alt="homeImg"
             />
@@ -156,7 +156,7 @@
       </div>
     </main>
     <script>
-      loadHTML("public/footer/footer.html");
+      loadHTML("../public/footer/footer.html");
     </script>
   </body>
 </html>

@@ -1,6 +1,6 @@
-import * as Api from "api.js";
-import { addCommas } from "useful-functions.js";
-import { convertToNumber } from "useful-functions.js";
+import * as Api from "../api.js";
+import { addCommas } from "/useful-functions.js";
+import { convertToNumber } from "/useful-functions.js";
 
 const cartBtn = document.querySelector(".moveTocart");
 const itemname = document.querySelector(".itemName");

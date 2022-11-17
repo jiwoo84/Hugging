@@ -1,4 +1,4 @@
-import * as Api from "api.js";
+import * as Api from "/api.js";
 const list_mom = document.getElementById("list_mom");
 const signOut = document.getElementById("signOut");
 

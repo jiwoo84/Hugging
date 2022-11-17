@@ -1,5 +1,5 @@
-import { addCommas } from "useful-functions.js";
-import { convertToNumber } from "useful-functions.js";
+import { addCommas } from "/useful-functions.js";
+import { convertToNumber } from "/useful-functions.js";
 
 const main = document.querySelector(".main");
 const init = document.querySelector(".init-msg");

@@ -148,10 +148,6 @@ main {
   min-width: 1000px;
 }
 
-.productTabel th {
-  text-align: center;
-}
-
 .itemTableBody_row_modifyBtn,
 .itemTableBody_row_delBtn {
   font-size: 12px;
@@ -164,17 +160,6 @@ main {
   font-size: 12px;
   padding: 5px;
   margin-top: 5px;
-}
-/* 테이블헤드 */
-#itemsName {
-  width: 200px;
-}
-#itemsDetail {
-  width: 400px;
-}
-#itemsDate,
-#itemsImg {
-  width: 100px;
 }
 
 /* ************************************************************** */

@@ -6,13 +6,13 @@
     <link rel="stylesheet" href="detail.css" />
     <title>Hugging</title>
     <!-- 햄버거바 -->
-    <script src="public/header/hbgBar.js" type="module" defer></script>
+    <script src="../public/header/hbgBar.js" type="module" defer></script>
     <!-- 아이콘 -->
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="public/img/Hugging-favicon.png"
+      href="../public/img/Hugging-favicon.png"
     />
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -43,7 +43,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />
-    <script src="./detail.js" type="module" defer></script>
+    <script src="detail.js" type="module" defer></script>
     <!-- 폰트 어썸: 아이콘 -->
     <script
       defer
@@ -54,22 +54,22 @@
     <link rel="stylesheet" href="./detail.css" />
     <link rel="stylesheet" href="../public/header/header.css" />
     <link rel="stylesheet" href="../public/footer/footer.css" />
-    <script src="public/loadHTML.js" type="text/javascript"></script>
+    <script src="../public/loadHTML.js" type="text/javascript"></script>
   </head>
   <body>
     <!-- 헤더 삽입 -->
     <script>
       if (localStorage.getItem("loggedIn") === "true") {
-        loadHTML("public/header/loggedInHeader.html");
+        loadHTML("../public/header/loggedInHeader.html");
       } else {
-        loadHTML("public/header/header.html");
+        loadHTML("../public/header/header.html");
       }
     </script>
 
     <main class="main">
       <div class="container">
         <div class="imgUrl">
-          <img class="imageUrl" src="elice-rabbit.png" />
+          <img class="imageUrl" src="../elice-rabbit.png" />
         </div>
         <div class="totalInfo">
           <div class="titleInfo">
@@ -139,7 +139,7 @@
       </div>
     </main>
     <script>
-      loadHTML("public/footer/footer.html");
+      loadHTML("../public/footer/footer.html");
     </script>
   </body>
 </html>

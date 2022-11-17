@@ -9,7 +9,7 @@
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="public/img/Hugging-favicon.png"
+      href="../public/img/Hugging-favicon.png"
     />
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,61 +49,58 @@
     <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="order.css" />
     <script src="./order.js" type="module"></script>
-    <link rel="stylesheet" href="public/header/header.css" />
-    <link rel="stylesheet" href="public/footer/footer.css" />
-    <script src="public/loadHTML.js" type="text/javascript"></script>
-    <script src="public/header/hbgBar.js" type="module" defer></script>
+    <link rel="stylesheet" href="../public/header/header.css" />
+    <link rel="stylesheet" href="../public/footer/footer.css" />
+    <script src="../public/loadHTML.js" type="text/javascript"></script>
+    <script src="../public/header/hbgBar.js" type="module" defer></script>
   </head>
 
   <body>
     <script>
       if (localStorage.getItem("loggedIn") === "true") {
-        loadHTML("public/header/loggedInHeader.html");
+        loadHTML("../public/header/loggedInHeader.html");
       } else {
-        loadHTML("public/header/header.html");
+        loadHTML("../public/header/header.html");
       }
     </script>
 
+  
     <main>
-      <h1 class="order">주문/결제</h1>
-      <br />
+      <h1 class = "order">주문/결제</h1>
+      <br>
       <div>
-        <div class="orderedMan"><p>주문자</p></div>
+          <div class="orderedMan"><p>주문자</p></div>
       </div>
-      <br />
+      <br>
       <div class="orderedInfoContainer">
-        <div class="orderedAdress">
-          <p class="orderedAdressTitle">배송지</p>
-        </div>
-        <br />
-        <div class="deliveryMsgContainer">
-          <p class="deliveryMsgTitle">배송메세지</p>
-          <select class="deliveryMsg">
-            <option name="msg">배송메세지를 선택하세요.</option>
-            <option name="msg">도착전 전화해주세요.</option>
-            <option name="msg">부재시 문자남겨주세요.</option>
-            <option name="msg">경비실에 맡겨주세요.</option>
-          </select>
-        </div>
+          <div class="orderedAdress"><p class="orderedAdressTitle">배송지</p></div>
+          <br>
+          <div class="deliveryMsgContainer">
+              <p class="deliveryMsgTitle">배송메세지</p>
+              <select class="deliveryMsg"> 
+                  <option name="msg">배송메세지를 선택하세요.</option>
+                  <option name="msg">도착전 전화해주세요.</option>
+                  <option name="msg">부재시 문자남겨주세요.</option>
+                  <option name="msg">경비실에 맡겨주세요.</option>
+              </select>
+          </div>
       </div>
-      <br />
-
+      <br>
+      
       <div class="couponContainer">
-        <p class="couponTitle">쿠폰</p>
-        <select class="couponSelect">
-          <option class="initOption" id="none" value="0">
-            쿠폰을 선택하세요.
-          </option>
-        </select>
+          <p class="couponTitle">쿠폰</p>
+          <select class="couponSelect">
+            <option class="initOption" id="none" value = "0">쿠폰을 선택하세요.</option>
+          </select>
       </div>
 
       <div class="productContainer">
         <p class="productTitle">주문상품</p>
       </div>
-
+      
       <div class="totalPriceContainer">
-        <p class="priceTitle">결제금액</p>
-        <p class="totalPrice"></p>
+          <p class="priceTitle">결제금액</p>
+          <p class="totalPrice"></p>
       </div>
 
       <br />
@@ -112,7 +109,7 @@
         <h2 class="cardOrcashTitle">결제수단</h2>
         <div class="cardOrcashBtnGroup">
           <div class="cardOrcashBtn">
-            <input type="radio" class="card" name="radio" checked />
+            <input type="radio" class="card" name="radio" checked/>
             <label>카드결제</label>
           </div>
 
@@ -130,7 +127,7 @@
     </main>
 
     <script>
-      loadHTML("public/footer/footer.html");
+      loadHTML("../public/footer/footer.html");
     </script>
   </body>
 </html>

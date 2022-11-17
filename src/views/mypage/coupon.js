@@ -1,4 +1,4 @@
-import * as Api from "api.js";
+import * as Api from "/api.js";
 
 const modal = async () => {
   // 하단 제목 비우기

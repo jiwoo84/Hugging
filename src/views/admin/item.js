@@ -1,4 +1,4 @@
-import * as Api from "api.js";
+import * as Api from "/api.js";
 // 관리자가 아니라면 튕겨내는 기능 구현 예정
 
 // 리스트 들어가는 공간
@@ -46,13 +46,13 @@ async function clickedItem(e) {
               <option id="all">전체보기</option>
             </select>
           </th>
-          <th id="itemsName">이름</th>
+          <th>이름</th>
           <th>가격</th>
-          <th id="itemsImg">이미지</th>
-          <th id="itemsDate">생성날짜</th>
-          <th id="itemsSales">누적판매량</th>
-          <th id="itemsSaleState">판매상태</th>
-          <th id="itemsDetail">상세내용</th>
+          <th>이미지</th>
+          <th>생성날짜</th>
+          <th>누적판매량</th>
+          <th>판매상태</th>
+          <th>상세내용</th>
         </tr>
       </thead>
       <tbody id="itemsBody">
@@ -158,7 +158,7 @@ async function makeItemsList(categoryName) {
 
     // 상세내용 출력
     itemsBody_row.innerHTML += `
-    <td>${itemData.itemDetail.slice(0, 20)}...</td>
+    <td>${itemData.itemDetail}</td>
     `;
 
     // 조건부 버튼 구현: 게시상태에 따라 달라짐
@@ -278,7 +278,7 @@ function modifyItem() {
         }
         // 추가 요청 보내기
         const res = await fetch(
-          `/hugging/api/items?findItemId=${id}&name=${name}&category=${category}&price=${price}&itemDetail=${detail}&onSale=${undefined}`,
+          `/api/items?findItemId=${id}&name=${name}&category=${category}&price=${price}&itemDetail=${detail}&onSale=${undefined}`,
           {
             method: "PATCH",
             headers: {
@@ -405,7 +405,7 @@ function addItemBtn() {
 
       // 추가 요청 보내기
       const res = await fetch(
-        `/hugging/api/items?name=${name}&category=${category}&price=${price}&itemDetail=${detail}`,
+        `/api/items?name=${name}&category=${category}&price=${price}&itemDetail=${detail}`,
         {
           method: "post",
           headers: {

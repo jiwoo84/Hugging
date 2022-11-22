@@ -8,9 +8,8 @@
     <script src="../public/header/hbgBar.js" type="module" defer></script>
     <!-- 아이콘 -->
     <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
+      rel="shortcut icon"
+      type="image/x-icon"
       href="../public/img/Hugging-favicon.png"
     />
     <!-- google font -->
@@ -70,7 +69,11 @@
     <h1 class="search">검색하기</h1>
     <br />
     <form class="search__form">
-      <input class="search__text" onkeyup="if(window.event.keyCode==13){search()}" placeholder="상품명으로 검색하기"/>
+      <input
+        class="search__text"
+        onkeyup="if(window.event.keyCode==13){search()}"
+        placeholder="상품명으로 검색하기"
+      />
       <button class="search__submit button">검색하기</button>
     </form>
 

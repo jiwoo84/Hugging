@@ -40,7 +40,7 @@ async function ShowNavBar() {
 
 function paging(page, perPage, totalPage, totalData) {
   //페이징에 나타낼 페이지 수
-  let pageCount = 1;
+  let pageCount = 3;
 
   // 총 페이지수가 페이징에 나타낼 페이지 수 보다 작다면
   // 페이지에 나타낼 페이지 수는 총 페이지수와 같다.

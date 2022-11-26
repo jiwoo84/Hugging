@@ -68,7 +68,7 @@ function getIdxedDBValues() {
           const cursorRequest = objStore.openCursor();
           cursorRequest.onsuccess = (e) => {
             // 5. 커서를 사용해 데이터 접근
-            let cursor = e.target.result;
+            const cursor = e.target.result;
             if (cursor) {
               const value = objStore.get(cursor.key);
               value.onsuccess = (e) => {
@@ -109,7 +109,7 @@ function getTotalPrice() {
 
 // checked된 checkbox의 키 값들을 가져오는 함수
 function getCheckboxValue() {
-  let keys = [];
+  const keys = [];
   const checkboxs = document.querySelectorAll(".checkbox");
 
   checkboxs.forEach((checkbox) => {
@@ -154,11 +154,10 @@ function attachBtn(key) {
 
     if (checkbox.checked === true) {
       totalPrice += price;
-      getTotalPrice();
     } else {
       totalPrice -= price;
-      getTotalPrice();
     }
+    getTotalPrice();
   });
 }
 

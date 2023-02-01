@@ -166,7 +166,7 @@
 
 ### 2. [와이어 프레임](https://www.figma.com/file/33a0PITPQ3GaelQ2EgduNK/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8?node-id=1%3A2&t=NXWFCEgiHzGDyfV3-1)
 
-### 2. [API 명세서](https://prickle-fern-9fe.notion.site/API-a1a1b003fbda4db885bebd36d528b7d0)
+### 2. [API 명세서](https://jiwoo84.notion.site/API-a1a1b003fbda4db885bebd36d528b7d0)
 
 <br/>
 

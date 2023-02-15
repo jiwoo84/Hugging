@@ -44,16 +44,12 @@ async function clickedOrder() {
 async function pagenation() {
   try {
     const totalPage = await Api.get("/api/orders");
-    // console.log("실행?");
     page_list.className = "";
-    // console.log(totalPage.totalPage);
     for (let i = 1; i <= totalPage.totalPage; i++) {
-      // console.log(`page의 텍스트는 ${i}`);
       const page = document.createElement("div");
       page.textContent = i;
       page.addEventListener("click", () => {
         listContainer.innerHTML = ``;
-        // console.log(`난 ${i}를 누를거야`);
         makePageBold(i);
         makeOrderList(`${i}`);
       });

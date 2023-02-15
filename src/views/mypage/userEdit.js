@@ -8,9 +8,7 @@ userEdit.addEventListener("click", createEditForm);
 
 // 회원탈퇴 폼을 제공해주는 함수
 async function createEditForm() {
-  console.log("??왜 들어오지도 못하냐");
   const user = await Api.get("/api/users/mypage");
-  console.log(user);
 
   list_mom.innerHTML = "";
   list_mom.className = "holder_center";
@@ -105,7 +103,6 @@ async function createEditForm() {
   if (document.getElementById("canCel")) {
     document.getElementById("canCel").addEventListener("click", canCel);
   }
-  console.log("정보변경 툴 생성");
 }
 
 // 취소버튼 함수
@@ -128,8 +125,6 @@ const submitFrom = async (e) => {
   const address = address1 + address2;
   const password = document.getElementById("password").value;
   const currentPassword = document.getElementById("currentPassword").value;
-
-  console.log(address);
 
   const body = {
     phoneNumber,
